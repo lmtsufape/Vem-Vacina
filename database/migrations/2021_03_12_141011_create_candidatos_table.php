@@ -38,12 +38,6 @@ class CreateCandidatosTable extends Migration
             $table->string("numero_residencia");
             $table->string("complemento_endereco")->nullable(true);
             $table->boolean("candidato_aprovado")->nullable(true);
-
-            $table->unsignedBigInteger('lote_id');
-           
-
-            $table->unsignedBigInteger('posto_vacinacao_ìd');
-            
             
             $table->timestamps();
         });
