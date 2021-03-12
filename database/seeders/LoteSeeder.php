@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Lote;
 
 class LoteSeeder extends Seeder
 {
@@ -13,6 +14,6 @@ class LoteSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Lote::create();
     }
 }
