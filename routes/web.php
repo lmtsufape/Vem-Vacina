@@ -22,6 +22,7 @@ Route::get('/dashboard',  [CandidatoController::class, 'show'])->middleware(['au
 
 Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
+Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento");
 
 Route::get("/cep/{cep}", function($cep) {
     //TODO: mover isso pra um controller
