@@ -15,6 +15,9 @@ class CreatePostoVacinacaosTable extends Migration
     {
         Schema::create('posto_vacinacaos', function (Blueprint $table) {
             $table->id();
+            $table->string("nome");
+            $table->string("endereco");
+
             $table->timestamps();
         });
     }
