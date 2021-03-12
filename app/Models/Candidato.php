@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Candidato extends Model
 {
     use HasFactory;
+
+
+    public const SEXO_ENUM = ["Masculino", "Feminino"];
+    
+    
 }
