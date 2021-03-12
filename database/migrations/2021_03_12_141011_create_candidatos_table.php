@@ -27,7 +27,7 @@ class CreateCandidatosTable extends Migration
             $table->string("foto_tras_rg");
             $table->boolean("paciente_acamado");
             $table->boolean("paciente_agente_de_saude");
-            $table->string("unidade_caso_agente_de_saude");
+            $table->string("unidade_caso_agente_de_saude")->nullable(true); //Nome da unidade de o agente de saude trabalha
             $table->string("telefone");
             $table->string("whatsapp")->nullable(true);
             $table->string("email")->nullable(true);
