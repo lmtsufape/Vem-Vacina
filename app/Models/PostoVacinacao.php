@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class PostoVacinacao extends Model
 {
     use HasFactory;
+
+    public function lotes()
+    {
+        return $this->belongsToMany(Lote::class);
+    }
 }

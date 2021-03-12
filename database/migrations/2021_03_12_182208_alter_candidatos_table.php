@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostoVacinacaosTable extends Migration
+class AlterCandidatosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreatePostoVacinacaosTable extends Migration
      */
     public function up()
     {
-        Schema::create('posto_vacinacaos', function (Blueprint $table) {
-            $table->id();
-            $table->string("nome");
-            $table->string("endereco");
-
-            $table->timestamps();
+        Schema::table('candidatos', function (Blueprint $table) {
+            $table->foreign('lote_id')->references('id')->on('lotes');
+            $table->foreign('posto_vacinacao_ìd')->references('id')->on('posto_vacinacaos');
         });
     }
 
@@ -29,6 +26,8 @@ class CreatePostoVacinacaosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posto_vacinacaos');
+        Schema::table('candidatos', function (Blueprint $table) {
+            //
+        });
     }
 }
