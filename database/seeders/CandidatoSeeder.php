@@ -37,6 +37,9 @@ class CandidatoSeeder extends Seeder
                 'bairro' => 'bairro'.$i,
                 'logradouro' => 'logradouro'.$i,
                 'numero_residencia' => $i,
+                'complemento_endereco' => 'Casa',
+                'hora_chegada' => '14:00',
+                'hora_saida' => '14:10',
                 'lote_id' => null,
                 'posto_vacinacao_ìd' => 1,
             ]);
