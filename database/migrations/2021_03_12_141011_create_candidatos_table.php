@@ -40,11 +40,6 @@ class CreateCandidatosTable extends Migration
             $table->boolean("candidato_aprovado")->nullable(true);
             $table->time("hora_chegada");
             $table->time("hora_saida");
-
-            $table->unsignedBigInteger('lote_id')->nullable(true);
-            $table->unsignedBigInteger('posto_vacinacao_ìd')->nullable(true);
-
-
             $table->timestamps();
         });
     }

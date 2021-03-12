@@ -42,6 +42,8 @@ class CandidatoSeeder extends Seeder
                 'hora_saida' => '14:10',
                 'lote_id' => null,
                 'posto_vacinacao_ìd' => 1,
+                'lote_id' => 1,
+                'posto_vacinacao_ìd' => 1
             ]);
         }
     }
