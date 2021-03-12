@@ -39,12 +39,10 @@ class CreateCandidatosTable extends Migration
             $table->string("complemento_endereco")->nullable(true);
             $table->boolean("candidato_aprovado")->nullable(true);
 
-            $table->unsignedBigInteger('lote_id');
-           
+            $table->unsignedBigInteger('lote_id')->nullable(true);
+            $table->unsignedBigInteger('posto_vacinacao_ìd')->nullable(true);
 
-            $table->unsignedBigInteger('posto_vacinacao_ìd');
-            
-            
+
             $table->timestamps();
         });
     }

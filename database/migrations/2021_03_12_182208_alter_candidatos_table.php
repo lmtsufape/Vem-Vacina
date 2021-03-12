@@ -14,8 +14,8 @@ class AlterCandidatosTable extends Migration
     public function up()
     {
         Schema::table('candidatos', function (Blueprint $table) {
-            $table->foreign('lote_id')->references('id')->on('lotes');
-            $table->foreign('posto_vacinacao_ìd')->references('id')->on('posto_vacinacaos');
+            // $table->foreign('lote_id')->references('id')->on('lotes');
+            // $table->foreign('posto_vacinacao_ìd')->references('id')->on('posto_vacinacaos');
         });
     }
 

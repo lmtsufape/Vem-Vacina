@@ -37,6 +37,8 @@ class CandidatoSeeder extends Seeder
                 'bairro' => 'bairro'.$i,
                 'logradouro' => 'logradouro'.$i,
                 'numero_residencia' => $i,
+                'lote_id' => null,
+                'posto_vacinacao_ìd' => 1,
             ]);
         }
     }
