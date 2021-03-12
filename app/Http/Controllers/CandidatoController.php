@@ -7,6 +7,12 @@ use App\Models\Candidato;
 
 class CandidatoController extends Controller
 {
+    public function show() {
+        $candidatos = Candidato::all();
+
+        return view('dashboard')->with(['candidatos' => $candidatos]);
+    }
+  
     public function solicitar() {
         return view("form_solicitacao")->with(["sexos" => Candidato::SEXO_ENUM]);
     }

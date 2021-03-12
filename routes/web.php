@@ -16,7 +16,9 @@ use App\Http\Controllers\CandidatoController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('index');
+
+Route::get('/dashboard',  [CandidatoController::class, 'show'])->middleware(['auth'])->name('dashboard');
 
 Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
@@ -26,9 +28,5 @@ Route::get("/cep/{cep}", function($cep) {
     $results = simplexml_load_file("http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep=" . $cep);
     return response()->json($results);
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
