@@ -49,5 +49,15 @@ class CandidatoController extends Controller
         $candidato->save();
         
         return redirect()->back()->with('status', 'Cadastrado com sucesso');
+
+    }
+
+    public function uploadFile($request, $input, $nome){
+    	if($request->hasFile($input)){
+    		$path = $request->photo->storeAs('images', $nome, 'public');
+
+    		return $path;
+    	}
+    	return null;
     }
 }
