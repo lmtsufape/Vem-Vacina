@@ -14,7 +14,6 @@ class AlterCandidatosTable extends Migration
     public function up()
     {
         Schema::table('candidatos', function (Blueprint $table) {
-            
             $table->unsignedBigInteger('lote_id');
             $table->unsignedBigInteger('posto_vacinacao_ìd');
 
