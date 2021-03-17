@@ -17,4 +17,16 @@
         </div>
     </x-slot>
 
+    <div class="container" style="margin-top: 30px;">
+        @if(session('mensagem'))
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success" role="alert">
+                        <p>{{session('mensagem')}}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+    </div>
 </x-app-layout>

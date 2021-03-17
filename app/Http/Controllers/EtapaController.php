@@ -37,7 +37,39 @@ class EtapaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'inicio_faixa_etaria' => 'required|integer|min:0|max:110',
+            'fim_faixa_etaria'    => 'required|integer|min:'.$request->inicio_faixa_etaria.'|max:150',
+            'atual'               => 'nullable',
+            'primeria_dose'       => 'nullable',
+            'segunda_dose'        => 'nullable',
+        ]);
+
+        $etapa = new Etapa();
+        $etapa->inicio_intervalo = $request->inicio_faixa_etaria;
+        $etapa->fim_intervalo = $request->fim_faixa_etaria;
+
+        if ($request->atual != null) {
+            $etapa->atual = true;
+        } else {
+            $etapa->atual = false;
+        }
+
+        if ($request->primeria_dose != null) {
+            $etapa->total_pessoas_vacinadas_pri_dose = $request->primeria_dose;
+        } else {
+            $etapa->total_pessoas_vacinadas_pri_dose = 0;
+        }
+
+        if ($request->segunda_dose != null) {
+            $etapa->total_pessoas_vacinadas_seg_dose = $request->segunda_dose;
+        } else {
+            $etapa->total_pessoas_vacinadas_seg_dose = 0;
+        }
+
+        $etapa->save();
+
+        return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa adicionada com sucesso!']);
     }
 
     /**
