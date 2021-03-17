@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PostoVacinacaoController;
+use App\Http\Controllers\EtapaController;
 
 
 /*
@@ -36,6 +37,7 @@ Route::get("/cep/{cep}", function($cep) {
 
 Route::resource('/postos', PostoVacinacaoController::class);
 Route::resource('/lotes', LoteController::class);
+Route::resource('/etapas', EtapaController::class);
 
 //Route::get('/lotes', [LoteController::class, 'show'])->name('lotes')->middleware(['auth']);
 
