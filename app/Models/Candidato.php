@@ -27,6 +27,10 @@ class Candidato extends Model
         "logradouro",
         "numero_residencia",
         "complemento_endereco",
+        "hora_chegada",
+        "hora_saida",
+        "lote_id",
+        "posto_vacinacao_ìd",
     ];
 
 
