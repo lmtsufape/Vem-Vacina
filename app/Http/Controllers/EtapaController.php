@@ -14,9 +14,9 @@ class EtapaController extends Controller
      */
     public function index()
     {
-        $etapas = Etapa::all();
+        $etapas = Etapa::orderBy('inicio_intervalo')->get();
 
-        return view('etapas.index');
+        return view('etapas.index')->with(['etapas' => $etapas]);
     }
 
     /**
@@ -48,12 +48,7 @@ class EtapaController extends Controller
         $etapa = new Etapa();
         $etapa->inicio_intervalo = $request->inicio_faixa_etaria;
         $etapa->fim_intervalo = $request->fim_faixa_etaria;
-
-        if ($request->atual != null) {
-            $etapa->atual = true;
-        } else {
-            $etapa->atual = false;
-        }
+        $etapa->atual = false;
 
         if ($request->primeria_dose != null) {
             $etapa->total_pessoas_vacinadas_pri_dose = $request->primeria_dose;
@@ -66,8 +61,13 @@ class EtapaController extends Controller
         } else {
             $etapa->total_pessoas_vacinadas_seg_dose = 0;
         }
-
+        
         $etapa->save();
+        
+        if ($request->atual != null) {
+            $requestAxu = new Request(['etapa_atual' => $etapa->id]);
+            $this->definirEtapa($requestAxu);
+        } 
 
         return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa adicionada com sucesso!']);
     }
@@ -115,5 +115,22 @@ class EtapaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function definirEtapa(Request $request) {
+        $etapa          = Etapa::where('atual', true)->first();
+
+        if ($etapa != null) {
+            $etapa->atual   = false;
+            $etapa->update();
+        }
+
+        if ($request != null) {
+            $etapaAtual         = Etapa::find($request->etapa_atual);
+            $etapaAtual->atual  = true;
+            $etapaAtual->update();
+        }
+        
+        return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa atual definida com sucesso!']);
     }
 }
