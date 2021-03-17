@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidatoController;
+use App\Http\Controllers\LoteController;
+use App\Http\Controllers\PostoVacinacaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,5 +30,8 @@ Route::get("/cep/{cep}", function($cep) {
     $results = simplexml_load_file("http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep=" . $cep);
     return response()->json($results);
 });
+
+Route::resource('/postos', PostoVacinacaoController::class);
+Route::resource('/lotes', LoteController::class);
 
 require __DIR__.'/auth.php';

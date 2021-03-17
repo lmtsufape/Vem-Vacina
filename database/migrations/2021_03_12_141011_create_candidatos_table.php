@@ -38,6 +38,9 @@ class CreateCandidatosTable extends Migration
             $table->string("numero_residencia");
             $table->string("complemento_endereco")->nullable(true);
             $table->boolean("candidato_aprovado")->nullable(true);
+
+            
+            
             
             $table->timestamps();
         });
