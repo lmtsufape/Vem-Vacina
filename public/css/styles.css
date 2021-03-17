@@ -90,5 +90,20 @@
 /* X tela - home X */
 
 /*  tela - cadastro  */
+.style_titulo_input{
+    color:#204788; font-weight: 600;font-family: Arial, Helvetica, sans-serif;
+}
+.style_subtitulo_input{
+    color: #AFAFAF; font-weight: normal;
+}
+.style_input{
+    background-color: #f1f3f4;border: 0 none;
+}
+.style_titulo_campo{
+    font-size: 22px;font-weight: 600; font-family: Arial, Helvetica, sans-serif;color: #FC5B40; margin-bottom: -15px;
+}
+.style_linha_campo{
+    color: #FC5B40; border-bottom: 10px solid; margin-bottom: 5px;
+}
 
 /* X tela - cadastro X */
