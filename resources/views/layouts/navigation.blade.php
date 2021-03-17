@@ -19,6 +19,16 @@
                         {{ __('Lotes') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
+                        {{ __('Lista de Postos') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('lotes.index')" :active="request()->routeIs('lotes.*')">
+                        {{ __('Lista de Lotes') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
