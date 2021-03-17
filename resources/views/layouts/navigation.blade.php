@@ -20,6 +20,9 @@
                     <x-nav-link :href="route('lotes.index')" :active="request()->routeIs('lotes.*')">
                         {{ __('Lista de Lotes') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('etapas.index')" :active="request()->routeIs('etapas.*')">
+                        {{ __('Etapas') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -79,6 +82,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('lotes.index')" :active="request()->routeIs('lotes.*')">
                 {{ __('Lista de Lotes') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('etapas.index')" :active="request()->routeIs('etapas.*')">
+                {{ __('Etapas') }}
             </x-responsive-nav-link>
         </div>
 
