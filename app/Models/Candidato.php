@@ -10,6 +10,7 @@ class Candidato extends Model
     use HasFactory;
     
     public const SEXO_ENUM = ["Masculino", "Feminino"];
+    public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado"];
 
     protected $fillable = [
         "nome_completo",

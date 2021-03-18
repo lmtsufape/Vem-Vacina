@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Candidato;
+use App\Models\PostoVacinacao;
 
 class CandidatoController extends Controller
 {
@@ -11,18 +12,25 @@ class CandidatoController extends Controller
         $candidatos = null;
 
         if($request->filtro == null || $request->filtro == 1) {
-            $candidatos = Candidato::where('candidato_aprovado', null)->get();
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get();
         } else if ($request->filtro == 2) {
-            $candidatos = Candidato::where('candidato_aprovado', true)->get();
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
         } else if ($request->filtro == 3) {
-            $candidatos = Candidato::where('candidato_aprovado', false)->get();
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[2])->get();
         }
         
         return view('dashboard')->with(['candidatos' => $candidatos]);
     }
   
     public function solicitar() {
-        return view("form_solicitacao")->with(["sexos" => Candidato::SEXO_ENUM]);
+
+        // TODO: pegar só os postos com vacinas disponiveis
+        $postos_com_vacina = PostoVacinacao::all();
+
+        return view("form_solicitacao")->with([
+            "sexos" => Candidato::SEXO_ENUM,
+            "postos" => $postos_com_vacina
+        ]);
     }
 
     public function enviar_solicitacao(Request $request) {
