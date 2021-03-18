@@ -3,7 +3,6 @@
     <div class="grid grid-cols-6 gap-4">
         <div class="col-span-5">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-
                 {{ __('Lista de Postos') }}
             </h2>
         </div>
@@ -28,6 +27,7 @@
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">Endereço</th>
+                        <th scope="col">Nº de vacinas disponíveis</th>
                         <th scope="col">Ações</th>
                     </tr>
                 </thead>
@@ -36,6 +36,7 @@
                     <tr>
                         <td>{{$posto->nome}}</td>
                         <td>{{$posto->endereco}}</td>
+                        <td>{{ "-" }}</td>
                         <td>
                             <div class="row">
                                 <div class="col-md-4">
@@ -44,9 +45,7 @@
                                       <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2">
                                           Editar
                                       </button>
-
                                   </form>
-
                                 </div>
                                 <div class="col-md-4 ">
                                     <form action="{{ route('postos.destroy', ['posto' => $posto->id]) }}" method="post">
@@ -55,12 +54,10 @@
                                         <button onclick="return confirm('Você tem certeza?')" type="submit" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2">
                                             Apagar
                                         </button>
-
                                     </form>
                                 </div>
                             </div>
                         </td>
-
                     </tr>
                     @endforeach
                 </tbody>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreLoteRequest;
 use App\Models\Lote;
+use App\Models\PostoVacinacao;
 use Illuminate\Http\Request;
 
 class LoteController extends Controller
@@ -102,6 +103,13 @@ class LoteController extends Controller
 
     }
 
+    public function distribuir($id)
+    {
+        $lote = Lote::findOrFail($id);
+        $postos = PostoVacinacao::all();
+        return view('lotes.distribuicao', compact('lote', 'postos'));
+    }
+
     private function isChecked($request ,$field)
     {
         if(!$request->has($field))
@@ -111,4 +119,5 @@ class LoteController extends Controller
             $request->merge([$field => true]);
         }
     }
+
 }

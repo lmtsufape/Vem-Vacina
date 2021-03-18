@@ -50,27 +50,32 @@
                           <td>{{ date('d/m/Y', strtotime($lote->data_validade))}}</td>
                           <td>
                               <div class="row">
-                                  <div class="col-md-4">
+                                  <div class="col-md-3">
                                     <form action="{{ route('lotes.edit', ['lote' => $lote->id]) }}" method="post">
                                         @csrf
                                         @method('put')
-                                        <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2">
+                                        <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                             Editar
                                         </button>
-
                                     </form>
-
                                   </div>
-                                  <div class="col-md-4 ">
+                                  <div class="col-md-3">
                                       <form action="{{ route('lotes.destroy', ['lote' => $lote->id]) }}" method="post">
                                           @csrf
                                           @method('delete')
-                                          <button type="submit" onclick="return confirm('Você tem certeza?')" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2">
-                                              Apagar
+                                          <button type="submit" onclick="return confirm('Você tem certeza?')" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ">
+                                              Excluir
                                           </button>
-
                                       </form>
                                   </div>
+                                  <div class="col-md-3 ">
+                                    <form action="{{ route('lotes.distribuir', ['lote' => $lote->id]) }}" method="post">
+                                        @csrf
+                                        <button type="submit"  class=" bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                                            Distribuir
+                                        </button>
+                                    </form>
+                                </div>
                               </div>
                           </td>
 
