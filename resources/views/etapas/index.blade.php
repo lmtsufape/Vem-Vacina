@@ -9,7 +9,7 @@
             
             <div class="col-md-3" style="text-align: right;">
                 <a data-toggle="modal" data-target="#definirEtapa">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Definir etapa atual
                     </button>
                 </a>
@@ -17,7 +17,7 @@
 
             <div class="col-md-2" style="text-align: right;">
                 <a href="{{route('etapas.create')}}">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Adicionar etapa
                     </button>
                 </a>
@@ -45,8 +45,7 @@
                         <th scope="col">Atual</th>
                         <th scope="col">Pessoas vacinadas na 1ª dose</th>
                         <th scope="col">Pessoas vacinadas na 2ª dose</th>
-                        <th scope="col">Editar</th>
-                        <th scope="col">Excluir</th>
+                        <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,8 +60,10 @@
                             @endif
                             <td>{{$etapa->total_pessoas_vacinadas_pri_dose}}</td>
                             <td>{{$etapa->total_pessoas_vacinadas_seg_dose}}</td>
-                            <td><a href="#" data-toggle="modal" data-target="#editarEtapa{{$etapa->id}}"><img src="{{asset('/img/icons/edit-regular.svg')}}" alt="" width="22px;"></a></td>
-                            <td><a href="#" data-toggle="modal" data-target="#excluirEtapa{{$etapa->id}}"><img src="{{asset('/img/icons/lixo.png')}}" alt="" width="20px;"></a></td>
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#editarEtapa{{$etapa->id}}"><button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</button></a>
+                                <a href="#" data-toggle="modal" data-target="#excluirEtapa{{$etapa->id}}"><button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Excluir</button></a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
