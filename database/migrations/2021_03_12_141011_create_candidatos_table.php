@@ -31,7 +31,7 @@ class CreateCandidatosTable extends Migration
             $table->string("telefone");
             $table->string("whatsapp")->nullable(true);
             $table->string("email")->nullable(true);
-            $table->unsignedBigInteger("cep");
+            $table->unsignedBigInteger("cep")->nullable(true);
             $table->string("cidade");
             $table->string("bairro");
             $table->string("logradouro");
@@ -40,7 +40,7 @@ class CreateCandidatosTable extends Migration
             $table->enum("aprovacao", Candidato::APROVACAO_ENUM)->default(Candidato::APROVACAO_ENUM[0]);
             $table->datetime("chegada");
             $table->datetime("saida");
-          
+
             $table->timestamps();
         });
     }
