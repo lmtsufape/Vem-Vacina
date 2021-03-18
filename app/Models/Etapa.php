@@ -17,4 +17,8 @@ class Etapa extends Model
         'total_pessoas_vacinadas_pri_dose',
         'total_pessoas_vacinadas_seg_dose',
     ];
+
+    public function candidatos() {
+        return $this->hasMany(Candidato::class, 'etapa_id');
+    }
 }

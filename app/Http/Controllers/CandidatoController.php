@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Candidato;
 use App\Models\Lote;
 use App\Models\PostoVacinacao;
+use App\Models\Etapa;
 use Carbon\Carbon;
 
 class CandidatoController extends Controller
@@ -55,9 +56,9 @@ class CandidatoController extends Controller
             "rua"                   => "required",
             "número_residencial"    => "required",
             "complemento_endereco"  => "nullable",
-            "posto_vacinacao"       => "required",
-            "dia_vacinacao"         => "required",
-            "horario_vacinacao"     => "required",
+            // "posto_vacinacao"       => "required",
+            // "dia_vacinacao"         => "required",
+            // "horario_vacinacao"     => "required",
 
         ]);
 
@@ -78,7 +79,16 @@ class CandidatoController extends Controller
         $candidato->bairro                  = $request->bairro;
         $candidato->logradouro              = $request->rua;
         $candidato->numero_residencia       = $request->input("número_residencial");
-        $candidato->complemento_endereco    = $request->nome_completo;
+        $candidato->complemento_endereco    = $request->complemento_endereco;
+        $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
+
+        // Relacionar o candidato com uma etapa (se existir)
+        $idade              = $this->idade($request->data_de_nascimento);
+        $candidato->idade   = $idade;
+        $etapa = Etapa::where([['inicio_intervalo', '<=', $idade], ['fim_intervalo', '>=', $idade]])->first();
+        if ($etapa != null) {
+            $candidato->etapa_id = $etapa->id;
+        }
 
         if(!$this->validar_cpf($request->cpf)) {
              return redirect()->back()->withErrors([
@@ -174,5 +184,10 @@ class CandidatoController extends Controller
         $candidato->update();
         
         return redirect()->back()->with(['mensagem' => 'Resposta salva com sucesso!']);
+    }
+
+    public function idade($data_nascimento) {
+        $hoje = Carbon::today();
+        return $hoje->diffInYears($data_nascimento);
     }
 }

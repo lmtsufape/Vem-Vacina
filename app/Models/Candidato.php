@@ -34,7 +34,8 @@ class Candidato extends Model
         "posto_vacinacao_ìd",
     ];
 
-
-
+    public function etapa() {
+        return $this->belongsTo(Etapa::class, 'etapa_id');
+    }
     
 }

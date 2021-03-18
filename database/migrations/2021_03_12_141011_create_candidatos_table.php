@@ -19,14 +19,15 @@ class CreateCandidatosTable extends Migration
 
             $table->string("nome_completo");
             $table->date("data_de_nascimento");
+            $table->integer("idade")->nullable(true);
             $table->string("cpf");
             $table->string("numero_cartao_sus");
             $table->enum('sexo', Candidato::SEXO_ENUM);
             $table->string("nome_da_mae");
             $table->string("foto_frente_rg");
             $table->string("foto_tras_rg");
-            $table->boolean("paciente_acamado");
-            $table->boolean("paciente_agente_de_saude");
+            $table->boolean("paciente_acamado")->nullable(true);
+            $table->boolean("paciente_agente_de_saude")->nullable(true);
             $table->string("unidade_caso_agente_de_saude")->nullable(true); //Nome da unidade de o agente de saude trabalha
             $table->string("telefone");
             $table->string("whatsapp")->nullable(true);
@@ -38,8 +39,8 @@ class CreateCandidatosTable extends Migration
             $table->string("numero_residencia");
             $table->string("complemento_endereco")->nullable(true);
             $table->enum("aprovacao", Candidato::APROVACAO_ENUM)->default(Candidato::APROVACAO_ENUM[0]);
-            $table->datetime("chegada");
-            $table->datetime("saida");
+            $table->datetime("chegada")->nullable(true);
+            $table->datetime("saida")->nullable(true);
 
             $table->timestamps();
         });

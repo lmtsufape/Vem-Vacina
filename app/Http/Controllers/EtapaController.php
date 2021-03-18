@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Etapa;
+use App\Models\Candidato;
 
 class EtapaController extends Controller
 {
@@ -69,6 +70,16 @@ class EtapaController extends Controller
             $this->definirEtapa($requestAxu);
         } 
 
+        // LEMBRAR DE COLOCAR A CHECAGEM ['aprovacao', 'like', Candidato::APROVACAO_ENUM[3]]
+        // Continuar implementação apois mudança de qual dose a pessoa vai tomar
+        $candidatos = Candidato::where([['idade', '>=', $etapa->inicio_intervalo], ['idade', '<=', $etapa->fim_intervalo]])->get();
+        if ($candidatos != null && count($candidatos) > 0) {
+            foreach ($candidatos as $candidato) {
+                $candidato->etapa_id = $etapa->id;
+                $candidato->update();
+            }
+        }
+
         return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa adicionada com sucesso!']);
     }
 
@@ -130,6 +141,15 @@ class EtapaController extends Controller
     public function destroy($id)
     {
         $etapa = Etapa::find($id);
+
+        $candidatos = $etapa->candidatos;
+        if ($candidatos != null && count($candidatos) > 0) {
+            foreach ($candidatos as $candidato) {
+                $candidato->etapa_id = null;
+                $candidato->update();
+            }
+        }
+
         $etapa->delete();
 
         return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa excluida com sucesso!']);
