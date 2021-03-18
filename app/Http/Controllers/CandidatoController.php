@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Candidato;
 use App\Models\Lote;
 use App\Models\PostoVacinacao;
+use App\Models\Etapa;
 use Carbon\Carbon;
 
 class CandidatoController extends Controller
@@ -19,9 +20,11 @@ class CandidatoController extends Controller
             $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
         } else if ($request->filtro == 3) {
             $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[2])->get();
+        } else if ($request->filtro == 4) {
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
         }
         
-        return view('dashboard')->with(['candidatos' => $candidatos]);
+        return view('dashboard')->with(['candidatos' => $candidatos, 'candidato_enum' => Candidato::APROVACAO_ENUM]);
     }
   
     public function solicitar() {
@@ -78,7 +81,16 @@ class CandidatoController extends Controller
         $candidato->bairro                  = $request->bairro;
         $candidato->logradouro              = $request->rua;
         $candidato->numero_residencia       = $request->input("número_residencial");
-        $candidato->complemento_endereco    = $request->nome_completo;
+        $candidato->complemento_endereco    = $request->complemento_endereco;
+        $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
+
+        // Relacionar o candidato com uma etapa (se existir)
+        $idade              = $this->idade($request->data_de_nascimento);
+        $candidato->idade   = $idade;
+        $etapa = Etapa::where([['inicio_intervalo', '<=', $idade], ['fim_intervalo', '>=', $idade]])->first();
+        if ($etapa != null) {
+            $candidato->etapa_id = $etapa->id;
+        }
 
         if(!$this->validar_cpf($request->cpf)) {
              return redirect()->back()->withErrors([
@@ -164,15 +176,29 @@ class CandidatoController extends Controller
         ]);
 
         $candidato = Candidato::find($id);
-
-        if ($request->confirmacao == 1) {
-            $candidato->candidato_aprovado = true;
-        } else if ($request->confirmacao == 0) {
-            $candidato->candidato_aprovado = false;
-        }
+        $candidato->aprovacao = $request->confirmacao;
 
         $candidato->update();
         
         return redirect()->back()->with(['mensagem' => 'Resposta salva com sucesso!']);
+    }
+
+    public function idade($data_nascimento) {
+        $hoje = Carbon::today();
+        return $hoje->diffInYears($data_nascimento);
+    }
+
+    public function vacinado($id) {
+        $candidato = Candidato::find($id);
+        $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
+        $candidato->update();
+
+        $etapa = $candidato->etapa;
+        if ($etapa != null) {
+            $etapa->total_pessoas_vacinadas_pri_dose += 1;
+            $etapa->update(); 
+        }
+
+        return redirect()->back()->with(['mensagem' => 'Confirmação salva.']);
     }
 }

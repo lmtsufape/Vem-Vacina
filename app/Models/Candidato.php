@@ -10,7 +10,7 @@ class Candidato extends Model
     use HasFactory;
     
     public const SEXO_ENUM = ["Masculino", "Feminino"];
-    public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado"];
+    public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
 
     protected $fillable = [
         "nome_completo",
@@ -34,7 +34,8 @@ class Candidato extends Model
         "posto_vacinacao_ìd",
     ];
 
-
-
+    public function etapa() {
+        return $this->belongsTo(Etapa::class, 'etapa_id');
+    }
     
 }
