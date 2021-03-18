@@ -40,6 +40,7 @@ class CreateCandidatosTable extends Migration
             $table->enum("aprovacao", Candidato::APROVACAO_ENUM)->default(Candidato::APROVACAO_ENUM[0]);
             $table->datetime("chegada");
             $table->datetime("saida");
+          
             $table->timestamps();
         });
     }
