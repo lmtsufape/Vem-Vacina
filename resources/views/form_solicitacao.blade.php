@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">(obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
+                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
                                     
                                         @error('cpf')
                                             <div id="validationServer05Feedback" class="invalid-feedback">
@@ -81,7 +81,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCartaoSUS" class="style_titulo_input">NÚMERO DO CARTÃO SUS </label>
-                                        <input type="text" class="form-control style_input @error('número_cartão_sus') is-invalid @enderror" id="inputCartaoSUS" placeholder="000 0000 0000 0000" name="número_cartão_sus" value="{{old('número_cartão_sus')}}">
+                                        <input type="text" class="form-control style_input sus @error('número_cartão_sus') is-invalid @enderror" id="inputCartaoSUS" placeholder="000 0000 0000 0000" name="número_cartão_sus" value="{{old('número_cartão_sus')}}">
                                     
                                         @error('número_cartão_sus')
                                             <div id="validationServer05Feedback" class="invalid-feedback">
@@ -181,7 +181,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputTelefone" class="style_titulo_input">TELEFONE <span class="style_subtitulo_input">(obrigatório)</span></label>
-                                        <input type="text" class="form-control style_input @error('telefone') is-invalid @enderror" id="inputTelefone" placeholder="Digite o número do seu telefone" name="telefone" value="{{old('telefone')}}">
+                                        <input type="text" class="form-control style_input celular @error('telefone') is-invalid @enderror" id="inputTelefone" placeholder="Digite o número do seu telefone" name="telefone" value="{{old('telefone')}}">
                                     
                                         @error('telefone')
                                             <div id="validationServer05Feedback" class="invalid-feedback">
@@ -191,7 +191,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputCelular" class="style_titulo_input">WHATSAPP </label>
-                                        <input type="text" class="form-control style_input @error('whatsapp') is-invalid @enderror" id="inputCelular" placeholder="Digite o número do seu whatsapp" name="whatsapp" value="{{old('whatsapp')}}">
+                                        <input type="text" class="form-control style_input celular @error('whatsapp') is-invalid @enderror" id="inputCelular" placeholder="Digite o número do seu whatsapp" name="whatsapp" value="{{old('whatsapp')}}">
                                     
                                         @error('whatsapp')
                                             <div id="validationServer05Feedback" class="invalid-feedback">
