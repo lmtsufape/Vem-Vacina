@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\PostoVacinacao;
+use Illuminate\Support\Facades\DB;
 
 class PostoVacinacaoSeeder extends Seeder
 {
@@ -15,34 +16,32 @@ class PostoVacinacaoSeeder extends Seeder
     public function run()
     {
         
-        PostoVacinacao::create([
+        DB::table('posto_vacinacaos')->insert([  
             'nome' => 'Escola CAIC',
             'endereco' => 'Rua 1',
-                
         ]);
 
-        PostoVacinacao::create([
+        DB::table('posto_vacinacaos')->insert([
             'nome' => 'Centro Cultural',
             'endereco' => 'Rua 1',
             
         ]);
 
-        PostoVacinacao::create([
+        DB::table('posto_vacinacaos')->insert([
             'nome' => 'Academia da Saúde Cohab 2',
             'endereco' => 'Rua 1',
             
         ]);
 
-        PostoVacinacao::create([
+        DB::table('posto_vacinacaos')->insert([
             'nome' => 'Academia da Saúde Brasília',
             'endereco' => 'Rua 1',
             
         ]);
 
-        PostoVacinacao::create([
+        DB::table('posto_vacinacaos')->insert([
             'nome' => 'CESMUC',
             'endereco' => 'Rua 1',
-            
         ]);
     }
 }

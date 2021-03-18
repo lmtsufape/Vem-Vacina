@@ -7,9 +7,17 @@ use App\Models\Candidato;
 
 class CandidatoController extends Controller
 {
-    public function show() {
-        $candidatos = Candidato::all();
+    public function show(Request $request) {
+        $candidatos = null;
 
+        if($request->filtro == null || $request->filtro == 1) {
+            $candidatos = Candidato::where('candidato_aprovado', null)->get();
+        } else if ($request->filtro == 2) {
+            $candidatos = Candidato::where('candidato_aprovado', true)->get();
+        } else if ($request->filtro == 3) {
+            $candidatos = Candidato::where('candidato_aprovado', false)->get();
+        }
+        
         return view('dashboard')->with(['candidatos' => $candidatos]);
     }
   
@@ -65,5 +73,23 @@ class CandidatoController extends Controller
     		return $path;
     	}
     	return null;
+    }
+
+    public function update(Request $request, $id) {
+        $validated = $request->validate([
+            'confirmacao' => 'required'
+        ]);
+
+        $candidato = Candidato::find($id);
+
+        if ($request->confirmacao == 1) {
+            $candidato->candidato_aprovado = true;
+        } else if ($request->confirmacao == 0) {
+            $candidato->candidato_aprovado = false;
+        }
+
+        $candidato->update();
+        
+        return redirect()->back()->with(['mensagem' => 'Resposta salva com sucesso!']);
     }
 }

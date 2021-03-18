@@ -9,6 +9,11 @@ class Lote extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nome',
+        'qtdVacina',
+    ];
+
     public function postos()
     {
         return $this->belongsToMany(PostoVacinacao::class);
