@@ -114,7 +114,10 @@ class EtapaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $etapa = Etapa::find($id);
+        $etapa->delete();
+
+        return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa excluida com sucesso!']);
     }
 
     public function definirEtapa(Request $request) {

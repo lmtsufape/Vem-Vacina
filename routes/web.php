@@ -41,7 +41,10 @@ Route::resource('/postos', PostoVacinacaoController::class);
 Route::resource('/lotes', LoteController::class);
 
 Route::post('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
-Route::resource('/etapas', EtapaController::class);
+Route::get('/etapas', [EtapaController::class, 'index'])->name('etapas.index');
+Route::get('/etapas/adicionar', [EtapaController::class, 'create'])->name('etapas.create');
+Route::post('/etapas/salvar', [EtapaController::class, 'store'])->name('etapas.store');
+Route::post('/etapas/{id}/excluir', [EtapaController::class, 'destroy'])->name('etapas.destroy');
 
 //Route::get('/lotes', [LoteController::class, 'show'])->name('lotes')->middleware(['auth']);
 

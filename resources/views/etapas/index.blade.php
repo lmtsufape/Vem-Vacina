@@ -60,6 +60,7 @@
                             @endif
                             <td>{{$etapa->total_pessoas_vacinadas_pri_dose}}</td>
                             <td>{{$etapa->total_pessoas_vacinadas_seg_dose}}</td>
+                            <td><a href="#" data-toggle="modal" data-target="#excluirEtapa{{$etapa->id}}"><img src="{{asset('/img/icons/lixo.png')}}" alt="" width="20px;"></a></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -101,4 +102,31 @@
     </div>
 </div>
 <!-- Fim modal definir etapa atual -->
+
+@foreach ($etapas as $etapa)
+    <!-- Modal excluir etapa atual -->
+    <div class="modal fade" id="excluirEtapa{{$etapa->id}}" tabindex="-1" aria-labelledby="excluirEtapa{{$etapa->id}}Label" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="excluirEtapa{{$etapa->id}}Label">Definir etapa atual</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="excluir_etapa_{{$etapa->id}}" action="{{route('etapas.destroy', ['id' => $etapa->id])}}" method="post">
+                    @csrf
+                    Tem certeza que deseja excluir essa etapa?
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                <button type="submit" class="btn btn-primary" form="excluir_etapa_{{$etapa->id}}">Sim</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Fim modal excluir etapa atual -->
+@endforeach
 </x-app-layout>
