@@ -20,7 +20,33 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous"></script>
+
         <link rel="stylesheet" href="{{asset('/css/styles.css')}}">
+
+        <script>
+            $(document).ready(function(){
+                $('.cep').mask('00000-000');
+                $('.cpf').mask('000.000.000-00');
+                $(".apenasLetras").mask("#", {
+                    maxlength: false,
+                    translation: {
+                        '#': {pattern: /[A-zÀ-ÿ ]/, recursive: true}
+                    }
+                });
+                $('.numero').mask('0000000000000');
+                var SPMaskBehavior = function (val) {
+                    return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+                },
+                spOptions = {
+                    onKeyPress: function(val, e, field, options) {
+                    field.mask(SPMaskBehavior.apply({}, arguments), options);
+                    }
+                };
+                $('.celular').mask(SPMaskBehavior, spOptions);
+                $('.sus').mask('000 0000 0000 0000');
+            });
+        </script>
     </head>
     <body>
         <div class="font-sans text-gray-900 antialiased">
