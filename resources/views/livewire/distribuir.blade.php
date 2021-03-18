@@ -7,6 +7,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h4>Nº de vacinas do lote: {{ intdiv ( $lote->qtdVacina , $postos->count() ) . ' vacinas/posto' }}</h4>
+                            <h6>Total: {{ $lote->qtdVacina }}</h6>
                             {{-- <input type="text" wire:model="$lote->qtdVacina"> --}}
                             @foreach ($array_vacinas_disponiveis as $key => $item)
                                 {{ $key }}
