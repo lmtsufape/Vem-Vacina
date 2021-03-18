@@ -14,8 +14,9 @@
                             <select name="filtro" class="form-control" id="filtro">
                                 <option value="">-- Selecione o filtro --</option>
                                 <option value="1">Candidatos pendentes</option>
-                                <option value="2">Candidatos confirmados</option>
-                                <option value="3">Candidatos horário ocupado</option>
+                                <option value="2">Candidatos aprovados</option>
+                                <option value="3">Candidatos reprovados</option>
+                                <option value="4">Candidatos vacinados</option>
                             </select>
                         </div>
                         <div class="col-sm-3">
@@ -42,6 +43,7 @@
                                 <th scope="col">Horário</th>
                                 <th scope="col">Visualizar</th>
                                 <th scope="col">Resultado</th>
+                                <th scope="col">Confirmar vacinação</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -202,23 +204,56 @@
                                     </div>
                                     </div>
                                 </div>
-                                <td>
-                                    <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
-                                        @csrf 
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                <select id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
-                                                    <option value="" selected disabled>-- selecionar resultado --</option>
-                                                    <option value="1" @if($candidato->candidato_aprovado) selected @endif>Confirmar</option>
-                                                    <option value="0" @if($candidato->candidato_aprovado === false) selected @endif>Horário Ocupado</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button class="btn btn-success">Salvar</button>
-                                            </div>
+                                <!-- Fim modal visualizar agendamento -->
+                                <!-- Modal confirmar vacinação -->
+                                <div class="modal fade" id="vacinar_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="vacinar_candidato_{{$candidato->id}}_label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="vacinar_candidato_{{$candidato->id}}_label">Visualizar {{$candidato->nome_completo}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                         </div>
-                                    </form>
+                                        <div class="modal-body">
+                                           <form id="vacinado_{{$candidato->id}}" action="{{route('candidato.vacinado', ['id' => $candidato->id])}}" method="POST">
+                                                @csrf
+                                                Deseja confirmar que esse candidato foi vacinado?
+                                           </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary" form="vacinado_{{$candidato->id}}">Salvar</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <!-- Fim modal confirmar vacinação -->
+                                <td>
+                                    @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
+                                        Vacinado
+                                    @else
+                                        <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
+                                            @csrf 
+                                            <div class="row">
+                                                <div class="col-md-9">
+                                                    <select id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
+                                                        <option value="" selected disabled>-- selecionar resultado --</option>
+                                                        <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
+                                                        <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Vaga ocupada</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button class="btn btn-success">Salvar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    @endif
                                 </td>
+                                <td style="text-align: center;">
+                                    <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif>Vacinado</button>
+                                </td>
+                                <td></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -227,7 +262,5 @@
             </div>
         </div>
     </div>
-@foreach ($candidatos as $candidato)
-    
-@endforeach
+
 </x-app-layout>

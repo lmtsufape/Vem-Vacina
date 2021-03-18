@@ -20,9 +20,11 @@ class CandidatoController extends Controller
             $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
         } else if ($request->filtro == 3) {
             $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[2])->get();
+        } else if ($request->filtro == 4) {
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
         }
         
-        return view('dashboard')->with(['candidatos' => $candidatos]);
+        return view('dashboard')->with(['candidatos' => $candidatos, 'candidato_enum' => Candidato::APROVACAO_ENUM]);
     }
   
     public function solicitar() {
@@ -174,12 +176,7 @@ class CandidatoController extends Controller
         ]);
 
         $candidato = Candidato::find($id);
-
-        if ($request->confirmacao == 1) {
-            $candidato->candidato_aprovado = true;
-        } else if ($request->confirmacao == 0) {
-            $candidato->candidato_aprovado = false;
-        }
+        $candidato->aprovacao = $request->confirmacao;
 
         $candidato->update();
         
@@ -189,5 +186,13 @@ class CandidatoController extends Controller
     public function idade($data_nascimento) {
         $hoje = Carbon::today();
         return $hoje->diffInYears($data_nascimento);
+    }
+
+    public function vacinado($id) {
+        $candidato = Candidato::find($id);
+        $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
+        $candidato->update();
+
+        return redirect()->back()->with(['mensagem' => 'Confirmação salva.']);
     }
 }
