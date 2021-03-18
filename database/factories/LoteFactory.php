@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Lote;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use DateTime;
 
 class LoteFactory extends Factory
 {
@@ -20,10 +21,14 @@ class LoteFactory extends Factory
      * @return array
      */
     public function definition()
-    {
+    {   $bool = ['true', 'false'];
         return [
-            'nome' => $this->faker->lexify('lote'),
-            'qtdVacina' => $this->faker->numberBetween(1, 10000)
+            'numero_lote' => $this->faker->regexify('[A-Z]{5}[0-4]{3}'),
+            'fabricante' => $this->faker->numerify('fab-####'),
+            'qtdVacina' => $this->faker->numberBetween(50, 10000),
+            'segunda_dose' => $bool[$this->faker->numberBetween(0, 1)] ,
+            'data_fabricacao' => $this->faker->dateTimeBetween('-2 week', '-1 week'),
+            'data_validade' => $this->faker->dateTimeBetween('+1 week', '+3 week')
         ];
     }
 }

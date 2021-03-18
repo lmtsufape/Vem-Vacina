@@ -15,8 +15,12 @@ class CreateLotesTable extends Migration
     {
         Schema::create('lotes', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->string('numero_lote');
+            $table->string('fabricante');
             $table->integer('qtdVacina');
+            $table->boolean('segunda_dose');
+            $table->date("data_fabricacao");
+            $table->date("data_validade");
             $table->timestamps();
         });
     }
