@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\LoteController;
+use App\Http\Controllers\PostoVacinacaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::get('/dashboard',  [CandidatoController::class, 'show'])->middleware(['au
 Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
 Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento")->middleware(['auth']);
+
+Route::get("/horarios/{id_posto}", [PostoVacinacaoController::class, 'horarios'] )->name("posto.horarios");
 
 Route::get("/cep/{cep}", function($cep) {
     //TODO: mover isso pra um controller

@@ -1,6 +1,5 @@
 <x-guest-layout>
 
-
     <script>
      function checkbox_visibilidade(div_alvo, checkbox) {
          if(checkbox.checked) {
@@ -61,7 +60,7 @@
          }).then((json) => {
 
              if(json.resultado != 1) {
-                 // todo: erro
+                 // TODO: erro
                  return;
              }
 
@@ -72,6 +71,22 @@
          });
          
      }
+
+
+     function selecionar_posto(posto_selecionado) {
+         let id_posto = posto_selecionado.value;
+         let div_seletor_horararios = document.getElementById("seletor_horario");
+         div_seletor_horararios.innerHTML = "Buscando horarios disponiveis...";
+         let url = "http://" + document.location.host + "/horarios/" + id_posto;
+
+         fetch(url).then((dados) => {
+             return dados.json();
+         }).then((json_resposta) => {
+             console.log(json_resposta);
+         });
+         
+     }
+     
      
 
      
@@ -146,13 +161,29 @@
 
 
         <!-- informações do atendimento -->
-        <!-- TODO -->
-        <!-- vai ter um select que vai ser selecionado a posto de atendimento -->
+        <!-- um select que vai ser selecionado a posto de atendimento -->
         <!-- depois que for selecionado, vai ser baixado o html com a lista dos dias e horarios de possiveis atendimentos -->
         <!-- quando o usuario escolher, e enviar, a vaga da lista já pode ter sido tomada -->
         <!-- então o controller deve avisar isso ao usuario e pedir pra escolher outro horario dos novos disposiveis -->
-        <!-- por isso que essa seção tá em todo, é necessaria primeiro a lista dos postos -->
 
+        <label>Posto de vacinação (obrigatório)</label>
+        <select name="posto_vacinacao" id="posto_vacinacao" onchange="selecionar_posto(this)" required>
+            <option value="">-- Selecione o posto --</option>
+            @foreach($postos as $posto)
+	              @if (old('posto_vacinacao') == $posto->id)
+  		              <option value="{{$posto->id}}" selected>{{$posto->nome}}</option>
+  	            @else
+  		              <option value="{{$posto->id}}">{{$posto->nome}}</option>
+	              @endif
+            @endforeach
+        </select>
+        <br>
+
+
+
+        <div id="seletor_horario"></div>
+
+        
         <br><br>
         <input type="submit" value="ENVIAR">
 

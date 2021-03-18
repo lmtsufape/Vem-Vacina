@@ -16,6 +16,9 @@ class CandidatoSeeder extends Seeder
      */
     public function run()
     {
+        $chegada = new Carbon("19-03-2021 09:00:00");
+        $saida = new Carbon("19-03-2021 09:10:00");
+        
         for ($i = 1; $i <= 10; $i++) {
             DB::table('candidatos')->insert([  //
                 'nome_completo' => 'candidado'.$i,
@@ -38,13 +41,17 @@ class CandidatoSeeder extends Seeder
                 'logradouro' => 'logradouro'.$i,
                 'numero_residencia' => $i,
                 'complemento_endereco' => 'Casa',
-                'hora_chegada' => '14:00',
-                'hora_saida' => '14:10',
+                'chegada' => $chegada,
+                'saida' => $saida,
                 'lote_id' => null,
                 'posto_vacinacao_ìd' => 1,
                 'lote_id' => 1,
                 'posto_vacinacao_ìd' => 1
             ]);
+
+            $chegada->addMinutes(10);
+            $saida->addMinutes(10);
+            
         }
     }
 }
