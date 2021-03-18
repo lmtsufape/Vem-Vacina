@@ -5,7 +5,7 @@ use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PostoVacinacaoController;
 use App\Http\Controllers\EtapaController;
-
+use App\Http\Livewire\StoreLote;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,8 +42,6 @@ Route::resource('/lotes', LoteController::class);
 
 Route::post('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
 Route::resource('/etapas', EtapaController::class);
-
-//Route::get('/lotes', [LoteController::class, 'show'])->name('lotes')->middleware(['auth']);
 
 
 require __DIR__.'/auth.php';

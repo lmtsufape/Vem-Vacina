@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLoteRequest;
 use App\Models\Lote;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class LoteController extends Controller
      */
     public function index()
     {
-        $lotes = Lote::all();
+        $lotes = Lote::paginate(10);
         return view('lotes.index', compact('lotes'));
     }
 
@@ -25,7 +26,7 @@ class LoteController extends Controller
      */
     public function create()
     {
-        //
+        return view('lotes.store');
     }
 
     /**
@@ -34,9 +35,15 @@ class LoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreLoteRequest $request)
     {
-        //
+
+        $this->isChecked($request, 'segunda_dose');
+
+        $data = $request->all();
+        $lote = Lote::create($data);
+
+        return redirect()->route('lotes.index')->with('message', 'Lote criado com sucesso!');
     }
 
     /**
@@ -83,5 +90,15 @@ class LoteController extends Controller
     {
         //
 
+    }
+
+    private function isChecked($request ,$field)
+    {
+        if(!$request->has($field))
+        {
+            $request->merge([$field => false]);
+        }else{
+            $request->merge([$field => true]);
+        }
     }
 }
