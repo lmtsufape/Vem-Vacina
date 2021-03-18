@@ -45,6 +45,7 @@ Route::get('/etapas', [EtapaController::class, 'index'])->name('etapas.index');
 Route::get('/etapas/adicionar', [EtapaController::class, 'create'])->name('etapas.create');
 Route::post('/etapas/salvar', [EtapaController::class, 'store'])->name('etapas.store');
 Route::post('/etapas/{id}/excluir', [EtapaController::class, 'destroy'])->name('etapas.destroy');
+Route::post('/etapas/{id}/atualizar', [EtapaController::class, 'update'])->name('etapas.update');
 
 //Route::get('/lotes', [LoteController::class, 'show'])->name('lotes')->middleware(['auth']);
 

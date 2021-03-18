@@ -103,7 +103,22 @@ class EtapaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'etapa_id'            => 'required',
+            'inicio_faixa_etaria' => 'required|integer|min:0|max:110',
+            'fim_faixa_etaria'    => 'required|integer|min:'.$request->inicio_faixa_etaria.'|max:150',
+            'primeria_dose'       => 'nullable',
+            'segunda_dose'        => 'nullable',
+        ]);
+
+        $etapa = Etapa::find($id);
+        $etapa->inicio_intervalo                    = $request->inicio_faixa_etaria;
+        $etapa->fim_intervalo                       = $request->fim_faixa_etaria;
+        $etapa->total_pessoas_vacinadas_pri_dose    = $request->primeria_dose;
+        $etapa->total_pessoas_vacinadas_seg_dose    = $request->segunda_dose;
+        $etapa->update();
+
+        return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa salva com sucesso!']);
     }
 
     /**

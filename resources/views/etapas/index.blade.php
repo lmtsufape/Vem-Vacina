@@ -45,6 +45,7 @@
                         <th scope="col">Atual</th>
                         <th scope="col">Pessoas vacinadas na 1ª dose</th>
                         <th scope="col">Pessoas vacinadas na 2ª dose</th>
+                        <th scope="col">Editar</th>
                         <th scope="col">Excluir</th>
                     </tr>
                 </thead>
@@ -60,6 +61,7 @@
                             @endif
                             <td>{{$etapa->total_pessoas_vacinadas_pri_dose}}</td>
                             <td>{{$etapa->total_pessoas_vacinadas_seg_dose}}</td>
+                            <td><a href="#" data-toggle="modal" data-target="#editarEtapa{{$etapa->id}}"><img src="{{asset('/img/icons/edit-regular.svg')}}" alt="" width="22px;"></a></td>
                             <td><a href="#" data-toggle="modal" data-target="#excluirEtapa{{$etapa->id}}"><img src="{{asset('/img/icons/lixo.png')}}" alt="" width="20px;"></a></td>
                         </tr>
                     @endforeach
@@ -104,12 +106,83 @@
 <!-- Fim modal definir etapa atual -->
 
 @foreach ($etapas as $etapa)
+    <!-- Modal editar etapa atual -->
+    <div class="modal fade" id="editarEtapa{{$etapa->id}}" tabindex="-1" aria-labelledby="editarEtapa{{$etapa->id}}Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarEtapa{{$etapa->id}}Label">Editar etapa de {{$etapa->inicio_intervalo}} até {{$etapa->fim_intervalo}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editar_etapa_{{$etapa->id}}" action="{{route('etapas.update', ['id' => $etapa->id])}}" method="post">
+                    @csrf
+                    <div class="container">
+                        <input type="hidden" name="etapa_id" value="{{$etapa->id}}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="inicio_faixa_etaria">Inicio da faixa etaria</label>
+                                <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etaria') is-invalid @enderror" type="number" name="inicio_faixa_etaria" placeholder="80" value="@if(old('inicio_faixa_etaria') != null){{old('inicio_faixa_etaria')}}@else{{$etapa->inicio_intervalo}}@endif">
+                            
+                                @error('inicio_faixa_etaria')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fim_faixa_etaria">Fim da faixa etaria</label>
+                                <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etaria') is-invalid @enderror" type="number" name="fim_faixa_etaria" placeholder="85" value="@if(old('fim_faixa_etaria') != null){{old('fim_faixa_etaria')}}@else{{$etapa->fim_intervalo}}@endif">
+                                
+                                @error('fim_faixa_etaria')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="pri_dose">Total de pessoas vacinadas na 1ª dose</label>
+                                <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="@if(old('primeria_dose') != null){{old('primeria_dose')}}@else{{$etapa->total_pessoas_vacinadas_pri_dose}}@endif">
+                            
+                                @error('primeria_dose')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="seg_dose">Total de pessoas vacinadas na 2ª dose</label>
+                                <input id="seg_dose" class="form-control @error('segunda_dose') is-invalid @enderror" type="number" name="segunda_dose" placeholder="0" value="@if(old('segunda_dose') != null){{old('segunda_dose')}}@else{{$etapa->total_pessoas_vacinadas_seg_dose}}@endif">
+                            
+                                @error('segunda_dose')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" form="editar_etapa_{{$etapa->id}}">Salvar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Fim modal editar etapa atual -->
     <!-- Modal excluir etapa atual -->
     <div class="modal fade" id="excluirEtapa{{$etapa->id}}" tabindex="-1" aria-labelledby="excluirEtapa{{$etapa->id}}Label" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="excluirEtapa{{$etapa->id}}Label">Definir etapa atual</h5>
+                <h5 class="modal-title" id="excluirEtapa{{$etapa->id}}Label">Excluir etapa de {{$etapa->inicio_intervalo}} até {{$etapa->fim_intervalo}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -129,4 +202,11 @@
     </div>
     <!-- Fim modal excluir etapa atual -->
 @endforeach
+@if (old('etapa_id') != null)
+<script>
+    $(document).ready(function() {
+        $('#editarEtapa{{old('etapa_id')}}').modal('show');
+    });
+</script>
+@endif
 </x-app-layout>
