@@ -65,7 +65,8 @@ class LoteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $lote = Lote::findOrFail($id);
+        return view('lotes.edit', compact('lote'));
     }
 
     /**
@@ -77,7 +78,13 @@ class LoteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->isChecked($request, 'segunda_dose');
+
+        $data = $request->all();
+        $lote = Lote::findOrFail($id);
+        $lote->update($data);
+
+        return redirect()->route('lotes.index')->with('message', 'Lote editado com sucesso!');
     }
 
     /**
@@ -88,7 +95,10 @@ class LoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lote = Lote::findOrFail($id);
+        $lote->delete();
+
+        return redirect()->route('lotes.index')->with('message', 'Lote excluído com sucesso!');
 
     }
 

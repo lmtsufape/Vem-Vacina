@@ -9,7 +9,7 @@
                 </h2>
             </div>
             <div class="...">
-                <a href="{{ route('lotes.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('lotes.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                     Adicionar Lote
                 </a>
 
@@ -49,12 +49,29 @@
                           <td>{{ date('d/m/Y', strtotime($lote->data_fabricacao))  }}</td>
                           <td>{{ date('d/m/Y', strtotime($lote->data_validade))}}</td>
                           <td>
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Editar
-                            </button>
-                            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                                Excluir
-                            </button>
+                              <div class="row">
+                                  <div class="col-md-4">
+                                    <form action="{{ route('lotes.edit', ['lote' => $lote->id]) }}" method="get">
+                                        @csrf
+                                        @method('get')
+                                        <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2">
+                                            Editar
+                                        </button>
+
+                                    </form>
+
+                                  </div>
+                                  <div class="col-md-4 ">
+                                      <form action="{{ route('lotes.destroy', ['lote' => $lote->id]) }}" method="post">
+                                          @csrf
+                                          @method('delete')
+                                          <button type="submit" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2">
+                                              Apagar
+                                          </button>
+
+                                      </form>
+                                  </div>
+                              </div>
 
                           </td>
 
