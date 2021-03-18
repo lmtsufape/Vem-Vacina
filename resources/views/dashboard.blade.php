@@ -49,8 +49,8 @@
                             <tr>
                                 <td>{{$candidato->nome_completo}}</td>
                                 <td>{{$candidato->cpf}}</td>
-                                <td>-- Dia --</td>
-                                <td>-- Horário --</td>
+                                <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
+                                <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td>
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
                                     
