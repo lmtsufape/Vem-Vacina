@@ -42,7 +42,11 @@ Route::resource('/lotes', LoteController::class);
 Route::post('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
 
 Route::post('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
-Route::resource('/etapas', EtapaController::class);
+Route::get('/etapas', [EtapaController::class, 'index'])->name('etapas.index');
+Route::get('/etapas/adicionar', [EtapaController::class, 'create'])->name('etapas.create');
+Route::post('/etapas/salvar', [EtapaController::class, 'store'])->name('etapas.store');
+Route::post('/etapas/{id}/excluir', [EtapaController::class, 'destroy'])->name('etapas.destroy');
+Route::post('/etapas/{id}/atualizar', [EtapaController::class, 'update'])->name('etapas.update');
 
 
 require __DIR__.'/auth.php';
