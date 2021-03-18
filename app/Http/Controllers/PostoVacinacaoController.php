@@ -75,7 +75,7 @@ class PostoVacinacaoController extends Controller
 
         // Agrupa os horarios disponiveis por dia pra mostrar melhor no html
         foreach($horarios_disponiveis as $h) {
-            $inicio_do_dia = $h->copy()->startOfDay()->toDateString();
+            $inicio_do_dia = $h->copy()->startOfDay()->format("d/m/Y");
             if(!isset($horarios_agrupados_por_dia[$inicio_do_dia])) {
                 $horarios_agrupados_por_dia[$inicio_do_dia] = [];
             }

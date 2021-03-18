@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Candidato;
+use App\Models\Lote;
 use App\Models\PostoVacinacao;
+use Carbon\Carbon;
 
 class CandidatoController extends Controller
 {
@@ -53,9 +55,14 @@ class CandidatoController extends Controller
             "rua"                   => "required",
             "número_residencial"    => "required",
             "complemento_endereco"  => "nullable",
+            "posto_vacinacao"       => "required",
+            "dia_vacinacao"         => "required",
+            "horario_vacinacao"     => "required",
+
         ]);
 
         $dados = $request->all();
+        
         $candidato = new Candidato;
         $candidato->nome_completo           = $request->nome_completo;
         $candidato->data_de_nascimento      = $request->data_de_nascimento;
@@ -72,11 +79,58 @@ class CandidatoController extends Controller
         $candidato->logradouro              = $request->rua;
         $candidato->numero_residencia       = $request->input("número_residencial");
         $candidato->complemento_endereco    = $request->nome_completo;
-        // $candidato->hora_chegada            = $request->nome_completo;
-        // $candidato->hora_saida              = $request->nome_completo;
-        // $candidato->lote_id                 = $request->nome_completo;
-        // $candidato->posto_vacinacao_ìd      = $request->nome_completo;
+
+        if(!$this->validar_cpf($request->cpf)) {
+             return redirect()->back()->withErrors([
+                "cpf" => "Número de CPF inválido"
+            ])->withInput();
+           
+        }
         
+        $dia_vacinacao = $request->dia_vacinacao;
+        $horario_vacinacao = $request->horario_vacinacao;
+        $id_posto = $request->posto_vacinacao;
+        $datetime_chegada = Carbon::createFromFormat("d/m/Y H:i" , $dia_vacinacao . " " . $horario_vacinacao);
+        $datetime_saida = $datetime_chegada->copy()->addMinutes(10);
+
+        $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime_chegada)->where("posto_vacinacao_ìd", $id_posto)->get();
+
+        if($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
+            return redirect()->back()->withErrors([
+                "posto_vacinacao" => "Alguém conseguiu preencher o formulário mais rápido que você, escolha outro horario por favor."
+            ])->withInput();
+        }
+
+
+        // A logica da escolha do lote é a seguinte
+        // Um lote é dividido igualmente para todos os postos
+        // Então doses/num_postos é o maximo que uma pessoa pode ser alocada para o lote naquele posto
+        // Obviamente isso é falho, como quando se adicionar um posto após as vacinas terem começado
+        // TODO: melhorar alocação dos lotes
+
+        $lotes = Lote::all();
+        $num_postos = PostoVacinacao::count();
+        $id_lote = 0;
+
+        foreach($lotes as $lote) {
+            if(Candidato::where("lote_id", $lote->id)->count() < ($lote->qtdVacina/ $num_postos)) {
+                $id_lote = $lote->id;
+                break;
+            }
+        }
+
+         if($id_lote == 0) {
+            return redirect()->back()->withErrors([
+                "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto..."
+            ])->withInput();
+        }
+
+
+        $candidato->chegada                 = $datetime_chegada;
+        $candidato->saida                   = $datetime_saida;
+        $candidato->lote_id                 = $id_lote;
+        $candidato->posto_vacinacao_ìd      = $id_posto;
+
         $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
 
         if(isset($dados["paciente_agente_de_saude"])) {
