@@ -5,7 +5,7 @@ use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PostoVacinacaoController;
 use App\Http\Controllers\EtapaController;
-
+use App\Http\Livewire\StoreLote;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +28,8 @@ Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solic
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
 Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento")->middleware(['auth']);
 
+Route::get("/horarios/{id_posto}", [PostoVacinacaoController::class, 'horarios'] )->name("posto.horarios");
+
 Route::get("/cep/{cep}", function($cep) {
     //TODO: mover isso pra um controller
     $results = simplexml_load_file("http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep=" . $cep);
@@ -37,11 +39,14 @@ Route::get("/cep/{cep}", function($cep) {
 
 Route::resource('/postos', PostoVacinacaoController::class);
 Route::resource('/lotes', LoteController::class);
+Route::post('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
 
 Route::post('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
-Route::resource('/etapas', EtapaController::class);
-
-//Route::get('/lotes', [LoteController::class, 'show'])->name('lotes')->middleware(['auth']);
+Route::get('/etapas', [EtapaController::class, 'index'])->name('etapas.index');
+Route::get('/etapas/adicionar', [EtapaController::class, 'create'])->name('etapas.create');
+Route::post('/etapas/salvar', [EtapaController::class, 'store'])->name('etapas.store');
+Route::post('/etapas/{id}/excluir', [EtapaController::class, 'destroy'])->name('etapas.destroy');
+Route::post('/etapas/{id}/atualizar', [EtapaController::class, 'update'])->name('etapas.update');
 
 
 require __DIR__.'/auth.php';

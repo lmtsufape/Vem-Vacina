@@ -10,8 +10,12 @@ class Lote extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome',
+        'numero_lote',
+        'fabricante',
         'qtdVacina',
+        'segunda_dose',
+        'data_fabricacao',
+        'data_validade',
     ];
 
     public function postos()

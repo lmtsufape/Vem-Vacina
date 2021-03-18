@@ -37,9 +37,9 @@ class CreateCandidatosTable extends Migration
             $table->string("logradouro");
             $table->string("numero_residencia");
             $table->string("complemento_endereco")->nullable(true);
-            $table->boolean("candidato_aprovado")->nullable(true);
-            $table->time("hora_chegada")->nullable(true);
-            $table->time("hora_saida")->nullable(true);
+            $table->enum("aprovacao", Candidato::APROVACAO_ENUM)->default(Candidato::APROVACAO_ENUM[0]);
+            $table->datetime("chegada");
+            $table->datetime("saida");
 
             $table->timestamps();
         });
