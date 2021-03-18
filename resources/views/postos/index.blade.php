@@ -33,10 +33,16 @@
                 </thead>
                 <tbody>
                     @foreach ($postos as $posto)
+                    {{-- @dd($posto->lotes->all()) --}}
+                    @php
+                        foreach ($posto->lotes->all() as $key => $value) {
+                            $posto->totalVacinas += $value->pivot->qtdVacina;
+                        }
+                    @endphp
                     <tr>
                         <td>{{$posto->nome}}</td>
                         <td>{{$posto->endereco}}</td>
-                        <td>{{ "-" }}</td>
+                        <td>{{ $posto->getVacinasDisponivel() ?? "Não há vacinas disponíveis" }}</td>
                         <td>
                             <div class="row">
                                 <div class="col-md-4">

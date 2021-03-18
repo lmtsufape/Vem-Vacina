@@ -22,7 +22,8 @@ class PostoVacinacaoFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nome' => $this->faker->numerify('posto-####'),
+            'endereco' => "rua 1"
         ];
     }
 }

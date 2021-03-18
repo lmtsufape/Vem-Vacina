@@ -110,6 +110,31 @@ class LoteController extends Controller
         return view('lotes.distribuicao', compact('lote', 'postos'));
     }
 
+    public function calcular(Request $request)
+    {
+        $lote_id = $request->lote;
+        $lote = Lote::find($lote_id);
+        $postos = PostoVacinacao::whereIn('id', array_keys($request->posto))->get();
+
+        if(array_sum($request->posto) > $lote->numero_vacinas){
+            return redirect()->route('lotes.index')->with('message', 'Soma das vacinas maior que a quantidade do lote!');
+        }
+
+
+        foreach($request->posto as $key => $value){
+            $posto = PostoVacinacao::find($key);
+            $lote->numero_vacinas -= $value;
+            $lote->save();
+            // dd($posto->lotes->find($lote_id) == null);
+            $posto->lotes()->syncWithoutDetaching($lote);
+
+            $posto->lotes->find($lote_id)->pivot->qtdVacina += $value;
+            $posto->lotes->find($lote_id)->pivot->save();
+
+        }
+        return redirect()->route('lotes.index')->with('message', 'Lote distribuído com sucesso!');
+    }
+
     private function isChecked($request ,$field)
     {
         if(!$request->has($field))

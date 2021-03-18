@@ -12,7 +12,7 @@ class Lote extends Model
     protected $fillable = [
         'numero_lote',
         'fabricante',
-        'qtdVacina',
+        'numero_vacinas',
         'segunda_dose',
         'data_fabricacao',
         'data_validade',
@@ -20,6 +20,7 @@ class Lote extends Model
 
     public function postos()
     {
-        return $this->belongsToMany(PostoVacinacao::class);
+        return $this->belongsToMany(PostoVacinacao::class, 'lote_posto_vacinacao', 'lote_id', 'posto_vacinacao_id')
+                    ->withPivot('qtdVacina');
     }
 }

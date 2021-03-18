@@ -44,14 +44,14 @@
                       <tr>
                           <td>{{$lote->numero_lote}}</td>
                           <td>{{$lote->fabricante}}</td>
-                          <td>{{$lote->qtdVacina}}</td>
+                          <td>{{$lote->numero_vacinas}}</td>
                           <td>{{$lote->segunda_dose ? 'Sim' : 'Não'}}</td>
                           <td>{{ date('d/m/Y', strtotime($lote->data_fabricacao))  }}</td>
                           <td>{{ date('d/m/Y', strtotime($lote->data_validade))}}</td>
                           <td>
                               <div class="row">
                                   <div class="col-md-3">
-                                    <form action="{{ route('lotes.edit', ['lote' => $lote->id]) }}" method="post">
+                                    <form action="{{ route('lotes.edit', ['lote' => $lote->id]) }}" method="get">
                                         @csrf
                                         @method('put')
                                         <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
