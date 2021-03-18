@@ -193,6 +193,12 @@ class CandidatoController extends Controller
         $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
         $candidato->update();
 
+        $etapa = $candidato->etapa;
+        if ($etapa != null) {
+            $etapa->total_pessoas_vacinadas_pri_dose += 1;
+            $etapa->update(); 
+        }
+
         return redirect()->back()->with(['mensagem' => 'Confirmação salva.']);
     }
 }
