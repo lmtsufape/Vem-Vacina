@@ -79,7 +79,12 @@ class CandidatoController extends Controller
         $candidato->numero_residencia       = $request->input("número_residencial");
         $candidato->complemento_endereco    = $request->nome_completo;
 
-
+        if(!$this->validar_cpf($request->cpf)) {
+             return redirect()->back()->withErrors([
+                "cpf" => "Número de CPF inválido"
+            ])->withInput();
+           
+        }
         
         $dia_vacinacao = $request->dia_vacinacao;
         $horario_vacinacao = $request->horario_vacinacao;
@@ -91,7 +96,7 @@ class CandidatoController extends Controller
 
         if($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
             return redirect()->back()->withErrors([
-                "posto_vacinacao" => "Alguém conseguiu preencher o formulário mais rápido que você, escolha outro horario por favor"
+                "posto_vacinacao" => "Alguém conseguiu preencher o formulário mais rápido que você, escolha outro horario por favor."
             ])->withInput();
         }
 
