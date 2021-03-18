@@ -51,9 +51,9 @@
                           <td>
                               <div class="row">
                                   <div class="col-md-4">
-                                    <form action="{{ route('lotes.edit', ['lote' => $lote->id]) }}" method="get">
+                                    <form action="{{ route('lotes.edit', ['lote' => $lote->id]) }}" method="post">
                                         @csrf
-                                        @method('get')
+                                        @method('put')
                                         <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2">
                                             Editar
                                         </button>
@@ -72,7 +72,6 @@
                                       </form>
                                   </div>
                               </div>
-
                           </td>
 
                       </tr>

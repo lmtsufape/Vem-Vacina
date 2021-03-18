@@ -17,11 +17,11 @@ class PostoVacinacaoController extends Controller
 
         $todos_os_horarios_por_dia = [];
         $todos_os_horarios = [];
-        
+
         // Pega os proximos 7 dias
         for($i = 0; $i < 7; $i++) {
             $dia = Carbon::tomorrow()->addDay($i);
-            
+
             if($dia->isWeekend()) {
                 // Não adiciona finais de semana
                 continue;
@@ -103,7 +103,7 @@ class PostoVacinacaoController extends Controller
      */
     public function create()
     {
-        //
+        return view('postos.store');
     }
 
     /**
@@ -114,7 +114,10 @@ class PostoVacinacaoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $posto = PostoVacinacao::create($data);
+
+        return redirect()->route('postos.index')->with('message', 'Posto criado com sucesso!');
     }
 
     /**
@@ -136,7 +139,8 @@ class PostoVacinacaoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $posto = PostoVacinacao::findOrFail($id);
+        return view('postos.edit', compact('posto'));
     }
 
     /**
@@ -148,7 +152,11 @@ class PostoVacinacaoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $posto = PostoVacinacao::findOrFail($id);
+        $posto->update($data);
+
+        return redirect()->route('postos.index')->with('message', 'Posto editado com sucesso!');
     }
 
     /**
@@ -159,6 +167,9 @@ class PostoVacinacaoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $posto = PostoVacinacao::findOrFail($id);
+        $posto->delete();
+
+        return redirect()->route('postos.index')->with('message', 'Posto excluído com sucesso!');
     }
 }
