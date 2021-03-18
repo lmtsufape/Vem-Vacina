@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreLoteRequest;
 use App\Models\Lote;
+use App\Models\PostoVacinacao;
 use Illuminate\Http\Request;
 
 class LoteController extends Controller
@@ -14,7 +16,7 @@ class LoteController extends Controller
      */
     public function index()
     {
-        $lotes = Lote::all();
+        $lotes = Lote::paginate(10);
         return view('lotes.index', compact('lotes'));
     }
 
@@ -25,7 +27,7 @@ class LoteController extends Controller
      */
     public function create()
     {
-        //
+        return view('lotes.store');
     }
 
     /**
@@ -34,9 +36,15 @@ class LoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreLoteRequest $request)
     {
-        //
+
+        $this->isChecked($request, 'segunda_dose');
+
+        $data = $request->all();
+        $lote = Lote::create($data);
+
+        return redirect()->route('lotes.index')->with('message', 'Lote criado com sucesso!');
     }
 
     /**
@@ -58,7 +66,8 @@ class LoteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $lote = Lote::findOrFail($id);
+        return view('lotes.edit', compact('lote'));
     }
 
     /**
@@ -70,7 +79,13 @@ class LoteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->isChecked($request, 'segunda_dose');
+
+        $data = $request->all();
+        $lote = Lote::findOrFail($id);
+        $lote->update($data);
+
+        return redirect()->route('lotes.index')->with('message', 'Lote editado com sucesso!');
     }
 
     /**
@@ -81,7 +96,28 @@ class LoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lote = Lote::findOrFail($id);
+        $lote->delete();
+
+        return redirect()->route('lotes.index')->with('message', 'Lote excluído com sucesso!');
 
     }
+
+    public function distribuir($id)
+    {
+        $lote = Lote::findOrFail($id);
+        $postos = PostoVacinacao::all();
+        return view('lotes.distribuicao', compact('lote', 'postos'));
+    }
+
+    private function isChecked($request ,$field)
+    {
+        if(!$request->has($field))
+        {
+            $request->merge([$field => false]);
+        }else{
+            $request->merge([$field => true]);
+        }
+    }
+
 }

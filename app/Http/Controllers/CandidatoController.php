@@ -58,6 +58,7 @@ class CandidatoController extends Controller
             "posto_vacinacao"       => "required",
             "dia_vacinacao"         => "required",
             "horario_vacinacao"     => "required",
+
         ]);
 
         $dados = $request->all();

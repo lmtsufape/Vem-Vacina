@@ -380,7 +380,7 @@
      
      function buscar_CEP(input, evt) {
          let theEvent = evt || window.event;
-         
+
          if(evt.keyCode == 8) {
              theEvent.returnValue = true;
              return;
@@ -411,7 +411,7 @@
              theEvent.returnValue = false;
              return;
          }
-         
+
          // colocou o ultimo valor do cep
          theEvent.returnValue = true;
          
@@ -422,7 +422,7 @@
          
          let url = "http://" + document.location.host + "/cep/" + cep;
          console.log(url);
-         
+
          fetch(url).then((resposta) => {
              return resposta.json();
          }).then((json) => {
@@ -437,6 +437,8 @@
              document.getElementById("inputrua").value = json.tipo_logradouro + " " + json.logradouro;
              
          });
+
+
      }
 
      function funcaoVinculoComAEquipeDeSaudade(){
@@ -487,6 +489,7 @@
          }).then(result => {
              div_seletor_horararios.innerHTML = result;
          });
+
      }
 
 
@@ -511,4 +514,6 @@
      
      
     </script>
+
+
 </x-guest-layout>
