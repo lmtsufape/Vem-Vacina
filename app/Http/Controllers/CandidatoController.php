@@ -58,9 +58,9 @@ class CandidatoController extends Controller
             "rua"                   => "required",
             "número_residencial"    => "required",
             "complemento_endereco"  => "nullable",
-            // "posto_vacinacao"       => "required",
-            // "dia_vacinacao"         => "required",
-            // "horario_vacinacao"     => "required",
+            "posto_vacinacao"       => "required",
+            "dia_vacinacao"         => "required",
+            "horario_vacinacao"     => "required",
 
         ]);
 
