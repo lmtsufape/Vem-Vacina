@@ -230,13 +230,8 @@
                                                         {{-- <img src="{{asset("storage/".explode('/', $candidato->foto_frente_rg)[1])}}" alt="frente_rg" style="border-radius: 10px;"> --}}
                                                     </div>
                                                     <div class="col-md-6">
-<<<<<<< HEAD
                                                         <a href="">Baixar verso do RG</a>
                                                         {{-- <img src="{{asset("storage/".explode('/', $candidato->foto_tras_rg)[1])}}" alt="verso_rg" style="border-radius: 10px;"> --}}
-=======
-                                                        <a href="{{route('download.verso', ['id' => $candidato->id])}}">Baixar verso do RG</a>
-                                                        <img src="{{asset("storage/".explode('/', $candidato->foto_tras_rg)[1])}}" alt="verso_rg" style="border-radius: 10px;">
->>>>>>> upstream/main
                                                     </div>
                                                 </div>
                                             </div>
