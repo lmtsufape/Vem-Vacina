@@ -117,28 +117,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="foto_rg_frente" class="style_titulo_input">FOTO DA FRENTE DO RG <span class="style_subtitulo_input">(obrigatório)</span></label>
-                                        <input id="foto_rg_frente" class="form-control style_input @error('foto_frente_rg') is-invalid @enderror" type="file" name="foto_frente_rg" required>
-                                        
-                                        @error('foto_frente_rg')
-                                        <div id="validationServer05Feedback" class="invalid-feedback">
-                                            <strong>{{$message}}</strong>
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="foto_rg_tras" class="style_titulo_input">FOTO DO VERSO DO RG <span class="style_subtitulo_input">(obrigatório)</span></label>
-                                        <input id="foto_rg_tras"  class="form-control style_input @error('foto_tras_rg') is-invalid @enderror" type="file" name="foto_tras_rg" required>
-                                        
-                                        @error('foto_tras_rg')
-                                        <div id="validationServer05Feedback" class="invalid-feedback">
-                                            <strong>{{$message}}</strong>
-                                        </div>
-                                        @enderror
-                                    </div>
-                                </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
                                     <div style="font-size: 15px; margin-bottom: 15px;">Informe se o idoso é acamado ou possui dificuldade de locomoção.</div>
@@ -215,7 +193,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCEP" class="style_titulo_input">CEP</label>
-                                        <input type="text" class="form-control style_input @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onkeydown="buscar_CEP(this, event)">
+                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onkeydown="buscar_CEP(this, event)">
                                         
                                         @error('cep')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
