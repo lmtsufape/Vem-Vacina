@@ -18,8 +18,7 @@ class AlterCandidatosTable extends Migration
             $table->unsignedBigInteger('posto_vacinacao_id')->nullable(true);
             $table->unsignedBigInteger('etapa_id')->nullable(true);
 
-            // $table->foreign('lote_id')->references('id')->on('lotes');
-            // $table->foreign('posto_vacinacao_ìd')->references('id')->on('posto_vacinacaos');
+
         });
     }
 
