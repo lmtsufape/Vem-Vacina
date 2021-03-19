@@ -35,7 +35,8 @@
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI.</div>
                                         <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white;">QUERO SOLICITAR MINHA VACINA</a>
-                                        <div class="col-md-12"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;"><a href="#" data-toggle="modal" data-target="#modalChecarAgendamento" style="color: #000000;">Consultar agendamento.</a></div>
+                                        <a href="#" class="btn btn-primary style_card_apresentacao_botao" style="color:white;" data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR AGENDAMENTO</a>
+                                        {{-- <div class="col-md-12"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;"><a href="#"  style="color: #000000;">Consultar agendamento.</a></div> --}}
                                     </div>
                                  </div>
                             </div>
@@ -198,8 +199,10 @@
             </button>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form id="consultar_agendamento" action="{{route('agendamento.consultar')}}" method="POST">
+                    @csrf
                     <div class="container">
+                        <input type="hidden" name="consulta" value="1">
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">(obrigatório)</span> </label>
@@ -232,7 +235,7 @@
                                 
                             </div>
                             <div class="col-md-6">
-                                <button type="button" class="btn btn-success" style="width: 100%;">Consultar</button>
+                                <button type="submit" class="btn btn-success" style="width: 100%;" form="consultar_agendamento">Consultar</button>
                             </div>
                         </div>
                     </div>
@@ -242,4 +245,11 @@
         </div>
     </div>
     <!-- Fim modal checar agendamento -->
+    @if (old('consulta') != null) 
+        <script>
+            $(document).ready(function() {
+                $("#modalChecarAgendamento").modal('show');
+            });
+        </script>
+    @endif
 </x-guest-layout>

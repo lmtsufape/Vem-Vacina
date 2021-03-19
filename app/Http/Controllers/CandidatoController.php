@@ -97,21 +97,25 @@ class CandidatoController extends Controller
         // Relacionar o candidato com uma etapa (se existir)
         $idade              = $this->idade($request->data_de_nascimento);
         $candidato->idade   = $idade;
-        $etapa = Etapa::where([['inicio_intervalo', '<=', $idade], ['fim_intervalo', '>=', $idade]])->first();
+        $etapa = Etapa::where([['inicio_intervalo', '<=', $idade], ['fim_intervalo', '>=', $idade], ['atual', true]])->first();
         if ($etapa != null) {
             $candidato->etapa_id = $etapa->id;
+        } else {
+            return redirect()->back()->withErrors([
+                "faixa_etaria" => "Idade fora da faixa etária atual de vacinação"
+            ])->withInput();
         }
 
         //TODO: mover pro service provider
         if(!$this->validar_cpf($request->cpf)) {
-             return redirect()->back()->withErrors([
+            return redirect()->back()->withErrors([
                 "cpf" => "Número de CPF inválido"
             ])->withInput();
 
         }
 
         if(!$this->validar_telefone($request->telefone)) {
-             return redirect()->back()->withErrors([
+            return redirect()->back()->withErrors([
                 "telefone" => "Número de telefone inválido"
             ])->withInput();
         }
@@ -247,5 +251,29 @@ class CandidatoController extends Controller
         }
 
         return abort(404);
+    }
+
+    public function consultar(Request $request) {
+        $validated = $request->validate([
+            'consulta'  => "required",
+            'cpf'       => 'required',
+            'dose'      => 'required',
+        ]);
+
+        if(!$this->validar_cpf($request->cpf)) {
+            return redirect()->back()->withErrors([
+               "cpf" => "Número de CPF inválido"
+           ])->withInput($validated);
+        }
+
+        $candidato = Candidato::where([['cpf', $request->cpf], ['dose', $request->dose]])->first();
+
+        if ($candidato == null) {
+            return redirect()->back()->withErrors([
+                "cpf" => "Dados não encontrados"
+            ])->withInput($validated);
+        }
+
+        return view("ver_agendamento", ["agendamento" => $candidato]);
     }
 }

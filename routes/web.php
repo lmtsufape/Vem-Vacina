@@ -27,6 +27,7 @@ Route::get('/dashboard',  [CandidatoController::class, 'show'])->middleware(['au
 Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
 Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");
+Route::post("/consultar-agendamento", [CandidatoController::class, 'consultar'])->name("agendamento.consultar");
 Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento")->middleware(['auth']);
 Route::post("/agendamento/{id}/confirmar-vacinacao", [CandidatoController::class, 'vacinado'])->name('candidato.vacinado');
 
