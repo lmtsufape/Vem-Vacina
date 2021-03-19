@@ -37,6 +37,9 @@ class CandidatoController extends Controller
             "postos" => $postos_com_vacina
         ]);
     }
+    public function ver($id) {
+        return view("ver_agendamento", ["agendamento" => Candidato::find($id)]);
+    }
 
     public function enviar_solicitacao(Request $request) {
 

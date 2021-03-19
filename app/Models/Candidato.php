@@ -28,14 +28,22 @@ class Candidato extends Model
         "logradouro",
         "numero_residencia",
         "complemento_endereco",
-        "hora_chegada",
-        "hora_saida",
+        "chegada",
+        "saida",
         "lote_id",
         "posto_vacinacao_ìd",
     ];
 
+    protected $casts = [
+        'chegada' => 'datetime',
+    ];
+
     public function etapa() {
         return $this->belongsTo(Etapa::class, 'etapa_id');
+    }
+
+    public function posto() {
+        return $this->belongsTo(PostoVacinacao::class, 'posto_vacinacao_ìd');
     }
     
 }
