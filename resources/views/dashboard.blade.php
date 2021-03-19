@@ -55,7 +55,7 @@
                                 <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td>
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
-                                    
+
                                 </td>
                                 <!-- Modal -->
                                 <div class="modal fade" id="visualizar_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="visualizar_candidato_{{$candidato->id}}_label" aria-hidden="true">
@@ -234,7 +234,7 @@
                                         Vacinado
                                     @else
                                         <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
-                                            @csrf 
+                                            @csrf
                                             <div class="row">
                                                 <div class="col-md-9">
                                                     <select id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
