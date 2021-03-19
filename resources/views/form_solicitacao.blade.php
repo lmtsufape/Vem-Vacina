@@ -215,7 +215,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCEP" class="style_titulo_input">CEP</label>
-                                        <input type="text" class="form-control style_input @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onkeydown="buscar_CEP(this, event)">
+                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onkeydown="buscar_CEP(this, event)">
                                         
                                         @error('cep')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
