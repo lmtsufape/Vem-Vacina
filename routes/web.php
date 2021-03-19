@@ -41,23 +41,26 @@ Route::get("/cep/{cep}", function($cep) {
     $results = simplexml_load_file("http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep=" . $cep);
     return response()->json($results);
 });
+Route::middleware(['auth'])->group(function () {
 
+    Route::resource('/postos', PostoVacinacaoController::class);
+    Route::resource('/lotes', LoteController::class);
+    Route::get('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
+    Route::post('/lotes/calcular', [ LoteController::class, 'calcular'])->name('lotes.calcular');
 
-Route::resource('/postos', PostoVacinacaoController::class);
-Route::resource('/lotes', LoteController::class);
-Route::get('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
-Route::post('/lotes/calcular', [ LoteController::class, 'calcular'])->name('lotes.calcular');
+    Route::post('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
+    Route::get('/etapas', [EtapaController::class, 'index'])->name('etapas.index');
+    Route::get('/etapas/adicionar', [EtapaController::class, 'create'])->name('etapas.create');
+    Route::post('/etapas/salvar', [EtapaController::class, 'store'])->name('etapas.store');
+    Route::post('/etapas/{id}/excluir', [EtapaController::class, 'destroy'])->name('etapas.destroy');
+    Route::post('/etapas/{id}/atualizar', [EtapaController::class, 'update'])->name('etapas.update');
 
-Route::post('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
-Route::get('/etapas', [EtapaController::class, 'index'])->name('etapas.index');
-Route::get('/etapas/adicionar', [EtapaController::class, 'create'])->name('etapas.create');
-Route::post('/etapas/salvar', [EtapaController::class, 'store'])->name('etapas.store');
-Route::post('/etapas/{id}/excluir', [EtapaController::class, 'destroy'])->name('etapas.destroy');
-Route::post('/etapas/{id}/atualizar', [EtapaController::class, 'update'])->name('etapas.update');
+    Route::get('exportar/candidato/', [ExportController::class, 'exportCandidato'])->name('export.candidato');
+    Route::get('exportar/lote', [ExportController::class, 'exportLote'])->name('export.lote');
+    Route::get('exportar/postos', [ExportController::class, 'exportPosto'])->name('export.posto');
+    Route::get('exportar/index', [ExportController::class, 'index'])->name('export.index');
 
-Route::get('exportar/candidato/', [ExportController::class, 'exportCandidato'])->name('export.candidato');
-Route::get('exportar/lote', [ExportController::class, 'exportLote'])->name('export.lote');
-Route::get('exportar/postos', [ExportController::class, 'exportPosto'])->name('export.posto');
-Route::get('exportar/index', [ExportController::class, 'index'])->name('export.index');
+});
+
 
 require __DIR__.'/auth.php';

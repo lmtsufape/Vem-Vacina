@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             LoteSeeder::class,
             PostoVacinacaoSeeder::class,
             // CandidatoSeeder::class,
-            LoteSeeder::class
         ]);
         DB::table('users')->insert([  //
             'name' => 'teste',
