@@ -99,7 +99,7 @@
                                                     </div>
                                                 </div>
                                                 <br>
-                                                
+
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <label for="n_cartao_sus_{{$candidato->id}}">Número do cartão do SUS</label>
@@ -281,7 +281,7 @@
                                 </td>
                                 <td>
                                     @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
-                                        <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi aprovado." class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                        <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia {{ date('d/m/Y \à\s  H:i \h', strtotime($candidato->chegada)) }}. Aguardamos você!" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                     @elseif($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[2])
                                         <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi reprovado." class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                     @else
