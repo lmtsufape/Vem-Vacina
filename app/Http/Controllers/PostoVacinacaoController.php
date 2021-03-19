@@ -49,7 +49,7 @@ class PostoVacinacaoController extends Controller
         }
 
         // Pega os candidatos do posto selecionado cuja data de vacinação é de amanhã pra frente, os que já passaram não importam
-        $candidatos = Candidato::where("posto_vacinacao_ìd", $posto_id)->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->get();
+        $candidatos = Candidato::where("posto_vacinacao_id", $posto_id)->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->get();
 
         $horarios_disponiveis = [];
 
