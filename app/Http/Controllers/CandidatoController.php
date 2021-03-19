@@ -83,7 +83,7 @@ class CandidatoController extends Controller
         $candidato->telefone                = $request->telefone;
         $candidato->whatsapp                = $request->whatsapp;
         $candidato->email                   = $request->email;
-        $candidato->cep                     = $request->cep;
+        $candidato->cep                     = preg_replace('/[^0-9]/', '', $request->cep);
         $candidato->cidade                  = $request->cidade;
         $candidato->bairro                  = $request->bairro;
         $candidato->logradouro              = $request->rua;
