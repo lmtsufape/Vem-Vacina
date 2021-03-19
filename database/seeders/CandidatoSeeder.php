@@ -18,7 +18,7 @@ class CandidatoSeeder extends Seeder
     {
         $chegada = new Carbon("19-03-2021 09:00:00");
         $saida = new Carbon("19-03-2021 09:10:00");
-        
+
         for ($i = 1; $i <= 10; $i++) {
             DB::table('candidatos')->insert([  //
                 'nome_completo' => 'candidado'.$i,
@@ -51,7 +51,7 @@ class CandidatoSeeder extends Seeder
 
             $chegada->addMinutes(10);
             $saida->addMinutes(10);
-            
+
         }
     }
 }

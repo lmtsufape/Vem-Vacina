@@ -7,7 +7,9 @@ use App\Models\Candidato;
 use App\Models\Lote;
 use App\Models\PostoVacinacao;
 use App\Models\Etapa;
+use App\Notifications\CandidatoAprovado;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
 
 class CandidatoController extends Controller
 {
@@ -23,10 +25,10 @@ class CandidatoController extends Controller
         } else if ($request->filtro == 4) {
             $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
         }
-        
+
         return view('dashboard')->with(['candidatos' => $candidatos, 'candidato_enum' => Candidato::APROVACAO_ENUM]);
     }
-  
+
     public function solicitar() {
 
         // TODO: pegar só os postos com vacinas disponiveis
@@ -65,7 +67,7 @@ class CandidatoController extends Controller
         ]);
 
         $dados = $request->all();
-        
+
         $candidato = new Candidato;
         $candidato->nome_completo           = $request->nome_completo;
         $candidato->data_de_nascimento      = $request->data_de_nascimento;
@@ -96,9 +98,9 @@ class CandidatoController extends Controller
              return redirect()->back()->withErrors([
                 "cpf" => "Número de CPF inválido"
             ])->withInput();
-           
+
         }
-        
+
         $dia_vacinacao = $request->dia_vacinacao;
         $horario_vacinacao = $request->horario_vacinacao;
         $id_posto = $request->posto_vacinacao;
@@ -156,7 +158,7 @@ class CandidatoController extends Controller
         $candidato->foto_frente_rg = $request->file('foto_frente_rg')->store("public");
         $candidato->foto_tras_rg = $request->file('foto_tras_rg')->store("public");
         $candidato->save();
-        
+
         return redirect()->back()->with('status', 'Cadastrado com sucesso');
 
     }
@@ -179,7 +181,9 @@ class CandidatoController extends Controller
         $candidato->aprovacao = $request->confirmacao;
 
         $candidato->update();
-        
+        if($candidato->email != null){
+            Notification::send($candidato, new CandidatoAprovado($candidato));
+        }
         return redirect()->back()->with(['mensagem' => 'Resposta salva com sucesso!']);
     }
 
@@ -196,7 +200,7 @@ class CandidatoController extends Controller
         $etapa = $candidato->etapa;
         if ($etapa != null) {
             $etapa->total_pessoas_vacinadas_pri_dose += 1;
-            $etapa->update(); 
+            $etapa->update();
         }
 
         return redirect()->back()->with(['mensagem' => 'Confirmação salva.']);

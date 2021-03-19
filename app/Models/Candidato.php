@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Candidato extends Model
 {
-    use HasFactory;
-    
+    use HasFactory,  Notifiable;
+
     public const SEXO_ENUM = ["Masculino", "Feminino"];
     public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
 
@@ -37,5 +38,5 @@ class Candidato extends Model
     public function etapa() {
         return $this->belongsTo(Etapa::class, 'etapa_id');
     }
-    
+
 }
