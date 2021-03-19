@@ -21,7 +21,7 @@ class LoteFactory extends Factory
      * @return array
      */
     public function definition()
-    {   $bool = ['true', 'false'];
+    {   $bool = [true, false];
         return [
             'numero_lote' => $this->faker->regexify('[A-Z]{5}[0-4]{3}'),
             'fabricante' => $this->faker->numerify('fab-####'),

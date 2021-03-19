@@ -17,6 +17,7 @@
                             <tr><td>{{$agendamento->nome_completo}}</td></tr>
                             <tr><td>Estado da vacinação: {{$agendamento->aprovacao}}</td></tr>
                             <tr><td>Dia e hora da vacinação: {{$agendamento->chegada->format("d/m/Y") . ", " . $agendamento->chegada->format("H:i")}}</td></tr>
+                            <tr><td>Lote da vacina: {{$agendamento->lote->numero_lote}}</td></tr>
                         </table>
                     </div>
                     <div class="col-md-12">

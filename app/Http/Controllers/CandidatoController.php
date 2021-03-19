@@ -7,6 +7,7 @@ use App\Models\Candidato;
 use App\Models\Lote;
 use App\Models\PostoVacinacao;
 use App\Models\Etapa;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class CandidatoController extends Controller
@@ -123,25 +124,27 @@ class CandidatoController extends Controller
             ])->withInput();
         }
 
+        // Pega a lista de todos os lotes que foram pra tal posto
+        $lotes_disponiveis = DB::table("lote_posto_vacinacao")->where("posto_vacinacao_id", $id_posto)->get();
 
-        // A logica da escolha do lote é a seguinte
-        // Um lote é dividido igualmente para todos os postos
-        // Então doses/num_postos é o maximo que uma pessoa pode ser alocada para o lote naquele posto
-        // Obviamente isso é falho, como quando se adicionar um posto após as vacinas terem começado
-        // TODO: melhorar alocação dos lotes
-
-        $lotes = Lote::all();
-        $num_postos = PostoVacinacao::count();
         $id_lote = 0;
 
-        foreach($lotes as $lote) {
-            if(Candidato::where("lote_id", $lote->id)->count() < ($lote->qtdVacina/ $num_postos)) {
+        // Pra cada lote que esteje no posto
+        foreach($lotes_disponiveis as $lote) {
+
+            // Se a quantidade de candidatos à tomar a vicina daquele lote, naquele posto, que não foram reprovados
+            // for menor que a quantidade de vacinas daquele lote que foram pra aquele posto, então o candidato vai tomar
+            // daquele lote
+            if(Candidato::where("lote_id", $lote->id)
+               ->where("posto_vacinacao_ìd", $id_posto)
+               ->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])
+               ->count() < $lote->qtdVacina) {
                 $id_lote = $lote->id;
                 break;
             }
         }
 
-         if($id_lote == 0) {
+        if($id_lote == 0) { // Se é 0 é porque não tem vacinas...
             return redirect()->back()->withErrors([
                 "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto..."
             ])->withInput();
