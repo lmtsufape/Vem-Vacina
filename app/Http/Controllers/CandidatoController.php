@@ -56,8 +56,6 @@ class CandidatoController extends Controller
             "número_cartão_sus"     => "required",
             "sexo"                  => "required",
             "nome_da_mãe"           => "required",
-            "foto_frente_rg"        => "required|mimes:jpeg,jpg,jpe,png,bmp",
-            "foto_tras_rg"          => "required|mimes:jpeg,jpg,jpe,png,bmp",
             "telefone"              => "required",
             "whatsapp"              => "nullable",
             "email"                 => "nullable",
@@ -178,8 +176,6 @@ class CandidatoController extends Controller
             $candidato->unidade_caso_agente_de_saude = "Não informado";
         }
 
-        $candidato->foto_frente_rg = $request->file('foto_frente_rg')->store("public");
-        $candidato->foto_tras_rg = $request->file('foto_tras_rg')->store("public");
         $candidato->save();
 
         return redirect()->back()->with('status', 'Cadastrado com sucesso');
@@ -231,26 +227,6 @@ class CandidatoController extends Controller
         }
 
         return redirect()->back()->with(['mensagem' => 'Confirmação salva.']);
-    }
-
-    public function dowloadFrenteRg($id) {
-        $candidato = Candidato::find($id);
-
-        if (Storage::disk()->exists($candidato->foto_frente_rg)) {
-            return Storage::download($candidato->foto_frente_rg, $candidato->nome_completo . " - frente rg." . explode('.', $candidato->foto_frente_rg)[1]);
-        }
-
-        return abort(404);
-    }
-    
-    public function dowloadVersoRg($id) {
-        $candidato = Candidato::find($id);
-
-        if (Storage::disk()->exists($candidato->foto_tras_rg)) {
-            return Storage::download($candidato->foto_tras_rg, $candidato->nome_completo . " - verso rg." . explode('.', $candidato->foto_tras_rg)[1]);
-        }
-
-        return abort(404);
     }
 
     public function consultar(Request $request) {

@@ -24,8 +24,6 @@ class CreateCandidatosTable extends Migration
             $table->string("numero_cartao_sus");
             $table->enum('sexo', Candidato::SEXO_ENUM);
             $table->string("nome_da_mae");
-            $table->string("foto_frente_rg");
-            $table->string("foto_tras_rg");
             $table->boolean("paciente_acamado")->nullable(true);
             $table->boolean("paciente_agente_de_saude")->nullable(true);
             $table->string("unidade_caso_agente_de_saude")->nullable(true); //Nome da unidade de o agente de saude trabalha

@@ -28,8 +28,6 @@ class CondidatoExport implements FromCollection, ShouldAutoSize,WithHeadings
             'numero_cartao_sus',
             'sexo',
             'nome_da_mae',
-            'foto_frente_rg',
-            'foto_tras_rg',
             'paciente_acamado',
             'unidade_caso_agente_de_saude',
             'telefone',

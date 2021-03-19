@@ -92,6 +92,14 @@
                                                         <input id="cpf_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->cpf}}">
                                                     </div>
                                                 </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                       <a target="_blank" href="https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp?CPF={{$candidato->cpf}}&NASCIMENTO={{$candidato->data_de_nascimento_dmY()}}">Validar data de nascimento e CPF</a>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <label for="n_cartao_sus_{{$candidato->id}}">Número do cartão do SUS</label>
@@ -216,24 +224,6 @@
                                                     </div>
                                                 </div>
                                                 <br>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <h4>RG</h4>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        @if($i == 10) 
-                                                        {{dd($candidato->foto_frente_rg)}}
-                                                        @endif
-                                                        <a href="{{route('download.frente', ['id' => $candidato->id])}}">Baixar frente do RG</a>
-                                                        <img src="{{asset("storage/".explode('/', $candidato->foto_frente_rg)[1])}}" alt="frente_rg" style="border-radius: 10px;">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <a href="{{route('download.verso', ['id' => $candidato->id])}}">Baixar verso do RG</a>
-                                                        <img src="{{asset("storage/".explode('/', $candidato->foto_tras_rg)[1])}}" alt="verso_rg" style="border-radius: 10px;">
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -32,8 +33,6 @@ class Candidato extends Model
         "complemento_endereco",
         "chegada",
         "saida",
-        "foto_frente_rg",
-        "foto_tras_rg",
         "lote_id",
         "posto_vacinacao_ìd",
         "etapa_id",
@@ -60,6 +59,11 @@ class Candidato extends Model
 
     public function lote() {
         return $this->belongsTo(Lote::class, 'lote_id');
+    }
+
+
+    public function data_de_nascimento_dmY() {
+        return (new Carbon($this->data_de_nascimento))->format("d/m/Y");
     }
 
 }

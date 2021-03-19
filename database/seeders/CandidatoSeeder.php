@@ -27,8 +27,6 @@ class CandidatoSeeder extends Seeder
                 'numero_cartao_sus' => '12345678',
                 'sexo' => "Masculino",
                 'nome_da_mae' => 'NomeDaMae'.$i,
-                'foto_frente_rg' => 'teste_frente.jpeg',
-                'foto_tras_rg' => 'teste_tras.jpeg',
                 'paciente_acamado' => true,
                 'paciente_agente_de_saude' => false,
                 'unidade_caso_agente_de_saude' => '',
