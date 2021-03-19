@@ -48,6 +48,12 @@ class Candidato extends Model
         return $this->belongsTo(Etapa::class, 'etapa_id');
     }
 
+    public function getWhatsapp()
+    {
+        $array =  array("(", ")", "-", " ");
+        return str_replace($array, "", $this->whatsapp);
+    }
+
     public function posto() {
         return $this->belongsTo(PostoVacinacao::class, 'posto_vacinacao_ìd');
     }

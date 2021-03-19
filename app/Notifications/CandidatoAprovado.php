@@ -61,10 +61,4 @@ class CandidatoAprovado extends Notification
         ];
     }
 
-    public function toNexmo($notifiable)
-    {
-        return (new NexmoMessage)
-                    ->content('Your SMS message content')
-                    ->from('+5587981216574');
-    }
 }
