@@ -70,14 +70,20 @@ class EtapaController extends Controller
             $this->definirEtapa($requestAxu);
         } 
 
-        // LEMBRAR DE COLOCAR A CHECAGEM ['aprovacao', 'like', Candidato::APROVACAO_ENUM[3]]
+        // LEMBRAR DE COLOCAR A CHECAGEM ]
         // Continuar implementação apois mudança de qual dose a pessoa vai tomar
-        $candidatos = Candidato::where([['idade', '>=', $etapa->inicio_intervalo], ['idade', '<=', $etapa->fim_intervalo]])->get();
+        $candidatos = Candidato::where([['idade', '>=', $etapa->inicio_intervalo], ['idade', '<=', $etapa->fim_intervalo], ['aprovacao', Candidato::APROVACAO_ENUM[3]]])->get();
         if ($candidatos != null && count($candidatos) > 0) {
             foreach ($candidatos as $candidato) {
-                $candidato->etapa_id = $etapa->id;
-                $candidato->update();
+                if ($candidato->etapa_id == null) {
+                    if ($candidato->dose == Candidato::DOSE_ENUM[0]) {
+                        $etapa->total_pessoas_vacinadas_pri_dose += 1;
+                    } else if ($candidato->dose == Candidato::DOSE_ENUM[1]) {
+                        $etapa->total_pessoas_vacinadas_seg_dose += 1;
+                    }
+                }
             }
+            $etapa->update();
         }
 
         return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa adicionada com sucesso!']);

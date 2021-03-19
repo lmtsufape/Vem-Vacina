@@ -17,7 +17,7 @@
                                         <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
                                             <img src="{{asset('/img/logo_programa_1.png')}}" alt="Orientação" width="300px"> 
                                         </div>
-                                        <div class="col-md-12 style_card_apresentacao_subtitulo">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</div>
+                                        <div class="col-md-12 style_card_apresentacao_subtitulo">A campanha de vacinação contra a Covid-19 segue atualmente em Garanhuns, para idosos acima de 75 anos e trabalhadores da saúde.</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -33,8 +33,10 @@
                                 <div class="col-md-6" style="margin-bottom: 32px;">
                                     <div class="row">
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
-                                        <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI.</div>
+                                        <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.</div>
                                         <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white;">QUERO SOLICITAR MINHA VACINA</a>
+                                        <a href="#" class="btn btn-primary style_card_apresentacao_botao" style="color:white;" data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR AGENDAMENTO</a>
+                                        {{-- <div class="col-md-12"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;"><a href="#"  style="color: #000000;">Consultar agendamento.</a></div> --}}
                                     </div>
                                  </div>
                             </div>
@@ -153,10 +155,7 @@
                             </div>
                         </div>
                     </div>
-
-                    
-
-
+                    <div class="col-md-9"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;margin-bottom: 2rem;"><a href="http://lmts.uag.ufrpe.br/" style="color: #909090;">Programa de vacinação criado pelo Laboratório Multidisciplinar de Tecnologias Sociais - LMTS com o apoio da Universidade Federal do Agreste de Pernambuco - UFAPE.</a></div>
                 </div>
             </div>
 
@@ -189,4 +188,68 @@
         </div>
         <!--x rodapé x-->
     </body>
+    <!-- Modal checar agendamento -->
+    <div class="modal fade" id="modalChecarAgendamento" tabindex="-1" aria-labelledby="modalChecarAgendamentoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="modalChecarAgendamentoLabel"><div class="col-md-12 style_titulo_campo">Consultar agendamento</div></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form id="consultar_agendamento" action="{{route('agendamento.consultar')}}" method="POST">
+                    @csrf
+                    <div class="container">
+                        <input type="hidden" name="consulta" value="1">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
+                            
+                                @error('cpf')
+                                <div id="validationServer05Feedback" class="invalid-feedback">
+                                    <strong>{{$message}}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
+                                    <option selected disabled>-- Selecione a dose --</option>
+                                    <option value="{{$doses[0]}}">{{$doses[0]}}</option>
+                                    <option value="{{$doses[1]}}">{{$doses[1]}}</option>
+                                </select>
+                                
+                                @error('dose')
+                                <div id="validationServer05Feedback" class="invalid-feedback">
+                                    <strong>{{$message}}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success" style="width: 100%;" form="consultar_agendamento">Consultar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Fim modal checar agendamento -->
+    @if (old('consulta') != null) 
+        <script>
+            $(document).ready(function() {
+                $("#modalChecarAgendamento").modal('show');
+            });
+        </script>
+    @endif
 </x-guest-layout>

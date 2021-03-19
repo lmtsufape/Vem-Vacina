@@ -190,6 +190,34 @@
                                                 <br>
                                                 <div class="row">
                                                     <div class="col-md-12">
+                                                        <h4>Agendado para</h4>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="posto_{{$candidato->id}}">Ponto</label>
+                                                        <input id="posto_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{$candidato->posto->nome}}@endif">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="dose_{{$candidato->id}}">Dose</label>
+                                                        <input id="dose_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->dose}}">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="chegada_{{$candidato->id}}">Horário de chegada</label>
+                                                        <input id="chegada_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{$candidato->chegada}}@endif">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="saida_{{$candidato->id}}">Horário de saida</label>
+                                                        <input id="saida_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->saida}}">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-md-12">
                                                         <h4>RG</h4>
                                                     </div>
                                                 </div>
@@ -202,8 +230,13 @@
                                                         {{-- <img src="{{asset("storage/".explode('/', $candidato->foto_frente_rg)[1])}}" alt="frente_rg" style="border-radius: 10px;"> --}}
                                                     </div>
                                                     <div class="col-md-6">
+<<<<<<< HEAD
                                                         <a href="">Baixar verso do RG</a>
                                                         {{-- <img src="{{asset("storage/".explode('/', $candidato->foto_tras_rg)[1])}}" alt="verso_rg" style="border-radius: 10px;"> --}}
+=======
+                                                        <a href="{{route('download.verso', ['id' => $candidato->id])}}">Baixar verso do RG</a>
+                                                        <img src="{{asset("storage/".explode('/', $candidato->foto_tras_rg)[1])}}" alt="verso_rg" style="border-radius: 10px;">
+>>>>>>> upstream/main
                                                     </div>
                                                 </div>
                                             </div>

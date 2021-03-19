@@ -29,6 +29,7 @@ class WelcomeController extends Controller
         return view('welcome')->with(['etapa'                   => $etapaAtual,
                                       'quantPessoasCadastradas' => $quantPessoasCadastradas,
                                       'quantPessoasPriDose'     => $quantPessoasPriDose,
-                                      'quantPessoasSegDose'     => $quantPessoasSegDose]);
+                                      'quantPessoasSegDose'     => $quantPessoasSegDose,
+                                      'doses'                   => Candidato::DOSE_ENUM,]);
     }
 }
