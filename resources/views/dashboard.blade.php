@@ -48,7 +48,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($candidatos as $candidato)
+                            @foreach ($candidatos as $i => $candidato)
                             <tr>
                                 <td>
                                     <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
@@ -195,12 +195,15 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <a href="">Baixar frente do RG</a>
-                                                        <img src="{{asset($candidato->foto_frente_rg)}}" alt="frente_rg" style="border-radius: 10px;">
+                                                        @if($i == 10) 
+                                                        {{dd($candidato->foto_frente_rg)}}
+                                                        @endif
+                                                        <a href="{{route('download.frente', ['id' => $candidato->id])}}">Baixar frente do RG</a>
+                                                        <img src="{{asset("storage/".explode('/', $candidato->foto_frente_rg)[1])}}" alt="frente_rg" style="border-radius: 10px;">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <a href="">Baixar verso do RG</a>
-                                                        <img src="{{asset($candidato->foto_tras_rg)}}" alt="verso_rg" style="border-radius: 10px;">
+                                                        <img src="{{asset("storage/".explode('/', $candidato->foto_tras_rg)[1])}}" alt="verso_rg" style="border-radius: 10px;">
                                                     </div>
                                                 </div>
                                             </div>

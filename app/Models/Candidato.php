@@ -12,6 +12,7 @@ class Candidato extends Model
 
     public const SEXO_ENUM = ["Masculino", "Feminino"];
     public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
+    public const DOSE_ENUM = ["1ª Dose", '2ª Dose', "Dose única"];
 
     protected $fillable = [
         "nome_completo",
@@ -29,10 +30,18 @@ class Candidato extends Model
         "logradouro",
         "numero_residencia",
         "complemento_endereco",
-        "hora_chegada",
-        "hora_saida",
+        "chegada",
+        "saida",
+        "foto_frente_rg",
+        "foto_tras_rg",
         "lote_id",
         "posto_vacinacao_ìd",
+        "etapa_id",
+        "dose"
+    ];
+
+    protected $casts = [
+        'chegada' => 'datetime',
     ];
 
     public function etapa() {
@@ -43,6 +52,14 @@ class Candidato extends Model
     {
         $array =  array("(", ")", "-", " ");
         return str_replace($array, "", $this->whatsapp);
+    }
+
+    public function posto() {
+        return $this->belongsTo(PostoVacinacao::class, 'posto_vacinacao_ìd');
+    }
+
+    public function lote() {
+        return $this->belongsTo(Lote::class, 'lote_id');
     }
 
 }

@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 style_titulo_campo">Solicitar a vacinação</div>
+                        <div class="col-md-12 style_titulo_campo">Solicitar vacinação</div>
                         <div class="col-md-12"><hr class="style_linha_campo"></div>
                         <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px;">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. </div>
                         <div class="col-md-12 style_titulo_campo" style="margin-bottom: 10px;">Informações pessoais</div>
@@ -145,7 +145,7 @@
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input @error('paciente_acamado') is-invalid @enderror" type="checkbox" id="defaultCheck1" name="paciente_acamado" @if(old('paciente_acamado')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck1">PACIENTE É ACAMADO </label>
+                                    <label class="form-check-label style_titulo_input" for="defaultCheck1">PACIENTE ESTÁ ACAMADO </label>
                                     
                                     @error('paciente_acamado')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
@@ -308,6 +308,20 @@
                                         </div>
                                         @enderror
                                     </div> 
+                                    <div class="form-group col-md-6">
+                                        <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
+                                            <option selected disabled>-- Selecione a dose --</option>
+                                            <option value="{{$doses[0]}}">{{$doses[0]}}</option>
+                                            <option value="{{$doses[1]}}">{{$doses[1]}}</option>
+                                        </select>
+                                        
+                                        @error('dose')
+                                        <div id="validationServer05Feedback" class="invalid-feedback">
+                                            <strong>{{$message}}</strong>
+                                        </div>
+                                        @enderror
+                                    </div>
                                 </div>
 
                                 <div id="seletor_horario"></div>
@@ -442,15 +456,19 @@
      }
 
      function funcaoVinculoComAEquipeDeSaudade(){
-         if(document.getElementById("id_div_nomeDaUnidade").style.display == "none"){
-             document.getElementById("id_div_nomeDaUnidade").style.display = "block";
-             document.getElementById("inputNomeUnidade").value = "";
-             
-         }else{
-             document.getElementById("id_div_nomeDaUnidade").style.display = "none";
-             document.getElementById("inputNomeUnidade").value = "";
-             document.getElementById("inputNomeUnidade").placeholder = "Digite o nome da sua unidade (caso tenha vínculo)";
-         }
+        if(document.getElementById("id_div_nomeDaUnidade").style.display == "none"){
+            document.getElementById("id_div_nomeDaUnidade").style.display = "block";
+            document.getElementById("inputNomeUnidade").value = "";
+            $('#posto_vacinacao').val( $('option:contains(" Drive thru ")').val() );
+            $('#posto_vacinacao').attr('disabled', true);
+            selecionar_posto(document.getElementById('posto_vacinacao'));
+        }else{
+            document.getElementById("id_div_nomeDaUnidade").style.display = "none";
+            document.getElementById("inputNomeUnidade").value = "";
+            document.getElementById("inputNomeUnidade").placeholder = "Digite o nome da sua unidade (caso tenha vínculo)";
+            $('#posto_vacinacao').val( $('option:contains("-- Selecione o posto --")').val() );
+            $('#posto_vacinacao').attr('disabled', false);
+        }
      }
 
      

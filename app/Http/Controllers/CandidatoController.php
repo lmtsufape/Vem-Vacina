@@ -7,9 +7,11 @@ use App\Models\Candidato;
 use App\Models\Lote;
 use App\Models\PostoVacinacao;
 use App\Models\Etapa;
+use Illuminate\Support\Facades\DB;
 use App\Notifications\CandidatoAprovado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
 
 class CandidatoController extends Controller
@@ -37,8 +39,12 @@ class CandidatoController extends Controller
 
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
-            "postos" => $postos_com_vacina
+            "postos" => $postos_com_vacina,
+            "doses" => Candidato::DOSE_ENUM,
         ]);
+    }
+    public function ver($id) {
+        return view("ver_agendamento", ["agendamento" => Candidato::find($id)]);
     }
 
     public function enviar_solicitacao(Request $request) {
@@ -64,7 +70,7 @@ class CandidatoController extends Controller
             "posto_vacinacao"       => "required",
             "dia_vacinacao"         => "required",
             "horario_vacinacao"     => "required",
-
+            "dose"                  => "required",
         ]);
 
         $dados = $request->all();
@@ -86,6 +92,7 @@ class CandidatoController extends Controller
         $candidato->numero_residencia       = $request->input("número_residencial");
         $candidato->complemento_endereco    = $request->complemento_endereco;
         $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
+        $candidato->dose                    = $request->dose;
 
         // Relacionar o candidato com uma etapa (se existir)
         $idade              = $this->idade($request->data_de_nascimento);
@@ -95,12 +102,21 @@ class CandidatoController extends Controller
             $candidato->etapa_id = $etapa->id;
         }
 
+        //TODO: mover pro service provider
         if(!$this->validar_cpf($request->cpf)) {
              return redirect()->back()->withErrors([
                 "cpf" => "Número de CPF inválido"
             ])->withInput();
 
         }
+
+        if(!$this->validar_telefone($request->telefone)) {
+             return redirect()->back()->withErrors([
+                "telefone" => "Número de telefone inválido"
+            ])->withInput();
+        }
+        
+        
 
         $dia_vacinacao = $request->dia_vacinacao;
         $horario_vacinacao = $request->horario_vacinacao;
@@ -116,25 +132,27 @@ class CandidatoController extends Controller
             ])->withInput();
         }
 
+        // Pega a lista de todos os lotes que foram pra tal posto
+        $lotes_disponiveis = DB::table("lote_posto_vacinacao")->where("posto_vacinacao_id", $id_posto)->get();
 
-        // A logica da escolha do lote é a seguinte
-        // Um lote é dividido igualmente para todos os postos
-        // Então doses/num_postos é o maximo que uma pessoa pode ser alocada para o lote naquele posto
-        // Obviamente isso é falho, como quando se adicionar um posto após as vacinas terem começado
-        // TODO: melhorar alocação dos lotes
-
-        $lotes = Lote::all();
-        $num_postos = PostoVacinacao::count();
         $id_lote = 0;
 
-        foreach($lotes as $lote) {
-            if(Candidato::where("lote_id", $lote->id)->count() < ($lote->qtdVacina/ $num_postos)) {
+        // Pra cada lote que esteje no posto
+        foreach($lotes_disponiveis as $lote) {
+
+            // Se a quantidade de candidatos à tomar a vicina daquele lote, naquele posto, que não foram reprovados
+            // for menor que a quantidade de vacinas daquele lote que foram pra aquele posto, então o candidato vai tomar
+            // daquele lote
+            if(Candidato::where("lote_id", $lote->id)
+               ->where("posto_vacinacao_ìd", $id_posto)
+               ->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])
+               ->count() < $lote->qtdVacina) {
                 $id_lote = $lote->id;
                 break;
             }
         }
 
-         if($id_lote == 0) {
+        if($id_lote == 0) { // Se é 0 é porque não tem vacinas...
             return redirect()->back()->withErrors([
                 "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto..."
             ])->withInput();
@@ -207,5 +225,23 @@ class CandidatoController extends Controller
         return redirect()->back()->with(['mensagem' => 'Confirmação salva.']);
     }
 
+    public function dowloadFrenteRg($id) {
+        $candidato = Candidato::find($id);
 
+        if (Storage::disk()->exists($candidato->foto_frente_rg)) {
+            return Storage::download($candidato->foto_frente_rg, $candidato->nome_completo . " - frente rg." . explode('.', $candidato->foto_frente_rg)[1]);
+        }
+
+        return abort(404);
+    }
+    
+    public function dowloadVersoRg($id) {
+        $candidato = Candidato::find($id);
+
+        if (Storage::disk()->exists($candidato->foto_tras_rg)) {
+            return Storage::download($candidato->foto_tras_rg, $candidato->nome_completo . " - verso rg." . explode('.', $candidato->foto_tras_rg)[1]);
+        }
+
+        return abort(404);
+    }
 }
