@@ -39,6 +39,7 @@ class CreateCandidatosTable extends Migration
             $table->string("numero_residencia");
             $table->string("complemento_endereco")->nullable(true);
             $table->enum("aprovacao", Candidato::APROVACAO_ENUM)->default(Candidato::APROVACAO_ENUM[0]);
+            $table->enum("dose", Candidato::DOSE_ENUM)->default(Candidato::DOSE_ENUM[0])->nullable(true);
             $table->datetime("chegada")->nullable(true);
             $table->datetime("saida")->nullable(true);
 

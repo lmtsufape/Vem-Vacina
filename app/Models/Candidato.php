@@ -12,6 +12,7 @@ class Candidato extends Model
 
     public const SEXO_ENUM = ["Masculino", "Feminino"];
     public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
+    public const DOSE_ENUM = ["1ª Dose", '2ª Dose', "Dose única"];
 
     protected $fillable = [
         "nome_completo",
@@ -35,7 +36,8 @@ class Candidato extends Model
         "foto_tras_rg",
         "lote_id",
         "posto_vacinacao_ìd",
-        "etapa_id"
+        "etapa_id",
+        "dose"
     ];
 
     protected $casts = [

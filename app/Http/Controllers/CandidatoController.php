@@ -39,7 +39,8 @@ class CandidatoController extends Controller
 
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
-            "postos" => $postos_com_vacina
+            "postos" => $postos_com_vacina,
+            "doses" => Candidato::DOSE_ENUM,
         ]);
     }
     public function ver($id) {
@@ -69,7 +70,7 @@ class CandidatoController extends Controller
             "posto_vacinacao"       => "required",
             "dia_vacinacao"         => "required",
             "horario_vacinacao"     => "required",
-
+            "dose"                  => "required",
         ]);
 
         $dados = $request->all();
@@ -91,6 +92,7 @@ class CandidatoController extends Controller
         $candidato->numero_residencia       = $request->input("número_residencial");
         $candidato->complemento_endereco    = $request->complemento_endereco;
         $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
+        $candidato->dose                    = $request->dose;
 
         // Relacionar o candidato com uma etapa (se existir)
         $idade              = $this->idade($request->data_de_nascimento);
