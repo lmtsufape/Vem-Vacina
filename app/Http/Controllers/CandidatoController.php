@@ -9,6 +9,7 @@ use App\Models\PostoVacinacao;
 use App\Models\Etapa;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\CandidatoAprovado;
+use App\Notifications\CandidatoInscrito;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
@@ -115,8 +116,8 @@ class CandidatoController extends Controller
                 "telefone" => "Número de telefone inválido"
             ])->withInput();
         }
-        
-        
+
+
 
         $dia_vacinacao = $request->dia_vacinacao;
         $horario_vacinacao = $request->horario_vacinacao;
@@ -124,7 +125,7 @@ class CandidatoController extends Controller
         $datetime_chegada = Carbon::createFromFormat("d/m/Y H:i" , $dia_vacinacao . " " . $horario_vacinacao);
         $datetime_saida = $datetime_chegada->copy()->addMinutes(10);
 
-        $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime_chegada)->where("posto_vacinacao_ìd", $id_posto)->get();
+        $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime_chegada)->where("posto_vacinacao_id", $id_posto)->get();
 
         if($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
             return redirect()->back()->withErrors([
@@ -144,7 +145,7 @@ class CandidatoController extends Controller
             // for menor que a quantidade de vacinas daquele lote que foram pra aquele posto, então o candidato vai tomar
             // daquele lote
             if(Candidato::where("lote_id", $lote->id)
-               ->where("posto_vacinacao_ìd", $id_posto)
+               ->where("posto_vacinacao_id", $id_posto)
                ->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])
                ->count() < $lote->qtdVacina) {
                 $id_lote = $lote->id;
@@ -162,7 +163,7 @@ class CandidatoController extends Controller
         $candidato->chegada                 = $datetime_chegada;
         $candidato->saida                   = $datetime_saida;
         $candidato->lote_id                 = $id_lote;
-        $candidato->posto_vacinacao_ìd      = $id_posto;
+        $candidato->posto_vacinacao_id      = $id_posto;
 
         $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
 
@@ -177,6 +178,10 @@ class CandidatoController extends Controller
         $candidato->foto_frente_rg = $request->file('foto_frente_rg')->store("public");
         $candidato->foto_tras_rg = $request->file('foto_tras_rg')->store("public");
         $candidato->save();
+
+        if($candidato->email != null){
+            Notification::send($candidato, new CandidatoInscrito($candidato));
+        }
 
         return redirect()->back()->with('status', 'Cadastrado com sucesso');
 
@@ -234,7 +239,7 @@ class CandidatoController extends Controller
 
         return abort(404);
     }
-    
+
     public function dowloadVersoRg($id) {
         $candidato = Candidato::find($id);
 

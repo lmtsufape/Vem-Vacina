@@ -4,11 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Candidato;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
-class CandidatoAprovado extends Notification
+class CandidatoInscrito extends Notification
 {
     use Queueable;
 
@@ -43,7 +43,7 @@ class CandidatoAprovado extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia XX/XX/XXXX às xx h. Aguardamos você!')
+                    ->line('Seu cadastro foi realizado, aguarde o recebimento da mensagem com o dia, horário e local que será vacinado.')
                     ->action('Acessar site', url('/'))
                     ->line('Obrigador por utilizar nosso site!');
     }
@@ -57,8 +57,7 @@ class CandidatoAprovado extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Condidato de ID:'. $this->candidato->id. ' Aprovado'
+            'message' => 'Condidato de ID:'. $this->candidato->id. ' registrado'
         ];
     }
-
 }

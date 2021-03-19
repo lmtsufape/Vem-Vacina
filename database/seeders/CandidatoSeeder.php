@@ -34,7 +34,7 @@ class CandidatoSeeder extends Seeder
                 'unidade_caso_agente_de_saude' => '',
                 'telefone' => '(87) 99999-9999',
                 'whatsapp' => '(87) 99999-9999',
-                'email' => 'teste'.$i.'@teste',
+                'email' => 'gabriel.antonio.dev@gmail.com',
                 'cep' => 55123000,
                 'cidade' => 'cidade'.$i,
                 'bairro' => 'bairro'.$i,
@@ -44,9 +44,9 @@ class CandidatoSeeder extends Seeder
                 'chegada' => $chegada,
                 'saida' => $saida,
                 'lote_id' => null,
-                'posto_vacinacao_ìd' => 1,
+                'posto_vacinacao_id' => 1,
                 'lote_id' => 1,
-                'posto_vacinacao_ìd' => 1
+
             ]);
 
             $chegada->addMinutes(10);

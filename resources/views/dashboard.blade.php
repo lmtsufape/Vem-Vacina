@@ -195,15 +195,15 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        @if($i == 10) 
+                                                        @if($i == 10)
                                                         {{dd($candidato->foto_frente_rg)}}
                                                         @endif
                                                         <a href="{{route('download.frente', ['id' => $candidato->id])}}">Baixar frente do RG</a>
-                                                        <img src="{{asset("storage/".explode('/', $candidato->foto_frente_rg)[1])}}" alt="frente_rg" style="border-radius: 10px;">
+                                                        {{-- <img src="{{asset("storage/".explode('/', $candidato->foto_frente_rg)[1])}}" alt="frente_rg" style="border-radius: 10px;"> --}}
                                                     </div>
                                                     <div class="col-md-6">
                                                         <a href="">Baixar verso do RG</a>
-                                                        <img src="{{asset("storage/".explode('/', $candidato->foto_tras_rg)[1])}}" alt="verso_rg" style="border-radius: 10px;">
+                                                        {{-- <img src="{{asset("storage/".explode('/', $candidato->foto_tras_rg)[1])}}" alt="verso_rg" style="border-radius: 10px;"> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -262,8 +262,14 @@
                                     <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif>Vacinado</button>
                                 </td>
                                 <td>
+                                    @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
+                                        <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi aprovado." class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                    @elseif($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[2])
+                                        <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi reprovado." class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                    @else
+                                        <a class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                    @endif
 
-                                    <a @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1]) href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi confimado." @else href="#" @endif class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                 </td>
                             </tr>
                             @endforeach
