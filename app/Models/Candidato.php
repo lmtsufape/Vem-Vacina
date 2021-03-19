@@ -35,7 +35,7 @@ class Candidato extends Model
         "foto_frente_rg",
         "foto_tras_rg",
         "lote_id",
-        "posto_vacinacao_ìd",
+        "posto_vacinacao_id",
         "etapa_id",
         "dose"
     ];

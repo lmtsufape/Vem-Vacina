@@ -41,7 +41,11 @@
                     @endphp
                     <tr>
                         <td>{{$posto->nome}}</td>
-                        <td>{{$posto->endereco}}</td>
+                        <td>
+                            <span class="d-inline-block text-truncate" tabindex="0" data-toggle="tooltip" title="{{$posto->endereco}}" style="max-width: 150px;">
+                                {{$posto->endereco}}
+                            </span>
+                        </td>
                         <td>{{ $posto->getVacinasDisponivel() ?? "Não há vacinas disponíveis" }}</td>
                         <td>
                             <div class="row">
