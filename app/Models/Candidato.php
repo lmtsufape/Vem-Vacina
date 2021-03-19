@@ -34,7 +34,7 @@ class Candidato extends Model
         "chegada",
         "saida",
         "lote_id",
-        "posto_vacinacao_ìd",
+        "posto_vacinacao_id",
         "etapa_id",
         "dose"
     ];
@@ -54,7 +54,7 @@ class Candidato extends Model
     }
 
     public function posto() {
-        return $this->belongsTo(PostoVacinacao::class, 'posto_vacinacao_ìd');
+        return $this->belongsTo(PostoVacinacao::class, 'posto_vacinacao_id');
     }
 
     public function lote() {
