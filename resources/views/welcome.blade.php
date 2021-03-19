@@ -17,7 +17,7 @@
                                         <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
                                             <img src="{{asset('/img/logo_programa_1.png')}}" alt="Orientação" width="300px"> 
                                         </div>
-                                        <div class="col-md-12 style_card_apresentacao_subtitulo">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</div>
+                                        <div class="col-md-12 style_card_apresentacao_subtitulo">A campanha de vacinação contra a Covid-19 segue atualmente em Garanhuns, para idosos acima de 75 anos e trabalhadores da saúde.</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -33,7 +33,7 @@
                                 <div class="col-md-6" style="margin-bottom: 32px;">
                                     <div class="row">
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
-                                        <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI.</div>
+                                        <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.</div>
                                         <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white;">QUERO SOLICITAR MINHA VACINA</a>
                                         <a href="#" class="btn btn-primary style_card_apresentacao_botao" style="color:white;" data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR AGENDAMENTO</a>
                                         {{-- <div class="col-md-12"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;"><a href="#"  style="color: #000000;">Consultar agendamento.</a></div> --}}

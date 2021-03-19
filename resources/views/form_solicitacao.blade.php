@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-md-12 style_titulo_campo">Solicitar vacinação</div>
                         <div class="col-md-12"><hr class="style_linha_campo"></div>
-                        <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px;">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. </div>
+                        <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">Por meio desta ferramenta será efetuado o cadastro e agendamento da vacinação para o público-alvo. Idosos acamados ou com dificuldade de locomoção devem realizar esta indicação no ato de cadastro e aguardar a ligação da Secretaria de Saúde, para aplicação da vacina em domicílio. </div>
                         <div class="col-md-12 style_titulo_campo" style="margin-bottom: 10px;">Informações pessoais</div>
                         <div class="col-md-12">
                             <form method="POST" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe se o idoso é acamado ou possui dificuldade de locomoção.</div>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input @error('paciente_acamado') is-invalid @enderror" type="checkbox" id="defaultCheck1" name="paciente_acamado" @if(old('paciente_acamado')) checked @endif>
@@ -176,7 +176,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Contato</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe o telefone, whatsapp ou e-mail para contato que confirmaremos o agendamento da data e horário de aplicação da vacina.</div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
@@ -208,7 +208,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Endereço</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe seu endereço, rua, número, se casa ou apartamento, CEP e bairro.</div>
                                 </div>
 
                                 
