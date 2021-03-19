@@ -9,13 +9,13 @@ use App\Models\Candidato;
 class WelcomeController extends Controller
 {
     public function index() {
-        $etapa = null;
+        $etapaAtual = null;
         $quantPessoasCadastradas = 0;
         $quantPessoasPriDose = 0;
         $quantPessoasSegDose = 0;
 
-        $etapa = Etapa::where('atual', true)->first();
-
+        $etapaAtual = Etapa::where('atual', true)->first();
+        
         $etapas = Etapa::all();
         if ($etapas != null) {
             foreach ($etapas as $etapa) {
@@ -26,7 +26,7 @@ class WelcomeController extends Controller
 
         $quantPessoasCadastradas = count(Candidato::all());
 
-        return view('welcome')->with(['etapa'                   => $etapa,
+        return view('welcome')->with(['etapa'                   => $etapaAtual,
                                       'quantPessoasCadastradas' => $quantPessoasCadastradas,
                                       'quantPessoasPriDose'     => $quantPessoasPriDose,
                                       'quantPessoasSegDose'     => $quantPessoasSegDose]);
