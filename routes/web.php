@@ -5,6 +5,7 @@ use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PostoVacinacaoController;
 use App\Http\Controllers\EtapaController;
+use App\Http\Controllers\ExportController;
 use App\Http\Livewire\StoreLote;
 
 /*
@@ -40,7 +41,7 @@ Route::get("/cep/{cep}", function($cep) {
 
 Route::resource('/postos', PostoVacinacaoController::class);
 Route::resource('/lotes', LoteController::class);
-Route::post('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
+Route::get('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
 Route::post('/lotes/calcular', [ LoteController::class, 'calcular'])->name('lotes.calcular');
 
 Route::post('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
@@ -50,5 +51,9 @@ Route::post('/etapas/salvar', [EtapaController::class, 'store'])->name('etapas.s
 Route::post('/etapas/{id}/excluir', [EtapaController::class, 'destroy'])->name('etapas.destroy');
 Route::post('/etapas/{id}/atualizar', [EtapaController::class, 'update'])->name('etapas.update');
 
+Route::get('exportar/candidato/', [ExportController::class, 'exportCandidato'])->name('export.candidato');
+Route::get('exportar/lote', [ExportController::class, 'exportLote'])->name('export.lote');
+Route::get('exportar/postos', [ExportController::class, 'exportPosto'])->name('export.posto');
+Route::get('exportar/index', [ExportController::class, 'index'])->name('export.index');
 
 require __DIR__.'/auth.php';
