@@ -68,7 +68,7 @@ class CandidatoController extends Controller
         ]);
 
         $dados = $request->all();
-        
+
         $candidato = new Candidato;
         $candidato->nome_completo           = $request->nome_completo;
         $candidato->data_de_nascimento      = $request->data_de_nascimento;
@@ -95,12 +95,19 @@ class CandidatoController extends Controller
             $candidato->etapa_id = $etapa->id;
         }
 
+        //TODO: mover pro service provider
         if(!$this->validar_cpf($request->cpf)) {
              return redirect()->back()->withErrors([
                 "cpf" => "Número de CPF inválido"
             ])->withInput();
-           
         }
+
+        if(!$this->validar_telefone($request->telefone)) {
+             return redirect()->back()->withErrors([
+                "telefone" => "Número de telefone inválido"
+            ])->withInput();
+        }
+        
         
         $dia_vacinacao = $request->dia_vacinacao;
         $horario_vacinacao = $request->horario_vacinacao;
