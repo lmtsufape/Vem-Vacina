@@ -11,6 +11,7 @@ use App\Notifications\CandidatoAprovado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 
+
 class CandidatoController extends Controller
 {
     public function show(Request $request) {
@@ -205,4 +206,6 @@ class CandidatoController extends Controller
 
         return redirect()->back()->with(['mensagem' => 'Confirmação salva.']);
     }
+
+
 }
