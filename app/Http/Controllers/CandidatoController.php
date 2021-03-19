@@ -218,7 +218,11 @@ class CandidatoController extends Controller
 
         $etapa = $candidato->etapa;
         if ($etapa != null) {
-            $etapa->total_pessoas_vacinadas_pri_dose += 1;
+            if ($candidato->dose == Candidato::DOSE_ENUM[0]) {
+                $etapa->total_pessoas_vacinadas_pri_dose += 1;
+            } else if ($candidato->dose == Candidato::DOSE_ENUM[1]) {
+                $etapa->total_pessoas_vacinadas_seg_dose += 1;
+            }
             $etapa->update();
         }
 
