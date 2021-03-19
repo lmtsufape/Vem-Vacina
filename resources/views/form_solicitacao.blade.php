@@ -442,15 +442,19 @@
      }
 
      function funcaoVinculoComAEquipeDeSaudade(){
-         if(document.getElementById("id_div_nomeDaUnidade").style.display == "none"){
-             document.getElementById("id_div_nomeDaUnidade").style.display = "block";
-             document.getElementById("inputNomeUnidade").value = "";
-             
-         }else{
-             document.getElementById("id_div_nomeDaUnidade").style.display = "none";
-             document.getElementById("inputNomeUnidade").value = "";
-             document.getElementById("inputNomeUnidade").placeholder = "Digite o nome da sua unidade (caso tenha vínculo)";
-         }
+        if(document.getElementById("id_div_nomeDaUnidade").style.display == "none"){
+            document.getElementById("id_div_nomeDaUnidade").style.display = "block";
+            document.getElementById("inputNomeUnidade").value = "";
+            $('#posto_vacinacao').val( $('option:contains(" Drive thru ")').val() );
+            $('#posto_vacinacao').attr('disabled', true);
+            selecionar_posto(document.getElementById('posto_vacinacao'));
+        }else{
+            document.getElementById("id_div_nomeDaUnidade").style.display = "none";
+            document.getElementById("inputNomeUnidade").value = "";
+            document.getElementById("inputNomeUnidade").placeholder = "Digite o nome da sua unidade (caso tenha vínculo)";
+            $('#posto_vacinacao').val( $('option:contains("-- Selecione o posto --")').val() );
+            $('#posto_vacinacao').attr('disabled', false);
+        }
      }
 
      
