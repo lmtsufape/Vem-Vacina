@@ -22,17 +22,10 @@ use App\Http\Livewire\StoreLote;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('index');
 
-Route::get('/dashboard',  [CandidatoController::class, 'show'])->middleware(['auth'])->name('dashboard');
-
 Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
-Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");
+// Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");
 Route::post("/consultar-agendamento", [CandidatoController::class, 'consultar'])->name("agendamento.consultar");
-Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento")->middleware(['auth']);
-Route::post("/agendamento/{id}/confirmar-vacinacao", [CandidatoController::class, 'vacinado'])->name('candidato.vacinado');
-
-Route::get("/dowload/{id}/frente-rg", [CandidatoController::class, 'dowloadFrenteRg'])->name('download.frente');
-Route::get("/dowload/{id}/verso-rg", [CandidatoController::class, 'dowloadVersoRg'])->name('download.verso');
 
 Route::get("/horarios/{id_posto}", [PostoVacinacaoController::class, 'horarios'] )->name("posto.horarios");
 
@@ -42,6 +35,12 @@ Route::get("/cep/{cep}", function($cep) {
     return response()->json($results);
 });
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard',  [CandidatoController::class, 'show'])->name('dashboard');
+    Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento");
+    Route::post("/agendamento/{id}/confirmar-vacinacao", [CandidatoController::class, 'vacinado'])->name('candidato.vacinado');
+
+    Route::get("/dowload/{id}/frente-rg", [CandidatoController::class, 'dowloadFrenteRg'])->name('download.frente');
+    Route::get("/dowload/{id}/verso-rg", [CandidatoController::class, 'dowloadVersoRg'])->name('download.verso');
 
     Route::resource('/postos', PostoVacinacaoController::class);
     Route::resource('/lotes', LoteController::class);
