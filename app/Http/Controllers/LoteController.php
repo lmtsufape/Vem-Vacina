@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreLoteRequest;
 use App\Models\Lote;
-use App\Models\PostoVacinacao;
 use Illuminate\Http\Request;
+use App\Models\PostoVacinacao;
+use App\Http\Requests\StoreLoteRequest;
+use App\Http\Requests\DistribuicaoRequest;
 
 class LoteController extends Controller
 {
@@ -110,7 +111,7 @@ class LoteController extends Controller
         return view('lotes.distribuicao', compact('lote', 'postos'));
     }
 
-    public function calcular(Request $request)
+    public function calcular(DistribuicaoRequest $request)
     {
         $lote_id = $request->lote;
         $lote = Lote::find($lote_id);

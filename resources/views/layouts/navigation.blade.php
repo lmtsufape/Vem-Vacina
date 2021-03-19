@@ -23,6 +23,9 @@
                     <x-nav-link :href="route('etapas.index')" :active="request()->routeIs('etapas.*')">
                         {{ __('Etapas') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('export.index')" :active="request()->routeIs('export.*')">
+                        {{ __('Exportar') }}
+                    </x-nav-link>
                 </div>
             </div>
 
