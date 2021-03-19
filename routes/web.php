@@ -30,6 +30,10 @@ Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitaca
 Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");
 Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento")->middleware(['auth']);
 Route::post("/agendamento/{id}/confirmar-vacinacao", [CandidatoController::class, 'vacinado'])->name('candidato.vacinado');
+
+Route::get("/dowload/{id}/frente-rg", [CandidatoController::class, 'dowloadFrenteRg'])->name('download.frente');
+Route::get("/dowload/{id}/verso-rg", [CandidatoController::class, 'dowloadVersoRg'])->name('download.verso');
+
 Route::get("/horarios/{id_posto}", [PostoVacinacaoController::class, 'horarios'] )->name("posto.horarios");
 
 Route::get("/cep/{cep}", function($cep) {

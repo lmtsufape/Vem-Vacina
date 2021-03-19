@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Notifications\CandidatoAprovado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 
 
 class CandidatoController extends Controller
@@ -222,5 +223,23 @@ class CandidatoController extends Controller
         return redirect()->back()->with(['mensagem' => 'Confirmação salva.']);
     }
 
+    public function dowloadFrenteRg($id) {
+        $candidato = Candidato::find($id);
 
+        if (Storage::disk()->exists($candidato->foto_frente_rg)) {
+            return Storage::download($candidato->foto_frente_rg, $candidato->nome_completo . " - frente rg." . explode('.', $candidato->foto_frente_rg)[1]);
+        }
+
+        return abort(404);
+    }
+    
+    public function dowloadVersoRg($id) {
+        $candidato = Candidato::find($id);
+
+        if (Storage::disk()->exists($candidato->foto_tras_rg)) {
+            return Storage::download($candidato->foto_tras_rg, $candidato->nome_completo . " - verso rg." . explode('.', $candidato->foto_tras_rg)[1]);
+        }
+
+        return abort(404);
+    }
 }

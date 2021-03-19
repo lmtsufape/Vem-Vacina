@@ -31,8 +31,11 @@ class Candidato extends Model
         "complemento_endereco",
         "chegada",
         "saida",
+        "foto_frente_rg",
+        "foto_tras_rg",
         "lote_id",
         "posto_vacinacao_ìd",
+        "etapa_id"
     ];
 
     protected $casts = [
