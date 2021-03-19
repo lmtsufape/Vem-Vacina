@@ -6,6 +6,7 @@ use App\Http\Controllers\LoteController;
 use App\Http\Controllers\PostoVacinacaoController;
 use App\Http\Controllers\EtapaController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Livewire\StoreLote;
 
 /*
@@ -19,9 +20,7 @@ use App\Http\Livewire\StoreLote;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('index');
+Route::get('/', [WelcomeController::class, 'index'])->name('index');
 
 Route::get('/dashboard',  [CandidatoController::class, 'show'])->middleware(['auth'])->name('dashboard');
 
