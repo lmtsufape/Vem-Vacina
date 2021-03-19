@@ -24,21 +24,33 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-12">
+                            @if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </div>
+                        {{-- @dd($errors->__get('default')->toArray()[]) --}}
                         @foreach ($postos as $key => $posto)
                             <div class="col-md-12">
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">{{  $posto->getVacinasDisponivel() ?? "0"}}</span>
+                                            <span class="input-group-text">{{  $posto->getVacinasDisponivel() ?? 0}}</span>
                                             <span class="input-group-text">+</span>
                                         </div>
 
-                                        <input type="number" class="form-control" name="posto[{{ $posto->id }}]" value="" >
+                                        <input type="number" class="form-control " name="posto[{{ $posto->id }}]" value="{{ 0 }}" >
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">{{  $posto->nome }}</span>
                                         </div>
                                     </div>
-                                  </div>
+                                </div>
                             </div>
                         @endforeach
                     </div>
@@ -46,9 +58,12 @@
 
 
                     <br>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-success">Salvar</button>
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-2">
+                            <a href="{{ route('lotes.index') }}" class="btn btn-danger btn-lg">Voltar</a>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-success btn-lg">Salvar</button>
                         </div>
                     </div>
                 </form>

@@ -40,7 +40,7 @@ Route::get("/cep/{cep}", function($cep) {
 
 Route::resource('/postos', PostoVacinacaoController::class);
 Route::resource('/lotes', LoteController::class);
-Route::post('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
+Route::get('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
 Route::post('/lotes/calcular', [ LoteController::class, 'calcular'])->name('lotes.calcular');
 
 Route::post('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');

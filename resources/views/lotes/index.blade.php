@@ -69,8 +69,8 @@
                                       </form>
                                   </div>
                                   <div class="col-md-3 ">
-                                    <form action="{{ route('lotes.distribuir', ['lote' => $lote->id]) }}" method="post">
-                                        @csrf
+                                    <form action="{{ route('lotes.distribuir', ['lote' => $lote->id]) }}" method="get">
+
                                         <button type="submit" @if($lote->numero_vacinas == 0) disabled @endif class="disabled:opacity-50 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                                             Distribuir
                                         </button>
