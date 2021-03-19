@@ -21,7 +21,7 @@ class CandidatoSeeder extends Seeder
 
         for ($i = 1; $i <= 10; $i++) {
             DB::table('candidatos')->insert([  //
-                'nome_completo' => 'candidado'.$i,
+                'nome_completo' => 'candidado candidado candidado'.$i,
                 'data_de_nascimento' => Carbon::now(),
                 'cpf' => '123.123.123-25',
                 'numero_cartao_sus' => '12345678',

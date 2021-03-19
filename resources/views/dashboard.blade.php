@@ -43,19 +43,23 @@
                                 <th scope="col">Horário</th>
                                 <th scope="col">Visualizar</th>
                                 <th scope="col">Resultado</th>
-                                <th scope="col">Confirmar vacinação</th>
+                                <th scope="col" class="text-center">Confirmar vacinação</th>
+                                <th scope="col" class="text-center">Link</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($candidatos as $i => $candidato)
                             <tr>
-                                <td>{{$candidato->nome_completo}}</td>
+                                <td>
+                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
+                                        {{$candidato->nome_completo}}
+                                      </span>
+                                </td>
                                 <td>{{$candidato->cpf}}</td>
                                 <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
                                 <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td>
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
-
                                 </td>
                                 <!-- Modal -->
                                 <div class="modal fade" id="visualizar_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="visualizar_candidato_{{$candidato->id}}_label" aria-hidden="true">
@@ -267,9 +271,9 @@
                                         <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
                                             @csrf
                                             <div class="row">
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <select id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
-                                                        <option value="" selected disabled>-- selecionar resultado --</option>
+                                                        <option value="" selected disabled>selecione</option>
                                                         <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
                                                         <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Vaga ocupada</option>
                                                     </select>
@@ -281,10 +285,14 @@
                                         </form>
                                     @endif
                                 </td>
+
                                 <td style="text-align: center;">
                                     <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif>Vacinado</button>
                                 </td>
-                                <td></td>
+                                <td>
+
+                                    <a @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1]) href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi confimado." @else href="#" @endif class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
