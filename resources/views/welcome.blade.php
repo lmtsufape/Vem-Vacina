@@ -218,8 +218,8 @@
                                 <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
                                 <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
                                     <option selected disabled>-- Selecione a dose --</option>
-                                    <option value="{{$doses[0]}}">{{$doses[0]}}</option>
-                                    <option value="{{$doses[1]}}">{{$doses[1]}}</option>
+                                    <option @if(old('dose') == $doses[0]) selected @endif value="{{$doses[0]}}">{{$doses[0]}}</option>
+                                    <option @if(old('dose') == $doses[1]) selected @endif value="{{$doses[1]}}">{{$doses[1]}}</option>
                                 </select>
                                 
                                 @error('dose')
