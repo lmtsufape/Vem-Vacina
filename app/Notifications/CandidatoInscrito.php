@@ -43,6 +43,7 @@ class CandidatoInscrito extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
                     ->line('Seu cadastro foi realizado, aguarde o recebimento da mensagem com o dia, horário e local que será vacinado.')
                     ->action('Acessar site', url('/'))
                     ->line('Obrigador por utilizar nosso site!');

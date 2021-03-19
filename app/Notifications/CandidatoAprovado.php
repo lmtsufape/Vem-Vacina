@@ -43,7 +43,8 @@ class CandidatoAprovado extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia XX/XX/XXXX às xx h. Aguardamos você!')
+                    ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
+                    ->line('Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia '. date('d/m/Y \à\s  H:i \h', strtotime($this->candidato->chegada)) .'. Aguardamos você!')
                     ->action('Acessar site', url('/'))
                     ->line('Obrigador por utilizar nosso site!');
     }
