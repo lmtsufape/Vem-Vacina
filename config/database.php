@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
-$DATABASE_URL=parse_url('postgres://aomzkcpejlmhjr:bc62f55cbdfbf3a6ac6eb1bb1db6d45e54d1118907742951b88fce429bf2ba27@ec2-52-7-115-250.compute-1.amazonaws.com:5432/ddpqso67hap6hd');
+// $DATABASE_URL=parse_url('postgres://aomzkcpejlmhjr:bc62f55cbdfbf3a6ac6eb1bb1db6d45e54d1118907742951b88fce429bf2ba27@ec2-52-7-115-250.compute-1.amazonaws.com:5432/ddpqso67hap6hd');
 return [
 
     /*
@@ -62,6 +62,19 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
         ],
+        // 'pgsql' => [
+        //     'driver' => 'pgsql',
+        //     'url' => env('DATABASE_URL'),
+        //     'host' => env('DB_HOST', '127.0.0.1'),
+        //     'port' => env('DB_PORT', '5432'),
+        //     'database' => env('DB_DATABASE', 'forge'),
+        //     'username' => env('DB_USERNAME', 'forge'),
+        //     'password' => env('DB_PASSWORD', ''),
+        //     'charset' => 'utf8',
+        //     'prefix' => '',
+        //     'schema' => 'public',
+        //     'sslmode' => 'prefer',
+        // ],
 
         'pgsql' => array(
             'driver'   => 'pgsql',
