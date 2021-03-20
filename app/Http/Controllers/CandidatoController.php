@@ -37,11 +37,14 @@ class CandidatoController extends Controller
 
         // TODO: pegar só os postos com vacinas disponiveis
         $postos_com_vacina = PostoVacinacao::all();
+        $profissoes_enum = Candidato::PROFISSAO_ENUM;
+        sort($profissoes_enum);
 
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
             "postos" => $postos_com_vacina,
             "doses" => Candidato::DOSE_ENUM,
+            "profissoes" => $profissoes_enum,
         ]);
     }
     public function ver($id) {
@@ -70,6 +73,8 @@ class CandidatoController extends Controller
             "dia_vacinacao"         => "required",
             "horario_vacinacao"     => "required",
             "dose"                  => "required",
+            "pessoa_idosa"          => "nullable",
+            "profissão"             => "required_if:profissional_da_saúde,on"
         ]);
 
         $dados = $request->all();
@@ -92,6 +97,11 @@ class CandidatoController extends Controller
         $candidato->complemento_endereco    = $request->complemento_endereco;
         $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
         $candidato->dose                    = $request->dose;
+        $candidato->pessoa_idosa            = $request->pessoa_idosa;
+
+        if ($request->profissional_da_saúde) {
+            $candidato->profissional_da_saude = $request->profissão;
+        }
 
         // Relacionar o candidato com uma etapa (se existir)
         $idade              = $this->idade($request->data_de_nascimento);
@@ -101,7 +111,7 @@ class CandidatoController extends Controller
             $candidato->etapa_id = $etapa->id;
         } else {
             return redirect()->back()->withErrors([
-                "faixa_etaria" => "Idade fora da faixa etária atual de vacinação"
+                "data_de_nascimento" => "Idade fora da faixa etária atual de vacinação"
             ])->withInput();
         }
 

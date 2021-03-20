@@ -133,7 +133,11 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'profissão' => [
+            'required_if' => 'O campo :attribute é obrigatório quando o campo :other é marcado.'
+        ]
     ],
+    
 
     /*
     |--------------------------------------------------------------------------
