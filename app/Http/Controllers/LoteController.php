@@ -112,17 +112,21 @@ class LoteController extends Controller
         return view('lotes.distribuicao', compact('lote', 'postos'));
     }
 
-    public function calcular(DistribuicaoRequest $request)
+    public function calcular(Request $request)
     {
-        $messages = [
-            'posto.*.gte'       => 'O número digitado deve ser maior ou igual a 0.',
-            'posto.*.integer' => 'O número digitado deve ser um inteiro.',
-        ];
         $rules = [
             'posto.*' => 'gte:0|integer'
         ];
+        $messages = [
+            'posto.*.gte' => 'O número digitado deve ser maior ou igual a 0.',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages );
 
-        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
 
         $lote_id = $request->lote;
         $lote = Lote::find($lote_id);
