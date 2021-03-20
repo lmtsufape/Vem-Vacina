@@ -19,8 +19,13 @@
                     <input type="hidden" name="lote" value="{{ $lote->id }}">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4>Nº de vacinas do lote: {{ intdiv ( $lote->numero_vacinas , $postos->count() ) . ' vacinas/posto' }}</h4>
-                            <h6>Total do lote: {{ $lote->numero_vacinas }}</h6>
+                            @if($postos->count())
+                                <h4>Nº de vacinas do lote: {{ intdiv ( $lote->numero_vacinas , $postos->count() ) . ' vacinas/posto' }}</h4>
+                                <h6>Total do lote: {{ $lote->numero_vacinas }}</h6>
+
+                            @else
+                                <p>Cadastre Postos de Vacinação</p>
+                            @endif
                         </div>
                     </div>
                     <div class="row">
@@ -36,7 +41,7 @@
                             @endif
                         </div>
                         {{-- @dd($errors->__get('default')->toArray()[]) --}}
-                        @foreach ($postos as $key => $posto)
+                        @forelse ($postos as $key => $posto)
                             <div class="col-md-12">
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
@@ -52,7 +57,11 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+
+                        @empty
+                            <p>Cadastre Postos de Vacinação</p>
+                        @endforelse
+
                     </div>
 
 
