@@ -130,9 +130,13 @@ class LoteController extends Controller
             $posto->lotes()->syncWithoutDetaching($lote);
 
             $posto->lotes->find($lote_id)->pivot->qtdVacina += $value;
+            $posto->vacinas_disponiveis += $value;
+            $posto->save();
+
             $posto->lotes->find($lote_id)->pivot->save();
 
         }
+
         return redirect()->route('lotes.index')->with('message', 'Lote distribuído com sucesso!');
     }
 

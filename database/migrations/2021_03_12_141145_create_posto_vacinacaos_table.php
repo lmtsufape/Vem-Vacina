@@ -19,6 +19,8 @@ class CreatePostoVacinacaosTable extends Migration
             $table->string("endereco");
             $table->bigInteger('vacinas_disponiveis')->default(0);
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

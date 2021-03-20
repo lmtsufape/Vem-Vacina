@@ -19,8 +19,13 @@
                     <input type="hidden" name="lote" value="{{ $lote->id }}">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4>Nº de vacinas do lote: {{ intdiv ( $lote->numero_vacinas , $postos->count() ) . ' vacinas/posto' }}</h4>
-                            <h6>Total do lote: {{ $lote->numero_vacinas }}</h6>
+                            @if($postos->count())
+                                <h4>Nº de vacinas do lote: {{ intdiv ( $lote->numero_vacinas , $postos->count() ) . ' vacinas/posto' }}</h4>
+                                <h6>Total do lote: {{ $lote->numero_vacinas }}</h6>
+
+                            @else
+                                <p>Cadastre Postos de Vacinação</p>
+                            @endif
                         </div>
                     </div>
                     <div class="row">
@@ -36,12 +41,12 @@
                             @endif
                         </div>
                         {{-- @dd($errors->__get('default')->toArray()[]) --}}
-                        @foreach ($postos as $key => $posto)
+                        @forelse ($postos as $key => $posto)
                             <div class="col-md-12">
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">{{  $posto->getVacinasDisponivel() ?? 0}}</span>
+                                            <span class="input-group-text">{{  $posto->vacinas_disponiveis ?? 0}}</span>
                                             <span class="input-group-text">+</span>
                                         </div>
 
@@ -52,7 +57,11 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+
+                        @empty
+
+                        @endforelse
+
                     </div>
 
 
@@ -62,9 +71,11 @@
                         <div class="col-md-2">
                             <a href="{{ route('lotes.index') }}" class="btn btn-danger btn-lg">Voltar</a>
                         </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-success btn-lg">Salvar</button>
-                        </div>
+                        @if($postos->count())
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-success btn-lg">Salvar</button>
+                            </div>
+                        @endif
                     </div>
                 </form>
 

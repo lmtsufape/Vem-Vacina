@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call([
-            LoteSeeder::class,
+            // LoteSeeder::class,
             PostoVacinacaoSeeder::class,
-            CandidatoSeeder::class,
+            // CandidatoSeeder::class,
         ]);
         DB::table('users')->insert([  //
             'name' => 'teste',
-            'email' => 'teste@teste',
+            'email' => 'admin@admin.com',
             'password' => Hash::make('12345678'),
             'email_verified_at' => now(),
         ]);

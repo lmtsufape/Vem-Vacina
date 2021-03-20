@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Candidato extends Model
 {
-    use HasFactory,  Notifiable;
+    use HasFactory,  Notifiable, SoftDeletes;
+
 
     public const SEXO_ENUM = ["Masculino", "Feminino"];
     public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];

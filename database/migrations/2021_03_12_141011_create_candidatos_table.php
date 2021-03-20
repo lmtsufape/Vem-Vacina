@@ -44,6 +44,7 @@ class CreateCandidatosTable extends Migration
             $table->datetime("saida")->nullable(true);
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -55,5 +56,6 @@ class CreateCandidatosTable extends Migration
     public function down()
     {
         Schema::dropIfExists('candidatos');
+
     }
 }

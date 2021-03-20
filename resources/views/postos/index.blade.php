@@ -46,7 +46,7 @@
                                 {{$posto->endereco}}
                             </span>
                         </td>
-                        <td>{{ $posto->getVacinasDisponivel() ?? "Não há vacinas disponíveis" }}</td>
+                        <td>{{ $posto->vacinas_disponiveis ?? "Não há vacinas disponíveis" }}</td>
                         <td>
                             <div class="row">
                                 <div class="col-md-4">
