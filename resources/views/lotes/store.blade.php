@@ -19,7 +19,15 @@
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="container">
-
+                @if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                 <form action="{{ route('lotes.store') }}" method="post">
                     @csrf
                     <div class="row">
@@ -38,9 +46,9 @@
                             @error('fabricante') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="qtdVacina">Nº de vacinas</label>
-                            <input id="qtdVacina" type="number" class="form-control @error('qtdVacina') is-invalid @enderror" name="qtdVacina"  value="{{ old('qtdVacina') }}">
-                            @error('qtdVacina') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                            <label for="numero_vacinas">Nº de vacinas</label>
+                            <input id="numero_vacinas" type="number" class="form-control @error('numero_vacinas') is-invalid @enderror" name="numero_vacinas"  value="{{ old('numero_vacinas') }}">
+                            @error('numero_vacinas') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="row">

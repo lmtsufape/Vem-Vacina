@@ -26,7 +26,7 @@ class StoreLoteRequest extends FormRequest
         return [
             'numero_lote'       => 'required',
             'fabricante'        => 'required',
-            'qtdVacina'         => 'required',
+            'numero_vacinas'    => 'required',
             'segunda_dose'      => '',
             'data_fabricacao'   => 'required',
             'data_validade'     => 'required',
