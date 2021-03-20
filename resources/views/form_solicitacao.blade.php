@@ -333,7 +333,7 @@
                                         @enderror
                                     </div> 
                                     <div class="form-group col-md-6">
-                                        <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
                                         <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
                                             <option selected disabled>-- Selecione a dose --</option>
                                             <option value="{{$doses[0]}}">{{$doses[0]}}</option>
@@ -344,7 +344,7 @@
                                         <div id="validationServer05Feedback" class="invalid-feedback">
                                             <strong>{{$message}}</strong>
                                         </div>
-                                        @enderror
+                                        @enderror --}}
                                     </div>
                                 </div>
 
