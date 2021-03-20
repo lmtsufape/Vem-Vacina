@@ -17,14 +17,14 @@
                             <tr><td>{{$agendamento->nome_completo}}</td></tr>
                             <tr><td>Estado da vacinação: {{$agendamento->aprovacao}}</td></tr>
                             <tr><td>Dia e hora da vacinação: {{$agendamento->chegada->format("d/m/Y") . ", " . $agendamento->chegada->format("H:i")}}</td></tr>
-                            <tr><td>Lote da vacina: {{$agendamento->lote->numero_lote}}</td></tr>
+                            @if($agendamento->lote != null)<tr><td>Lote da vacina: {{$agendamento->lote->numero_lote}}</td></tr>@endif
                         </table>
                     </div>
                     <div class="col-md-12">
                         <h3>Local de atendimento</h3>
                         <table class="table">
-                            <tr><td>{{$agendamento->posto->nome}}</td></tr>
-                            <tr><td>{{$agendamento->posto->endereco}}</td></tr>
+                            @if($agendamento->posto != null)<tr><td>{{$agendamento->posto->nome}}</td></tr>@endif
+                            @if($agendamento->posto != null)<tr><td>{{$agendamento->posto->endereco}}</td></tr>@endif
                         </table>
                     </div>
                 @else
