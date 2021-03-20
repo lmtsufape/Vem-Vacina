@@ -108,7 +108,7 @@ class LoteController extends Controller
     public function distribuir($id)
     {
         $lote = Lote::findOrFail($id);
-        $postos = PostoVacinacao::all();
+        $postos = PostoVacinacao::orderBy('vacinas_disponiveis')->get();
         return view('lotes.distribuicao', compact('lote', 'postos'));
     }
 
@@ -163,6 +163,11 @@ class LoteController extends Controller
         }else{
             $request->merge([$field => true]);
         }
+    }
+
+    private function validation($request)
+    {
+
     }
 
 }

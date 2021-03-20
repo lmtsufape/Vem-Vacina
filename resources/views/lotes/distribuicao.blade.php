@@ -20,8 +20,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             @if($postos->count())
-                                <h4>Nº de vacinas do lote: {{ intdiv ( $lote->numero_vacinas , $postos->count() ) . ' vacinas/posto' }}</h4>
-                                <h6>Total do lote: {{ $lote->numero_vacinas }}</h6>
+                                <h4>Nº de vacinas do lote: {{ $lote->numero_vacinas }}</h4>
+                                @php
+                                    $sobras = $lote->numero_vacinas % $postos->count();
+                                @endphp
 
                             @else
                                 <p>Cadastre Postos de Vacinação</p>
@@ -42,15 +44,21 @@
                         </div>
                         {{-- @dd($errors->__get('default')->toArray()[]) --}}
                         @forelse ($postos as $key => $posto)
+                            @php
+                                $sobras -= 1;
+                            @endphp
                             <div class="col-md-12">
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">{{  $posto->vacinas_disponiveis ?? 0}}</span>
+                                            <span class="input-group-text">{{  $posto->vacinas_disponiveis}}</span>
                                             <span class="input-group-text">+</span>
                                         </div>
-
-                                        <input type="number" class="form-control " name="posto[{{ $posto->id }}]" value="{{ 0 }}" >
+                                        @if($sobras >= 0)
+                                            <input type="number" class="form-control " name="posto[{{ $posto->id }}]" value="{{ intdiv ( $lote->numero_vacinas , $postos->count()) + 1 }}" >
+                                        @else
+                                            <input type="number" class="form-control " name="posto[{{ $posto->id }}]" value="{{ intdiv ( $lote->numero_vacinas , $postos->count()) }}" >
+                                        @endif
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">{{  $posto->nome }}</span>
                                         </div>
