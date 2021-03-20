@@ -108,26 +108,13 @@ class LoteController extends Controller
     public function distribuir($id)
     {
         $lote = Lote::findOrFail($id);
-        $postos = PostoVacinacao::all();
+        $postos = PostoVacinacao::orderBy('vacinas_disponiveis')->get();
         return view('lotes.distribuicao', compact('lote', 'postos'));
     }
 
     public function calcular(Request $request)
     {
-        $rules = [
-            'posto.*' => 'gte:0|integer'
-        ];
-        $messages = [
-            'posto.*.gte' => 'O número digitado deve ser maior ou igual a 0.',
-        ];
-        $validator = Validator::make($request->all(), $rules, $messages );
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-
+        $this->validation($request);
         $lote_id = $request->lote;
         $lote = Lote::find($lote_id);
         $postos = PostoVacinacao::whereIn('id', array_keys($request->posto))->get();
@@ -162,6 +149,23 @@ class LoteController extends Controller
             $request->merge([$field => false]);
         }else{
             $request->merge([$field => true]);
+        }
+    }
+
+    private function validation($request)
+    {
+        $rules = [
+            'posto.*' => 'gte:0|integer'
+        ];
+        $messages = [
+            'posto.*.gte' => 'O número digitado deve ser maior ou igual a 0.',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages );
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
         }
     }
 
