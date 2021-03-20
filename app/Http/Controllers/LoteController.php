@@ -131,6 +131,8 @@ class LoteController extends Controller
 
             $posto->lotes->find($lote_id)->pivot->qtdVacina += $value;
             $posto->vacinas_disponiveis += $value;
+            $posto->vacinas_disponiveis->save();
+
             $posto->lotes->find($lote_id)->pivot->save();
 
         }
