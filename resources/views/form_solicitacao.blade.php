@@ -318,7 +318,7 @@
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="posto_vacinacao" class="style_titulo_input">POSTO DE VACINÇÃO <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O POSTO DE VACINAÇÃO MAIS PRÓXIMA DA SUA CASA <span class="style_subtitulo_input">(obrigatório)</span></label>
                                         <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
                                             <option selected disabled>-- Selecione o posto --</option>
                                             @foreach($postos as $posto)
@@ -333,7 +333,7 @@
                                         @enderror
                                     </div> 
                                     <div class="form-group col-md-6">
-                                        <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
                                         <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
                                             <option selected disabled>-- Selecione a dose --</option>
                                             <option value="{{$doses[0]}}">{{$doses[0]}}</option>
@@ -344,7 +344,7 @@
                                         <div id="validationServer05Feedback" class="invalid-feedback">
                                             <strong>{{$message}}</strong>
                                         </div>
-                                        @enderror
+                                        @enderror --}}
                                     </div>
                                 </div>
 
@@ -516,7 +516,7 @@
      function selecionar_posto(posto_selecionado) {
          let id_posto = posto_selecionado.value;
          let div_seletor_horararios = document.getElementById("seletor_horario");
-         div_seletor_horararios.innerHTML = "Buscando horarios disponiveis...";
+         div_seletor_horararios.innerHTML = "Buscando horários disponíveis...";
          let url = "http://" + document.location.host + "/horarios/" + id_posto;
 
          // Mágia de programação funcional

@@ -13,7 +13,7 @@ class Candidato extends Model
     use HasFactory,  Notifiable, SoftDeletes;
 
 
-    public const SEXO_ENUM = ["Masculino", "Feminino"];
+    public const SEXO_ENUM = ["Masculino", "Feminino", "Não informar"];
     public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
     public const DOSE_ENUM = ["1ª Dose", '2ª Dose', "Dose única"];
     public const PROFISSAO_ENUM = ["Acadêmico em saúde e estudante da área técnica em saúde em estágio hospitalar, atenção básica, clínica e laboratório", 

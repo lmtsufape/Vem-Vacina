@@ -72,7 +72,7 @@ class CandidatoController extends Controller
             "posto_vacinacao"       => "required",
             "dia_vacinacao"         => "required",
             "horario_vacinacao"     => "required",
-            "dose"                  => "required",
+            "dose"                  => "nullable",
             "pessoa_idosa"          => "nullable",
             "profissão"             => "required_if:profissional_da_saúde,on"
         ]);
@@ -96,7 +96,7 @@ class CandidatoController extends Controller
         $candidato->numero_residencia       = $request->input("número_residencial");
         $candidato->complemento_endereco    = $request->complemento_endereco;
         $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
-        $candidato->dose                    = $request->dose;
+        $candidato->dose                    = Candidato::APROVACAO_ENUM[0];
         $candidato->pessoa_idosa            = $request->pessoa_idosa;
 
         if ($request->profissional_da_saúde) {
