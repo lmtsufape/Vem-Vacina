@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
 class DistribuicaoRequest extends FormRequest
 {
     /**
@@ -25,7 +26,7 @@ class DistribuicaoRequest extends FormRequest
     {
         // dd($this->request->all());
         return [
-            'posto.*' => 'gte:0 | integer'
+            'posto.*' => 'gte:0|integer'
         ];
     }
 
