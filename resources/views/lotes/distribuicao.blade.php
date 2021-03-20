@@ -59,7 +59,7 @@
                             </div>
 
                         @empty
-                            <p>Cadastre Postos de Vacinação</p>
+
                         @endforelse
 
                     </div>
@@ -71,9 +71,11 @@
                         <div class="col-md-2">
                             <a href="{{ route('lotes.index') }}" class="btn btn-danger btn-lg">Voltar</a>
                         </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-success btn-lg">Salvar</button>
-                        </div>
+                        @if($postos->count())
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-success btn-lg">Salvar</button>
+                            </div>
+                        @endif
                     </div>
                 </form>
 
