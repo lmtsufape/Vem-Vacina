@@ -1,6 +1,6 @@
 <x-guest-layout>
 
-    @if ($errors->any())
+    {{-- @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
                 @foreach ($errors->all() as $error)
@@ -8,7 +8,7 @@
                 @endforeach
             </ul>
         </div>
-    @endif
+    @endif --}}
 
 
     @if (session('status'))
@@ -44,6 +44,48 @@
                         <div class="col-md-12">
                             <form method="POST" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
+                                <div class="form-check">
+                                    <input class="form-check-input @error('pessoa_idosa') is-invalid @enderror" type="checkbox" id="defaultCheck2" name="pessoa_idosa" @if(old('pessoa_idosa')) checked @endif>
+                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PESSOA IDOSA</label>
+                                    
+                                    @error('pessoa_idosa')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input @error('profissional_da_saúde') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoProfissionalSaude()" name="profissional_da_saúde" @if(old('profissional_da_saúde')) checked @endif>
+                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PROFISSIONAL DA SAÚDE</label>
+                                    
+                                    @error('profissional_da_saúde')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+
+                                    <div id="divProfissionalSaude" @if (old('profissional_da_saúde')) style="display: block;" @else style="display: none;" @endif>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Profissão que exerce (caso profissional da saúde) </label>
+                                                <select type="text" class="form-control @error('profissão') is-invalid @enderror" id="inputProfissao" placeholder="Digite o nome da sua profissão" name="profissão"> 
+                                                    <option value="">-- Selecione sua profissão --</option>
+                                                    @foreach ($profissoes as $profissao)
+                                                        <option value="{{$profissao}}" @if(old('profissão') == $profissao) selected @endif>{{$profissao}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('profissão')
+                                                <div id="validationServer05Feedback" class="invalid-feedback">
+                                                    <strong>{{$message}}</strong>
+                                                </div>
+                                                @enderror
+                                                <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <br>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="inputNome" class="style_titulo_input">NOME COMPLETO <span class="style_subtitulo_input">(obrigatório)</span> </label>
@@ -142,14 +184,18 @@
                                     @enderror
                                     
                                     <div class="form-group" style="@if(old('paciente_agente_de_saude')) display: block; @else display: none; @endif" id="id_div_nomeDaUnidade">
-                                        <label for="inputNomeUnidade" class="style_titulo_input" style="font-weight: normal;">Qual o nome da sua unidade (caso tenha vínculo) </label>
-                                        <input type="text" class="form-control @error('unidade_caso_agente_de_saude') is-invalid @enderror" id="inputNomeUnidade" placeholder="Digite o nome da sua unidade (caso tenha vínculo)" name="unidade_caso_agente_de_saude" value="{{old('unidade_caso_agente_de_saude')}}">
-                                        
-                                        @error('unidade_caso_agente_de_saude')
-                                        <div id="validationServer05Feedback" class="invalid-feedback">
-                                            <strong>{{$message}}</strong>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="inputNomeUnidade" class="style_titulo_input" style="font-weight: normal;">Qual o nome da sua unidade (caso tenha vínculo) </label>
+                                                <input type="text" class="form-control @error('unidade_caso_agente_de_saude') is-invalid @enderror" id="inputNomeUnidade" placeholder="Digite o nome da sua unidade" name="unidade_caso_agente_de_saude" value="{{old('unidade_caso_agente_de_saude')}}">
+                                                
+                                                @error('unidade_caso_agente_de_saude')
+                                                <div id="validationServer05Feedback" class="invalid-feedback">
+                                                    <strong>{{$message}}</strong>
+                                                </div>
+                                                @enderror
+                                            </div>
                                         </div>
-                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -444,6 +490,23 @@
             document.getElementById("id_div_nomeDaUnidade").style.display = "none";
             document.getElementById("inputNomeUnidade").value = "";
             document.getElementById("inputNomeUnidade").placeholder = "Digite o nome da sua unidade (caso tenha vínculo)";
+            $('#posto_vacinacao').val( $('option:contains("-- Selecione o posto --")').val() );
+            $('#posto_vacinacao').attr('disabled', false);
+        }
+     }
+
+     function funcaoProfissionalSaude() {
+        if(document.getElementById("divProfissionalSaude").style.display == "none"){
+            document.getElementById("divProfissionalSaude").style.display = "block";
+            document.getElementById("inputProfissao").value = "";
+            document.getElementById("inputFuncao").value = "";
+            $('#posto_vacinacao').val( $('option:contains(" Drive thru ")').val() );
+            $('#posto_vacinacao').attr('disabled', true);
+            selecionar_posto(document.getElementById('posto_vacinacao'));
+        }else{
+            document.getElementById("divProfissionalSaude").style.display = "none";
+            document.getElementById("inputProfissao").value = "";
+            document.getElementById("inputFuncao").value = "";
             $('#posto_vacinacao').val( $('option:contains("-- Selecione o posto --")').val() );
             $('#posto_vacinacao').attr('disabled', false);
         }
