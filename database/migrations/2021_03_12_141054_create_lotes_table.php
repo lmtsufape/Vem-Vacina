@@ -22,6 +22,8 @@ class CreateLotesTable extends Migration
             $table->date("data_fabricacao");
             $table->date("data_validade");
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
