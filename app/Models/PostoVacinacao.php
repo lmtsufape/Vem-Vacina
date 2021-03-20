@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostoVacinacao extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['nome', 'endereco'];
+
+
 
     public function lotes()
     {

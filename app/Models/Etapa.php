@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Etapa extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'inicio_intervalo', 
+        'inicio_intervalo',
         'fim_intervalo',
         'atual',
         'dose_unica',

@@ -9,7 +9,8 @@ use Illuminate\Notifications\Notifiable;
 
 class Candidato extends Model
 {
-    use HasFactory,  Notifiable;
+    use HasFactory,  Notifiable, SoftDeletes;
+
 
     public const SEXO_ENUM = ["Masculino", "Feminino"];
     public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
