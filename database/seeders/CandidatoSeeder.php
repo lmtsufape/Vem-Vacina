@@ -44,7 +44,8 @@ class CandidatoSeeder extends Seeder
                 'lote_id' => null,
                 'posto_vacinacao_id' => 1,
                 'lote_id' => 1,
-
+                'profissional_da_saude' => Candidato::PROFISSAO_ENUM[$i],
+                'pessoa_idosa'  => true,
             ]);
 
             $chegada->addMinutes(10);

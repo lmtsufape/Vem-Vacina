@@ -73,6 +73,32 @@
                                         </div>
                                         <div class="container">
                                             <div class="modal-body">
+                                                @if ($candidato->pessoa_idosa || $candidato->profissional_da_saude != null)
+                                                <div class="row">
+                                                    <h4>Informações especiais</h4>
+                                                </div>
+                                                <div class="row">
+                                                    @if ($candidato->pessoa_idosa)
+                                                    <div class="col-md-6">
+                                                        <input id="pessoa_idosa_{{$candidato->id}}" type="checkbox" disabled @if($candidato->pessoa_idosa) checked @endif>
+                                                        <label for="pessoa_idosa_{{$candidato->id}}">Pessoa idosa</label>
+                                                    </div>
+                                                    @endif
+                                                    @if ($candidato->profissional_da_saude != null)
+                                                    <div class="col-md-6">
+                                                        <input id="profissional_da_saude_{{$candidato->id}}" type="checkbox" disabled @if($candidato->profissional_da_saude != null) checked @endif>
+                                                        <label for="profissional_da_saude_{{$candidato->id}}">Profissional da saúde</label>
+                                                    </div>
+                                                    @endif
+                                                    @if ($candidato->profissional_da_saude != null)
+                                                    <div class="col-md-12">
+                                                        <label for="profissao_{{$candidato->id}}">Profissão</label>
+                                                        <input id="profissao_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->profissional_da_saude}}">
+                                                    </div>
+                                                    @endif
+                                                </div>
+                                                <br>
+                                                @endif
                                                 <div class="row">
                                                     <h4>Informações pessoais</h4>
                                                 </div>
@@ -197,11 +223,8 @@
                                                 </div>
                                                 <br>
                                                 <div class="row">
-                                                    <div class="col-md-12">
-                                                        <h4>Agendado para</h4>
-                                                    </div>
+                                                    <h4>Agendado para</h4>
                                                 </div>
-                                                <br>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <label for="posto_{{$candidato->id}}">Ponto</label>
@@ -212,18 +235,22 @@
                                                         <input id="dose_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->dose}}">
                                                     </div>
                                                 </div>
-                                                <br>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label for="data_{{$candidato->id}}">Data</label>
+                                                        <input id="data_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('d/m/Y',strtotime($candidato->chegada))}}@endif">
+                                                    </div>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <label for="chegada_{{$candidato->id}}">Horário de chegada</label>
-                                                        <input id="chegada_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{$candidato->chegada}}@endif">
+                                                        <input id="chegada_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('H:i',strtotime($candidato->chegada))}}@endif">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="saida_{{$candidato->id}}">Horário de saida</label>
-                                                        <input id="saida_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->saida}}">
+                                                        <input id="saida_{{$candidato->id}}" type="text" class="form-control" disabled value="{{date('H:i',strtotime($candidato->saida))}}">
                                                     </div>
                                                 </div>
-                                                <br>
                                             </div>
                                         </div>
                                     </div>
