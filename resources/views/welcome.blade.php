@@ -215,7 +215,7 @@
                                 @enderror
                             </div>
                             <div class="col-md-6">
-                                <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
                                 <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
                                     <option selected disabled>-- Selecione a dose --</option>
                                     <option @if(old('dose') == $doses[0]) selected @endif value="{{$doses[0]}}">{{$doses[0]}}</option>
@@ -223,6 +223,14 @@
                                 </select>
                                 
                                 @error('dose')
+                                <div id="validationServer05Feedback" class="invalid-feedback">
+                                    <strong>{{$message}}</strong>
+                                </div>
+                                @enderror --}}
+                                <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
+                                
+                                @error('data_de_nascimento')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
                                     <strong>{{$message}}</strong>
                                 </div>
