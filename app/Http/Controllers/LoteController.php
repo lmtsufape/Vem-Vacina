@@ -114,7 +114,20 @@ class LoteController extends Controller
 
     public function calcular(Request $request)
     {
-        $this->validation($request);
+        $rules = [
+            'posto.*' => 'gte:0|integer'
+        ];
+        $messages = [
+            'posto.*.gte' => 'O número digitado deve ser maior ou igual a 0.',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages );
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         $lote_id = $request->lote;
         $lote = Lote::find($lote_id);
         $postos = PostoVacinacao::whereIn('id', array_keys($request->posto))->get();
@@ -154,19 +167,7 @@ class LoteController extends Controller
 
     private function validation($request)
     {
-        $rules = [
-            'posto.*' => 'gte:0|integer'
-        ];
-        $messages = [
-            'posto.*.gte' => 'O número digitado deve ser maior ou igual a 0.',
-        ];
-        $validator = Validator::make($request->all(), $rules, $messages );
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
-        }
     }
 
 }
