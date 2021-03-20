@@ -220,6 +220,8 @@ class CandidatoController extends Controller
         $candidato = Candidato::find($id);
         $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
         $candidato->update();
+        $candidato->posto->vacinas_disponiveis -= 1;
+        $candidato->posto->update();
 
         $etapa = $candidato->etapa;
         if ($etapa != null) {
