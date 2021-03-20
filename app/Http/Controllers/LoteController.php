@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PostoVacinacao;
 use App\Http\Requests\StoreLoteRequest;
 use App\Http\Requests\DistribuicaoRequest;
+use Illuminate\Support\Facades\Validator;
 
 class LoteController extends Controller
 {
@@ -113,6 +114,16 @@ class LoteController extends Controller
 
     public function calcular(DistribuicaoRequest $request)
     {
+        $messages = [
+            'posto.*.gte'       => 'O número digitado deve ser maior ou igual a 0.',
+            'posto.*.integer' => 'O número digitado deve ser um inteiro.',
+        ];
+        $rules = [
+            'posto.*' => 'gte:0|integer'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
         $lote_id = $request->lote;
         $lote = Lote::find($lote_id);
         $postos = PostoVacinacao::whereIn('id', array_keys($request->posto))->get();
