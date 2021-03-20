@@ -236,9 +236,10 @@ class CandidatoController extends Controller
 
     public function consultar(Request $request) {
         $validated = $request->validate([
-            'consulta'  => "required",
-            'cpf'       => 'required',
-            'dose'      => 'required',
+            'consulta'              => "required",
+            'cpf'                   => 'required',
+            // 'dose'      => 'required',
+            'data_de_nascimento'    => 'required'
         ]);
 
         if(!$this->validar_cpf($request->cpf)) {
@@ -247,7 +248,7 @@ class CandidatoController extends Controller
            ])->withInput($validated);
         }
 
-        $candidato = Candidato::where([['cpf', $request->cpf], ['dose', $request->dose]])->first();
+        $candidato = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])->first();
 
         if ($candidato == null) {
             return redirect()->back()->withErrors([
