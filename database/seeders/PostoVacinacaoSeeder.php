@@ -19,34 +19,43 @@ class PostoVacinacaoSeeder extends Seeder
         DB::table('posto_vacinacaos')->insert([
             'nome' => 'Escola CAIC',
             'endereco' => 'Rua 1',
+            'para_idoso' => true,
+            'para_profissional_da_saude' => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
             'nome' => 'Centro Cultural',
             'endereco' => 'Rua 1',
-
+            'para_idoso' => true,
+            'para_profissional_da_saude' => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
             'nome' => 'Academia da Saúde Cohab 2',
             'endereco' => 'Rua 1',
-
+            'para_idoso' => true,
+            'para_profissional_da_saude' => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
             'nome' => 'Academia da Saúde Brasília',
             'endereco' => 'Rua 1',
-
+            'para_idoso' => true,
+            'para_profissional_da_saude' => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
             'nome' => 'CESMUC',
             'endereco' => 'Rua 1',
+            'para_idoso' => false,
+            'para_profissional_da_saude' => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
             'nome' => ' Drive thru ',
-            'endereco' => 'Rua 1(Na secretaria de saúde, somente aos sábados pela manhã)'
+            'endereco' => 'Rua 1(Na secretaria de saúde, somente aos sábados pela manhã)',
+            'para_idoso' => false,
+            'para_profissional_da_saude' => true,
         ]);
     }
 }

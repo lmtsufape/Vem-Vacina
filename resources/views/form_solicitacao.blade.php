@@ -322,7 +322,7 @@
                                         <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
                                             <option selected disabled>-- Selecione o posto --</option>
                                             @foreach($postos as $posto)
-                                                <option value="{{$posto->id}}">{{$posto->nome}}</option>
+                                                <option id="{{$posto->nome}}" value="{{$posto->id}}">{{$posto->nome}}</option>
                                             @endforeach
                                         </select>
                                         
@@ -495,8 +495,9 @@
         if(document.getElementById("id_div_nomeDaUnidade").style.display == "none"){
             document.getElementById("id_div_nomeDaUnidade").style.display = "block";
             document.getElementById("inputNomeUnidade").value = "";
-            $('#posto_vacinacao').val( $('option:contains(" Drive thru ")').val() );
-            $('#posto_vacinacao').attr('disabled', true);
+            document.getElementById("Drive thru").style.display = "none";
+            // $('#posto_vacinacao').val( $('option:contains("Drive-thru")').val() );
+            // $('#posto_vacinacao').attr('disabled', true);
             selecionar_posto(document.getElementById('posto_vacinacao'));
         }else{
             document.getElementById("id_div_nomeDaUnidade").style.display = "none";
@@ -511,14 +512,12 @@
         if(document.getElementById("divProfissionalSaude").style.display == "none"){
             document.getElementById("divProfissionalSaude").style.display = "block";
             document.getElementById("inputProfissao").value = "";
-            document.getElementById("inputFuncao").value = "";
-            $('#posto_vacinacao').val( $('option:contains(" Drive thru ")').val() );
+            $('#posto_vacinacao').val( $('option:contains("Drive-thru")').val() );
             $('#posto_vacinacao').attr('disabled', true);
             selecionar_posto(document.getElementById('posto_vacinacao'));
         }else{
             document.getElementById("divProfissionalSaude").style.display = "none";
             document.getElementById("inputProfissao").value = "";
-            document.getElementById("inputFuncao").value = "";
             $('#posto_vacinacao').val( $('option:contains("-- Selecione o posto --")').val() );
             $('#posto_vacinacao').attr('disabled', false);
         }

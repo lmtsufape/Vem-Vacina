@@ -115,7 +115,24 @@ class PostoVacinacaoController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $posto = PostoVacinacao::create($data);
+        $posto = new PostoVacinacao();
+
+        $posto->nome = $request->nome;
+        $posto->endereco = $request->endereco;
+
+        if ($request->para_idoso != null) {
+            $posto->para_idoso = true;
+        } else {
+            $posto->para_profissional_da_saude = false;
+        }
+
+        if ($request->para_profissional_da_saude != null) {
+            $posto->para_profissional_da_saude = true;
+        } else {
+            $posto->para_profissional_da_saude = false;
+        }
+
+        $posto->save();
 
         return redirect()->route('postos.index')->with('message', 'Posto criado com sucesso!');
     }
@@ -153,9 +170,25 @@ class PostoVacinacaoController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $posto = PostoVacinacao::findOrFail($id);
-        $posto->update($data);
+        $posto = PostoVacinacao::find($id);
+        
+        $posto->nome = $request->nome;
+        $posto->endereco = $request->endereco;
 
+        if ($request->para_idoso == "on") {
+            $posto->para_idoso = true;
+        } else {
+            $posto->para_idoso = false;
+        }
+
+        if ($request->para_profissional_da_saude == "on") {
+            $posto->para_profissional_da_saude = true;
+        } else {
+            $posto->para_profissional_da_saude = false;
+        }
+        
+        $posto->update();
+        
         return redirect()->route('postos.index')->with('message', 'Posto editado com sucesso!');
     }
 
