@@ -256,7 +256,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCEP" class="style_titulo_input">CEP</label>
-                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onkeydown="buscar_CEP(this, event)">
+                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onkeydown="buscar_CEP(this, event)" onchange="requisitar_preenchimento_cep(this.value)">
                                         
                                         @error('cep')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -491,9 +491,21 @@
          
          // pega o valor do cep
          let cep = input.value + key;
+
+         requisitar_preenchimento_cep(cep);
          
+     }
+
+
+     function requisitar_preenchimento_cep(cep) {
+
+         if(!cep) {return;}
          
-         let url = "http://" + document.location.host + "/cep/" + cep;
+         cep = cep.match(/\d+/g, '').join("");
+         
+         if(cep.length != 8) {return;}
+         
+         let url = window.location.toString().replace("solicitar", "cep/" + cep);
          console.log(url);
 
          fetch(url).then((resposta) => {
@@ -510,8 +522,6 @@
              document.getElementById("inputrua").value = json.tipo_logradouro + " " + json.logradouro;
              
          });
-
-
      }
 
      function funcaoVinculoComAEquipeDeSaudade(input){
