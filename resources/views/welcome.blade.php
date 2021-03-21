@@ -155,7 +155,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-9"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;margin-bottom: 2rem;"><a href="http://lmts.uag.ufrpe.br/" style="color: #909090;">Programa de vacinação criado pelo Laboratório Multidisciplinar de Tecnologias Sociais - LMTS com o apoio da Universidade Federal do Agreste de Pernambuco - UFAPE.</a></div>
+                    
                 </div>
             </div>
 
