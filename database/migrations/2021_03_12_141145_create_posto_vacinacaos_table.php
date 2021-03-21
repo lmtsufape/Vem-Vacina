@@ -18,6 +18,8 @@ class CreatePostoVacinacaosTable extends Migration
             $table->string("nome");
             $table->string("endereco");
             $table->bigInteger('vacinas_disponiveis')->default(0);
+            $table->boolean("para_idoso");
+            $table->boolean("para_profissional_da_saude");
             $table->timestamps();
             $table->softDeletes();
 

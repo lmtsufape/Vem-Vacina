@@ -38,6 +38,20 @@
                     </div>
                     <br>
                     <div class="row">
+                        <div class="col-md-6">
+                            <input id="para_idoso" type="checkbox" name="para_idoso" @if(old('para_idoso') || (old('para_idoso') == null && $posto->para_idoso)) checked @endif>
+                            <label for="para_idoso">Exclusivo para idosos</label>
+
+                            @error('para_idoso') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <input id="para_profissional_da_saude" type="checkbox" name="para_profissional_da_saude" @if(old('para_profissional_da_saude') || (old('para_profissional_da_saude') == null && $posto->para_profissional_da_saude)) checked @endif >
+                            <label for="para_profissional_da_saude">Exclusivo para profissionais da saúde</label>
+                            @error('para_profissional_da_saude') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
                         <div class="col-md-3">
                             <button class="btn btn-success">Salvar</button>
                         </div>

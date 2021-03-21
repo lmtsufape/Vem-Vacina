@@ -26,7 +26,7 @@ Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solic
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
 // Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");
 Route::post("/consultar-agendamento", [CandidatoController::class, 'consultar'])->name("agendamento.consultar");
-
+Route::get("/todos-os-postos", [PostoVacinacaoController::class, 'todosOsPostos'])->name("postos");
 Route::get("/horarios/{id_posto}", [PostoVacinacaoController::class, 'horarios'] )->name("posto.horarios");
 
 Route::get("/cep/{cep}", function($cep) {
