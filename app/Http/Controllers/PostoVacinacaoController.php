@@ -119,7 +119,24 @@ class PostoVacinacaoController extends Controller
     {
         Gate::authorize('criar-posto');
         $data = $request->all();
-        $posto = PostoVacinacao::create($data);
+        $posto = new PostoVacinacao();
+
+        $posto->nome = $request->nome;
+        $posto->endereco = $request->endereco;
+
+        if ($request->para_idoso != null) {
+            $posto->para_idoso = true;
+        } else {
+            $posto->para_profissional_da_saude = false;
+        }
+
+        if ($request->para_profissional_da_saude != null) {
+            $posto->para_profissional_da_saude = true;
+        } else {
+            $posto->para_profissional_da_saude = false;
+        }
+
+        $posto->save();
 
         return redirect()->route('postos.index')->with('message', 'Posto criado com sucesso!');
     }
@@ -159,9 +176,25 @@ class PostoVacinacaoController extends Controller
     {
         Gate::authorize('editar-posto');
         $data = $request->all();
-        $posto = PostoVacinacao::findOrFail($id);
-        $posto->update($data);
+        $posto = PostoVacinacao::find($id);
+        
+        $posto->nome = $request->nome;
+        $posto->endereco = $request->endereco;
 
+        if ($request->para_idoso == "on") {
+            $posto->para_idoso = true;
+        } else {
+            $posto->para_idoso = false;
+        }
+
+        if ($request->para_profissional_da_saude == "on") {
+            $posto->para_profissional_da_saude = true;
+        } else {
+            $posto->para_profissional_da_saude = false;
+        }
+        
+        $posto->update();
+        
         return redirect()->route('postos.index')->with('message', 'Posto editado com sucesso!');
     }
 
@@ -178,5 +211,11 @@ class PostoVacinacaoController extends Controller
         $posto->delete();
 
         return redirect()->route('postos.index')->with('message', 'Posto excluído com sucesso!');
+    }
+
+    public function todosOsPostos() {
+        $postos = PostoVacinacao::all();
+
+        return response()->json($postos);
     }
 }

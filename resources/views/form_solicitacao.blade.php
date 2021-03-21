@@ -55,7 +55,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input @error('profissional_da_saúde') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoProfissionalSaude()" name="profissional_da_saúde" @if(old('profissional_da_saúde')) checked @endif>
+                                    <input class="form-check-input @error('profissional_da_saúde') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoProfissionalSaude(this)" name="profissional_da_saúde" @if(old('profissional_da_saúde')) checked @endif>
                                     <label class="form-check-label style_titulo_input" for="defaultCheck2">PROFISSIONAL DA SAÚDE</label>
                                     
                                     @error('profissional_da_saúde')
@@ -88,7 +88,7 @@
                                 <br>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label for="inputNome" class="style_titulo_input">NOME COMPLETO <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputNome" class="style_titulo_input">NOME COMPLETO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <input type="text" class="form-control style_input @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{old('nome_completo')}}"> 
                                         
                                         @error('nome_completo')
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
                                         
                                         @error('data_de_nascimento')
@@ -110,7 +110,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
                                     
                                         @error('cpf')
@@ -132,7 +132,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="inputSexo" class="style_titulo_input">SEXO <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputSexo" class="style_titulo_input">SEXO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <select id="inputSexo" class="form-control style_input @error('sexo') is-invalid @enderror" name="sexo">
                                             <option selected disabled>-- Selecione o sexo --</option>
                                             @foreach($sexos as $sexo)
@@ -149,7 +149,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label for="inputNomeMae" class="style_titulo_input">NOME COMPLETO DA MÃE <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputNomeMae" class="style_titulo_input">NOME COMPLETO DA MÃE <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <input type="text" class="form-control style_input @error('nome_da_mãe') is-invalid @enderror" id="inputNomeMae" placeholder="Digite o nome completo da mãe" name="nome_da_mãe" value="{{old('nome_da_mãe')}}">
                                         
                                         @error('nome_da_mãe')
@@ -161,8 +161,22 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe se o idoso é acamado ou possui dificuldade de locomoção.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe se o idoso é acamado ou possui dificuldade de locomoção)</div>
                                 </div>
+
+                                
+                                <div class="form-check">
+                                    <input class="form-check-input @error('paciente_dificuldade_locomocao') is-invalid @enderror" type="checkbox" id="defaultCheck0" name="paciente_dificuldade_locomocao" @if(old('paciente_dificuldade_locomocao')) checked @endif>
+                                    <label class="form-check-label style_titulo_input" for="defaultCheck0">PACIENTE ESTÁ COM DIFICULDADE DE LOCOMOÇÃO</label>
+                                    
+                                    @error('paciente_dificuldade_locomocao')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                 
                                 <div class="form-check">
                                     <input class="form-check-input @error('paciente_acamado') is-invalid @enderror" type="checkbox" id="defaultCheck1" name="paciente_acamado" @if(old('paciente_acamado')) checked @endif>
                                     <label class="form-check-label style_titulo_input" for="defaultCheck1">PACIENTE ESTÁ ACAMADO </label>
@@ -173,8 +187,11 @@
                                     </div>
                                     @enderror
                                 </div>
+
+
+                                
                                 <div class="form-check">
-                                    <input class="form-check-input @error('paciente_agente_de_saude') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoVinculoComAEquipeDeSaudade()" name="paciente_agente_de_saude" @if(old('paciente_agente_de_saude')) checked @endif>
+                                    <input class="form-check-input @error('paciente_agente_de_saude') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoVinculoComAEquipeDeSaudade(this)" name="paciente_agente_de_saude" @if(old('paciente_agente_de_saude')) checked @endif>
                                     <label class="form-check-label style_titulo_input" for="defaultCheck2">PACIENTE TEM VÍNCULO COM A EQUIPE DE SAÚDE DA FAMÍLIA (AGENTE DE SAÚDE)</label>
                                     
                                     @error('paciente_agente_de_saude')
@@ -200,11 +217,11 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Contato</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe o telefone, whatsapp ou e-mail para contato que confirmaremos o agendamento da data e horário de aplicação da vacina.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe o telefone, whatsapp ou e-mail para contato que confirmaremos o agendamento da data e horário de aplicação da vacina)</div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputTelefone" class="style_titulo_input">TELEFONE <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        <label for="inputTelefone" class="style_titulo_input">TELEFONE <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                         <input type="text" class="form-control style_input celular @error('telefone') is-invalid @enderror" id="inputTelefone" placeholder="Digite o número do seu telefone" name="telefone" value="{{old('telefone')}}">
                                     
                                         @error('telefone')
@@ -232,14 +249,14 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Endereço</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe seu endereço, rua, número, se casa ou apartamento, CEP e bairro.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe seu endereço, rua, número, se casa ou apartamento, CEP e bairro)</div>
                                 </div>
 
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCEP" class="style_titulo_input">CEP</label>
-                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onkeydown="buscar_CEP(this, event)">
+                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onkeydown="buscar_CEP(this, event)" onchange="requisitar_preenchimento_cep(this.value)">
                                         
                                         @error('cep')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -252,8 +269,8 @@
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputCidade" class="style_titulo_input">CIDADE <span class="style_subtitulo_input">(obrigatório)</span> </label>
-                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="{{old('cidade')}}"> 
+                                        <label for="inputCidade" class="style_titulo_input">CIDADE <span class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="@if(old('cidade') != null){{old('cidade')}}@else{{"Garanhuns"}}@endif"> 
                                         
                                         @error('cidade')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -262,7 +279,7 @@
                                         @enderror
                                     </div> 
                                     <div class="form-group col-md-6">
-                                        <label for="inputBairro" class="style_titulo_input">BAIRRO <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputBairro" class="style_titulo_input">BAIRRO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <input id="inputBairro" class="form-control style_input @error('bairro') is-invalid @enderror" name="bairro" value="{{old('bairro')}}">
                                         
                                         @error('bairro')
@@ -274,7 +291,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputrua" class="style_titulo_input">RUA <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        <label for="inputrua" class="style_titulo_input">RUA <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                         <input type="text" class="form-control style_input @error('rua') is-invalid @enderror" id="inputrua" placeholder="Digite o nome da rua, avenida, travessa..." name="rua" value="{{old('rua')}}">
                                         
                                         @error('rua')
@@ -284,7 +301,7 @@
                                         @enderror
                                     </div> 
                                     <div class="form-group col-md-6">
-                                        <label for="inputNumeroResidencia" class="style_titulo_input">NÚMERO DA RESIDÊNCIA <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        <label for="inputNumeroResidencia" class="style_titulo_input">NÚMERO DA RESIDÊNCIA <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                         <input type="text" class="form-control style_input @error('número_residencial') is-invalid @enderror" id="inputNumeroResidencia" placeholder="Digite o nome da residência" name="número_residencial" value="{{old('número_residencial')}}">
                                         
                                         @error('número_residencial')
@@ -308,7 +325,10 @@
                                     </div>
                                 </div>
 
-                                <div><hr></div>
+                                <div class="form-group">
+                                    <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Local da vacinação</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Escolha o local, dia e horário que você quer se vacinar)</div>
+                                </div>
 
                                 <!-- informações do atendimento -->
                                 <!-- um select que vai ser selecionado a posto de atendimento -->
@@ -318,11 +338,17 @@
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O POSTO DE VACINAÇÃO MAIS PRÓXIMA DA SUA CASA <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O POSTO DE VACINAÇÃO MAIS PRÓXIMA DA SUA CASA <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                         <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
                                             <option selected disabled>-- Selecione o posto --</option>
                                             @foreach($postos as $posto)
-                                                <option value="{{$posto->id}}">{{$posto->nome}}</option>
+                                                @if(old('profissional_da_saúde') || old('paciente_agente_de_saude'))
+                                                    @if ($posto->para_profissional_da_saude)
+                                                        <option value="{{$posto->id}}">{{$posto->nome}}</option>
+                                                    @endif
+                                                @elseif($posto->para_idoso)
+                                                    <option value="{{$posto->id}}">{{$posto->nome}}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                         
@@ -333,7 +359,7 @@
                                         @enderror
                                     </div> 
                                     <div class="form-group col-md-6">
-                                        {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                         <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
                                             <option selected disabled>-- Selecione a dose --</option>
                                             <option value="{{$doses[0]}}">{{$doses[0]}}</option>
@@ -373,36 +399,47 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-9"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;margin-bottom: 2rem;"><a href="http://lmts.uag.ufrpe.br/" style="color: #909090;">Programa de vacinação criado pelo Laboratório Multidisciplinar de Tecnologias Sociais - LMTS com o apoio da Universidade Federal do Agreste de Pernambuco - UFAPE.</a></div>
         </div>
     </div>
 
     <!-- rodapé -->
-    <div style="background-color:#BDC3C7; display: flex; flex-wrap: wrap; justify-content: center;padding-bottom:5rem">
-        <div class="row" style="margin-top:1rem;text-align:center">
-            <hr class="col-md-12" size = 7 style="background-color:#fff">
-            <div class="col-md-4">
-                <div class="row justify-content-center" style="text-align:center; margin-bottom:2rem;">
-                    <div class="col-12" style="margin-bottom: 10px; color:#fff;">Desenvolvido por:</div>
-                    <img src="img/logo_lmts_p_branco.png" alt="LMTS" width="200px"> 
+    <div style="background-color:#313561; display: flex; flex-wrap: wrap;">
+        <div class="container">
+            <div class="row">
+              <div class="col-sm">
+                <div class="row justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
+                    <div class="col-12" style="margin-bottom: 45px; color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="img/logo_rede_sociais.png" alt="LMTS" width="20px"> Redes Sociais</div>
+                    <a href="https://www.facebook.com/PrefeituradeGaranhuns/" target="_blank"><img src="{{asset('img/facebook.png')}}" alt="LMTS" width="55px"> </a>
+                    <a href="https://twitter.com/garanhunspref" target="_blank"><img src="{{asset('img/twitter.png')}}" alt="LMTS" width="55px"> </a>
+                    <a href="https://www.instagram.com/prefgaranhuns/" target="_blank"><img src="{{asset('img/instagram.png')}}" alt="LMTS" width="55px"> </a>
+                    <a href="https://www.youtube.com/channel/UCHNqCIPyK42cjWUgO85C7Yg" target="_blank"><img src="{{asset('img/youtube.png')}}" alt="LMTS" width="43px" height="43x" style="margin-top: 4.5px;margin-left: 4px;"></a>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="row justify-content-center" style="text-align:center; margin-bottom:2rem;">
-                    <div class="col-12" style="color:#fff;">Apoio:</div>
-                    <img src="img/logo_ufape_branco.png" alt="UFAPE" width="240px"> 
+              </div>
+              <div class="col-sm">
+                <div class="form-group justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
+                    <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="{{asset('img/logo_fale_conosco.png')}}" alt="LMTS" width="15px"> Fale Conosco</div>
+                    <div style="color:#fff; font-size: 30px; font-weight: 600; font-family: Arial, Helvetica, sans-serif; margin-top:43px">(87) 3762-7000</div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="row justify-content-center" style="text-align:center">
-                    <div class="col-12" style="margin-bottom: 2rem; color:#fff;">Redes sociais:</div>
-                    <img src="img/logo_facebook_branco.png" width="40px" height="40px" style="margin-left: 10px; margin-right: 10px;">
-                    <img src="img/logo_instagram_branco.png" width="40px" height="40px" style="margin-left: 10px; margin-right: 10px;">
-                    <img src="img/logo_twitter_branco.png" width="40px" height="40px" style="margin-left: 10px; margin-right: 10px;">
+              </div>
+              <div class="col-sm">
+                <div class="form-group justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
+                    <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;">Desenvolvido por:</div>
+                    <div class="btn-group">
+                        <div style="margin-top: 21px;margin-right: 15px;"><a href="http://ufape.edu.br/" target="_blank"><img src="{{asset('img/logo_ufape.png')}}" alt="LMTS" width="165px"> </a></div>
+                        <div style="margin-top: 35px;"><a href="http://lmts.uag.ufrpe.br/" target="_blank"><img src="{{asset('img/logo_lmts.png')}}" alt="LMTS" width="140px"> </a></div>
+                    </div>
                 </div>
+              </div>
+              <div class="col-sm-12" style="text-align: center; margin-bottom: 2rem;margin-top: 1rem;">
+                <a href="https://garanhuns.pe.gov.br/mapa-do-site/" target="_blank" style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">MAPA DO SITE</a>
+                <a href="https://garanhuns.pe.gov.br/teclas-de-acessibilidade/" target="_blank" style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">TECLAS DE ACESSIBILIDADE</a>
+                <a href="https://garanhuns.pe.gov.br/telefones-uteis/" target="_blank" style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">TELEFONES ÚTEIS</a>
+
+              </div>
             </div>
-        </div>
+          </div>
     </div>
+    
     <!--x rodapé x-->
 
 
@@ -456,9 +493,21 @@
          
          // pega o valor do cep
          let cep = input.value + key;
+
+         requisitar_preenchimento_cep(cep);
          
+     }
+
+
+     function requisitar_preenchimento_cep(cep) {
+
+         if(!cep) {return;}
          
-         let url = "http://" + document.location.host + "/cep/" + cep;
+         cep = cep.match(/\d+/g, '').join("");
+         
+         if(cep.length != 8) {return;}
+         
+         let url = window.location.toString().replace("solicitar", "cep/" + cep);
          console.log(url);
 
          fetch(url).then((resposta) => {
@@ -475,41 +524,31 @@
              document.getElementById("inputrua").value = json.tipo_logradouro + " " + json.logradouro;
              
          });
-
-
      }
 
-     function funcaoVinculoComAEquipeDeSaudade(){
+     function funcaoVinculoComAEquipeDeSaudade(input){
         if(document.getElementById("id_div_nomeDaUnidade").style.display == "none"){
             document.getElementById("id_div_nomeDaUnidade").style.display = "block";
             document.getElementById("inputNomeUnidade").value = "";
-            $('#posto_vacinacao').val( $('option:contains(" Drive thru ")').val() );
-            $('#posto_vacinacao').attr('disabled', true);
-            selecionar_posto(document.getElementById('posto_vacinacao'));
         }else{
             document.getElementById("id_div_nomeDaUnidade").style.display = "none";
             document.getElementById("inputNomeUnidade").value = "";
             document.getElementById("inputNomeUnidade").placeholder = "Digite o nome da sua unidade (caso tenha vínculo)";
-            $('#posto_vacinacao').val( $('option:contains("-- Selecione o posto --")').val() );
-            $('#posto_vacinacao').attr('disabled', false);
+            
+            
         }
+        postoPara(input);
      }
 
-     function funcaoProfissionalSaude() {
+     function funcaoProfissionalSaude(input) {
         if(document.getElementById("divProfissionalSaude").style.display == "none"){
             document.getElementById("divProfissionalSaude").style.display = "block";
             document.getElementById("inputProfissao").value = "";
-            document.getElementById("inputFuncao").value = "";
-            $('#posto_vacinacao').val( $('option:contains(" Drive thru ")').val() );
-            $('#posto_vacinacao').attr('disabled', true);
-            selecionar_posto(document.getElementById('posto_vacinacao'));
         }else{
             document.getElementById("divProfissionalSaude").style.display = "none";
             document.getElementById("inputProfissao").value = "";
-            document.getElementById("inputFuncao").value = "";
-            $('#posto_vacinacao').val( $('option:contains("-- Selecione o posto --")').val() );
-            $('#posto_vacinacao').attr('disabled', false);
         }
+        postoPara(input);
      }
 
      
@@ -570,7 +609,38 @@
          select_horarios.required = true;
      }
      
-     
+    function postoPara(input) {
+        valor = input.checked;
+        $.ajax({
+            url: "{{route('postos')}}",
+            method: 'get',
+            type: 'get',
+            statusCode: {
+                404: function() {
+                    alert("Nenhum posto encontrado");
+                }
+            },
+            success: function(data){
+                
+                if (data != null) {
+                    var option = '<option selected disabled>-- Selecione o posto --</option>';
+                    if (data.length > 0) {
+                        $.each(data, function(i, obj) {
+                            if (obj.para_profissional_da_saude && valor) {
+                                option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
+                            } else if (valor == false && obj.para_idoso) {
+                                option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
+                            }
+                        })
+                    } 
+                    
+                    document.getElementById("posto_vacinacao").innerHTML = option;
+                }
+            }
+        })
+        
+              
+    }
      
     </script>
 

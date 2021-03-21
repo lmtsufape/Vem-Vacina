@@ -24,6 +24,7 @@ class CreateCandidatosTable extends Migration
             $table->string("numero_cartao_sus");
             $table->enum('sexo', Candidato::SEXO_ENUM);
             $table->string("nome_da_mae");
+            $table->boolean("paciente_dificuldade_locomocao")->nullable(true);
             $table->boolean("paciente_acamado")->nullable(true);
             $table->boolean("paciente_agente_de_saude")->nullable(true);
             $table->boolean("pessoa_idosa")->nullable(true);
@@ -42,6 +43,12 @@ class CreateCandidatosTable extends Migration
             $table->enum("dose", Candidato::DOSE_ENUM)->default(Candidato::DOSE_ENUM[0])->nullable(true);
             $table->datetime("chegada")->nullable(true);
             $table->datetime("saida")->nullable(true);
+
+            $table->unsignedBigInteger('lote_id')->nullable(true);
+            $table->unsignedBigInteger('posto_vacinacao_id')->nullable(true);
+            $table->unsignedBigInteger('etapa_id')->nullable(true);
+
+            $table->foreign('lote_id')->references('id')->on('lotes');
 
             $table->timestamps();
             $table->softDeletes();
