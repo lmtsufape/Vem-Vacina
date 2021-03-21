@@ -7,9 +7,11 @@
             </h2>
         </div>
         <div class="...">
-            <a href="{{ route('postos.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                Adicionar Posto
-            </a>
+            @can('criar-posto')
+                <a href="{{ route('postos.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Adicionar Posto
+                </a>
+            @endcan
         </div>
       </div>
   </x-slot>
@@ -28,7 +30,9 @@
                         <th scope="col">Nome</th>
                         <th scope="col">Endereço</th>
                         <th scope="col">Nº de vacinas disponíveis</th>
-                        <th scope="col">Ações</th>
+                        @can(['editar-posto', 'apagar-posto'])
+                            <th scope="col">Ações</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -48,15 +52,18 @@
                         </td>
                         <td>{{ $posto->vacinas_disponiveis ?? "Não há vacinas disponíveis" }}</td>
                         <td>
+                            @can('editar-posto')
                             <div class="row">
                                 <div class="col-md-4">
                                   <form action="{{ route('postos.edit', ['posto' => $posto->id]) }}" method="get">
                                       @csrf
-                                      <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2">
-                                          Editar
-                                      </button>
-                                  </form>
+                                        <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2">
+                                            Editar
+                                        </button>
+                                    </form>
                                 </div>
+                            @endcan
+                            @can('apagar-posto')
                                 <div class="col-md-4 ">
                                     <form action="{{ route('postos.destroy', ['posto' => $posto->id]) }}" method="post">
                                         @csrf
@@ -66,6 +73,7 @@
                                         </button>
                                     </form>
                                 </div>
+                                @endcan
                             </div>
                         </td>
                     </tr>

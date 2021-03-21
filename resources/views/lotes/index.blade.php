@@ -9,9 +9,11 @@
                 </h2>
             </div>
             <div class="...">
-                <a href="{{ route('lotes.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                    Adicionar Lote
-                </a>
+                @can('criar-lote')
+                    <a href="{{ route('lotes.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Adicionar Lote
+                    </a>
+                @endcan
 
             </div>
 
@@ -35,52 +37,54 @@
                           <th scope="col">Segunda dose</th>
                           <th scope="col">Fabricação</th>
                           <th scope="col">Validade</th>
-                          <th scope="col">Ações</th>
+                          @can(['editar-lote', 'apagar-lote'])
+                            <th scope="col" colspan="3">Ações</th>
+                          @endcan
 
                       </tr>
                   </thead>
                   <tbody>
-                      @foreach ($lotes as $lote)
-                      <tr>
-                          <td>{{$lote->numero_lote}}</td>
-                          <td>{{$lote->fabricante}}</td>
-                          <td>{{$lote->numero_vacinas}}</td>
-                          <td>{{$lote->segunda_dose ? 'Sim' : 'Não'}}</td>
-                          <td>{{ date('d/m/Y', strtotime($lote->data_fabricacao))  }}</td>
-                          <td>{{ date('d/m/Y', strtotime($lote->data_validade))}}</td>
-                          <td>
-                              <div class="row">
-                                  <div class="col-md-3">
-                                    <form action="{{ route('lotes.edit', ['lote' => $lote->id]) }}" method="get">
-                                        @csrf
-                                        @method('put')
-                                        <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                            Editar
-                                        </button>
-                                    </form>
-                                  </div>
-                                  <div class="col-md-3">
-                                      <form action="{{ route('lotes.destroy', ['lote' => $lote->id]) }}" method="post">
-                                          @csrf
-                                          @method('delete')
-                                          <button type="submit" onclick="return confirm('Você tem certeza?')" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ">
-                                              Excluir
-                                          </button>
-                                      </form>
-                                  </div>
-                                  <div class="col-md-3 ">
-                                    <form action="{{ route('lotes.distribuir', ['lote' => $lote->id]) }}" method="get">
-
-                                        <button type="submit" @if($lote->numero_vacinas == 0) disabled @endif class="disabled:opacity-50 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
-                                            Distribuir
-                                        </button>
-                                    </form>
-                                </div>
-                              </div>
-                          </td>
-
-                      </tr>
-                      @endforeach
+                    @foreach ($lotes as $lote)
+                    <tr>
+                      <td>{{$lote->numero_lote}}</td>
+                      <td>{{$lote->fabricante}}</td>
+                      <td>{{$lote->numero_vacinas}}</td>
+                      <td>{{$lote->segunda_dose ? 'Sim' : 'Não'}}</td>
+                      <td>{{ $lote->data_fabricacao ? date('d/m/Y', strtotime($lote->data_fabricacao)) : "Data não definida"  }}</td>
+                      <td>{{ $lote->data_validade ? date('d/m/Y', strtotime($lote->data_validade)) : "Data não definida" }}</td>
+                      <td>
+                        @can('editar-lote')
+                            <form action="{{ route('lotes.edit', ['lote' => $lote->id]) }}" method="get">
+                                @csrf
+                                @method('put')
+                                <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Editar
+                                </button>
+                            </form>
+                        @endcan
+                      </td>
+                      <td>
+                        @can('apagar-lote')
+                            <form action="{{ route('lotes.destroy', ['lote' => $lote->id]) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" onclick="return confirm('Você tem certeza?')" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ">
+                                    Excluir
+                                </button>
+                            </form>
+                        @endcan
+                      </td>
+                      <td>
+                        @can('distribuir-lote')
+                            <form action="{{ route('lotes.distribuir', ['lote' => $lote->id]) }}" method="get">
+                                <button type="submit" @if($lote->numero_vacinas == 0) disabled @endif class="disabled:opacity-50 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                                    Distribuir
+                                </button>
+                            </form>
+                        @endcan
+                      </td>
+                    </tr>
+                    @endforeach
                   </tbody>
               </table>
               {{ $lotes->links() }}

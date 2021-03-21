@@ -8,6 +8,7 @@ use App\Models\PostoVacinacao;
 use App\Http\Requests\StoreLoteRequest;
 use App\Http\Requests\DistribuicaoRequest;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 
 class LoteController extends Controller
 {
@@ -18,6 +19,8 @@ class LoteController extends Controller
      */
     public function index()
     {
+        Gate::authorize('ver-lote');
+
         $lotes = Lote::paginate(10);
         return view('lotes.index', compact('lotes'));
     }
@@ -29,6 +32,7 @@ class LoteController extends Controller
      */
     public function create()
     {
+        Gate::authorize('criar-lote');
         return view('lotes.store');
     }
 
@@ -40,6 +44,7 @@ class LoteController extends Controller
      */
     public function store(StoreLoteRequest $request)
     {
+        Gate::authorize('criar-lote');
 
         $this->isChecked($request, 'segunda_dose');
 
@@ -68,6 +73,8 @@ class LoteController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('editar-lote');
+
         $lote = Lote::findOrFail($id);
         return view('lotes.edit', compact('lote'));
     }
@@ -81,6 +88,8 @@ class LoteController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Gate::authorize('editar-lote');
+
         $this->isChecked($request, 'segunda_dose');
 
         $data = $request->all();
@@ -98,6 +107,7 @@ class LoteController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('apagar-lote');
         $lote = Lote::findOrFail($id);
         $lote->delete();
 
@@ -107,6 +117,7 @@ class LoteController extends Controller
 
     public function distribuir($id)
     {
+        Gate::authorize('distribuir-lote');
         $lote = Lote::findOrFail($id);
         $postos = PostoVacinacao::orderBy('vacinas_disponiveis')->get();
         return view('lotes.distribuicao', compact('lote', 'postos'));
@@ -114,6 +125,7 @@ class LoteController extends Controller
 
     public function calcular(Request $request)
     {
+        Gate::authorize('distribuir-lote');
         $rules = [
             'posto.*' => 'gte:0|integer'
         ];
@@ -163,11 +175,6 @@ class LoteController extends Controller
         }else{
             $request->merge([$field => true]);
         }
-    }
-
-    private function validation($request)
-    {
-
     }
 
 }

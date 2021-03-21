@@ -8,6 +8,7 @@ use Carbon\CarbonPeriod;
 use App\Models\PostoVacinacao;
 use Illuminate\Http\Request;
 use App\Models\Candidato;
+use Illuminate\Support\Facades\Gate;
 
 class PostoVacinacaoController extends Controller
 {
@@ -92,6 +93,7 @@ class PostoVacinacaoController extends Controller
      */
     public function index()
     {
+        Gate::authorize('ver-posto');
         $postos = PostoVacinacao::all();
         return view('postos.index', compact('postos'));
     }
@@ -103,6 +105,7 @@ class PostoVacinacaoController extends Controller
      */
     public function create()
     {
+        Gate::authorize('criar-posto');
         return view('postos.store');
     }
 
@@ -114,6 +117,7 @@ class PostoVacinacaoController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('criar-posto');
         $data = $request->all();
         $posto = new PostoVacinacao();
 
@@ -156,6 +160,7 @@ class PostoVacinacaoController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('editar-posto');
         $posto = PostoVacinacao::findOrFail($id);
         return view('postos.edit', compact('posto'));
     }
@@ -169,6 +174,7 @@ class PostoVacinacaoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Gate::authorize('editar-posto');
         $data = $request->all();
         $posto = PostoVacinacao::find($id);
         
@@ -200,6 +206,7 @@ class PostoVacinacaoController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('apagar-posto');
         $posto = PostoVacinacao::findOrFail($id);
         $posto->delete();
 

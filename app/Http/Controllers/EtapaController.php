@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Etapa;
 use App\Models\Candidato;
+use Illuminate\Support\Facades\Gate;
 
 class EtapaController extends Controller
 {
@@ -15,6 +16,7 @@ class EtapaController extends Controller
      */
     public function index()
     {
+        Gate::authorize('ver-etapa');
         $etapas = Etapa::orderBy('inicio_intervalo')->get();
 
         return view('etapas.index')->with(['etapas' => $etapas]);
@@ -27,6 +29,7 @@ class EtapaController extends Controller
      */
     public function create()
     {
+        Gate::authorize('criar-etapa');
         return view('etapas.create');
     }
 
@@ -38,6 +41,7 @@ class EtapaController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('criar-etapa');
         $validated = $request->validate([
             'inicio_faixa_etaria' => 'required|integer|min:0|max:110',
             'fim_faixa_etaria'    => 'required|integer|min:'.$request->inicio_faixa_etaria.'|max:150',
@@ -62,13 +66,13 @@ class EtapaController extends Controller
         } else {
             $etapa->total_pessoas_vacinadas_seg_dose = 0;
         }
-        
+
         $etapa->save();
-        
+
         if ($request->atual != null) {
             $requestAxu = new Request(['etapa_atual' => $etapa->id]);
             $this->definirEtapa($requestAxu);
-        } 
+        }
 
         // LEMBRAR DE COLOCAR A CHECAGEM ]
         // Continuar implementação apois mudança de qual dose a pessoa vai tomar
@@ -120,6 +124,7 @@ class EtapaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Gate::authorize('editar-etapa');
         $validated = $request->validate([
             'etapa_id'            => 'required',
             'inicio_faixa_etaria' => 'required|integer|min:0|max:110',
@@ -146,6 +151,7 @@ class EtapaController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('apagar-etapa');
         $etapa = Etapa::find($id);
 
         $candidatos = $etapa->candidatos;
@@ -161,7 +167,9 @@ class EtapaController extends Controller
         return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa excluida com sucesso!']);
     }
 
-    public function definirEtapa(Request $request) {
+    public function definirEtapa(Request $request)
+    {
+        Gate::authorize('definir-etapa');
         $etapa          = Etapa::where('atual', true)->first();
 
         if ($etapa != null) {
@@ -174,7 +182,7 @@ class EtapaController extends Controller
             $etapaAtual->atual  = true;
             $etapaAtual->update();
         }
-        
+
         return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa atual definida com sucesso!']);
     }
 }

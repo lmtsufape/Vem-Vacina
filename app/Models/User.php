@@ -16,10 +16,18 @@ class User extends Authenticatable
      *
      * @var array
      */
+    public const TIPO_ENUM = [
+        "admin" => "admin",
+        "gerente" => "gerente",
+        "colaborador" => "colaborador",
+        "secretaria" => "secretaria"
+    ];
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'tipo'
     ];
 
     /**
