@@ -161,7 +161,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe se o idoso é acamado ou possui dificuldade de locomoção.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe se o idoso é acamado ou possui dificuldade de locomoção)</div>
                                 </div>
 
                                 
@@ -217,7 +217,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Contato</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe o telefone, whatsapp ou e-mail para contato que confirmaremos o agendamento da data e horário de aplicação da vacina.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe o telefone, whatsapp ou e-mail para contato que confirmaremos o agendamento da data e horário de aplicação da vacina)</div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
@@ -249,7 +249,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Endereço</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe seu endereço, rua, número, se casa ou apartamento, CEP e bairro.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe seu endereço, rua, número, se casa ou apartamento, CEP e bairro)</div>
                                 </div>
 
                                 
@@ -327,7 +327,7 @@
 
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Local da vacinação</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Escolha o local, dia e horário que você quer se vacinar.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Escolha o local, dia e horário que você quer se vacinar)</div>
                                 </div>
 
                                 <!-- informações do atendimento -->
