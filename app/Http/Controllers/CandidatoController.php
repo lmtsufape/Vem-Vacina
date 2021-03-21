@@ -178,6 +178,7 @@ class CandidatoController extends Controller
         $candidato->posto_vacinacao_id      = $id_posto;
 
         $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
+        $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
         if(isset($dados["paciente_agente_de_saude"])) {
             $candidato->paciente_agente_de_saude = true;
