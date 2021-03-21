@@ -32,10 +32,12 @@
                                                 <span class="style_card_apresentacao_a_anos"> 
                                                     anos 
                                                 </span>
+                                                @if ($etapa->texto != null || $etapa->texto != "") 
                                                 <hr>
                                                 <span class="style_card_apresentacao_a_anos" style="position: relative; bottom: 10px;"> 
                                                     {{$etapa->texto}} 
                                                 </span>
+                                                @endif
                                             </div>
                                         @else
                                             <div class="col-md-12 style_card_apresentacao_grupos_a_serem_vacinados" >ETAPA ATUAL NÃO DEFINIDA</div>

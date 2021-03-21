@@ -107,7 +107,7 @@ class CandidatoController extends Controller
         // Relacionar o candidato com uma etapa (se existir)
         $idade              = $this->idade($request->data_de_nascimento);
         $candidato->idade   = $idade;
-        $etapa = Etapa::where([['inicio_intervalo', '<=', $idade], ['fim_intervalo', '>=', $idade]])->first();
+        $etapa = Etapa::where([['inicio_intervalo', '<=', $idade], ['fim_intervalo', '>=', $idade], ['atual', true]])->first();
         if ($etapa != null) {
             $candidato->etapa_id = $etapa->id;
         } else {
