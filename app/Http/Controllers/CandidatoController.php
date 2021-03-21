@@ -55,12 +55,12 @@ class CandidatoController extends Controller
     public function enviar_solicitacao(Request $request) {
 
         $request->validate([
-            "nome_completo"         => "required",
+            "nome_completo"         => "required|string|max:65",
             "data_de_nascimento"    => "required|date",
             "cpf"                   => "required",
             "número_cartão_sus"     => "required",
             "sexo"                  => "required",
-            "nome_da_mãe"           => "required",
+            "nome_da_mãe"           => "required|string|max:65",
             "telefone"              => "required",
             "whatsapp"              => "nullable",
             "email"                 => "nullable",
@@ -77,7 +77,7 @@ class CandidatoController extends Controller
             "pessoa_idosa"          => "nullable",
             "profissão"             => "required_if:profissional_da_saúde,on"
         ]);
-
+        
         $dados = $request->all();
 
         $candidato = new Candidato;
