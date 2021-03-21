@@ -119,7 +119,8 @@ class LoteController extends Controller
     {
         Gate::authorize('distribuir-lote');
         $lote = Lote::findOrFail($id);
-        $postos = PostoVacinacao::orderBy('vacinas_disponiveis')->get();
+        // $postos = PostoVacinacao::orderBy('vacinas_disponiveis')->get();
+        $postos = PostoVacinacao::all();
         return view('lotes.distribuicao', compact('lote', 'postos'));
     }
 
@@ -157,8 +158,8 @@ class LoteController extends Controller
             $posto->lotes()->syncWithoutDetaching($lote);
 
             $posto->lotes->find($lote_id)->pivot->qtdVacina += $value;
-            $posto->vacinas_disponiveis += $value;
-            $posto->save();
+            // $posto->vacinas_disponiveis += $value;
+            // $posto->save();
 
             $posto->lotes->find($lote_id)->pivot->save();
 

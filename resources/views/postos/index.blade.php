@@ -24,62 +24,77 @@
                     {{ session('message') }}
                 </div>
             @endif
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Endereço</th>
-                        <th scope="col">Nº de vacinas disponíveis</th>
-                        @can(['editar-posto', 'apagar-posto'])
-                            <th scope="col">Ações</th>
-                        @endcan
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($postos as $posto)
-                    {{-- @dd($posto->lotes->all()) --}}
-                    @php
-                        foreach ($posto->lotes->all() as $key => $value) {
-                            $posto->totalVacinas += $value->pivot->qtdVacina;
-                        }
-                    @endphp
-                    <tr>
-                        <td>{{$posto->nome}}</td>
-                        <td>
-                            <span class="d-inline-block text-truncate" tabindex="0" data-toggle="tooltip" title="{{$posto->endereco}}" style="max-width: 150px;">
-                                {{$posto->endereco}}
-                            </span>
-                        </td>
-                        <td>{{ $posto->vacinas_disponiveis ?? "Não há vacinas disponíveis" }}</td>
-                        <td>
-                            @can('editar-posto')
-                            <div class="row">
-                                <div class="col-md-4">
-                                  <form action="{{ route('postos.edit', ['posto' => $posto->id]) }}" method="get">
-                                      @csrf
-                                        <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2">
-                                            Editar
-                                        </button>
-                                    </form>
-                                </div>
-                            @endcan
-                            @can('apagar-posto')
-                                <div class="col-md-4 ">
-                                    <form action="{{ route('postos.destroy', ['posto' => $posto->id]) }}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button onclick="return confirm('Você tem certeza?')" type="submit" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2">
-                                            Excluir
-                                        </button>
-                                    </form>
-                                </div>
-                                @endcan
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="container">
+                <table class="table table-condensed"  id="myTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Endereço</th>
+                            <th scope="col">Nº de Vacinas</th>
+                            <th scope="col" colspan="2">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="panel">
+                        @foreach ($postos as $posto)
+                            <tr data-toggle="collapse" data-target="#demo1" data-parent="#myTable">
+                                <td>{{ $posto->nome }}</td>
+                                <td>{{ $posto->endereco }}</td>
+                                <td>{{ $posto->getVacinasDisponivel() }}</td>
+                                <td>
+                                    @can('editar-posto')
+                                        <form action="{{ route('postos.edit', ['posto' => $posto->id]) }}" method="get">
+                                            @csrf
+                                            <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2">
+                                                Editar
+                                            </button>
+                                        </form>
+                                    @endcan
+                                </td>
+                                <td>
+                                    @can('apagar-posto')
+                                        <form action="{{ route('postos.destroy', ['posto' => $posto->id]) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button onclick="return confirm('Você tem certeza?')" type="submit" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2">
+                                                Excluir
+                                            </button>
+                                        </form>
+                                    @endcan
+                                </td>
+                            </tr>
+                            <tr id="demo1" class="collapse">
+
+                                    <td colspan="5" class="hiddenRow">
+                                        <table class="table table-bordered table-info">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">Nº do lote</th>
+                                              <th scope="col">Fabricante</th>
+                                              <th scope="col">Nº de vacinas</th>
+                                              <th scope="col">Segunda Dose</th>
+                                              <th scope="col">Tempo para a segunda dose</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            @foreach ($posto->lotes as $lote)
+                                            <tr>
+                                              <th scope="row">{{$lote->numero_lote}}</th>
+                                              <td>{{$lote->fabricante}}</td>
+                                              <td>{{$lote->pivot->qtdVacina}}</td>
+                                              <td>{{$lote->segunda_dose ? 'Sim' : 'Não'}}</td>
+                                              <td>{{ $lote->segunda_dose && $lote->fim_periodo  ? 'Entre '.$lote->inicio_periodo." à  ". $lote->fim_periodo." dias" : " - "}} </td>
+                                            </tr>
+                                            @endforeach
+                                          </tbody>
+                                        </table>
+                                    </td>
+
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+                </table>
+            </div>
           </div>
       </div>
   </div>

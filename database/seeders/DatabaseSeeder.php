@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LoteSeeder::class,
             PostoVacinacaoSeeder::class,
-            CandidatoSeeder::class,
+            // CandidatoSeeder::class,
         ]);
         DB::table('users')->insert([
             'name' => 'Admin',

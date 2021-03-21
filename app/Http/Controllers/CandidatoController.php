@@ -233,8 +233,15 @@ class CandidatoController extends Controller
         $candidato = Candidato::find($id);
         $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
         $candidato->update();
-        $candidato->posto->vacinas_disponiveis -= 1;
-        $candidato->posto->update();
+        foreach ($candidato->posto->lote->all() as $key => $value) {
+            if($value->pivot->qtdVacina > 0){
+                $value->pivot->qtdVacina -= 1;
+                $candidato->lote->save($value);
+
+                break;
+            }
+        }
+
 
         $etapa = $candidato->etapa;
         if ($etapa != null) {
