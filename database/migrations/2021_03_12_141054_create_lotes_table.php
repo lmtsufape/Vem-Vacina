@@ -19,8 +19,8 @@ class CreateLotesTable extends Migration
             $table->string('fabricante');
             $table->integer('numero_vacinas');
             $table->boolean('segunda_dose');
-            $table->date("data_fabricacao");
-            $table->date("data_validade");
+            $table->date("data_fabricacao")->nullable(true);
+            $table->date("data_validade")->nullable(true);
             $table->timestamps();
             $table->softDeletes();
 
