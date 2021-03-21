@@ -42,9 +42,15 @@
                                 <th scope="col">Dia</th>
                                 <th scope="col">Horário</th>
                                 <th scope="col">Visualizar</th>
-                                <th scope="col">Resultado</th>
-                                <th scope="col" class="text-center">Confirmar vacinação</th>
-                                <th scope="col" class="text-center">Link</th>
+                                @can('confirmar-vaga-candidato')
+                                    <th scope="col">Resultado</th>
+                                @endcan
+                                @can('vacinado-candidato')
+                                    <th scope="col" class="text-center">Confirmar vacinação</th>
+                                @endcan
+                                @can('whatsapp-candidato')
+                                    <th scope="col" class="text-center">Link</th>
+                                @endcan
                             </tr>
                         </thead>
                         <tbody>
@@ -285,36 +291,43 @@
                                     @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
                                         Vacinado
                                     @else
+                                        @can('confirmar-vaga-candidato')
                                         <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
                                             @csrf
                                             <div class="row">
-                                                <div class="col-md-7">
+                                                <div class="col-md-8">
                                                     <select id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
                                                         <option value="" selected disabled>selecione</option>
                                                         <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
                                                         <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Vaga ocupada</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <button class="btn btn-success">Salvar</button>
+                                                <div class="col-md-2">
+
+                                                        <button class="btn btn-success">Salvar</button>
+
                                                 </div>
                                             </div>
                                         </form>
+                                        @endcan
                                     @endif
                                 </td>
 
                                 <td style="text-align: center;">
-                                    <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif>Vacinado</button>
+                                    @can('vacinado-candidato')
+                                        <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif>Vacinado</button>
+                                    @endcan
                                 </td>
                                 <td>
-                                    @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
-                                        <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia {{ date('d/m/Y \à\s  H:i \h', strtotime($candidato->chegada)) }}. Aguardamos você!" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
-                                    @elseif($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[2])
-                                        <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi reprovado." class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
-                                    @else
-                                        <a class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
-                                    @endif
-
+                                    @can('whatsapp-candidato')
+                                        @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
+                                            <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia {{ date('d/m/Y \à\s  H:i \h', strtotime($candidato->chegada)) }}. Aguardamos você!" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                        @elseif($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[2])
+                                            <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi reprovado." class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                        @else
+                                            <a class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                        @endif
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

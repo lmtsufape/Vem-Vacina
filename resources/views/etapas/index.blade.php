@@ -6,20 +6,24 @@
                     {{ __('Etapas') }}
                 </h2>
             </div>
-            
+
             <div class="col-md-3" style="text-align: right;">
                 <a data-toggle="modal" data-target="#definirEtapa">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Definir etapa atual
-                    </button>
+                    @can('definir-etapa')
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                            Definir etapa atual
+                        </button>
+                    @endcan
                 </a>
             </div>
 
             <div class="col-md-2" style="text-align: right;">
                 <a href="{{route('etapas.create')}}">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Adicionar etapa
-                    </button>
+                    @can('criar-etapa')
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                            Adicionar etapa
+                        </button>
+                    @endcan
                 </a>
             </div>
         </div>
@@ -45,7 +49,9 @@
                         <th scope="col">Atual</th>
                         <th scope="col">Pessoas vacinadas na 1ª dose</th>
                         <th scope="col">Pessoas vacinadas na 2ª dose</th>
-                        <th scope="col">Ações</th>
+                        @can(['editar-etapa', 'apagar-etapa'])
+                            <th scope="col">Ações</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -55,14 +61,18 @@
                             <td>{{$etapa->fim_intervalo}}</td>
                             @if ($etapa->atual)
                                 <td>Essa</td>
-                            @else 
+                            @else
                                 <td></td>
                             @endif
                             <td>{{$etapa->total_pessoas_vacinadas_pri_dose}}</td>
                             <td>{{$etapa->total_pessoas_vacinadas_seg_dose}}</td>
                             <td>
-                                <a href="#" data-toggle="modal" data-target="#editarEtapa{{$etapa->id}}"><button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</button></a>
+                                @can('editar-etapa')
+                                    <a href="#" data-toggle="modal" data-target="#editarEtapa{{$etapa->id}}"><button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</button></a>
+                                @endcan
+                                @can('apagar-etapa')
                                 <a href="#" data-toggle="modal" data-target="#excluirEtapa{{$etapa->id}}"><button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Excluir</button></a>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
@@ -126,7 +136,7 @@
                             <div class="col-md-6">
                                 <label for="inicio_faixa_etaria">Inicio da faixa etaria</label>
                                 <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etaria') is-invalid @enderror" type="number" name="inicio_faixa_etaria" placeholder="80" value="@if(old('inicio_faixa_etaria') != null){{old('inicio_faixa_etaria')}}@else{{$etapa->inicio_intervalo}}@endif">
-                            
+
                                 @error('inicio_faixa_etaria')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
                                         <strong>{{$message}}</strong>
@@ -136,7 +146,7 @@
                             <div class="col-md-6">
                                 <label for="fim_faixa_etaria">Fim da faixa etaria</label>
                                 <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etaria') is-invalid @enderror" type="number" name="fim_faixa_etaria" placeholder="85" value="@if(old('fim_faixa_etaria') != null){{old('fim_faixa_etaria')}}@else{{$etapa->fim_intervalo}}@endif">
-                                
+
                                 @error('fim_faixa_etaria')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
                                         <strong>{{$message}}</strong>
@@ -149,7 +159,7 @@
                             <div class="col-md-6">
                                 <label for="pri_dose">Total de pessoas vacinadas na 1ª dose</label>
                                 <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="@if(old('primeria_dose') != null){{old('primeria_dose')}}@else{{$etapa->total_pessoas_vacinadas_pri_dose}}@endif">
-                            
+
                                 @error('primeria_dose')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
                                         <strong>{{$message}}</strong>
@@ -159,7 +169,7 @@
                             <div class="col-md-6">
                                 <label for="seg_dose">Total de pessoas vacinadas na 2ª dose</label>
                                 <input id="seg_dose" class="form-control @error('segunda_dose') is-invalid @enderror" type="number" name="segunda_dose" placeholder="0" value="@if(old('segunda_dose') != null){{old('segunda_dose')}}@else{{$etapa->total_pessoas_vacinadas_seg_dose}}@endif">
-                            
+
                                 @error('segunda_dose')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
                                         <strong>{{$message}}</strong>

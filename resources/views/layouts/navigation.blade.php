@@ -14,18 +14,26 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Lista de agendamentos') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
-                        {{ __('Lista de Postos') }}
-                    </x-nav-link>
+                    @can('ver-posto')
+                        <x-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
+                            {{ __('Lista de Postos') }}
+                        </x-nav-link>
+                    @endcan
+                    @can('ver-lote')
                     <x-nav-link :href="route('lotes.index')" :active="request()->routeIs('lotes.*')">
                         {{ __('Lista de Lotes') }}
                     </x-nav-link>
+                    @endcan
+                    @can('ver-etapa')
                     <x-nav-link :href="route('etapas.index')" :active="request()->routeIs('etapas.*')">
                         {{ __('Etapas') }}
                     </x-nav-link>
+                    @endcan
+                    @can('ver-export')
                     <x-nav-link :href="route('export.index')" :active="request()->routeIs('export.*')">
                         {{ __('Exportar') }}
                     </x-nav-link>
+                    @endcan
                 </div>
             </div>
 

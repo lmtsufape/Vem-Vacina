@@ -17,15 +17,17 @@
                         </div>
                     @endif
                     <div class="list-group">
-                        <a href="{{ route('export.candidato') }}" class="list-group-item list-group-item-action">
-                            Exportar candidatos <span class="badge badge-success">{{ $candidatos }}</span>
-                        </a>
-                        <a href="{{ route('export.lote') }}" class="list-group-item list-group-item-action">
-                            Exportar Lotes <span class="badge badge-success">{{ $lotes }}</span>
-                        </a>
-                        <a href="{{ route('export.posto') }}" class="list-group-item list-group-item-action">
-                            Exportar Postos <span class="badge badge-success">{{ $postos }}</span>
-                        </a>
+                        @can('baixar-export')
+                            <a href="{{ route('export.candidato') }}" class="list-group-item list-group-item-action">
+                                Exportar candidatos <span class="badge badge-success">{{ $candidatos }}</span>
+                            </a>
+                            <a href="{{ route('export.lote') }}" class="list-group-item list-group-item-action">
+                                Exportar Lotes <span class="badge badge-success">{{ $lotes }}</span>
+                            </a>
+                            <a href="{{ route('export.posto') }}" class="list-group-item list-group-item-action">
+                                Exportar Postos <span class="badge badge-success">{{ $postos }}</span>
+                            </a>
+                        @endcan
                     </div>
                 </div>
             </div>

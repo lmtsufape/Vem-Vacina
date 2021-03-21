@@ -9,9 +9,11 @@
                 </h2>
             </div>
             <div class="...">
-                <a href="{{ route('lotes.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                    Adicionar Lote
-                </a>
+                @can('criar-lote')
+                    <a href="{{ route('lotes.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Adicionar Lote
+                    </a>
+                @endcan
 
             </div>
 
@@ -35,7 +37,9 @@
                           <th scope="col">Segunda dose</th>
                           <th scope="col">Fabricação</th>
                           <th scope="col">Validade</th>
-                          <th scope="col">Ações</th>
+                          @can(['editar-lote', 'apagar-lote'])
+                            <th scope="col">Ações</th>
+                          @endcan
 
                       </tr>
                   </thead>
@@ -50,32 +54,38 @@
                           <td>{{ date('d/m/Y', strtotime($lote->data_validade))}}</td>
                           <td>
                               <div class="row">
+                                @can('editar-lote')
                                   <div class="col-md-3">
                                     <form action="{{ route('lotes.edit', ['lote' => $lote->id]) }}" method="get">
                                         @csrf
                                         @method('put')
-                                        <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                            Editar
-                                        </button>
-                                    </form>
-                                  </div>
-                                  <div class="col-md-3">
+
+                                            <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                Editar
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endcan
+                                @can('apagar-lote')
+                                    <div class="col-md-3">
                                       <form action="{{ route('lotes.destroy', ['lote' => $lote->id]) }}" method="post">
                                           @csrf
                                           @method('delete')
-                                          <button type="submit" onclick="return confirm('Você tem certeza?')" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ">
-                                              Excluir
-                                          </button>
-                                      </form>
-                                  </div>
-                                  <div class="col-md-3 ">
+                                            <button type="submit" onclick="return confirm('Você tem certeza?')" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ">
+                                                Excluir
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endcan
+                                @can('distribuir-lote')
+                                    <div class="col-md-3 ">
                                     <form action="{{ route('lotes.distribuir', ['lote' => $lote->id]) }}" method="get">
-
-                                        <button type="submit" @if($lote->numero_vacinas == 0) disabled @endif class="disabled:opacity-50 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
-                                            Distribuir
-                                        </button>
-                                    </form>
-                                </div>
+                                            <button type="submit" @if($lote->numero_vacinas == 0) disabled @endif class="disabled:opacity-50 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                                                Distribuir
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endcan
                               </div>
                           </td>
 

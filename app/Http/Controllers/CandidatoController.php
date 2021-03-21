@@ -13,6 +13,7 @@ use App\Notifications\CandidatoInscrito;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 
 
 class CandidatoController extends Controller
@@ -207,6 +208,7 @@ class CandidatoController extends Controller
     }
 
     public function update(Request $request, $id) {
+        Gate::authorize('confirmar-vaga-candidato');
         $validated = $request->validate([
             'confirmacao' => 'required'
         ]);
@@ -227,6 +229,7 @@ class CandidatoController extends Controller
     }
 
     public function vacinado($id) {
+        Gate::authorize('vacinado-candidato');
         $candidato = Candidato::find($id);
         $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
         $candidato->update();
