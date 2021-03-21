@@ -270,7 +270,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCidade" class="style_titulo_input">CIDADE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="@if(old('cidade') != null){{old('cidade')}}@else{{"Garanhuns"}}@endif"> 
+                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="@if(old('cidade') != null){{old('cidade')}}@else{{"Garanhuns"}}@endif" disabled> 
                                         
                                         @error('cidade')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -519,7 +519,7 @@
                  return;
              }
              
-             document.getElementById("inputCidade").value = json.cidade;
+            //  document.getElementById("inputCidade").value = json.cidade;
              document.getElementById("inputBairro").value = json.bairro;
              document.getElementById("inputrua").value = json.tipo_logradouro + " " + json.logradouro;
              
