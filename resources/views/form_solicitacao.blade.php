@@ -325,7 +325,10 @@
                                     </div>
                                 </div>
 
-                                <div><hr></div>
+                                <div class="form-group">
+                                    <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Local da vacinação</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">Escolha o local, dia e horário que você quer se vacinar.</div>
+                                </div>
 
                                 <!-- informações do atendimento -->
                                 <!-- um select que vai ser selecionado a posto de atendimento -->
