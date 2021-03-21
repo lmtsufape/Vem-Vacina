@@ -88,7 +88,7 @@
                                 <br>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label for="inputNome" class="style_titulo_input">NOME COMPLETO <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputNome" class="style_titulo_input">NOME COMPLETO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <input type="text" class="form-control style_input @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{old('nome_completo')}}"> 
                                         
                                         @error('nome_completo')
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
                                         
                                         @error('data_de_nascimento')
@@ -110,7 +110,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
                                     
                                         @error('cpf')
@@ -132,7 +132,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="inputSexo" class="style_titulo_input">SEXO <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputSexo" class="style_titulo_input">SEXO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <select id="inputSexo" class="form-control style_input @error('sexo') is-invalid @enderror" name="sexo">
                                             <option selected disabled>-- Selecione o sexo --</option>
                                             @foreach($sexos as $sexo)
@@ -149,7 +149,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label for="inputNomeMae" class="style_titulo_input">NOME COMPLETO DA MÃE <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputNomeMae" class="style_titulo_input">NOME COMPLETO DA MÃE <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <input type="text" class="form-control style_input @error('nome_da_mãe') is-invalid @enderror" id="inputNomeMae" placeholder="Digite o nome completo da mãe" name="nome_da_mãe" value="{{old('nome_da_mãe')}}">
                                         
                                         @error('nome_da_mãe')
@@ -161,7 +161,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe se o idoso é acamado ou possui dificuldade de locomoção.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe se o idoso é acamado ou possui dificuldade de locomoção)</div>
                                 </div>
 
                                 
@@ -217,11 +217,11 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Contato</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe o telefone, whatsapp ou e-mail para contato que confirmaremos o agendamento da data e horário de aplicação da vacina.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe o telefone, whatsapp ou e-mail para contato que confirmaremos o agendamento da data e horário de aplicação da vacina)</div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputTelefone" class="style_titulo_input">TELEFONE <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        <label for="inputTelefone" class="style_titulo_input">TELEFONE <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                         <input type="text" class="form-control style_input celular @error('telefone') is-invalid @enderror" id="inputTelefone" placeholder="Digite o número do seu telefone" name="telefone" value="{{old('telefone')}}">
                                     
                                         @error('telefone')
@@ -249,7 +249,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Endereço</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">Informe seu endereço, rua, número, se casa ou apartamento, CEP e bairro.</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe seu endereço, rua, número, se casa ou apartamento, CEP e bairro)</div>
                                 </div>
 
                                 
@@ -269,8 +269,8 @@
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputCidade" class="style_titulo_input">CIDADE <span class="style_subtitulo_input">(obrigatório)</span> </label>
-                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="{{old('cidade')}}"> 
+                                        <label for="inputCidade" class="style_titulo_input">CIDADE <span class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="@if(old('cidade') != null){{old('cidade')}}@else{{"Garanhuns"}}@endif"> 
                                         
                                         @error('cidade')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -279,7 +279,7 @@
                                         @enderror
                                     </div> 
                                     <div class="form-group col-md-6">
-                                        <label for="inputBairro" class="style_titulo_input">BAIRRO <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                        <label for="inputBairro" class="style_titulo_input">BAIRRO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                         <input id="inputBairro" class="form-control style_input @error('bairro') is-invalid @enderror" name="bairro" value="{{old('bairro')}}">
                                         
                                         @error('bairro')
@@ -291,7 +291,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputrua" class="style_titulo_input">RUA <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        <label for="inputrua" class="style_titulo_input">RUA <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                         <input type="text" class="form-control style_input @error('rua') is-invalid @enderror" id="inputrua" placeholder="Digite o nome da rua, avenida, travessa..." name="rua" value="{{old('rua')}}">
                                         
                                         @error('rua')
@@ -301,7 +301,7 @@
                                         @enderror
                                     </div> 
                                     <div class="form-group col-md-6">
-                                        <label for="inputNumeroResidencia" class="style_titulo_input">NÚMERO DA RESIDÊNCIA <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        <label for="inputNumeroResidencia" class="style_titulo_input">NÚMERO DA RESIDÊNCIA <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                         <input type="text" class="form-control style_input @error('número_residencial') is-invalid @enderror" id="inputNumeroResidencia" placeholder="Digite o nome da residência" name="número_residencial" value="{{old('número_residencial')}}">
                                         
                                         @error('número_residencial')
@@ -325,7 +325,10 @@
                                     </div>
                                 </div>
 
-                                <div><hr></div>
+                                <div class="form-group">
+                                    <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Local da vacinação</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Escolha o local, dia e horário que você quer se vacinar)</div>
+                                </div>
 
                                 <!-- informações do atendimento -->
                                 <!-- um select que vai ser selecionado a posto de atendimento -->
@@ -335,7 +338,7 @@
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O POSTO DE VACINAÇÃO MAIS PRÓXIMA DA SUA CASA <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O POSTO DE VACINAÇÃO MAIS PRÓXIMA DA SUA CASA <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                         <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
                                             <option selected disabled>-- Selecione o posto --</option>
                                             @foreach($postos as $posto)
@@ -356,7 +359,7 @@
                                         @enderror
                                     </div> 
                                     <div class="form-group col-md-6">
-                                        {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                        {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                         <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
                                             <option selected disabled>-- Selecione a dose --</option>
                                             <option value="{{$doses[0]}}">{{$doses[0]}}</option>
@@ -396,7 +399,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-9"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;margin-bottom: 2rem;"><a href="http://lmts.uag.ufrpe.br/" style="color: #909090;">Programa de vacinação criado pelo Laboratório Multidisciplinar de Tecnologias Sociais - LMTS com o apoio da Universidade Federal do Agreste de Pernambuco - UFAPE.</a></div>
         </div>
     </div>
 
