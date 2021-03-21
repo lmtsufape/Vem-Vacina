@@ -179,6 +179,7 @@ class CandidatoController extends Controller
         $candidato->posto_vacinacao_id      = $id_posto;
 
         $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
+        $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
         if(isset($dados["paciente_agente_de_saude"])) {
             $candidato->paciente_agente_de_saude = true;
@@ -253,7 +254,6 @@ class CandidatoController extends Controller
         $validated = $request->validate([
             'consulta'              => "required",
             'cpf'                   => 'required',
-            // 'dose'      => 'required',
             'data_de_nascimento'    => 'required'
         ]);
 
@@ -263,14 +263,16 @@ class CandidatoController extends Controller
            ])->withInput($validated);
         }
 
-        $candidato = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])->first();
+        $agendamentos = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])
+                      ->orderBy("created_at", "desc") // Mostra primeiro o agendamento mais recente
+                      ->get();
 
-        if ($candidato == null) {
+        if ($agendamentos->count() == 0) {
             return redirect()->back()->withErrors([
                 "cpf" => "Dados não encontrados"
             ])->withInput($validated);
         }
 
-        return view("ver_agendamento", ["agendamento" => $candidato]);
+        return view("ver_agendamento", ["agendamentos" => $agendamentos]);
     }
 }
