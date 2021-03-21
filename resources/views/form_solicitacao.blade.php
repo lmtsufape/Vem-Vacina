@@ -55,7 +55,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input @error('profissional_da_saúde') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoProfissionalSaude()" name="profissional_da_saúde" @if(old('profissional_da_saúde')) checked @endif>
+                                    <input class="form-check-input @error('profissional_da_saúde') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoProfissionalSaude(this)" name="profissional_da_saúde" @if(old('profissional_da_saúde')) checked @endif>
                                     <label class="form-check-label style_titulo_input" for="defaultCheck2">PROFISSIONAL DA SAÚDE</label>
                                     
                                     @error('profissional_da_saúde')
@@ -174,7 +174,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input @error('paciente_agente_de_saude') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoVinculoComAEquipeDeSaudade()" name="paciente_agente_de_saude" @if(old('paciente_agente_de_saude')) checked @endif>
+                                    <input class="form-check-input @error('paciente_agente_de_saude') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoVinculoComAEquipeDeSaudade(this)" name="paciente_agente_de_saude" @if(old('paciente_agente_de_saude')) checked @endif>
                                     <label class="form-check-label style_titulo_input" for="defaultCheck2">PACIENTE TEM VÍNCULO COM A EQUIPE DE SAÚDE DA FAMÍLIA (AGENTE DE SAÚDE)</label>
                                     
                                     @error('paciente_agente_de_saude')
@@ -322,7 +322,13 @@
                                         <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
                                             <option selected disabled>-- Selecione o posto --</option>
                                             @foreach($postos as $posto)
-                                                <option id="{{$posto->nome}}" value="{{$posto->id}}">{{$posto->nome}}</option>
+                                                @if(old('profissional_da_saúde') || old('paciente_agente_de_saude'))
+                                                    @if ($posto->para_profissional_da_saude)
+                                                        <option value="{{$posto->id}}">{{$posto->nome}}</option>
+                                                    @endif
+                                                @elseif($posto->para_idoso)
+                                                    <option value="{{$posto->id}}">{{$posto->nome}}</option>
+                                                @endif
                                             @endforeach
                                         </select>
                                         
@@ -491,36 +497,29 @@
 
      }
 
-     function funcaoVinculoComAEquipeDeSaudade(){
+     function funcaoVinculoComAEquipeDeSaudade(input){
         if(document.getElementById("id_div_nomeDaUnidade").style.display == "none"){
             document.getElementById("id_div_nomeDaUnidade").style.display = "block";
             document.getElementById("inputNomeUnidade").value = "";
-            document.getElementById("Drive thru").style.display = "none";
-            // $('#posto_vacinacao').val( $('option:contains("Drive-thru")').val() );
-            // $('#posto_vacinacao').attr('disabled', true);
-            selecionar_posto(document.getElementById('posto_vacinacao'));
         }else{
             document.getElementById("id_div_nomeDaUnidade").style.display = "none";
             document.getElementById("inputNomeUnidade").value = "";
             document.getElementById("inputNomeUnidade").placeholder = "Digite o nome da sua unidade (caso tenha vínculo)";
-            $('#posto_vacinacao').val( $('option:contains("-- Selecione o posto --")').val() );
-            $('#posto_vacinacao').attr('disabled', false);
+            
+            
         }
+        postoPara(input);
      }
 
-     function funcaoProfissionalSaude() {
+     function funcaoProfissionalSaude(input) {
         if(document.getElementById("divProfissionalSaude").style.display == "none"){
             document.getElementById("divProfissionalSaude").style.display = "block";
             document.getElementById("inputProfissao").value = "";
-            $('#posto_vacinacao').val( $('option:contains("Drive-thru")').val() );
-            $('#posto_vacinacao').attr('disabled', true);
-            selecionar_posto(document.getElementById('posto_vacinacao'));
         }else{
             document.getElementById("divProfissionalSaude").style.display = "none";
             document.getElementById("inputProfissao").value = "";
-            $('#posto_vacinacao').val( $('option:contains("-- Selecione o posto --")').val() );
-            $('#posto_vacinacao').attr('disabled', false);
         }
+        postoPara(input);
      }
 
      
@@ -581,7 +580,38 @@
          select_horarios.required = true;
      }
      
-     
+    function postoPara(input) {
+        valor = input.checked;
+        $.ajax({
+            url: "{{route('postos')}}",
+            method: 'get',
+            type: 'get',
+            statusCode: {
+                404: function() {
+                    alert("Nenhum posto encontrado");
+                }
+            },
+            success: function(data){
+                
+                if (data != null) {
+                    var option = '<option selected disabled>-- Selecione o posto --</option>';
+                    if (data.length > 0) {
+                        $.each(data, function(i, obj) {
+                            if (obj.para_profissional_da_saude && valor) {
+                                option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
+                            } else if (valor == false && obj.para_idoso) {
+                                option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
+                            }
+                        })
+                    } 
+                    
+                    document.getElementById("posto_vacinacao").innerHTML = option;
+                }
+            }
+        })
+        
+              
+    }
      
     </script>
 

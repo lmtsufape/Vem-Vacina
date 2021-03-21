@@ -205,4 +205,10 @@ class PostoVacinacaoController extends Controller
 
         return redirect()->route('postos.index')->with('message', 'Posto excluído com sucesso!');
     }
+
+    public function todosOsPostos() {
+        $postos = PostoVacinacao::all();
+
+        return response()->json($postos);
+    }
 }
