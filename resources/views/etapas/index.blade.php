@@ -156,6 +156,19 @@
                         </div>
                         <br>
                         <div class="row">
+                            <div class="col-md-12">
+                                <label for="texto">Texto adicional</label>
+                                <textarea id="texto" class="form-control @error('texto') is-invalid @enderror" name="texto" cols="30" rows="5">@if(old('texto') != null){{old('texto')}}@else{{$etapa->texto}}@endif</textarea>
+                            
+                                @error('texto')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
                             <div class="col-md-6">
                                 <label for="pri_dose">Total de pessoas vacinadas na 1ª dose</label>
                                 <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="@if(old('primeria_dose') != null){{old('primeria_dose')}}@else{{$etapa->total_pessoas_vacinadas_pri_dose}}@endif">

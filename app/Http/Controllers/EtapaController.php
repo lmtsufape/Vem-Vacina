@@ -54,6 +54,12 @@ class EtapaController extends Controller
         $etapa->inicio_intervalo = $request->inicio_faixa_etaria;
         $etapa->fim_intervalo = $request->fim_faixa_etaria;
         $etapa->atual = false;
+        
+        if ($request->texto != null) {
+            $etapa->texto                           = $request->texto;
+        } else {
+            $etapa->texto                           = "";
+        }
 
         if ($request->primeria_dose != null) {
             $etapa->total_pessoas_vacinadas_pri_dose = $request->primeria_dose;
@@ -129,6 +135,7 @@ class EtapaController extends Controller
             'etapa_id'            => 'required',
             'inicio_faixa_etaria' => 'required|integer|min:0|max:110',
             'fim_faixa_etaria'    => 'required|integer|min:'.$request->inicio_faixa_etaria.'|max:150',
+            'texto'               => 'nullable',
             'primeria_dose'       => 'nullable',
             'segunda_dose'        => 'nullable',
         ]);
@@ -136,6 +143,11 @@ class EtapaController extends Controller
         $etapa = Etapa::find($id);
         $etapa->inicio_intervalo                    = $request->inicio_faixa_etaria;
         $etapa->fim_intervalo                       = $request->fim_faixa_etaria;
+        if ($request->texto != null) {
+            $etapa->texto                           = $request->texto;
+        } else {
+            $etapa->texto                           = "";
+        }
         $etapa->total_pessoas_vacinadas_pri_dose    = $request->primeria_dose;
         $etapa->total_pessoas_vacinadas_seg_dose    = $request->segunda_dose;
         $etapa->update();
