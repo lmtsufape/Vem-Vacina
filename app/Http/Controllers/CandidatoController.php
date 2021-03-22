@@ -112,7 +112,7 @@ class CandidatoController extends Controller
             $candidato->etapa_id = $etapa->id;
         } else {
             return redirect()->back()->withErrors([
-                "data_de_nascimento" => "Idade fora da faixa etária atual de vacinação"
+                "data_de_nascimento" => "Idade fora da faixa etária de vacinação"
             ])->withInput();
         }
 

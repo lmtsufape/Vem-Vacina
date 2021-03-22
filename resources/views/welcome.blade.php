@@ -24,7 +24,21 @@
                                     <div class="row">
                                         @if ($etapa != null)
                                             <div class="col-md-12 style_card_apresentacao_grupos_a_serem_vacinados" >GRUPOS A SEREM VACINADOS NESTA ETAPA:</div>
-                                            <div class="col-md-12 style_card_apresentacao_idade">{{$etapa->inicio_intervalo}}<span class="style_card_apresentacao_a_anos"> à </span>{{$etapa->fim_intervalo}}<span class="style_card_apresentacao_a_anos"> anos</span></div>
+                                            <div class="col-md-12 style_card_apresentacao_idade">
+                                                {{$etapa->inicio_intervalo}}
+                                                <span class="style_card_apresentacao_a_anos"> 
+                                                    à 
+                                                </span>{{$etapa->fim_intervalo}}
+                                                <span class="style_card_apresentacao_a_anos"> 
+                                                    anos 
+                                                </span>
+                                                @if ($etapa->texto != null || $etapa->texto != "") 
+                                                <hr>
+                                                <span class="style_card_apresentacao_a_anos" style="position: relative; bottom: 10px;"> 
+                                                    {{$etapa->texto}} 
+                                                </span>
+                                                @endif
+                                            </div>
                                         @else
                                             <div class="col-md-12 style_card_apresentacao_grupos_a_serem_vacinados" >ETAPA ATUAL NÃO DEFINIDA</div>
                                         @endif
