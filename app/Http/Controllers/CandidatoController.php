@@ -54,6 +54,7 @@ class CandidatoController extends Controller
 
     public function enviar_solicitacao(Request $request) {
 
+
         $request->validate([
             "nome_completo"         => "required|string|max:65",
             "data_de_nascimento"    => "required|date",
@@ -65,7 +66,7 @@ class CandidatoController extends Controller
             "whatsapp"              => "nullable",
             "email"                 => "nullable",
             "cep"                   => "nullable",
-            "cidade"                => "required",
+            // "cidade"                => "required", // como valor é fixado no front, pode ser desabilitado e hardcoded aqui no controller
             "bairro"                => "required",
             "rua"                   => "required",
             "número_residencial"    => "required",
@@ -79,7 +80,9 @@ class CandidatoController extends Controller
         ]);
         
         $dados = $request->all();
-
+        return $dados;
+        die;
+        return;
         $candidato = new Candidato;
         $candidato->nome_completo           = $request->nome_completo;
         $candidato->data_de_nascimento      = $request->data_de_nascimento;
@@ -91,7 +94,8 @@ class CandidatoController extends Controller
         $candidato->whatsapp                = $request->whatsapp;
         $candidato->email                   = $request->email;
         $candidato->cep                     = preg_replace('/[^0-9]/', '', $request->cep);
-        $candidato->cidade                  = $request->cidade;
+        // $candidato->cidade                  = $request->cidade;
+        $candidato->cidade                  = "Garanhuns";
         $candidato->bairro                  = $request->bairro;
         $candidato->logradouro              = $request->rua;
         $candidato->numero_residencia       = $request->input("número_residencial");
