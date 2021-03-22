@@ -240,7 +240,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCEP" class="style_titulo_input">CEP</label>
-                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onkeydown="buscar_CEP(this, event)" onchange="requisitar_preenchimento_cep(this.value)">
+                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onchange="requisitar_preenchimento_cep(this.value)">
                                         
                                         @error('cep')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -264,8 +264,14 @@
                                     </div> 
                                     <div class="form-group col-md-6">
                                         <label for="inputBairro" class="style_titulo_input">BAIRRO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input id="inputBairro" class="form-control style_input @error('bairro') is-invalid @enderror" name="bairro" value="{{old('bairro')}}">
-                                        
+
+                                        <select id="inputBairro" class="form-control style_input @error('bairro') is-invalid @enderror" name="bairro">
+                                            <option selected disabled>-- Selecione o bairro --</option>
+                                            @foreach($bairros as $bairro)
+                                                <option value="{{$bairro}}" @if (old('bairro') == $bairro) selected @endif>{{$bairro}}</option>
+                                            @endforeach
+                                        </select>
+
                                         @error('bairro')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
                                             <strong>{{$message}}</strong>
@@ -490,7 +496,7 @@
              }
              
             //  document.getElementById("inputCidade").value = json.cidade;
-             document.getElementById("inputBairro").value = json.bairro;
+             /* document.getElementById("inputBairro").value = json.bairro; */
              document.getElementById("inputrua").value = json.tipo_logradouro + " " + json.logradouro;
              
          });

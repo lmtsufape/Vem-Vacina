@@ -41,11 +41,28 @@ class CandidatoController extends Controller
         $profissoes_enum = Candidato::PROFISSAO_ENUM;
         sort($profissoes_enum);
 
+        $bairros = [
+            "Magano",
+            "Dom Hélder Câmara",
+            "Dom Thiago Postma",
+            "São José",
+            "Santo Antônio",
+            "Aloísio Pinto",
+            "Boa Vista",
+            "Francisco Figueira",
+            "Heliópolis",
+            "José Maria Dourado",
+            "Novo Heliópolis",
+            "Severiano Moraes Filho",
+            "Manoel Chéu",
+        ];
+
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
             "postos" => $postos_com_vacina,
             "doses" => Candidato::DOSE_ENUM,
             "profissoes" => $profissoes_enum,
+            "bairros" => $bairros,
         ]);
     }
     public function ver($id) {
