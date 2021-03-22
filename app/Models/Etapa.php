@@ -10,10 +10,13 @@ class Etapa extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public const TIPO_ENUM = ["Idade", "Texto", "Texto_opcao"];
+
     protected $fillable = [
         'inicio_intervalo',
         'fim_intervalo',
         'texto',
+        'tipo',
         'atual',
         'dose_unica',
         'total_pessoas_vacinadas_pri_dose',
@@ -21,6 +24,14 @@ class Etapa extends Model
     ];
 
     public function candidatos() {
-        return $this->hasMany(Candidato::class, 'etapa_id');
+        return $this->belongsToMany(Candidato::class, 'agendados', 'etapa_id', 'candidato_id')->withPivot('opcao_etapa_id');
+    }
+
+    public function opcoes() {
+        return $this->hasMany(OpcoesEtapa::class, 'etapa_id');
+    }
+
+    public function pontos() {
+        return $this->belongsToMany(PostoVacinacao::class, 'ocorrendo_vacinacaos', 'etapa_id', 'posto_id');
     }
 }

@@ -28,4 +28,8 @@ class PostoVacinacao extends Model
         }
         return $totalVacinas;
     }
+
+    public function publicos() {
+        return $this->belongsToMany(Etapa::class, 'ocorrendo_vacinacaos', 'posto_id', 'etapa_id');
+    }
 }

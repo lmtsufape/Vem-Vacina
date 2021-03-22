@@ -17,10 +17,15 @@ class WelcomeController extends Controller
         $etapaAtual = Etapa::where('atual', true)->first();
         
         $etapas = Etapa::all();
+
+        
         if ($etapas != null) {
             foreach ($etapas as $etapa) {
                 $quantPessoasPriDose += $etapa->total_pessoas_vacinadas_pri_dose;
                 $quantPessoasSegDose += $etapa->total_pessoas_vacinadas_seg_dose;
+                // if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+                //     dd($etapa->opcoes()->orderBy('opcao')->get());
+                // }
             }
         }
 
