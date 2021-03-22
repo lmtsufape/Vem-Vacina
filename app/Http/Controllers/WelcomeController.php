@@ -11,30 +11,30 @@ class WelcomeController extends Controller
     public function index() {
         $etapaAtual = null;
         $quantPessoasCadastradas = 0;
-        $quantPessoasPriDose = 0;
-        $quantPessoasSegDose = 0;
 
-        $etapaAtual = Etapa::where('atual', true)->first();
-        
-        $etapas = Etapa::all();
+        $total = Etapa::where([['atual', true], ['tipo', Etapa::TIPO_ENUM[3]]])->first();
+        $quantPessoasPriDose = $total->total_pessoas_vacinadas_pri_dose;
+        $quantPessoasSegDose = $total->total_pessoas_vacinadas_seg_dose;
 
+        $etapasAtuais = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
         
-        if ($etapas != null) {
-            foreach ($etapas as $etapa) {
-                $quantPessoasPriDose += $etapa->total_pessoas_vacinadas_pri_dose;
-                $quantPessoasSegDose += $etapa->total_pessoas_vacinadas_seg_dose;
-                // if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
-                //     dd($etapa->opcoes()->orderBy('opcao')->get());
-                // }
-            }
-        }
+        // if ($etapasAtuais != null) {
+        //     foreach ($etapas as $etapa) {
+        //         $quantPessoasPriDose += $etapa->total_pessoas_vacinadas_pri_dose;
+        //         $quantPessoasSegDose += $etapa->total_pessoas_vacinadas_seg_dose;
+        //         // if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+        //         //     dd($etapa->opcoes()->orderBy('opcao')->get());
+        //         // }
+        //     }
+        // }
 
         $quantPessoasCadastradas = count(Candidato::all());
 
-        return view('welcome')->with(['etapa'                   => $etapaAtual,
+        return view('welcome')->with(['etapas'                   => $etapasAtuais,
                                       'quantPessoasCadastradas' => $quantPessoasCadastradas,
                                       'quantPessoasPriDose'     => $quantPessoasPriDose,
                                       'quantPessoasSegDose'     => $quantPessoasSegDose,
-                                      'doses'                   => Candidato::DOSE_ENUM,]);
+                                      'doses'                   => Candidato::DOSE_ENUM,
+                                      'tipos'                   => Etapa::TIPO_ENUM,]);
     }
 }

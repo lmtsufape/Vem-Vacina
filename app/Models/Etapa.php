@@ -10,7 +10,7 @@ class Etapa extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public const TIPO_ENUM = ["Idade", "Texto", "Texto_opcao"];
+    public const TIPO_ENUM = ["Idade", "Texto", "Texto_opcao", "Total"];
 
     protected $fillable = [
         'inicio_intervalo',

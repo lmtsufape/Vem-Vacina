@@ -44,5 +44,15 @@ class EtapaSeeder extends Seeder
             'total_pessoas_vacinadas_pri_dose' => 0,
             'total_pessoas_vacinadas_seg_dose' => 0,
         ]);
+
+        DB::table('etapas')->insert([
+            'inicio_intervalo' => null,
+            'fim_intervalo'    => null,
+            'texto'            => null,
+            'tipo'             => Etapa::TIPO_ENUM[3],
+            'atual'            => true,
+            'total_pessoas_vacinadas_pri_dose' => 0,
+            'total_pessoas_vacinadas_seg_dose' => 0,
+        ]);
     }
 }
