@@ -123,7 +123,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="nome_{{$candidato->id}}">Tempo para segunda dose</label>
-                                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ? $candidato->lote->inicio_periodo ." dias" : " - "}}">
+                                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ?  " - " : $candidato->lote->inicio_periodo ." dias"  }}">
                                                     </div>
                                                 </div>
                                                 <br>
