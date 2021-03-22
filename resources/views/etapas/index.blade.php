@@ -9,11 +9,11 @@
 
             <div class="col-md-3" style="text-align: right;">
                 <a data-toggle="modal" data-target="#definirEtapa">
-                    @can('definir-etapa')
+                    {{-- @can('definir-etapa')
                         <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                             Definir etapa atual
                         </button>
-                    @endcan
+                    @endcan --}}
                 </a>
             </div>
 
@@ -40,45 +40,103 @@
             </div>
         @endif
 
-        <div class="row">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">De</th>
-                        <th scope="col">Até</th>
-                        <th scope="col">Atual</th>
-                        <th scope="col">Pessoas vacinadas na 1ª dose</th>
-                        <th scope="col">Pessoas vacinadas na 2ª dose</th>
-                        @can(['editar-etapa', 'apagar-etapa'])
-                            <th scope="col">Ações</th>
-                        @endcan
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="row" style="margin-top: 10px; margin-bottom: 50px;">
+            <div class="col-md-12">
+                <div class="accordion" id="accordionExample">
                     @foreach ($etapas as $etapa)
-                        <tr>
-                            <td>{{$etapa->inicio_intervalo}}</td>
-                            <td>{{$etapa->fim_intervalo}}</td>
-                            @if ($etapa->atual)
-                                <td>Essa</td>
-                            @else
-                                <td></td>
-                            @endif
-                            <td>{{$etapa->total_pessoas_vacinadas_pri_dose}}</td>
-                            <td>{{$etapa->total_pessoas_vacinadas_seg_dose}}</td>
-                            <td>
-                                @can('editar-etapa')
-                                    <a href="#" data-toggle="modal" data-target="#editarEtapa{{$etapa->id}}"><button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</button></a>
-                                @endcan
-                                @can('apagar-etapa')
-                                <a href="#" data-toggle="modal" data-target="#excluirEtapa{{$etapa->id}}"><button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Excluir</button></a>
-                                @endcan
-                            </td>
-                        </tr>
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{$etapa->id}}" aria-expanded="true" aria-controls="collapseOne">
+                                                @if ($etapa->tipo == $tipos[0]) 
+                                                    De {{$etapa->inicio_intervalo}} às {{$etapa->fim_intervalo}}
+                                                @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2]) 
+                                                    {{$etapa->texto}}
+                                                @endif
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: right;">
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#editarEtapa{{$etapa->id}}">Editar</button>
+                                        <button class="btn btn-danger" data-toggle="modal" data-target="#excluirEtapa{{$etapa->id}}">Excluir</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        
+                            <div id="collapse{{$etapa->id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="tipo_{{$etapa->id}}">Tipo de público</label>
+                                                @if ($etapa->tipo == $tipos[0])
+                                                    <input id="tipo_{{$etapa->id}}" class="form-control" type="text" value="Representado pela idade" disabled>
+                                                @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
+                                                    <input id="tipo_{{$etapa->id}}" class="form-control" type="text" value="Representado por texto" disabled>
+                                                @endif
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="exibir_na_home_{{$etapa->id}}">É exibido na home?</label>
+                                                @if ($etapa->exibir_na_home)
+                                                    <input id="exibir_na_home_{{$etapa->id}}" class="form-control" type="text" value="Sim" disabled>
+                                                @else
+                                                    <input id="exibir_na_home_{{$etapa->id}}" class="form-control" type="text" value="Não" disabled>
+                                                @endif
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="exibir_no_form_{{$etapa->id}}">Esta no agendamento?</label>
+                                                @if ($etapa->exibir_no_form)
+                                                    <input id="exibir_no_form_{{$etapa->id}}" class="form-control" type="text" value="Sim" disabled>
+                                                @else
+                                                    <input id="exibir_no_form_{{$etapa->id}}" class="form-control" type="text" value="Não" disabled>
+                                                @endif
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="opcoes_{{$etapa->id}}">Tem opções para selecionar?</label>
+                                                @if ($etapa->tipo == $tipos[2])
+                                                    <input id="opcoes_{{$etapa->id}}" class="form-control" type="text" value="Sim" disabled>
+                                                @else
+                                                    <input id="opcoes_{{$etapa->id}}" class="form-control" type="text" value="Não" disabled>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="texto_da_home_{{$etapa->id}}">Texto que aparece na home</label>
+                                                @if ($etapa->texto_home != null)
+                                                    <input id="texto_da_home_{{$etapa->id}}" class="form-control" type="text" value="{{$etapa->texto_home}}" disabled>
+                                                @else
+                                                    <input id="texto_da_home_{{$etapa->id}}" class="form-control" type="text" value="Não tem texto opcional" disabled>
+                                                @endif
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="pri_dose_{{$etapa->id}}">Pessoas vacinadas com 1ª dose</label>
+                                                <input id="pri_dose_{{$etapa->id}}" class="form-control" type="text" value="{{$etapa->total_pessoas_vacinadas_pri_dose}}" disabled>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="seg_dose_{{$etapa->id}}">Pessoas vacinadas com 2ª dose</label>
+                                                <input id="pri_dose_{{$etapa->id}}" class="form-control" type="text" value="{{$etapa->total_pessoas_vacinadas_seg_dose}}" disabled>
+                                            </div>
+                                            <div class="col-md-3" style="position: relative; top: 35px;">
+                                                <input id="atual_{{$etapa->id}}" type="checkbox" @if($etapa->atual) checked @endif onclick="salvarEtapa(this, {{$etapa->id}})" @can('definir-etapa') @else disabled @endif>
+                                                <label for="atual_{{$etapa->id}}">Faz parte dos públicos atuais?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
+
+        
     </div>
 
 <!-- Modal definir etapa atual -->
@@ -226,6 +284,34 @@
     </div>
     <!-- Fim modal excluir etapa atual -->
 @endforeach
+<script>
+    function salvarEtapa(input, id) {
+        valor = input.checked;
+        $.ajax({
+            url: "{{route('etapas.definirEtapa')}}",
+            method: 'get',
+            type: 'get',
+            data: {
+                etapa_id: id,
+                valor: function () {
+                    if (valor) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } 
+            },
+            statusCode: {
+                404: function() {
+                    alert("Nenhum posto encontrado");
+                }
+            },
+            success: function(data){
+                alert("Salvo com sucesso");
+            }
+        })
+    }
+</script>
 @if (old('etapa_id') != null)
 <script>
     $(document).ready(function() {

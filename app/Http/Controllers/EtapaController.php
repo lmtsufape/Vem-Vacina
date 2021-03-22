@@ -17,9 +17,9 @@ class EtapaController extends Controller
     public function index()
     {
         Gate::authorize('ver-etapa');
-        $etapas = Etapa::orderBy('inicio_intervalo')->get();
+        $etapas = Etapa::where('tipo', '!=', Etapa::TIPO_ENUM[3])->orderBy('id')->get();
 
-        return view('etapas.index')->with(['etapas' => $etapas]);
+        return view('etapas.index')->with(['etapas' => $etapas, 'tipos' => Etapa::TIPO_ENUM]);
     }
 
     /**
@@ -182,19 +182,26 @@ class EtapaController extends Controller
     public function definirEtapa(Request $request)
     {
         Gate::authorize('definir-etapa');
-        $etapa          = Etapa::where('atual', true)->first();
+        $etapa          = Etapa::find($request->etapa_id);
+        $etapa->atual   = $request->valor;
+        $etapa->update();
 
-        if ($etapa != null) {
-            $etapa->atual   = false;
-            $etapa->update();
+        if ($request->intero) {
+            return;
+        } else {
+            return abort(200);
         }
+        // if ($etapa != null) {
+        //     $etapa->atual   = false;
+        //     $etapa->update();
+        // }
 
-        if ($request != null) {
-            $etapaAtual         = Etapa::find($request->etapa_atual);
-            $etapaAtual->atual  = true;
-            $etapaAtual->update();
-        }
+        // if ($request != null) {
+        //     $etapaAtual         = Etapa::find($request->etapa_atual);
+        //     $etapaAtual->atual  = true;
+        //     $etapaAtual->update();
+        // }
 
-        return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa atual definida com sucesso!']);
+        // return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa atual definida com sucesso!']);
     }
 }
