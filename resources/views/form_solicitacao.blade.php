@@ -494,7 +494,7 @@
          if(cep.length != 8) {return;}
          
          let url = window.location.toString().replace("solicitar", "cep/" + cep);
-         console.log(url);
+         /* console.log(url); */
 
          fetch(url).then((resposta) => {
              return resposta.json();
@@ -542,7 +542,8 @@
          let id_posto = posto_selecionado.value;
          let div_seletor_horararios = document.getElementById("seletor_horario");
          div_seletor_horararios.innerHTML = "Buscando horários disponíveis...";
-         let url = "http://" + document.location.host + "/horarios/" + id_posto;
+         let url = window.location.toString().replace("solicitar", "horarios/" + id_posto);
+         /* console.log(url); */
 
          // Mágia de programação funcional
          fetch(url).then((dados) => {
