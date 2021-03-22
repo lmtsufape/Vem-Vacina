@@ -48,7 +48,7 @@
                             <div class="card-header" id="headingOne">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-9">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{$etapa->id}}" aria-expanded="true" aria-controls="collapseOne">
                                                 @if ($etapa->tipo == $tipos[0]) 
@@ -59,7 +59,7 @@
                                             </button>
                                         </h2>
                                     </div>
-                                    <div class="col-md-6" style="text-align: right;">
+                                    <div class="col-md-3" style="text-align: right;">
                                         <button class="btn btn-primary" data-toggle="modal" data-target="#editarEtapa{{$etapa->id}}">Editar</button>
                                         <button class="btn btn-danger" data-toggle="modal" data-target="#excluirEtapa{{$etapa->id}}">Excluir</button>
                                     </div>
@@ -177,10 +177,16 @@
 @foreach ($etapas as $etapa)
     <!-- Modal editar etapa atual -->
     <div class="modal fade" id="editarEtapa{{$etapa->id}}" tabindex="-1" aria-labelledby="editarEtapa{{$etapa->id}}Label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editarEtapa{{$etapa->id}}Label">Editar etapa de {{$etapa->inicio_intervalo}} até {{$etapa->fim_intervalo}}</h5>
+                <h5 class="modal-title" id="editarEtapa{{$etapa->id}}Label">
+                    @if($etapa->tipo == $tipos[0]) 
+                        Editar público {{$etapa->inicio_intervalo}} até {{$etapa->fim_intervalo}}
+                    @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
+                        Editar público {{$etapa->texto}}
+                    @endif
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -264,7 +270,13 @@
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="excluirEtapa{{$etapa->id}}Label">Excluir etapa de {{$etapa->inicio_intervalo}} até {{$etapa->fim_intervalo}}</h5>
+                <h5 class="modal-title" id="excluirEtapa{{$etapa->id}}Label">
+                    @if($etapa->tipo == $tipos[0]) 
+                        Excluir público {{$etapa->inicio_intervalo}} até {{$etapa->fim_intervalo}}
+                    @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
+                        Excluir público {{$etapa->texto}}
+                    @endif    
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
