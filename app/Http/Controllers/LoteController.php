@@ -47,6 +47,13 @@ class LoteController extends Controller
         Gate::authorize('criar-lote');
 
         $this->isChecked($request, 'dose_unica');
+        // dd(!$request->dose_unica && $request->numero_vacinas % 2 != 0);
+        if(!$request->dose_unica && $request->numero_vacinas % 2 != 0) {
+            return redirect()->back()->withErrors([
+                "numero_vacinas" => "Número tem que ser par."
+            ])->withInput();
+
+        }
 
         $data = $request->all();
         $lote = Lote::create($data);
@@ -134,6 +141,7 @@ class LoteController extends Controller
             'posto.*.gte' => 'O número digitado deve ser maior ou igual a 0.',
         ];
         $validator = Validator::make($request->all(), $rules, $messages );
+
 
         if ($validator->fails()) {
             return redirect()->back()
