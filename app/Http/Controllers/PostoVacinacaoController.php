@@ -225,9 +225,17 @@ class PostoVacinacaoController extends Controller
         return redirect()->route('postos.index')->with('message', 'Posto excluído com sucesso!');
     }
 
-    public function todosOsPostos() {
-        $postos = PostoVacinacao::all();
+    public function todosOsPostos(Request $request) {
+        $etapa = null;
 
-        return response()->json($postos);
+        if ($request->publico_id == 0) {
+            $postos = PostoVacinacao::where('padrao_no_formulario', true)->get();
+            return response()->json($postos);
+        } else {
+            $etapa = Etapa::find($request->publico_id);
+            return response()->json($etapa->pontos);
+        }
+
+        
     }
 }

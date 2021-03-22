@@ -379,13 +379,7 @@
                                         <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
                                             <option selected disabled>-- Selecione o posto --</option>
                                             @foreach($postos as $posto)
-                                                @if(old('profissional_da_saúde') || old('paciente_agente_de_saude'))
-                                                    @if ($posto->para_profissional_da_saude)
-                                                        <option value="{{$posto->id}}">{{$posto->nome}}</option>
-                                                    @endif
-                                                @elseif($posto->para_idoso)
-                                                    <option value="{{$posto->id}}">{{$posto->nome}}</option>
-                                                @endif
+                                                <option value="{{$posto->id}}">{{$posto->nome}}</option>
                                             @endforeach
                                         </select>
                                         
@@ -585,7 +579,7 @@
             document.getElementById("divPublico_"+id).style.display = "none";
             document.getElementById("publico_opcao_"+id).value = "";
         }
-        postoPara(input);
+        postoPara(input, id);
      }
 
      
@@ -646,28 +640,33 @@
          select_horarios.required = true;
      }
      
-    function postoPara(input) {
+    function postoPara(input, id) {
         valor = input.checked;
         $.ajax({
             url: "{{route('postos')}}",
             method: 'get',
             type: 'get',
+            data: {
+                publico_id: function () {
+                    if (valor) {
+                        return id;
+                    } else {
+                        return 0;
+                    }
+                } 
+            },
             statusCode: {
                 404: function() {
                     alert("Nenhum posto encontrado");
                 }
             },
             success: function(data){
-                
+                // console.log(data);
                 if (data != null) {
                     var option = '<option selected disabled>-- Selecione o posto --</option>';
                     if (data.length > 0) {
                         $.each(data, function(i, obj) {
-                            if (obj.para_profissional_da_saude && valor) {
-                                option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
-                            } else if (valor == false && obj.para_idoso) {
-                                option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
-                            }
+                            option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
                         })
                     } 
                     

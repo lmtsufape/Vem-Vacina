@@ -37,8 +37,8 @@ class CandidatoController extends Controller
     public function solicitar() {
 
         // TODO: pegar só os postos com vacinas disponiveis
-        $postos_com_vacina = PostoVacinacao::where(['padrao_no_formulario']);
-        $etapasAtuais = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
+        $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
+        $etapasAtuais = Etapa::where('atual', true)->get();
 
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
