@@ -30,7 +30,7 @@ class EtapaController extends Controller
     public function create()
     {
         Gate::authorize('criar-etapa');
-        return view('etapas.create');
+        return view('etapas.create')->with(['tipos' => Etapa::TIPO_ENUM]);
     }
 
     /**
