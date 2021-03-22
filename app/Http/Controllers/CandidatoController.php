@@ -181,14 +181,6 @@ class CandidatoController extends Controller
         $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
         $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
-        if(isset($dados["paciente_agente_de_saude"])) {
-            $candidato->paciente_agente_de_saude = true;
-            $candidato->unidade_caso_agente_de_saude = $dados["unidade_caso_agente_de_saude"];
-        } else {
-            $candidato->paciente_agente_de_saude = false;
-            $candidato->unidade_caso_agente_de_saude = "Não informado";
-        }
-
         $candidato->save();
 
         if($candidato->email != null){
