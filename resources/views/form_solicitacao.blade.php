@@ -44,47 +44,84 @@
                         <div class="col-md-12">
                             <form method="POST" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
-                                <div class="form-check">
-                                    <input class="form-check-input @error('pessoa_idosa') is-invalid @enderror" type="checkbox" id="defaultCheck2" name="pessoa_idosa" @if(old('pessoa_idosa')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PESSOA IDOSA</label>
-                                    
-                                    @error('pessoa_idosa')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input @error('profissional_da_saúde') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoProfissionalSaude(this)" name="profissional_da_saúde" @if(old('profissional_da_saúde')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PROFISSIONAL DA SAÚDE</label>
-                                    
-                                    @error('profissional_da_saúde')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-
-                                    <div id="divProfissionalSaude" @if (old('profissional_da_saúde')) style="display: block;" @else style="display: none;" @endif>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Profissão que exerce (caso profissional da saúde) </label>
-                                                <select type="text" class="form-control @error('profissão') is-invalid @enderror" id="inputProfissao" placeholder="Digite o nome da sua profissão" name="profissão"> 
-                                                    <option value="">-- Selecione sua profissão --</option>
-                                                    @foreach ($profissoes as $profissao)
-                                                        <option value="{{$profissao}}" @if(old('profissão') == $profissao) selected @endif>{{$profissao}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('profissão')
-                                                <div id="validationServer05Feedback" class="invalid-feedback">
-                                                    <strong>{{$message}}</strong>
+                                @if (old('publico') != null)
+                                    @foreach ($publicos as $publico)
+                                        @if ($publico->exibir_no_form)
+                                            @if ($publico->tipo == $tipos[0])
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="defaultCheck2" name="publicos[]" value="{{$publico->id}}" @if(in_array($publico->id, old('publico'))) checked @endif>
+                                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
                                                 </div>
-                                                @enderror
-                                                <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small>
+                                            @elseif ($publico->tipo == $tipos[1])
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="defaultCheck2" name="publicos[]" value="{{$publico->id}}" @if(in_array($publico->id, old('publico'))) checked @endif>
+                                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
+                                                </div>
+                                            @elseif ($publico->tipo == $tipos[2])
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="defaultCheck2" onclick="funcaoMostrarOpcoes(this, {{$publico->id}})" name="publicos[]" value="{{$publico->id}}" @if(in_array($publico->id, old('publico'))) checked @endif>
+                                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
+
+                                                    <div id="divPublico_{{$publico->id}}" @if (in_array($publico->id, old('publico'))) style="display: block;" @else style="display: none;" @endif>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}(caso {{$publico->texto}})</label>
+                                                                <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}"> 
+                                                                    <option value="" seleceted disabled>-- Selecione o tipo --</option>
+                                                                    @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
+                                                                        <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @error('publico_opcao_'.$publico->id)
+                                                                <div id="validationServer05Feedback" class="invalid-feedback">
+                                                                    <strong>{{$message}}</strong>
+                                                                </div>
+                                                                @enderror
+                                                                {{-- <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small> --}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                @else
+                                @foreach ($publicos as $publico)
+                                    @if ($publico->exibir_no_form) 
+                                        @if ($publico->tipo == $tipos[0])
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="defaultCheck2" name="publicos[]" value="{{$publico->id}}">
+                                                <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
                                             </div>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
+                                        @elseif ($publico->tipo == $tipos[1])
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="defaultCheck2" name="publicos[]" value="{{$publico->id}}">
+                                                <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
+                                            </div>
+                                        @elseif ($publico->tipo == $tipos[2])
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="defaultCheck2" onclick="funcaoMostrarOpcoes(this, {{$publico->id}})" name="publicos[]" value="{{$publico->id}}">
+                                                <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
+
+                                                <div id="divPublico_{{$publico->id}}" @if (old('publico_'.$publico->id)) style="display: block;" @else style="display: none;" @endif>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}(caso {{$publico->texto}})</label>
+                                                            <select class="form-control" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}"> 
+                                                                <option value="" seleceted disabled>-- Selecione o tipo --</option>
+                                                                @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
+                                                                    <option value="{{$opcao->id}}">{{$opcao->opcao}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            {{-- <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small> --}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
+                                @endforeach
+                                @endif
                                 <br>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
@@ -540,13 +577,13 @@
         postoPara(input);
      }
 
-     function funcaoProfissionalSaude(input) {
-        if(document.getElementById("divProfissionalSaude").style.display == "none"){
-            document.getElementById("divProfissionalSaude").style.display = "block";
-            document.getElementById("inputProfissao").value = "";
+     function funcaoMostrarOpcoes(input, id) {
+        if(document.getElementById("divPublico_"+id).style.display == "none"){
+            document.getElementById("divPublico_"+id).style.display = "block";
+            document.getElementById("publico_opcao_"+id).value = "";
         }else{
-            document.getElementById("divProfissionalSaude").style.display = "none";
-            document.getElementById("inputProfissao").value = "";
+            document.getElementById("divPublico_"+id).style.display = "none";
+            document.getElementById("publico_opcao_"+id).value = "";
         }
         postoPara(input);
      }

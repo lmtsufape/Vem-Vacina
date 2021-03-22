@@ -38,15 +38,16 @@ class CandidatoController extends Controller
 
         // TODO: pegar só os postos com vacinas disponiveis
         $postos_com_vacina = PostoVacinacao::all();
-        $profissoes_enum = Candidato::PROFISSAO_ENUM;
-        sort($profissoes_enum);
+        $etapasAtuais = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
 
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
             "postos" => $postos_com_vacina,
             "doses" => Candidato::DOSE_ENUM,
-            "profissoes" => $profissoes_enum,
+            "publicos" => $etapasAtuais,
+            "tipos"    => Etapa::TIPO_ENUM,
         ]);
+
     }
     public function ver($id) {
         return view("ver_agendamento", ["agendamento" => Candidato::find($id)]);

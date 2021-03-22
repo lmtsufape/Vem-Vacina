@@ -17,16 +17,6 @@ class WelcomeController extends Controller
         $quantPessoasSegDose = $total->total_pessoas_vacinadas_seg_dose;
 
         $etapasAtuais = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
-        
-        // if ($etapasAtuais != null) {
-        //     foreach ($etapas as $etapa) {
-        //         $quantPessoasPriDose += $etapa->total_pessoas_vacinadas_pri_dose;
-        //         $quantPessoasSegDose += $etapa->total_pessoas_vacinadas_seg_dose;
-        //         // if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
-        //         //     dd($etapa->opcoes()->orderBy('opcao')->get());
-        //         // }
-        //     }
-        // }
 
         $quantPessoasCadastradas = count(Candidato::all());
 
