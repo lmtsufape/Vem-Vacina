@@ -189,32 +189,7 @@
                                 </div>
 
 
-                                
-                                <div class="form-check">
-                                    <input class="form-check-input @error('paciente_agente_de_saude') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoVinculoComAEquipeDeSaudade(this)" name="paciente_agente_de_saude" @if(old('paciente_agente_de_saude')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PACIENTE TEM VÍNCULO COM A EQUIPE DE SAÚDE DA FAMÍLIA (AGENTE DE SAÚDE)</label>
-                                    
-                                    @error('paciente_agente_de_saude')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-                                    
-                                    <div class="form-group" style="@if(old('paciente_agente_de_saude')) display: block; @else display: none; @endif" id="id_div_nomeDaUnidade">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label for="inputNomeUnidade" class="style_titulo_input" style="font-weight: normal;">Qual o nome da sua unidade (caso tenha vínculo) </label>
-                                                <input type="text" class="form-control @error('unidade_caso_agente_de_saude') is-invalid @enderror" id="inputNomeUnidade" placeholder="Digite o nome da sua unidade" name="unidade_caso_agente_de_saude" value="{{old('unidade_caso_agente_de_saude')}}">
-                                                
-                                                @error('unidade_caso_agente_de_saude')
-                                                <div id="validationServer05Feedback" class="invalid-feedback">
-                                                    <strong>{{$message}}</strong>
-                                                </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Contato</div>
                                     <div style="font-size: 15px; margin-bottom: 15px;">(Informe o telefone, whatsapp ou e-mail para contato que confirmaremos o agendamento da data e horário de aplicação da vacina)</div>
@@ -342,7 +317,7 @@
                                         <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
                                             <option selected disabled>-- Selecione o posto --</option>
                                             @foreach($postos as $posto)
-                                                @if(old('profissional_da_saúde') || old('paciente_agente_de_saude'))
+                                                @if(old('profissional_da_saúde'))
                                                     @if ($posto->para_profissional_da_saude)
                                                         <option value="{{$posto->id}}">{{$posto->nome}}</option>
                                                     @endif
