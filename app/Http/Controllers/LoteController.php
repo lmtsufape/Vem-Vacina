@@ -46,7 +46,7 @@ class LoteController extends Controller
     {
         Gate::authorize('criar-lote');
 
-        $this->isChecked($request, 'segunda_dose');
+        $this->isChecked($request, 'dose_unica');
 
         $data = $request->all();
         $lote = Lote::create($data);
@@ -90,7 +90,7 @@ class LoteController extends Controller
     {
         Gate::authorize('editar-lote');
 
-        $this->isChecked($request, 'segunda_dose');
+        $this->isChecked($request, 'dose_unica');
 
         $data = $request->all();
         $lote = Lote::findOrFail($id);
@@ -151,17 +151,14 @@ class LoteController extends Controller
 
 
         foreach($request->posto as $key => $value){
-            $posto = PostoVacinacao::find($key);
-            $lote->numero_vacinas -= $value;
-            $lote->save();
-            // dd($posto->lotes->find($lote_id) == null);
-            $posto->lotes()->syncWithoutDetaching($lote);
-
-            $posto->lotes->find($lote_id)->pivot->qtdVacina += $value;
-            // $posto->vacinas_disponiveis += $value;
-            // $posto->save();
-
-            $posto->lotes->find($lote_id)->pivot->save();
+            if ($value > 0) {
+                $posto = PostoVacinacao::find($key);
+                $lote->numero_vacinas -= $value;
+                $lote->save();
+                $posto->lotes()->syncWithoutDetaching($lote);
+                $posto->lotes->find($lote_id)->pivot->qtdVacina += $value;
+                $posto->lotes->find($lote_id)->pivot->save();
+            }
 
         }
 

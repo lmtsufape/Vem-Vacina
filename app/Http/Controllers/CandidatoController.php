@@ -77,7 +77,7 @@ class CandidatoController extends Controller
             "pessoa_idosa"          => "nullable",
             "profissão"             => "required_if:profissional_da_saúde,on"
         ]);
-        
+
         $dados = $request->all();
 
         $candidato = new Candidato;
@@ -97,7 +97,7 @@ class CandidatoController extends Controller
         $candidato->numero_residencia       = $request->input("número_residencial");
         $candidato->complemento_endereco    = $request->complemento_endereco;
         $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
-        $candidato->dose                    = Candidato::APROVACAO_ENUM[0];
+        $candidato->dose                    = Candidato::DOSE_ENUM[0];
         $candidato->pessoa_idosa            = $request->pessoa_idosa;
 
         if ($request->profissional_da_saúde) {
@@ -165,13 +165,20 @@ class CandidatoController extends Controller
                 break;
             }
         }
+        // foreach ($candidato->posto->lotes->all() as $key => $lote) {
+        //     if($lote->pivot->qtdVacina > 0){
+        //         $lote->pivot->qtdVacina -= 1;
+        //         $candidato->lote->save($lote);
+
+        //         break;
+        //     }
+        // }
 
         if($id_lote == 0) { // Se é 0 é porque não tem vacinas...
             return redirect()->back()->withErrors([
                 "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto..."
             ])->withInput();
         }
-
 
         $candidato->chegada                 = $datetime_chegada;
         $candidato->saida                   = $datetime_saida;
@@ -234,14 +241,7 @@ class CandidatoController extends Controller
         $candidato = Candidato::find($id);
         $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
         $candidato->update();
-        foreach ($candidato->posto->lote->all() as $key => $value) {
-            if($value->pivot->qtdVacina > 0){
-                $value->pivot->qtdVacina -= 1;
-                $candidato->lote->save($value);
 
-                break;
-            }
-        }
 
 
         $etapa = $candidato->etapa;

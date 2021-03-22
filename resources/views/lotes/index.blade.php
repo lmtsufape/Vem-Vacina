@@ -34,7 +34,7 @@
                           <th scope="col">Nº do lote</th>
                           <th scope="col">Fabricante</th>
                           <th scope="col">Nº de vacinas</th>
-                          <th scope="col">Segunda dose</th>
+                          <th scope="col">Dose única</th>
                           <th scope="col" colspan="2">Tempo para segunda dose</th>
                           <th scope="col">Fabricação</th>
                           <th scope="col">Validade</th>
@@ -50,8 +50,8 @@
                       <td>{{$lote->numero_lote}}</td>
                       <td>{{$lote->fabricante}}</td>
                       <td>{{$lote->numero_vacinas}}</td>
-                      <td>{{$lote->segunda_dose ? 'Sim' : 'Não'}}</td>
-                      <td colspan="2">{{ $lote->fim_periodo ? "Entre ".  $lote->inicio_periodo  .' e '. $lote->fim_periodo ." dias" : strtotime($lote->inicio_intervalo)  }}</td>
+                      <td>{{$lote->dose_unica ? 'Sim' : 'Não'}}</td>
+                      <td colspan="2">{{ $lote->dose_unica ?  " - " : 'Entre '.$lote->inicio_periodo." à  ". $lote->fim_periodo." dias" }}</td>
                       <td>{{ $lote->data_fabricacao ? date('d/m/Y', strtotime($lote->data_fabricacao)) : "Data não definida"  }}</td>
                       <td>{{ $lote->data_validade ? date('d/m/Y', strtotime($lote->data_validade)) : "Data não definida" }}</td>
                       <td>

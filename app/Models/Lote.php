@@ -14,7 +14,7 @@ class Lote extends Model
         'numero_lote',
         'fabricante',
         'numero_vacinas',
-        'segunda_dose',
+        'dose_unica',
         'inicio_periodo',
         'fim_periodo',
         'data_fabricacao',
@@ -29,6 +29,6 @@ class Lote extends Model
 
     public function candidatos()
     {
-        return $this->belongsToMany(Candidato::class, 'lote_id');
+        return $this->hasMany(Candidato::class, 'lote_id');
     }
 }
