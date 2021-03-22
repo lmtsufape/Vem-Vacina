@@ -46,7 +46,7 @@
                                 @csrf
                                 <div class="form-check">
                                     <input class="form-check-input @error('pessoa_idosa') is-invalid @enderror" type="checkbox" id="defaultCheck2" name="pessoa_idosa" @if(old('pessoa_idosa')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PESSOA IDOSA</label>
+                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PESSOA IDOSA (75 A 79 ANOS).</label>
                                     
                                     @error('pessoa_idosa')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
@@ -167,7 +167,7 @@
                                 
                                 <div class="form-check">
                                     <input class="form-check-input @error('paciente_dificuldade_locomocao') is-invalid @enderror" type="checkbox" id="defaultCheck0" name="paciente_dificuldade_locomocao" @if(old('paciente_dificuldade_locomocao')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck0">PACIENTE ESTÁ COM DIFICULDADE DE LOCOMOÇÃO</label>
+                                    <label class="form-check-label style_titulo_input" for="defaultCheck0">PACIENTE ESTÁ COM DIFICULDADE DE LOCOMOÇÃO.</label>
                                     
                                     @error('paciente_dificuldade_locomocao')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
@@ -179,7 +179,7 @@
                                  
                                 <div class="form-check">
                                     <input class="form-check-input @error('paciente_acamado') is-invalid @enderror" type="checkbox" id="defaultCheck1" name="paciente_acamado" @if(old('paciente_acamado')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck1">PACIENTE ESTÁ ACAMADO </label>
+                                    <label class="form-check-label style_titulo_input" for="defaultCheck1">PACIENTE ESTÁ ACAMADO.</label>
                                     
                                     @error('paciente_acamado')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
