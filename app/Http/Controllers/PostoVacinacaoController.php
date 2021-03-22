@@ -8,6 +8,7 @@ use Carbon\CarbonPeriod;
 use App\Models\PostoVacinacao;
 use Illuminate\Http\Request;
 use App\Models\Candidato;
+use App\Models\Etapa;
 use Illuminate\Support\Facades\Gate;
 
 class PostoVacinacaoController extends Controller
@@ -106,7 +107,8 @@ class PostoVacinacaoController extends Controller
     public function create()
     {
         Gate::authorize('criar-posto');
-        return view('postos.store');
+        $etapas = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
+        return view('postos.store')->with(['publicos' => $etapas, 'tipos' => Etapa::TIPO_ENUM]);
     }
 
     /**
@@ -124,19 +126,14 @@ class PostoVacinacaoController extends Controller
         $posto->nome = $request->nome;
         $posto->endereco = $request->endereco;
 
-        if ($request->para_idoso != null) {
-            $posto->para_idoso = true;
-        } else {
-            $posto->para_profissional_da_saude = false;
-        }
-
-        if ($request->para_profissional_da_saude != null) {
-            $posto->para_profissional_da_saude = true;
-        } else {
-            $posto->para_profissional_da_saude = false;
-        }
-
         $posto->save();
+
+        
+        if ($request->publicos != null) {
+            foreach ($request->publicos as $publico_id) {
+                $posto->etapas()->attach($publico_id);
+            }
+        }
 
         return redirect()->route('postos.index')->with('message', 'Posto criado com sucesso!');
     }
@@ -162,7 +159,12 @@ class PostoVacinacaoController extends Controller
     {
         Gate::authorize('editar-posto');
         $posto = PostoVacinacao::findOrFail($id);
-        return view('postos.edit', compact('posto'));
+        $etapas = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
+        $etapasDoPosto = $posto->etapas()->select('etapa_id')->get();
+        return view('postos.edit')->with(['posto' => $posto, 
+                                          'publicos' => $etapas, 
+                                          'tipos' => Etapa::TIPO_ENUM,
+                                          'publicosDoPosto' => $etapasDoPosto,]);
     }
 
     /**
@@ -180,21 +182,19 @@ class PostoVacinacaoController extends Controller
         
         $posto->nome = $request->nome;
         $posto->endereco = $request->endereco;
-
-        if ($request->para_idoso == "on") {
-            $posto->para_idoso = true;
-        } else {
-            $posto->para_idoso = false;
-        }
-
-        if ($request->para_profissional_da_saude == "on") {
-            $posto->para_profissional_da_saude = true;
-        } else {
-            $posto->para_profissional_da_saude = false;
-        }
-        
+    
         $posto->update();
         
+        if ($request->publicos != null) {
+            foreach ($posto->etapas as $key => $etapa) {
+                $posto->etapas()->detach($etapa->id);
+            }
+
+            foreach ($request->publicos as $publico_id) {
+                $posto->etapas()->attach($publico_id);
+            }
+        }
+
         return redirect()->route('postos.index')->with('message', 'Posto editado com sucesso!');
     }
 

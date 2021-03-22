@@ -24,6 +24,11 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
+                            <h4>Informações necessárias</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <label for="nome">Nome</label>
                             <input id="nome" type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" value="{{ old('nome') }}">
                             @error('nome')
@@ -41,19 +46,22 @@
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-md-6">
-                            <input id="para_idoso" type="checkbox" name="para_idoso" @if(old('para_idoso')) checked @endif>
-                            <label for="para_idoso">Exclusivo para idosos</label>
-
-                            @error('para_idoso') <div class="alert alert-danger">{{ $message }}</div> @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <input id="para_profissional_da_saude" type="checkbox" name="para_profissional_da_saude" @if(old('para_profissional_da_saude')) checked @endif >
-                            <label for="para_profissional_da_saude">Exclusivo para profissionais da saúde</label>
-                            @error('para_profissional_da_saude') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        <div class="col-md-12">
+                            <h4>Quais públicos são permitidos nesse ponto?</h4>
                         </div>
                     </div>
-
+                    <div class="row">
+                        @foreach ($publicos as $publico)
+                            <div class="col-md-6">
+                                <input id="publico_{{$publico->id}}" type="checkbox" value="{{$publico->id}}" name="publicos[]" @if(old('publicos') != null && in_array($publico->id, old('publicos'))) checked @endif>
+                                @if($publico->tipo == $tipos[0])
+                                    <label for="publico_{{$publico->id}}">De {{$publico->inicio_intervalo}} à {{$publico->fim_intervalo}} anos</label>
+                                @elseif($publico->tipo == $tipos[1] || $publico->tipo == $tipos[2])
+                                    <label for="publico_{{$publico->id}}">{{$publico->texto}}</label>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
                     <br>
                     <div class="row">
                         <div class="col-md-3">
