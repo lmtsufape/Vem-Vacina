@@ -80,9 +80,7 @@ class CandidatoController extends Controller
         ]);
         
         $dados = $request->all();
-        return $dados;
-        die;
-        return;
+        
         $candidato = new Candidato;
         $candidato->nome_completo           = $request->nome_completo;
         $candidato->data_de_nascimento      = $request->data_de_nascimento;
