@@ -358,23 +358,9 @@
                                         </div>
                                         @enderror
                                     </div> 
-                                    <div class="form-group col-md-6">
-                                        {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE?<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
-                                        <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
-                                            <option selected disabled>-- Selecione a dose --</option>
-                                            <option value="{{$doses[0]}}">{{$doses[0]}}</option>
-                                            <option value="{{$doses[1]}}">{{$doses[1]}}</option>
-                                        </select>
-                                        
-                                        @error('dose')
-                                        <div id="validationServer05Feedback" class="invalid-feedback">
-                                            <strong>{{$message}}</strong>
-                                        </div>
-                                        @enderror --}}
-                                    </div>
+                                    <div class="form-group col-md-6" id="seletor_horario" style="padding-top: 32px;"></div>
                                 </div>
 
-                                <div id="seletor_horario"></div>
                                 
                                 <div><hr></div>
 
