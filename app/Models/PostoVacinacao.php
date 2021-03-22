@@ -10,7 +10,7 @@ class PostoVacinacao extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['nome', 'endereco', 'para_idoso', 'para_profissional_da_saude'];
+    protected $fillable = ['nome', 'endereco', 'padrao_no_formulario'];
 
 
 

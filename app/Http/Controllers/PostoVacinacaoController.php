@@ -126,6 +126,12 @@ class PostoVacinacaoController extends Controller
         $posto->nome = $request->nome;
         $posto->endereco = $request->endereco;
 
+        if ($request->padrao_no_formulario) {
+            $posto->padrao_no_formulario = true;
+        } else {
+            $posto->padrao_no_formulario = false;
+        }
+        
         $posto->save();
 
         
@@ -182,7 +188,13 @@ class PostoVacinacaoController extends Controller
         
         $posto->nome = $request->nome;
         $posto->endereco = $request->endereco;
-    
+        
+        if ($request->padrao_no_formulario) {
+            $posto->padrao_no_formulario = true;
+        } else {
+            $posto->padrao_no_formulario = false;
+        }
+
         $posto->update();
         
         if ($request->publicos != null) {

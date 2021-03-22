@@ -44,6 +44,13 @@
                     <br>
                     <div class="row">
                         <div class="col-md-12">
+                            <input id="padrao_no_formulario" type="checkbox" name="padrao_no_formulario" @if(old('padrao_no_formulario') || old('padrao_no_formulario') == null && $posto->padrao_no_formulario) checked @endif>
+                            <label for="padrao_no_formulario">Exibir por padrão no formulário</label>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
                             <h4>Quais públicos são permitidos nesse ponto?</h4>
                         </div>
                     </div>

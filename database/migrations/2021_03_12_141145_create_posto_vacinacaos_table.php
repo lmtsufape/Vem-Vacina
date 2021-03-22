@@ -20,6 +20,7 @@ class CreatePostoVacinacaosTable extends Migration
             $table->bigInteger('vacinas_disponiveis')->default(0);
             // $table->boolean("para_idoso");
             // $table->boolean("para_profissional_da_saude");
+            $table->boolean('padrao_no_formulario');
             $table->timestamps();
             $table->softDeletes();
 
