@@ -235,7 +235,13 @@ class PostoVacinacaoController extends Controller
     {
         Gate::authorize('apagar-posto');
         $posto = PostoVacinacao::findOrFail($id);
-        $posto->delete();
+        if($posto->lotes->count()) {
+            return redirect()->back()->withErrors([
+                "message" => "Existe lote associado com esse ponto de vacinação."
+            ])->withInput();
+
+        }
+        $posto->forceDelete();
 
         return redirect()->route('postos.index')->with('message', 'Posto excluído com sucesso!');
     }

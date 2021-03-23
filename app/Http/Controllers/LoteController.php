@@ -192,10 +192,16 @@ class LoteController extends Controller
     {
         Gate::authorize('apagar-lote');
         $lote = Lote::findOrFail($id);
-        if (true) {
+        if ($lote->postos->count()) {
             return redirect()->back()
                             ->withErrors([
-                                "message" => "Este lote não pode ser apagado."
+                                "message" => "Existe ponto(s) de vacinação associados com esse lote."
+                            ])->withInput();
+        }
+        if ($lote->numero_vacinas > 0) {
+            return redirect()->back()
+                            ->withErrors([
+                                "message" => "Este lote contém vacinas."
                             ])->withInput();
         }
         $lote->delete();
@@ -236,7 +242,10 @@ class LoteController extends Controller
         $postos = PostoVacinacao::whereIn('id', array_keys($request->posto))->get();
 
         if(array_sum($request->posto) > $lote->numero_vacinas){
-            return redirect()->route('lotes.index')->with('message', 'Soma das vacinas maior que a quantidade do lote!');
+            return redirect()->back()
+                    ->withErrors([
+                        "message" => "Soma das vacinas maior que a quantidade do lote!"
+                    ])->withInput();
         }
 
 
