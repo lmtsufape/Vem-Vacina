@@ -42,17 +42,50 @@ class LoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreLoteRequest $request)
+    public function store(Request $request)
     {
         Gate::authorize('criar-lote');
+        $rules = [
+            'numero_lote'       => 'required|min:6|max:8|unique:lotes',
+            'fabricante'        => 'required|max:30',
+            'numero_vacinas'    => 'required|gt:0',
+            'dose_unica'        => '',
+            'inicio_periodo'    => 'required|integer|gte:0',
+            'fim_periodo'       => 'required|gte:inicio_periodo|integer|gte:1',
+            'data_fabricacao'   => 'nullable|before:data_validade',
+            'data_validade'     => 'nullable|after:data_fabricacao',
+        ];
+
+        $messages = [
+            'inicio_periodo.gte:inicio_periodo' => 'O número digitado deve ser maior ou igual ao inicio do periodo.',
+            'inicio_periodo.gte:0' => 'O número digitado deve ser maior ou igual ao inicio do periodo.',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages );
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
 
         $this->isChecked($request, 'dose_unica');
-        // dd(!$request->dose_unica && $request->numero_vacinas % 2 != 0);
+;
         if(!$request->dose_unica && $request->numero_vacinas % 2 != 0) {
             return redirect()->back()->withErrors([
                 "numero_vacinas" => "Número tem que ser par."
             ])->withInput();
 
+        }
+        if(!$request->dose_unica && $request->inicio_periodo == null && $request->fim_periodo == null) {
+            return redirect()->back()->withErrors([
+                "dose_unica" => "Intervalo para segunda dose deve ser preenchido."
+            ])->withInput();
+
+        }elseif($request->dose_unica && $request->inicio_periodo != null && $request->fim_periodo != null){
+            return redirect()->back()->withErrors([
+                "inicio_periodo" => "Intervalo deve ser vazio.",
+                "fim_periodo"    => "Intervalo deve ser vazio."
+            ])->withInput();
         }
 
         $data = $request->all();
