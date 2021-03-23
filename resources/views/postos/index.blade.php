@@ -3,13 +3,13 @@
     <div class="grid grid-cols-6 gap-4">
         <div class="col-span-5">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Lista de Postos') }}
+                {{ __('Lista de Pontos de Vacinação') }}
             </h2>
         </div>
         <div class="...">
             @can('criar-posto')
                 <a href="{{ route('postos.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                    Adicionar Posto
+                    Adicionar Ponto de Vacinação
                 </a>
             @endcan
         </div>

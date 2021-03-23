@@ -26,7 +26,7 @@
                                 @endphp
 
                             @else
-                                <p>Cadastre Postos de Vacinação</p>
+                                <p>Cadastre um Ponto de Vacinação</p>
                             @endif
                         </div>
                     </div>
