@@ -72,8 +72,8 @@ class CandidatoController extends Controller
 
     public function enviar_solicitacao(Request $request) {
 
-        dd($request);
         $request->validate([
+            "público"               => "required",
             "nome_completo"         => "required|string|max:65",
             "data_de_nascimento"    => "required|date",
             "cpf"                   => "required",
@@ -82,7 +82,7 @@ class CandidatoController extends Controller
             "nome_da_mãe"           => "required|string|max:65",
             "telefone"              => "required",
             "whatsapp"              => "nullable",
-            "email"                 => "nullable",
+            "email"                 => "nullable|email",
             "cep"                   => "nullable",
             // "cidade"                => "required", // como valor é fixado no front, pode ser desabilitado e hardcoded aqui no controller
             "bairro"                => "required",
@@ -92,9 +92,6 @@ class CandidatoController extends Controller
             "posto_vacinacao"       => "required",
             "dia_vacinacao"         => "required",
             "horario_vacinacao"     => "required",
-            "dose"                  => "nullable",
-            "pessoa_idosa"          => "nullable",
-            "profissão"             => "required_if:profissional_da_saúde,on"
         ]);
 
         $dados = $request->all();
@@ -118,24 +115,31 @@ class CandidatoController extends Controller
         $candidato->complemento_endereco    = $request->complemento_endereco;
         $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
         $candidato->dose                    = Candidato::DOSE_ENUM[0];
-        $candidato->pessoa_idosa            = $request->pessoa_idosa;
 
-        if ($request->profissional_da_saúde) {
-            $candidato->profissional_da_saude = $request->profissão;
-        }
+        // Relacionar o candidato com o público escolhido e realiza 
+        // a validação de acordo com o público escolhido
 
-        // Relacionar o candidato com uma etapa (se existir)
         $idade              = $this->idade($request->data_de_nascimento);
         $candidato->idade   = $idade;
-        $etapa = Etapa::where([['inicio_intervalo', '<=', $idade], ['fim_intervalo', '>=', $idade], ['atual', true]])->first();
-        if ($etapa != null) {
-            $candidato->etapa_id = $etapa->id;
-        } else {
-            return redirect()->back()->withErrors([
-                "data_de_nascimento" => "Idade fora da faixa etária de vacinação"
-            ])->withInput();
-        }
 
+        $etapa = Etapa::find($request->input('público'));
+
+        if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
+            if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                return redirect()->back()->withErrors([
+                    "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                ])->withInput();
+            }
+        } else if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+            if ($request->input("publico_opcao_".$request->input('público')) == null) {
+                return redirect()->back()->withErrors([
+                    "publico_opcao_".$request->input('público') => "Esse campo é obrigatório para público marcado."
+                ])->withInput();
+            } 
+            $candidato->etapa_id = $etapa->id;
+            $candidato->etapa_resultado = $request->input("publico_opcao_".$request->input('público'));
+        }
+        
         //TODO: mover pro service provider
         if(!$this->validar_cpf($request->cpf)) {
             return redirect()->back()->withErrors([
@@ -149,8 +153,6 @@ class CandidatoController extends Controller
                 "telefone" => "Número de telefone inválido"
             ])->withInput();
         }
-
-
 
         $dia_vacinacao = $request->dia_vacinacao;
         $horario_vacinacao = $request->horario_vacinacao;
