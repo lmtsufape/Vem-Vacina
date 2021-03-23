@@ -28,8 +28,8 @@ class StoreLoteRequest extends FormRequest
             'fabricante'        => 'required',
             'numero_vacinas'    => 'required',
             'dose_unica'      => '',
-            'inicio_periodo'    => 'required',
-            'fim_periodo'       => 'required',
+            'inicio_periodo'    => 'required|integer|',
+            'fim_periodo'       => 'required|gte:inicio_periodo|integer',
             'data_fabricacao'   => 'nullable|before:data_validade',
             'data_validade'     => 'nullable|after:data_fabricacao',
         ];
