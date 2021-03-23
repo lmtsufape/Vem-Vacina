@@ -27,7 +27,7 @@ class Etapa extends Model
     ];
 
     public function candidatos() {
-        return $this->belongsToMany(Candidato::class, 'agendados', 'etapa_id', 'candidato_id')->withPivot('opcao_etapa_id');
+        return $this->hasMany(Candidato::class, 'etapa_id');
     }
 
     public function opcoes() {

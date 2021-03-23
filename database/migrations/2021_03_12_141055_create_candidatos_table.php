@@ -45,6 +45,8 @@ class CreateCandidatosTable extends Migration
             $table->datetime("saida")->nullable(true);
             $table->unsignedBigInteger('lote_id')->nullable(true);
             $table->unsignedBigInteger('posto_vacinacao_id')->nullable(true);
+            $table->unsignedBigInteger('etapa_id');
+            $table->string('etapa_resultado')->nullable(true);
 
             $table->timestamps();
             $table->softDeletes();

@@ -183,7 +183,6 @@ class EtapaController extends Controller
     {
         Gate::authorize('apagar-etapa');
         $etapa = Etapa::find($id);
-
         $candidatos = $etapa->candidatos;
         if ($candidatos != null && count($candidatos) > 0) {
             foreach ($candidatos as $candidato) {
@@ -209,17 +208,5 @@ class EtapaController extends Controller
         } else {
             return abort(200);
         }
-        // if ($etapa != null) {
-        //     $etapa->atual   = false;
-        //     $etapa->update();
-        // }
-
-        // if ($request != null) {
-        //     $etapaAtual         = Etapa::find($request->etapa_atual);
-        //     $etapaAtual->atual  = true;
-        //     $etapaAtual->update();
-        // }
-
-        // return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa atual definida com sucesso!']);
     }
 }

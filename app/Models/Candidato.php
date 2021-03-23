@@ -38,7 +38,8 @@ class Candidato extends Model
         "saida",
         "lote_id",
         "posto_vacinacao_id",
-        // "etapa_id",
+        "etapa_id",
+        "etapa_resultado",
         "dose",
         // "profissional_da_saude",
         // "pessoa_idosa",
@@ -69,9 +70,5 @@ class Candidato extends Model
 
     public function data_de_nascimento_dmY() {
         return (new Carbon($this->data_de_nascimento))->format("d/m/Y");
-    }
-
-    public function publicos() {
-        return $this->belongsToMany(Candidato::class, 'agendados', 'candidato_id', 'etapa_id')->withPivot('opcao_etapa_id');
     }
 }

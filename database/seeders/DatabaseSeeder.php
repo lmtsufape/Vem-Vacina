@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             PostoVacinacaoSeeder::class,
             EtapaSeeder::class,
             OpcoesEtapaSeeder::class,
-            // CandidatoSeeder::class,
+            CandidatoSeeder::class,
         ]);
         DB::table('users')->insert([
             'name' => 'Admin',
