@@ -71,4 +71,8 @@ class Candidato extends Model
     public function data_de_nascimento_dmY() {
         return (new Carbon($this->data_de_nascimento))->format("d/m/Y");
     }
+
+    public function resultado() {
+        return $this->belongsTo(OpcoesEtapa::class, 'etapa_resultado');
+    }
 }

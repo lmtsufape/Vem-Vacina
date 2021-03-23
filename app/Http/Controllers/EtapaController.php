@@ -20,8 +20,9 @@ class EtapaController extends Controller
     {
         Gate::authorize('ver-etapa');
         $etapas = Etapa::where('tipo', '!=', Etapa::TIPO_ENUM[3])->orderBy('id')->get();
-
-        return view('etapas.index')->with(['etapas' => $etapas, 'tipos' => Etapa::TIPO_ENUM]);
+        $pontos = PostoVacinacao::all();
+        return view('etapas.index')->with(['etapas' => $etapas, 
+                                           'tipos' => Etapa::TIPO_ENUM,]);
     }
 
     /**
@@ -54,16 +55,15 @@ class EtapaController extends Controller
             'inicio_faixa_etária' => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|min:0|max:110',
             'fim_faixa_etária'    => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|min:'.$request->inicio_faixa_etaria.'|max:150',
             'opcoes'              => 'required_if:tipo,'.Etapa::TIPO_ENUM[2],
-            'opcoes.*'            => 'required_if:tipo,'.Etapa::TIPO_ENUM[2].'|max:40',
+            'opcoes.*'            => 'required_if:tipo,'.Etapa::TIPO_ENUM[2].'|max:150',
             'exibir_na_home'      => 'nullable',
             'exibir_no_form'      => 'nullable',    
             'atual'               => 'nullable',
             'primeria_dose'       => 'nullable|min:0',
-            'segunda_dose'        => 'nullable|min:0',
+            'segunda_unica'       => 'nullable|min:0',
             'pontos'              => 'required',
         ]);
-
-        // dd("passou");
+        
         $etapa = new Etapa();
         $etapa->tipo = $request->tipo;
         $etapa->texto = $request->texto_do_agendamento;
@@ -114,6 +114,12 @@ class EtapaController extends Controller
             }
         }
 
+        if ($request->pontos != null) {
+            foreach ($request->pontos as $ponto) {
+                $etapa->pontos()->attach($ponto);
+            }
+        }
+
         return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa adicionada com sucesso!']);
     }
 
@@ -136,7 +142,11 @@ class EtapaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $publico = Etapa::find($id);
+        $pontos = PostoVacinacao::all();
+        return view('etapas.edit')->with(['publico' => $publico,
+                                          'tipos' => Etapa::TIPO_ENUM,
+                                          'pontos' => $pontos]);
     }
 
     /**
@@ -149,25 +159,134 @@ class EtapaController extends Controller
     public function update(Request $request, $id)
     {
         Gate::authorize('editar-etapa');
+        
         $validated = $request->validate([
-            'etapa_id'            => 'required',
-            'inicio_faixa_etaria' => 'required|integer|min:0|max:110',
-            'fim_faixa_etaria'    => 'required|integer|min:'.$request->inicio_faixa_etaria.'|max:150',
-            'texto'               => 'nullable',
-            'primeria_dose'       => 'nullable',
-            'segunda_dose'        => 'nullable',
+            'tipo'                => 'required',
+            'texto_do_agendamento'=> 'required|max:30',
+            'texto_da_home'       => 'required|max:30',
+            'inicio_faixa_etária' => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|min:0|max:110',
+            'fim_faixa_etária'    => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|min:'.$request->inicio_faixa_etaria.'|max:150',
+            'opcoes'              => 'required_if:tipo,'.Etapa::TIPO_ENUM[2],
+            'opcoes.*'            => 'required_if:tipo,'.Etapa::TIPO_ENUM[2].'|max:150',
+            'exibir_na_home'      => 'nullable',
+            'exibir_no_form'      => 'nullable',    
+            'atual'               => 'nullable',
+            'primeria_dose'       => 'nullable|min:0',
+            'segunda_unica'       => 'nullable|min:0',
+            'pontos'              => 'required',
         ]);
 
         $etapa = Etapa::find($id);
-        $etapa->inicio_intervalo                    = $request->inicio_faixa_etaria;
-        $etapa->fim_intervalo                       = $request->fim_faixa_etaria;
-        if ($request->texto != null) {
-            $etapa->texto                           = $request->texto;
+
+        $etapa->texto = $request->texto_do_agendamento;
+        $etapa->texto_home = $request->texto_da_home;
+
+        if ($request->atual != null) {
+            $etapa->atual = true;
         } else {
-            $etapa->texto                           = "";
+            $etapa->atual = false;
         }
-        $etapa->total_pessoas_vacinadas_pri_dose    = $request->primeria_dose;
-        $etapa->total_pessoas_vacinadas_seg_dose    = $request->segunda_dose;
+
+        if ($request->exibir_no_form != null) {
+            $etapa->exibir_no_form = true;
+        } else {
+            $etapa->exibir_no_form = false;
+        }
+
+        if ($request->exibir_na_home != null) {
+            $etapa->exibir_na_home = true;
+        } else {
+            $etapa->exibir_na_home = false;
+        }
+
+        if ($request->primeria_dose != null) {
+            $etapa->total_pessoas_vacinadas_pri_dose = $request->primeria_dose;
+        } else {
+            $etapa->total_pessoas_vacinadas_pri_dose = 0;
+        }
+
+        if ($request->segunda_dose != null) {
+            $etapa->total_pessoas_vacinadas_seg_dose = $request->segunda_dose;
+        } else {
+            $etapa->total_pessoas_vacinadas_seg_dose = 0;
+        }
+
+        if ($request->tipo != $etapa->tipo) {
+            if ($request->tipo == Etapa::TIPO_ENUM[0] && $etapa->tipo == Etapa::TIPO_ENUM[2]) {
+                foreach ($etapa->opcoes as $opcao) {
+                    $opcao->delete();
+                }
+
+                $etapa->inicio_intervalo = $request->input("inicio_faixa_etária");
+                $etapa->fim_intervalo = $request->input("fim_faixa_etária");
+
+            } else if ($request->tipo == Etapa::TIPO_ENUM[2] && $etapa->tipo == Etapa::TIPO_ENUM[0]) {
+                $etapa->inicio_intervalo = null;
+                $etapa->fim_intervalo = null;
+
+                foreach ($request->opcoes as $op) {
+                    $opcaoEtapa = new OpcoesEtapa();
+                    $opcaoEtapa->opcao = $op;
+                    $opcaoEtapa->etapa_id = $etapa->id;
+                    $opcaoEtapa->save();
+                }
+            } else if ($request->tipo == Etapa::TIPO_ENUM[0] && $etapa->tipo == Etapa::TIPO_ENUM[1]) {
+                $etapa->inicio_intervalo = $request->input("inicio_faixa_etária");
+                $etapa->fim_intervalo = $request->input("fim_faixa_etária");
+            } else if ($request->tipo == Etapa::TIPO_ENUM[1] && $etapa->tipo == Etapa::TIPO_ENUM[0]) {
+                $etapa->inicio_intervalo = null;
+                $etapa->fim_intervalo = null;
+            } else if ($request->tipo == Etapa::TIPO_ENUM[1] && $etapa->tipo == Etapa::TIPO_ENUM[2]) {
+                foreach ($etapa->opcoes as $opcao) {
+                    $opcao->delete();
+                }
+            } else if ($request->tipo == Etapa::TIPO_ENUM[2] && $etapa->tipo == Etapa::TIPO_ENUM[1]) {
+                foreach ($request->opcoes as $op) {
+                    $opcaoEtapa = new OpcoesEtapa();
+                    $opcaoEtapa->opcao = $op;
+                    $opcaoEtapa->etapa_id = $etapa->id;
+                    $opcaoEtapa->save();
+                }
+            }
+
+            $etapa->tipo = $request->tipo;
+        } else {
+            if ($request->tipo == Etapa::TIPO_ENUM[0]) {
+                $etapa->inicio_intervalo = $request->input("inicio_faixa_etária");
+                $etapa->fim_intervalo = $request->input("fim_faixa_etária");
+            } else if ($request->tipo == Etapa::TIPO_ENUM[2]) {
+                // Percorrendo o array checando se a opção foi excluida
+                // foreach ($etapa->opcoes as $opcao) {
+                //     if (in_array($opcao->opcao, $request->opcoes)) {
+                //         $opcao->opcao;
+                //     } else {
+                //         $opcao->delete();
+                //     }
+                // }
+
+                // // Percorrendo o collection checando se existe alguma nova opção
+                // foreach ($request->opcoes as $op) {
+                //     if (!(in_array($opcao->opcao, $request->opcoes))) {
+                //         $opcaoEtapa = new OpcoesEtapa();
+                //         $opcaoEtapa->opcao = $op;
+                //         $opcaoEtapa->etapa_id = $etapa->id;
+                //         $opcaoEtapa->save();
+                //     }
+                // }
+            }
+        }
+
+        if ($request->pontos != null) {
+            $pontos = $etapa->pontos;
+            foreach ($pontos as $ponto) {
+                $etapa->pontos()->detach($ponto->id);
+            }
+
+            foreach ($request->pontos as $ponto) {
+                $etapa->pontos()->attach($ponto);
+            }
+        }
+
         $etapa->update();
 
         return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa salva com sucesso!']);

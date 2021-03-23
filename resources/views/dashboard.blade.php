@@ -93,10 +93,15 @@
                                                             <label for="">Público</label>
                                                             <input type="text" class="form-control" value="{{$candidato->etapa->texto}}" disabled>
                                                         </div>
-                                                        <div class="col-md-6">
-                                                            <label for="">Opção selecionada</label>
-                                                            <input type="text" class="form-control" value="{{App\Models\OpcoesEtapa::find($candidato->etapa_resultado)->opcao}}" disabled>
-                                                        </div>
+                                                        {{-- @if($candidato->id > 10)
+                                                        {{dd(App\Models\OpcoesEtapa::find((integer)$candidato->etapa_resultado))}}
+                                                        @endif --}}
+                                                        @if(App\Models\OpcoesEtapa::find($candidato->etapa_resultado) != null)
+                                                            <div class="col-md-6">
+                                                                <label for="">Opção selecionada</label>
+                                                                <input type="text" class="form-control" value="{{App\Models\OpcoesEtapa::find($candidato->etapa_resultado)->opcao}}" disabled>
+                                                            </div>
+                                                        @endif
                                                     @endif
                                                 </div>
                                                 <br>

@@ -13,4 +13,8 @@ class OpcoesEtapa extends Model
         'opcoes',
         'etapa_id',
     ];
+
+    public function candidatos() {
+        return $this->hasMany(Candidato::class, 'etapa_resultado');
+    }
 }
