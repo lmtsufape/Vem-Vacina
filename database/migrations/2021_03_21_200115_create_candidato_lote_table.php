@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostoVacinacaosTable extends Migration
+class CreateCandidatoLoteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,9 @@ class CreatePostoVacinacaosTable extends Migration
      */
     public function up()
     {
-        Schema::create('posto_vacinacaos', function (Blueprint $table) {
+        Schema::create('candidato_lote', function (Blueprint $table) {
             $table->id();
-            $table->string("nome");
-            $table->string("endereco");
-            $table->boolean("para_idoso");
-            $table->boolean("para_profissional_da_saude");
             $table->timestamps();
-            $table->softDeletes();
-
         });
     }
 
@@ -32,6 +26,6 @@ class CreatePostoVacinacaosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posto_vacinacaos');
+        Schema::dropIfExists('candidato_lote');
     }
 }

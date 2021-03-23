@@ -21,20 +21,30 @@
 
     </x-slot>
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="container">
+        <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 ">
+            <div class="container ">
                 @if (session('message'))
                     <div class="alert alert-success">
                         {{ session('message') }}
                     </div>
                 @endif
-              <table class="table">
+                @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+              <table class="table pr-4">
                   <thead>
                       <tr>
                           <th scope="col">Nº do lote</th>
                           <th scope="col">Fabricante</th>
                           <th scope="col">Nº de vacinas</th>
-                          <th scope="col">Segunda dose</th>
+                          <th scope="col">Dose única</th>
+                          <th scope="col" colspan="2">Tempo para segunda dose</th>
                           <th scope="col">Fabricação</th>
                           <th scope="col">Validade</th>
                           @can(['editar-lote', 'apagar-lote'])
@@ -49,7 +59,8 @@
                       <td>{{$lote->numero_lote}}</td>
                       <td>{{$lote->fabricante}}</td>
                       <td>{{$lote->numero_vacinas}}</td>
-                      <td>{{$lote->segunda_dose ? 'Sim' : 'Não'}}</td>
+                      <td>{{$lote->dose_unica ? 'Sim' : 'Não'}}</td>
+                      <td colspan="2">{{ $lote->dose_unica ?  " - " : 'Entre '.$lote->inicio_periodo." à  ". $lote->fim_periodo." dias" }}</td>
                       <td>{{ $lote->data_fabricacao ? date('d/m/Y', strtotime($lote->data_fabricacao)) : "Data não definida"  }}</td>
                       <td>{{ $lote->data_validade ? date('d/m/Y', strtotime($lote->data_validade)) : "Data não definida" }}</td>
                       <td>
@@ -57,7 +68,7 @@
                             <form action="{{ route('lotes.edit', ['lote' => $lote->id]) }}" method="get">
                                 @csrf
                                 @method('put')
-                                <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded">
                                     Editar
                                 </button>
                             </form>
@@ -68,7 +79,7 @@
                             <form action="{{ route('lotes.destroy', ['lote' => $lote->id]) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" onclick="return confirm('Você tem certeza?')" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ">
+                                <button type="submit" onclick="return confirm('Você tem certeza?')" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded ">
                                     Excluir
                                 </button>
                             </form>
@@ -77,7 +88,7 @@
                       <td>
                         @can('distribuir-lote')
                             <form action="{{ route('lotes.distribuir', ['lote' => $lote->id]) }}" method="get">
-                                <button type="submit" @if($lote->numero_vacinas == 0) disabled @endif class="disabled:opacity-50 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                                <button type="submit" @if($lote->numero_vacinas == 0) disabled @endif class="disabled:opacity-50 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-2 rounded">
                                     Distribuir
                                 </button>
                             </form>

@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/lotes', LoteController::class);
     Route::get('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
     Route::post('/lotes/calcular', [ LoteController::class, 'calcular'])->name('lotes.calcular');
+    Route::post('/lotes/alterarQuantidadeVacina', [ LoteController::class, 'alterarQuantidadeVacina'])->name('lotes.alterarQuantidadeVacina');
 
     Route::post('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
     Route::get('/etapas', [EtapaController::class, 'index'])->name('etapas.index');

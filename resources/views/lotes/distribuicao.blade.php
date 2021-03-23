@@ -51,7 +51,7 @@
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">{{  $posto->vacinas_disponiveis}}</span>
+                                            <span class="input-group-text">{{ $posto->getVacinasDisponivel($lote->id) ? $posto->getVacinasDisponivel($lote->id) : 0 }}</span>
                                             <span class="input-group-text">+</span>
                                         </div>
                                         @if($sobras >= 0)

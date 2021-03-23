@@ -20,12 +20,47 @@ class PostoVacinacao extends Model
                     ->withPivot('qtdVacina');;
     }
 
-    public function getVacinasDisponivel()
+
+
+    public function addVacinaEmLote($lote_id, $qtd)
     {
-        $totalVacinas = null;
-        foreach ($this->lotes->all() as $key => $value) {
-            $totalVacinas += $value->pivot->qtdVacina;
+        if ($this->lotes->find($lote_id)) {
+            $this->lotes->find($lote_id)->pivot->qtdVacina += $qtd;
+            $this->lotes->find($lote_id)->pivot->save();
+            return $this->lotes->find($lote_id)->pivot->qtdVacina;
         }
-        return $totalVacinas;
+        return null;
+    }
+
+    public function subVacinaEmLote($lote_id, $qtd)
+    {
+        if ($this->lotes->find($lote_id)) {
+            $this->lotes->find($lote_id)->pivot->qtdVacina -= $qtd;
+            $this->lotes->find($lote_id)->pivot->save();
+            return $this->lotes->find($lote_id)->pivot->qtdVacina;
+        }
+        return null;
+    }
+
+    public function getVacinasDeLote($lote_id)
+    {
+        if ($this->lotes->find($lote_id)) {
+            return $this->lotes->find($lote_id)->pivot->qtdVacina;
+        }
+        return null;
+    }
+
+    public function getCandidatosPorLote($lote_id)
+    {
+        if ($this->lotes->find($lote_id)) {
+            return $this->lotes()->find($lote_id)->candidatos()->count();
+        }
+        return null;
+
+    }
+
+    public function getVacinasDisponivel($lote_id)
+    {
+        return $this->getVacinasDeLote($lote_id) - $this->getCandidatosPorLote($lote_id);
     }
 }

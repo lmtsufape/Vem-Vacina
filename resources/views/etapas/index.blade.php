@@ -181,9 +181,9 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="seg_dose">Total de pessoas vacinadas na 2ª dose</label>
-                                <input id="seg_dose" class="form-control @error('segunda_dose') is-invalid @enderror" type="number" name="segunda_dose" placeholder="0" value="@if(old('segunda_dose') != null){{old('segunda_dose')}}@else{{$etapa->total_pessoas_vacinadas_seg_dose}}@endif">
+                                <input id="seg_dose" class="form-control @error('dose_unica') is-invalid @enderror" type="number" name="dose_unica" placeholder="0" value="@if(old('dose_unica') != null){{old('dose_unica')}}@else{{$etapa->total_pessoas_vacinadas_seg_dose}}@endif">
 
-                                @error('segunda_dose')
+                                @error('dose_unica')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
                                         <strong>{{$message}}</strong>
                                     </div>
