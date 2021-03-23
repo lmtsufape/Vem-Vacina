@@ -5,7 +5,7 @@
             <div class="col-span-5">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
 
-                    {{ __('Cadastrar Lote') }}
+                    {{ __('Editar Ponto de Vacinação') }}
                 </h2>
             </div>
             <div class="...">

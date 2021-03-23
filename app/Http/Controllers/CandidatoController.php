@@ -40,12 +40,30 @@ class CandidatoController extends Controller
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
         $etapasAtuais = Etapa::where('atual', true)->get();
 
+        $bairros = [
+            "Magano",
+            "Dom Hélder Câmara",
+            "Dom Thiago Postma",
+            "São José",
+            "Santo Antônio",
+            "Aloísio Pinto",
+            "Boa Vista",
+            "Francisco Figueira",
+            "Heliópolis",
+            "José Maria Dourado",
+            "Novo Heliópolis",
+            "Severiano Moraes Filho",
+            "Manoel Chéu",
+        ];
+
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
             "postos" => $postos_com_vacina,
             "doses" => Candidato::DOSE_ENUM,
             "publicos" => $etapasAtuais,
             "tipos"    => Etapa::TIPO_ENUM,
+            "profissoes" => $profissoes_enum,
+            "bairros" => $bairros,
         ]);
 
     }
@@ -54,6 +72,7 @@ class CandidatoController extends Controller
     }
 
     public function enviar_solicitacao(Request $request) {
+
 
         $request->validate([
             "nome_completo"         => "required|string|max:65",
@@ -66,7 +85,7 @@ class CandidatoController extends Controller
             "whatsapp"              => "nullable",
             "email"                 => "nullable",
             "cep"                   => "nullable",
-            "cidade"                => "required",
+            // "cidade"                => "required", // como valor é fixado no front, pode ser desabilitado e hardcoded aqui no controller
             "bairro"                => "required",
             "rua"                   => "required",
             "número_residencial"    => "required",
@@ -78,7 +97,7 @@ class CandidatoController extends Controller
             "pessoa_idosa"          => "nullable",
             "profissão"             => "required_if:profissional_da_saúde,on"
         ]);
-        
+
         $dados = $request->all();
 
         $candidato = new Candidato;
@@ -92,13 +111,14 @@ class CandidatoController extends Controller
         $candidato->whatsapp                = $request->whatsapp;
         $candidato->email                   = $request->email;
         $candidato->cep                     = preg_replace('/[^0-9]/', '', $request->cep);
-        $candidato->cidade                  = $request->cidade;
+        // $candidato->cidade                  = $request->cidade;
+        $candidato->cidade                  = "Garanhuns";
         $candidato->bairro                  = $request->bairro;
         $candidato->logradouro              = $request->rua;
         $candidato->numero_residencia       = $request->input("número_residencial");
         $candidato->complemento_endereco    = $request->complemento_endereco;
         $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
-        $candidato->dose                    = Candidato::APROVACAO_ENUM[0];
+        $candidato->dose                    = Candidato::DOSE_ENUM[0];
         $candidato->pessoa_idosa            = $request->pessoa_idosa;
 
         if ($request->profissional_da_saúde) {
@@ -173,7 +193,6 @@ class CandidatoController extends Controller
             ])->withInput();
         }
 
-
         $candidato->chegada                 = $datetime_chegada;
         $candidato->saida                   = $datetime_saida;
         $candidato->lote_id                 = $id_lote;
@@ -182,15 +201,23 @@ class CandidatoController extends Controller
         $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
         $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
-        if(isset($dados["paciente_agente_de_saude"])) {
-            $candidato->paciente_agente_de_saude = true;
-            $candidato->unidade_caso_agente_de_saude = $dados["unidade_caso_agente_de_saude"];
-        } else {
-            $candidato->paciente_agente_de_saude = false;
-            $candidato->unidade_caso_agente_de_saude = "Não informado";
-        }
-
         $candidato->save();
+
+        $posto = PostoVacinacao::find($id_posto);
+        $lote = Lote::find($id_lote);
+
+        if (!$lote->dose_unica) {
+            $datetime_chegada_segunda_dose = $candidato->chegada->modify('+'.$lote->inicio_periodo.' day');
+            $candidatoSegundaDose = $candidato->replicate()->fill([
+                'chegada' =>  $datetime_chegada_segunda_dose,
+                'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
+            ]);
+
+            $candidatoSegundaDose->save();
+            if($candidatoSegundaDose->email != null){
+                Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
+            }
+        }
 
         if($candidato->email != null){
             Notification::send($candidato, new CandidatoInscrito($candidato));
@@ -235,8 +262,8 @@ class CandidatoController extends Controller
         $candidato = Candidato::find($id);
         $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
         $candidato->update();
-        $candidato->posto->vacinas_disponiveis -= 1;
-        $candidato->posto->update();
+
+
 
         $etapa = $candidato->etapa;
         if ($etapa != null) {

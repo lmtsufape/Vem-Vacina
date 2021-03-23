@@ -106,6 +106,28 @@
                                                 <br>
                                                 @endif
                                                 <div class="row">
+                                                    <h4>Lote</h4>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label for="nome_{{$candidato->id}}">fabricante</label>
+                                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->fabricante ?? "Indefinido"}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="nome_{{$candidato->id}}">Nº do lote</label>
+                                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->numero_lote ?? "Indefinido"}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="nome_{{$candidato->id}}">Segunda dose</label>
+                                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ? "Sim" : "Não"}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="nome_{{$candidato->id}}">Tempo para segunda dose</label>
+                                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ?  " - " : $candidato->lote->inicio_periodo ." dias"  }}">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
                                                     <h4>Informações pessoais</h4>
                                                 </div>
                                                 <div class="row">
@@ -157,20 +179,7 @@
                                                         <input id="acamado_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_acamado) checked @endif>
                                                         <label for="acamado_{{$candidato->id}}">Pasciente acamado</label>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <input id="agente_saude_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_agente_de_saude) checked @endif>
-                                                        <label for="agente_saude_{{$candidato->id}}">Agente de saúde</label>
-                                                    </div>
                                                 </div>
-                                                @if($candidato->paciente_agente_de_saude)
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <br>
-                                                        <label for="unidade_saude_{{$candidato->id}}">Unidade de saúde</label>
-                                                        <input id="unidade_saude_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->unidade_caso_agente_de_saude}}">
-                                                    </div>
-                                                </div>
-                                                @endif
                                                 <br>
                                                 <div class="row">
                                                     <h4>Contato</h4>

@@ -14,7 +14,9 @@ class Lote extends Model
         'numero_lote',
         'fabricante',
         'numero_vacinas',
-        'segunda_dose',
+        'dose_unica',
+        'inicio_periodo',
+        'fim_periodo',
         'data_fabricacao',
         'data_validade',
     ];
@@ -23,5 +25,10 @@ class Lote extends Model
     {
         return $this->belongsToMany(PostoVacinacao::class, 'lote_posto_vacinacao', 'lote_id', 'posto_vacinacao_id')
                     ->withPivot('qtdVacina');
+    }
+
+    public function candidatos()
+    {
+        return $this->hasMany(Candidato::class, 'lote_id');
     }
 }

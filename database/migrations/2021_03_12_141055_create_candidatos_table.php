@@ -26,10 +26,15 @@ class CreateCandidatosTable extends Migration
             $table->string("nome_da_mae");
             $table->boolean("paciente_dificuldade_locomocao")->nullable(true);
             $table->boolean("paciente_acamado")->nullable(true);
+<<<<<<< HEAD:database/migrations/2021_03_12_141011_create_candidatos_table.php
             $table->boolean("paciente_agente_de_saude")->nullable(true);
             // $table->boolean("pessoa_idosa")->nullable(true);
             // $table->string("profissional_da_saude")->nullable(true);
             $table->string("unidade_caso_agente_de_saude")->nullable(true); //Nome da unidade de o agente de saude trabalha
+=======
+            $table->boolean("pessoa_idosa")->nullable(true);
+            $table->string("profissional_da_saude")->nullable(true);
+>>>>>>> ca1e4c87ea523473fbdf2f6bf7fdab1b303d4291:database/migrations/2021_03_12_141055_create_candidatos_table.php
             $table->string("telefone");
             $table->string("whatsapp")->nullable(true);
             $table->string("email")->nullable(true);
@@ -46,8 +51,15 @@ class CreateCandidatosTable extends Migration
 
             $table->unsignedBigInteger('lote_id')->nullable(true);
             $table->unsignedBigInteger('posto_vacinacao_id')->nullable(true);
+<<<<<<< HEAD:database/migrations/2021_03_12_141011_create_candidatos_table.php
             // $table->unsignedBigInteger('etapa_id')->nullable(true);
             
+=======
+            $table->unsignedBigInteger('etapa_id')->nullable(true);
+
+            $table->foreign('lote_id')->references('id')->on('lotes');
+
+>>>>>>> ca1e4c87ea523473fbdf2f6bf7fdab1b303d4291:database/migrations/2021_03_12_141055_create_candidatos_table.php
             $table->timestamps();
             $table->softDeletes();
         });

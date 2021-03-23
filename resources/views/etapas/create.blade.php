@@ -122,7 +122,7 @@
                     <div class="col-md-6">
                         <label for="pri_dose">Total de pessoas vacinadas na 1ª dose</label>
                         <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="{{old('primeria_dose')}}">
-                    
+
                         @error('primeria_dose')
                             <div id="validationServer05Feedback" class="invalid-feedback">
                                 <strong>{{$message}}</strong>
@@ -131,9 +131,9 @@
                     </div>
                     <div class="col-md-6">
                         <label for="seg_dose">Total de pessoas vacinadas na 2ª dose</label>
-                        <input id="seg_dose" class="form-control @error('segunda_dose') is-invalid @enderror" type="number" name="segunda_dose" placeholder="0" value="{{old('segunda_dose')}}">
-                    
-                        @error('segunda_dose')
+                        <input id="seg_dose" class="form-control @error('dose_unica') is-invalid @enderror" type="number" name="dose_unica" placeholder="0" value="{{old('dose_unica')}}">
+
+                        @error('dose_unica')
                             <div id="validationServer05Feedback" class="invalid-feedback">
                                 <strong>{{$message}}</strong>
                             </div>

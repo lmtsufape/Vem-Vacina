@@ -27,13 +27,15 @@ Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitaca
 // Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");
 Route::post("/consultar-agendamento", [CandidatoController::class, 'consultar'])->name("agendamento.consultar");
 Route::get("/todos-os-postos", [PostoVacinacaoController::class, 'todosOsPostos'])->name("postos");
-Route::get("/horarios/{id_posto}", [PostoVacinacaoController::class, 'horarios'] )->name("posto.horarios");
 
+// Não mudar horarios e cep sem testar tudo no form de solicitar
+Route::get("/horarios/{id_posto}", [PostoVacinacaoController::class, 'horarios'] )->name("posto.horarios");
 Route::get("/cep/{cep}", function($cep) {
     //TODO: mover isso pra um controller
     $results = simplexml_load_file("http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep=" . $cep);
     return response()->json($results);
 });
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard',  [CandidatoController::class, 'show'])->name('dashboard');
     Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento");
@@ -43,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/lotes', LoteController::class);
     Route::get('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
     Route::post('/lotes/calcular', [ LoteController::class, 'calcular'])->name('lotes.calcular');
+    Route::post('/lotes/alterarQuantidadeVacina', [ LoteController::class, 'alterarQuantidadeVacina'])->name('lotes.alterarQuantidadeVacina');
 
     Route::get('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
     Route::get('/etapas', [EtapaController::class, 'index'])->name('etapas.index');
