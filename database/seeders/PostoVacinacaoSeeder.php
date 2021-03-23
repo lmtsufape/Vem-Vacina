@@ -146,7 +146,6 @@ class PostoVacinacaoSeeder extends Seeder
             'para_idoso' => false,
             'para_profissional_da_saude' => false,
 
-
             "inicio_atendimento_manha" => 9,
             "intervalo_atendimento_manha" => 30,
             "fim_atendimento_manha" => 12,

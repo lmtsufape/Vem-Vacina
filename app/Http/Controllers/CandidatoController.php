@@ -119,6 +119,12 @@ class CandidatoController extends Controller
         $candidato->dose                    = Candidato::DOSE_ENUM[0];
         $candidato->pessoa_idosa            = $request->pessoa_idosa;
 
+        // Se não foi passado CEP, o preg_replace retorna string vazia, mas no bd é uint nulavel, então anula
+        if($candidato->cep == "") {
+            $candidato->cep = NULL;
+        }
+
+        
         if ($request->profissional_da_saúde) {
             $candidato->profissional_da_saude = $request->profissão;
         }
