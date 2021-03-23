@@ -24,6 +24,15 @@
                     {{ session('message') }}
                 </div>
             @endif
+            @if (count($errors) > 0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="container">
                 <table class="table table-condensed"  id="myTable">
                     <thead>
@@ -94,7 +103,7 @@
                                                             <input class="form-control" name="quantidade" type="number" placeholder="Quantidade">
                                                         </div>
                                                         <div class="col-2">
-                                                            <button class="btn btn-success">Alterar</button>
+                                                            <button class="btn btn-success">Devolver</button>
                                                         </div>
                                                     </div>
                                                 </form>

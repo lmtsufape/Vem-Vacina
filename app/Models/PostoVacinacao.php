@@ -44,15 +44,19 @@ class PostoVacinacao extends Model
 
     public function getVacinasDeLote($lote_id)
     {
-        return $this->lotes->find($lote_id)->pivot->qtdVacina;
-        // if ($this->lotes->where('lote_id', $lote_id)->count()) {
-        // }
-        // return null;
+        if ($this->lotes->find($lote_id)) {
+            return $this->lotes->find($lote_id)->pivot->qtdVacina;
+        }
+        return null;
     }
 
     public function getCandidatosPorLote($lote_id)
     {
-        return $this->lotes()->find($lote_id)->candidatos()->count();
+        if ($this->lotes->find($lote_id)) {
+            return $this->lotes()->find($lote_id)->candidatos()->count();
+        }
+        return null;
+
     }
 
     public function getVacinasDisponivel($lote_id)

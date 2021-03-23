@@ -51,7 +51,7 @@
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">{{ $posto->lotes()->where('lote_id', $lote->id)->first() ? $posto->lotes()->where('lote_id', $lote->id)->first()->pivot->qtdVacina : "0" }}</span>
+                                            <span class="input-group-text">{{ $posto->getVacinasDisponivel($lote->id) ? $posto->getVacinasDisponivel($lote->id) : 0 }}</span>
                                             <span class="input-group-text">+</span>
                                         </div>
                                         @if($sobras >= 0)

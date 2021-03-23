@@ -80,7 +80,7 @@ class CandidatoController extends Controller
         ]);
 
         $dados = $request->all();
-        
+
         $candidato = new Candidato;
         $candidato->nome_completo           = $request->nome_completo;
         $candidato->data_de_nascimento      = $request->data_de_nascimento;
@@ -167,14 +167,6 @@ class CandidatoController extends Controller
                 break;
             }
         }
-        // foreach ($candidato->posto->lotes->all() as $key => $lote) {
-        //     if($lote->pivot->qtdVacina > 0){
-        //         $lote->pivot->qtdVacina -= 1;
-        //         $candidato->lote->save($lote);
-
-        //         break;
-        //     }
-        // }
 
         if($id_lote == 0) { // Se é 0 é porque não tem vacinas...
             return redirect()->back()->withErrors([
@@ -191,6 +183,22 @@ class CandidatoController extends Controller
         $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
         $candidato->save();
+
+        $posto = PostoVacinacao::find($id_posto);
+        $lote = Lote::find($id_lote);
+
+        if (!$lote->dose_unica) {
+            $datetime_chegada_segunda_dose = $candidato->chegada->modify('+'.$lote->inicio_periodo.' day');
+            $candidatoSegundaDose = $candidato->replicate()->fill([
+                'chegada' =>  $datetime_chegada_segunda_dose,
+                'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
+            ]);
+
+            $candidatoSegundaDose->save();
+            if($candidatoSegundaDose->email != null){
+                Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
+            }
+        }
 
         if($candidato->email != null){
             Notification::send($candidato, new CandidatoInscrito($candidato));

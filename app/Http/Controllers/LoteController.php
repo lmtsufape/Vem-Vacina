@@ -116,6 +116,12 @@ class LoteController extends Controller
     {
         Gate::authorize('apagar-lote');
         $lote = Lote::findOrFail($id);
+        if (true) {
+            return redirect()->back()
+                            ->withErrors([
+                                "message" => "Este lote não pode ser apagado."
+                            ])->withInput();
+        }
         $lote->delete();
 
         return redirect()->route('lotes.index')->with('message', 'Lote excluído com sucesso!');
@@ -177,12 +183,37 @@ class LoteController extends Controller
     {
         Gate::authorize('distribuir-lote');
         $lote   = Lote::findOrFail($request->lote_id);
-        $posto = PostoVacinacao::find($request->posto_id);
+        $posto  = PostoVacinacao::find($request->posto_id);
+
+        $rules = [
+            'quantidade' => 'gte:1|integer'
+        ];
+        $messages = [
+            'quantidade.gte' => 'O número digitado deve ser maior ou igual a 0.',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages );
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         if ($posto->getVacinasDisponivel($request->lote_id) > $request->quantidade) {
             $posto->subVacinaEmLote($request->lote_id, $request->quantidade) ;
             $lote->numero_vacinas += $request->quantidade;
+            $lote->save();
+        }elseif($posto->getVacinasDisponivel($request->lote_id) == $request->quantidade){
+            $lote->numero_vacinas += $request->quantidade;
+            $lote->save();
+            $posto->lotes()->detach($lote);
+        }else{
+            return redirect()->back()
+                        ->withErrors([
+                            "quantidade" => "Quantidade a devolver deve ser menor que a quantidade de vacinas disponíveis."
+                        ])->withInput();
         }
-        return back();
+        return back()->with(['message' => "Devolução realizada com sucesso!"]);
     }
 
     private function isChecked($request ,$field)
