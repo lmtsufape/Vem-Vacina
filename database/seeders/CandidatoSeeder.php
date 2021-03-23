@@ -28,8 +28,6 @@ class CandidatoSeeder extends Seeder
                 'sexo' => "Masculino",
                 'nome_da_mae' => 'NomeDaMae'.$i,
                 'paciente_acamado' => true,
-                'paciente_agente_de_saude' => false,
-                'unidade_caso_agente_de_saude' => '',
                 'telefone' => '(87) 99999-9999',
                 'whatsapp' => '(87) 99999-9999',
                 'email' => 'gabriel.antonio.dev@gmail.com',

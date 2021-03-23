@@ -13,6 +13,7 @@ class Etapa extends Model
     protected $fillable = [
         'inicio_intervalo',
         'fim_intervalo',
+        'texto',
         'atual',
         'dose_unica',
         'total_pessoas_vacinadas_pri_dose',

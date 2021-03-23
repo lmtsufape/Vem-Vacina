@@ -46,7 +46,7 @@
                                 @csrf
                                 <div class="form-check">
                                     <input class="form-check-input @error('pessoa_idosa') is-invalid @enderror" type="checkbox" id="defaultCheck2" name="pessoa_idosa" @if(old('pessoa_idosa')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PESSOA IDOSA</label>
+                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PESSOA IDOSA (75 A 79 ANOS).</label>
                                     
                                     @error('pessoa_idosa')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
@@ -88,8 +88,8 @@
                                 <br>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label for="inputNome" class="style_titulo_input">NOME COMPLETO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{old('nome_completo')}}"> 
+                                        <label for="inputNome" class="style_titulo_input">NOME COMPLETO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
+                                        <input type="text" class="form-control style_input @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{old('nome_completo')}}" maxlength="65"> 
                                         
                                         @error('nome_completo')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                        <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                         <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
                                         
                                         @error('data_de_nascimento')
@@ -110,7 +110,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                        <label for="inputCPF" class="style_titulo_input">CPF<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                         <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
                                     
                                         @error('cpf')
@@ -132,7 +132,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="inputSexo" class="style_titulo_input">SEXO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                        <label for="inputSexo" class="style_titulo_input">SEXO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                         <select id="inputSexo" class="form-control style_input @error('sexo') is-invalid @enderror" name="sexo">
                                             <option selected disabled>-- Selecione o sexo --</option>
                                             @foreach($sexos as $sexo)
@@ -149,8 +149,8 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label for="inputNomeMae" class="style_titulo_input">NOME COMPLETO DA MÃE <span class="style_subtitulo_input">*(obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input @error('nome_da_mãe') is-invalid @enderror" id="inputNomeMae" placeholder="Digite o nome completo da mãe" name="nome_da_mãe" value="{{old('nome_da_mãe')}}">
+                                        <label for="inputNomeMae" class="style_titulo_input">NOME COMPLETO DA MÃE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
+                                        <input type="text" class="form-control style_input @error('nome_da_mãe') is-invalid @enderror" id="inputNomeMae" placeholder="Digite o nome completo da mãe" name="nome_da_mãe" value="{{old('nome_da_mãe')}}" maxlength="65">
                                         
                                         @error('nome_da_mãe')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -159,69 +159,15 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe se o idoso é acamado ou possui dificuldade de locomoção)</div>
-                                </div>
 
-                                
-                                <div class="form-check">
-                                    <input class="form-check-input @error('paciente_dificuldade_locomocao') is-invalid @enderror" type="checkbox" id="defaultCheck0" name="paciente_dificuldade_locomocao" @if(old('paciente_dificuldade_locomocao')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck0">PACIENTE ESTÁ COM DIFICULDADE DE LOCOMOÇÃO</label>
-                                    
-                                    @error('paciente_dificuldade_locomocao')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
-
-                                 
-                                <div class="form-check">
-                                    <input class="form-check-input @error('paciente_acamado') is-invalid @enderror" type="checkbox" id="defaultCheck1" name="paciente_acamado" @if(old('paciente_acamado')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck1">PACIENTE ESTÁ ACAMADO </label>
-                                    
-                                    @error('paciente_acamado')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
-
-
-                                
-                                <div class="form-check">
-                                    <input class="form-check-input @error('paciente_agente_de_saude') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoVinculoComAEquipeDeSaudade(this)" name="paciente_agente_de_saude" @if(old('paciente_agente_de_saude')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PACIENTE TEM VÍNCULO COM A EQUIPE DE SAÚDE DA FAMÍLIA (AGENTE DE SAÚDE)</label>
-                                    
-                                    @error('paciente_agente_de_saude')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-                                    
-                                    <div class="form-group" style="@if(old('paciente_agente_de_saude')) display: block; @else display: none; @endif" id="id_div_nomeDaUnidade">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label for="inputNomeUnidade" class="style_titulo_input" style="font-weight: normal;">Qual o nome da sua unidade (caso tenha vínculo) </label>
-                                                <input type="text" class="form-control @error('unidade_caso_agente_de_saude') is-invalid @enderror" id="inputNomeUnidade" placeholder="Digite o nome da sua unidade" name="unidade_caso_agente_de_saude" value="{{old('unidade_caso_agente_de_saude')}}">
-                                                
-                                                @error('unidade_caso_agente_de_saude')
-                                                <div id="validationServer05Feedback" class="invalid-feedback">
-                                                    <strong>{{$message}}</strong>
-                                                </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Contato</div>
                                     <div style="font-size: 15px; margin-bottom: 15px;">(Informe o telefone, whatsapp ou e-mail para contato que confirmaremos o agendamento da data e horário de aplicação da vacina)</div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputTelefone" class="style_titulo_input">TELEFONE <span class="style_subtitulo_input">*(obrigatório)</span></label>
+                                        <label for="inputTelefone" class="style_titulo_input">TELEFONE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
                                         <input type="text" class="form-control style_input celular @error('telefone') is-invalid @enderror" id="inputTelefone" placeholder="Digite o número do seu telefone" name="telefone" value="{{old('telefone')}}">
                                     
                                         @error('telefone')
@@ -247,6 +193,44 @@
                                         <input type="email" class="form-control style_input" id="inputEmail" placeholder="Digite o seu e-mail" name="email" value="{{old('email')}}">
                                     </div>
                                 </div>
+
+
+
+
+                                
+                                <div class="form-group">
+                                    <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe se o idoso é acamado ou possui dificuldade de locomoção)</div>
+                                </div>
+
+                                
+                                <div class="form-check">
+                                    <input class="form-check-input @error('paciente_dificuldade_locomocao') is-invalid @enderror" type="checkbox" id="defaultCheck0" name="paciente_dificuldade_locomocao" @if(old('paciente_dificuldade_locomocao')) checked @endif>
+                                    <label class="form-check-label style_titulo_input" for="defaultCheck0">PACIENTE ESTÁ COM DIFICULDADE DE LOCOMOÇÃO.</label>
+                                    
+                                    @error('paciente_dificuldade_locomocao')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                 
+                                <div class="form-check">
+                                    <input class="form-check-input @error('paciente_acamado') is-invalid @enderror" type="checkbox" id="defaultCheck1" name="paciente_acamado" @if(old('paciente_acamado')) checked @endif>
+                                    <label class="form-check-label style_titulo_input" for="defaultCheck1">PACIENTE ESTÁ ACAMADO.</label>
+                                    
+                                    @error('paciente_acamado')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
+                                </div>
+
+
+
+
+                                
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Endereço</div>
                                     <div style="font-size: 15px; margin-bottom: 15px;">(Informe seu endereço, rua, número, se casa ou apartamento, CEP e bairro)</div>
@@ -269,8 +253,8 @@
                                 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputCidade" class="style_titulo_input">CIDADE <span class="style_subtitulo_input">*(obrigatório)</span> </label>
-                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="@if(old('cidade') != null){{old('cidade')}}@else{{"Garanhuns"}}@endif"> 
+                                        <label for="inputCidade" class="style_titulo_input">CIDADE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
+                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="@if(old('cidade') != null){{old('cidade')}}@else{{"Garanhuns"}}@endif" disabled> 
                                         
                                         @error('cidade')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -279,7 +263,7 @@
                                         @enderror
                                     </div> 
                                     <div class="form-group col-md-6">
-                                        <label for="inputBairro" class="style_titulo_input">BAIRRO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                        <label for="inputBairro" class="style_titulo_input">BAIRRO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                         <input id="inputBairro" class="form-control style_input @error('bairro') is-invalid @enderror" name="bairro" value="{{old('bairro')}}">
                                         
                                         @error('bairro')
@@ -291,7 +275,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputrua" class="style_titulo_input">RUA <span class="style_subtitulo_input">*(obrigatório)</span></label>
+                                        <label for="inputrua" class="style_titulo_input">RUA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
                                         <input type="text" class="form-control style_input @error('rua') is-invalid @enderror" id="inputrua" placeholder="Digite o nome da rua, avenida, travessa..." name="rua" value="{{old('rua')}}">
                                         
                                         @error('rua')
@@ -301,7 +285,7 @@
                                         @enderror
                                     </div> 
                                     <div class="form-group col-md-6">
-                                        <label for="inputNumeroResidencia" class="style_titulo_input">NÚMERO DA RESIDÊNCIA <span class="style_subtitulo_input">*(obrigatório)</span></label>
+                                        <label for="inputNumeroResidencia" class="style_titulo_input">NÚMERO DA RESIDÊNCIA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
                                         <input type="text" class="form-control style_input @error('número_residencial') is-invalid @enderror" id="inputNumeroResidencia" placeholder="Digite o nome da residência" name="número_residencial" value="{{old('número_residencial')}}">
                                         
                                         @error('número_residencial')
@@ -338,11 +322,11 @@
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O POSTO DE VACINAÇÃO MAIS PRÓXIMA DA SUA CASA <span class="style_subtitulo_input">*(obrigatório)</span></label>
+                                        <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O PONTO DE VACINAÇÃO MAIS PRÓXIMO DE SUA CASA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
                                         <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
-                                            <option selected disabled>-- Selecione o posto --</option>
+                                            <option selected disabled>-- Selecione o ponto --</option>
                                             @foreach($postos as $posto)
-                                                @if(old('profissional_da_saúde') || old('paciente_agente_de_saude'))
+                                                @if(old('profissional_da_saúde'))
                                                     @if ($posto->para_profissional_da_saude)
                                                         <option value="{{$posto->id}}">{{$posto->nome}}</option>
                                                     @endif
@@ -358,23 +342,9 @@
                                         </div>
                                         @enderror
                                     </div> 
-                                    <div class="form-group col-md-6">
-                                        {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">*(obrigatório)</span></label>
-                                        <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
-                                            <option selected disabled>-- Selecione a dose --</option>
-                                            <option value="{{$doses[0]}}">{{$doses[0]}}</option>
-                                            <option value="{{$doses[1]}}">{{$doses[1]}}</option>
-                                        </select>
-                                        
-                                        @error('dose')
-                                        <div id="validationServer05Feedback" class="invalid-feedback">
-                                            <strong>{{$message}}</strong>
-                                        </div>
-                                        @enderror --}}
-                                    </div>
+                                    <div class="form-group col-md-6" id="seletor_horario" style="padding-top: 32px;"></div>
                                 </div>
 
-                                <div id="seletor_horario"></div>
                                 
                                 <div><hr></div>
 
@@ -508,7 +478,7 @@
          if(cep.length != 8) {return;}
          
          let url = window.location.toString().replace("solicitar", "cep/" + cep);
-         console.log(url);
+         /* console.log(url); */
 
          fetch(url).then((resposta) => {
              return resposta.json();
@@ -519,7 +489,7 @@
                  return;
              }
              
-             document.getElementById("inputCidade").value = json.cidade;
+            //  document.getElementById("inputCidade").value = json.cidade;
              document.getElementById("inputBairro").value = json.bairro;
              document.getElementById("inputrua").value = json.tipo_logradouro + " " + json.logradouro;
              
@@ -556,7 +526,8 @@
          let id_posto = posto_selecionado.value;
          let div_seletor_horararios = document.getElementById("seletor_horario");
          div_seletor_horararios.innerHTML = "Buscando horários disponíveis...";
-         let url = "http://" + document.location.host + "/horarios/" + id_posto;
+         let url = window.location.toString().replace("solicitar", "horarios/" + id_posto);
+         /* console.log(url); */
 
          // Mágia de programação funcional
          fetch(url).then((dados) => {

@@ -179,20 +179,7 @@
                                                         <input id="acamado_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_acamado) checked @endif>
                                                         <label for="acamado_{{$candidato->id}}">Pasciente acamado</label>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <input id="agente_saude_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_agente_de_saude) checked @endif>
-                                                        <label for="agente_saude_{{$candidato->id}}">Agente de saúde</label>
-                                                    </div>
                                                 </div>
-                                                @if($candidato->paciente_agente_de_saude)
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <br>
-                                                        <label for="unidade_saude_{{$candidato->id}}">Unidade de saúde</label>
-                                                        <input id="unidade_saude_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->unidade_caso_agente_de_saude}}">
-                                                    </div>
-                                                </div>
-                                                @endif
                                                 <br>
                                                 <div class="row">
                                                     <h4>Contato</h4>
