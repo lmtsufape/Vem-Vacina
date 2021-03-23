@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="numero_vacinas">Nº de vacinas</label>
-                            <input id="numero_vacinas" type="number" class="form-control @error('numero_vacinas') is-invalid @enderror" name="numero_vacinas"  value="{{ old('numero_vacinas') }}">
+                            <input id="numero_vacinas"  type="number" min="1" class="form-control @error('numero_vacinas') is-invalid @enderror" name="numero_vacinas"  value="{{ old('numero_vacinas') }}">
                             @error('numero_vacinas') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                     </div>

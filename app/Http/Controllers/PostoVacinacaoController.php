@@ -9,6 +9,7 @@ use App\Models\PostoVacinacao;
 use Illuminate\Http\Request;
 use App\Models\Candidato;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 class PostoVacinacaoController extends Controller
 {
@@ -119,6 +120,18 @@ class PostoVacinacaoController extends Controller
     {
         Gate::authorize('criar-posto');
         $data = $request->all();
+        $rules = [
+            'nome'       => 'required|unique:posto_vacinacaos',
+            'endereco'   => 'required|max:30',
+        ];
+
+        $validator = Validator::make($request->all(), $rules );
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
         $posto = new PostoVacinacao();
 
         $posto->nome = $request->nome;
@@ -175,9 +188,23 @@ class PostoVacinacaoController extends Controller
     public function update(Request $request, $id)
     {
         Gate::authorize('editar-posto');
+
+        $rules = [
+            'nome'       => 'required',
+            'endereco'   => 'required|max:30',
+        ];
+
+        $validator = Validator::make($request->all(), $rules );
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         $data = $request->all();
         $posto = PostoVacinacao::find($id);
-        
+
         $posto->nome = $request->nome;
         $posto->endereco = $request->endereco;
 
@@ -192,9 +219,9 @@ class PostoVacinacaoController extends Controller
         } else {
             $posto->para_profissional_da_saude = false;
         }
-        
+
         $posto->update();
-        
+
         return redirect()->route('postos.index')->with('message', 'Posto editado com sucesso!');
     }
 

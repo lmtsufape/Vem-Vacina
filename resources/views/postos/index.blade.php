@@ -101,7 +101,7 @@
                                                     <input type="hidden" name="lote_id" value="{{ $lote->id }}">
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <input class="form-control" name="quantidade" type="number" placeholder="Quantidade">
+                                                            <input class="form-control" name="quantidade"  min="1" type="number" placeholder="Quantidade">
                                                         </div>
                                                         <div class="col-2">
                                                             <button class="btn btn-success">Devolver</button>
