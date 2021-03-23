@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="numero_vacinas">Nº de vacinas</label>
-                            <input id="numero_vacinas" type="number" class="form-control @error('numero_vacinas') is-invalid @enderror" name="numero_vacinas"  value="{{ old('numero_vacinas') }}">
+                            <input id="numero_vacinas"  type="number" min="1" class="form-control @error('numero_vacinas') is-invalid @enderror" name="numero_vacinas"  value="{{ old('numero_vacinas') }}">
                             @error('numero_vacinas') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                     </div>
@@ -83,9 +83,9 @@
                                     <label for="doseUnica " class="mr-2 mt-2">É dose única?</label>
                                     {{-- <input type="hidden" name="dose_unica" value="false"> --}}
                                     <input id="doseUnica" class="mb-2 mt-2" type="checkbox" name="dose_unica" value="true" aria-label="Checkbox for following text input">
-                                    @error('dose_unica') <div class="alert alert-danger">{{ $message }}</div> @enderror
-                                  </div>
                                 </div>
+                            </div>
+                            @error('dose_unica') <div class="alert alert-danger">{{ $message }}</div> @enderror
                             </div>
                         </div>
                     </div>

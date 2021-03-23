@@ -15,5 +15,7 @@ class LoteSeeder extends Seeder
     public function run()
     {
         Lote::factory()->times(20)->create();
+
+
     }
 }

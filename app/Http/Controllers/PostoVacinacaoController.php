@@ -9,6 +9,7 @@ use App\Models\PostoVacinacao;
 use Illuminate\Http\Request;
 use App\Models\Candidato;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 class PostoVacinacaoController extends Controller
 {
@@ -127,6 +128,18 @@ class PostoVacinacaoController extends Controller
     {
         Gate::authorize('criar-posto');
         $data = $request->all();
+        $rules = [
+            'nome'       => 'required|unique:posto_vacinacaos',
+            'endereco'   => 'required|max:30',
+        ];
+
+        $validator = Validator::make($request->all(), $rules );
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
         $posto = new PostoVacinacao();
 
         $posto->nome = $request->nome;
@@ -222,6 +235,20 @@ class PostoVacinacaoController extends Controller
     public function update(Request $request, $id)
     {
         Gate::authorize('editar-posto');
+
+        $rules = [
+            'nome'       => 'required',
+            'endereco'   => 'required|max:30',
+        ];
+
+        $validator = Validator::make($request->all(), $rules );
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         $data = $request->all();
         $posto = PostoVacinacao::find($id);
 
@@ -239,7 +266,6 @@ class PostoVacinacaoController extends Controller
         } else {
             $posto->para_profissional_da_saude = false;
         }
-
 
         $posto->funciona_domingo = ($request->funciona_domingo == "on");
         $posto->funciona_segunda = ($request->funciona_segunda == "on");
@@ -285,9 +311,6 @@ class PostoVacinacaoController extends Controller
         }
 
 
-
-
-        
         $posto->update();
 
         return redirect()->route('postos.index')->with('message', 'Posto editado com sucesso!');
@@ -303,7 +326,13 @@ class PostoVacinacaoController extends Controller
     {
         Gate::authorize('apagar-posto');
         $posto = PostoVacinacao::findOrFail($id);
-        $posto->delete();
+        if($posto->lotes->count()) {
+            return redirect()->back()->withErrors([
+                "message" => "Existe lote associado com esse ponto de vacinação."
+            ])->withInput();
+
+        }
+        $posto->forceDelete();
 
         return redirect()->route('postos.index')->with('message', 'Posto excluído com sucesso!');
     }

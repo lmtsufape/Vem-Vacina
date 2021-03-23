@@ -81,7 +81,7 @@ class CandidatoController extends Controller
             "nome_da_mãe"           => "required|string|max:65",
             "telefone"              => "required",
             "whatsapp"              => "nullable",
-            "email"                 => "nullable",
+            "email"                 => "nullable|email",
             "cep"                   => "nullable",
             // "cidade"                => "required", // como valor é fixado no front, pode ser desabilitado e hardcoded aqui no controller
             "bairro"                => "required",
