@@ -185,15 +185,20 @@ class EtapaController extends Controller
         $etapa = Etapa::find($id);
         $candidatos = $etapa->candidatos;
         if ($candidatos != null && count($candidatos) > 0) {
-            foreach ($candidatos as $candidato) {
-                $candidato->etapa_id = null;
-                $candidato->update();
+            return redirect( route('etapas.index') )->with(['error' => 'Existem agendamentos nesse público, logo não é possivel excluir.']);
+        }
+
+        if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+            $opcoesEtapa = $etapa->opcoes;
+
+            foreach ($opcoesEtapa as $opcao) {
+                $opcao->delete();
             }
         }
 
         $etapa->delete();
 
-        return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa excluida com sucesso!']);
+        return redirect( route('etapas.index') )->with(['mensagem' => 'Público excluida com sucesso!']);
     }
 
     public function definirEtapa(Request $request)

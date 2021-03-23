@@ -39,7 +39,15 @@
                 </div>
             </div>
         @endif
-
+        @if(session('error'))
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-danger" role="alert">
+                        <p>{{session('error')}}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
         <div class="row" style="margin-top: 10px; margin-bottom: 50px;">
             <div class="col-md-12">
                 <div class="accordion" id="accordionExample">
