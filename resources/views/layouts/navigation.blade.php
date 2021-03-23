@@ -26,7 +26,7 @@
                     @endcan
                     @can('ver-etapa')
                     <x-nav-link :href="route('etapas.index')" :active="request()->routeIs('etapas.*')">
-                        {{ __('Etapas') }}
+                        {{ __('Públicos') }}
                     </x-nav-link>
                     @endcan
                     @can('ver-export')
@@ -88,15 +88,26 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Lista de agendamentos') }}
             </x-responsive-nav-link>
+            @can('ver-posto')
             <x-responsive-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
                 {{ __('Lista de Postos') }}
             </x-responsive-nav-link>
+            @endif
+            @can('ver-lote')
             <x-responsive-nav-link :href="route('lotes.index')" :active="request()->routeIs('lotes.*')">
                 {{ __('Lista de Lotes') }}
             </x-responsive-nav-link>
+            @endif
+            @can('ver-etapa')
             <x-responsive-nav-link :href="route('etapas.index')" :active="request()->routeIs('etapas.*')">
-                {{ __('Etapas') }}
+                {{ __('Públicos') }}
             </x-responsive-nav-link>
+            @endif
+            @can('ver-export')
+            <x-responsive-nav-link :href="route('export.index')" :active="request()->routeIs('export.*')">
+                {{ __('Exportar') }}
+            </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->

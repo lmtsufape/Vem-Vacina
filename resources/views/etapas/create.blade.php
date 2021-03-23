@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Adicionar uma nova etapa') }}
+            {{ __('Adicionar um novo público') }}
         </h2>
     </x-slot>
 
@@ -144,7 +144,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <input id="atual" type="checkbox" name="atual" @if(old('atual')) checked @endif>
-                        <label for="atual">Esta é a etapa que está ocorrendo atualmente.</label>
+                        <label for="atual">A vacinação deste público esta ocorrendo atualmente.</label>
                     </div>
                 </div>
                 <br>

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-7">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Etapas') }}
+                    {{ __('Públicos') }}
                 </h2>
             </div>
 
@@ -21,7 +21,7 @@
                 <a href="{{route('etapas.create')}}">
                     @can('criar-etapa')
                         <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                            Adicionar etapa
+                            Adicionar público
                         </button>
                     @endcan
                 </a>
@@ -132,7 +132,7 @@
                                             </div>
                                             <div class="col-md-3" style="position: relative; top: 35px;">
                                                 <input id="atual_{{$etapa->id}}" type="checkbox" @if($etapa->atual) checked @endif onclick="salvarEtapa(this, {{$etapa->id}})" @can('definir-etapa') @else disabled @endif>
-                                                <label for="atual_{{$etapa->id}}">Faz parte dos públicos atuais?</label>
+                                                <label for="atual_{{$etapa->id}}">Faz parte da vacinação atual?</label>
                                             </div>
                                         </div>
                                     </div>
@@ -292,7 +292,7 @@
             <div class="modal-body">
                 <form id="excluir_etapa_{{$etapa->id}}" action="{{route('etapas.destroy', ['id' => $etapa->id])}}" method="post">
                     @csrf
-                    Tem certeza que deseja excluir essa etapa?
+                    Tem certeza que deseja excluir esse público?
                 </form>
             </div>
             <div class="modal-footer">
