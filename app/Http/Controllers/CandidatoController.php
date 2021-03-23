@@ -31,7 +31,9 @@ class CandidatoController extends Controller
             $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
         }
 
-        return view('dashboard')->with(['candidatos' => $candidatos, 'candidato_enum' => Candidato::APROVACAO_ENUM]);
+        return view('dashboard')->with(['candidatos' => $candidatos, 
+                                        'candidato_enum' => Candidato::APROVACAO_ENUM, 
+                                        'tipos' => Etapa::TIPO_ENUM]);
     }
 
     public function solicitar() {
@@ -263,8 +265,6 @@ class CandidatoController extends Controller
         $candidato = Candidato::find($id);
         $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
         $candidato->update();
-
-
 
         $etapa = $candidato->etapa;
         if ($etapa != null) {

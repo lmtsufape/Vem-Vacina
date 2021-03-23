@@ -36,23 +36,10 @@
                                                             <span class="style_card_apresentacao_a_anos"> 
                                                                 anos 
                                                             </span>
-                                                        @elseif($etapa->tipo == $tipos[1])
+                                                        @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
                                                             @if ($i != 0) <hr> @endif
                                                             <span class="style_card_apresentacao_a_anos" style="position: relative; bottom: 10px;"> 
-                                                                @if ($etapa->texto_home != null)
-                                                                    {{$etapa->texto_home}}
-                                                                @else
-                                                                    {{$etapa->texto}}
-                                                                @endif
-                                                            </span>
-                                                        @elseif($etapa->tipo == $tipos[2])
-                                                            @if ($i != 0) <hr> @endif
-                                                            <span class="style_card_apresentacao_a_anos" style="position: relative; bottom: 10px;"> 
-                                                                @if ($etapa->texto_home != null)
-                                                                    {{$etapa->texto_home}}
-                                                                @else
-                                                                    {{$etapa->texto}}
-                                                                @endif
+                                                                {{$etapa->texto_home}}
                                                             </span>
                                                         @endif
                                                     @endif

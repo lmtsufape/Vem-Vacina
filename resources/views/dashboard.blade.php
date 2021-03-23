@@ -79,32 +79,27 @@
                                         </div>
                                         <div class="container">
                                             <div class="modal-body">
-                                                @if ($candidato->pessoa_idosa || $candidato->profissional_da_saude != null)
                                                 <div class="row">
-                                                    <h4>Informações especiais</h4>
+                                                    <h4>Informações do público</h4>
                                                 </div>
                                                 <div class="row">
-                                                    @if ($candidato->pessoa_idosa)
-                                                    <div class="col-md-6">
-                                                        <input id="pessoa_idosa_{{$candidato->id}}" type="checkbox" disabled @if($candidato->pessoa_idosa) checked @endif>
-                                                        <label for="pessoa_idosa_{{$candidato->id}}">Pessoa idosa</label>
-                                                    </div>
-                                                    @endif
-                                                    @if ($candidato->profissional_da_saude != null)
-                                                    <div class="col-md-6">
-                                                        <input id="profissional_da_saude_{{$candidato->id}}" type="checkbox" disabled @if($candidato->profissional_da_saude != null) checked @endif>
-                                                        <label for="profissional_da_saude_{{$candidato->id}}">Profissional da saúde</label>
-                                                    </div>
-                                                    @endif
-                                                    @if ($candidato->profissional_da_saude != null)
-                                                    <div class="col-md-12">
-                                                        <label for="profissao_{{$candidato->id}}">Profissão</label>
-                                                        <input id="profissao_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->profissional_da_saude}}">
-                                                    </div>
+                                                    @if ($candidato->etapa->tipo == $tipos[0] || $candidato->etapa->tipo == $tipos[1] )
+                                                        <div class="col-md-12">
+                                                            <label for="">Público</label>
+                                                            <input type="text" class="form-control" value="{{$candidato->etapa->texto}}" disabled>
+                                                        </div>
+                                                    @elseif($candidato->etapa->tipo == $tipos[2])
+                                                        <div class="col-md-6">
+                                                            <label for="">Público</label>
+                                                            <input type="text" class="form-control" value="{{$candidato->etapa->texto}}" disabled>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="">Opção selecionada</label>
+                                                            <input type="text" class="form-control" value="{{App\Models\OpcoesEtapa::find($candidato->etapa_resultado)->opcao}}" disabled>
+                                                        </div>
                                                     @endif
                                                 </div>
                                                 <br>
-                                                @endif
                                                 @if ($candidato->lote != null)
                                                     <div class="row">
                                                         <h4>Lote</h4>
