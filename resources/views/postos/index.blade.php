@@ -70,19 +70,35 @@
                                             <tr>
                                               <th scope="col">Nº do lote</th>
                                               <th scope="col">Fabricante</th>
-                                              <th scope="col">Nº de vacinas</th>
                                               <th scope="col">Dose única</th>
                                               <th scope="col">Tempo para a segunda dose</th>
+                                              <th scope="col">Nº de vacinas disponíveis <i class="fas fa-exclamation-circle"  data-toggle="tooltip" data-placement="top" title="Quantidade de vacinas menos quantidade de vacinas reservadas"></i></th>
+                                              <th scope="col" colspan="2">Ações</th>
                                             </tr>
                                           </thead>
                                           <tbody>
                                             @foreach ($posto->lotes as $lote)
                                             <tr>
                                               <th scope="row">{{$lote->numero_lote}}</th>
-                                              <td>{{$lote->fabricante}}</td>
-                                              <td>{{$lote->pivot->qtdVacina - $posto->lotes()->find($lote->id)->candidatos()->where('posto_vacinacao_id', $posto->id)->count() }}</td>
+                                              <td>{{$lote->fabricante }}</td>
                                               <td>{{$lote->dose_unica ? 'Sim' : 'Não'}}</td>
                                               <td>{{$lote->dose_unica ? " - " : 'Entre '.$lote->inicio_periodo." à  ". $lote->fim_periodo." dias" }} </td>
+                                              <td>{{$lote->pivot->qtdVacina - $posto->getCandidatosPorLote($lote->id) }}</td>
+                                              <td>
+                                                <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="posto_id" value="{{ $posto->id }}">
+                                                    <input type="hidden" name="lote_id" value="{{ $lote->id }}">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <input class="form-control" name="quantidade" type="number" placeholder="Quantidade">
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <button class="btn btn-success">Alterar</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                              </td>
                                             </tr>
                                             @endforeach
                                           </tbody>

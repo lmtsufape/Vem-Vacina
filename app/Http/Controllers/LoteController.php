@@ -173,6 +173,18 @@ class LoteController extends Controller
         return redirect()->route('lotes.index')->with('message', 'Lote distribuído com sucesso!');
     }
 
+    public function alterarQuantidadeVacina(Request $request)
+    {
+        Gate::authorize('distribuir-lote');
+        $lote   = Lote::findOrFail($request->lote_id);
+        $posto = PostoVacinacao::find($request->posto_id);
+        if ($posto->getVacinasDisponivel($request->lote_id) > $request->quantidade) {
+            $posto->subVacinaEmLote($request->lote_id, $request->quantidade) ;
+            $lote->numero_vacinas += $request->quantidade;
+        }
+        return back();
+    }
+
     private function isChecked($request ,$field)
     {
         if(!$request->has($field))
