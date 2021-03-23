@@ -72,7 +72,7 @@ class CandidatoController extends Controller
 
     public function enviar_solicitacao(Request $request) {
 
-
+        dd($request);
         $request->validate([
             "nome_completo"         => "required|string|max:65",
             "data_de_nascimento"    => "required|date",

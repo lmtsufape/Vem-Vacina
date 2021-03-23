@@ -9,22 +9,22 @@ use App\Models\Candidato;
 class WelcomeController extends Controller
 {
     public function index() {
-        $etapaAtual = null;
         $quantPessoasCadastradas = 0;
+        $quantPessoasPriDose = 0;
+        $quantPessoasSegDose = 0;
 
-        $total = Etapa::where([['atual', true], ['tipo', Etapa::TIPO_ENUM[3]]])->first();
-        $quantPessoasPriDose = $total->total_pessoas_vacinadas_pri_dose;
-        $quantPessoasSegDose = $total->total_pessoas_vacinadas_seg_dose;
-
-        $etapasAtuais = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
+        $publicos = Etapa::orderBy('texto')->get();
+        foreach ($publicos as $publico) {
+            $quantPessoasPriDose += $publico->total_pessoas_vacinadas_pri_dose;
+            $quantPessoasSegDose += $publico->total_pessoas_vacinadas_seg_dose;
+        }
 
         $quantPessoasCadastradas = count(Candidato::all());
 
-        return view('welcome')->with(['etapas'                   => $etapasAtuais,
+        return view('welcome')->with(['etapas'                  => $publicos,
                                       'quantPessoasCadastradas' => $quantPessoasCadastradas,
                                       'quantPessoasPriDose'     => $quantPessoasPriDose,
                                       'quantPessoasSegDose'     => $quantPessoasSegDose,
-                                      'doses'                   => Candidato::DOSE_ENUM,
                                       'tipos'                   => Etapa::TIPO_ENUM,]);
     }
 }

@@ -28,6 +28,7 @@
                                                 @foreach ($etapas as $i => $etapa)
                                                     @if ($etapa->exibir_na_home)
                                                         @if ($etapa->tipo == $tipos[0])
+                                                            @if ($i != 0) <hr> @endif
                                                             {{$etapa->inicio_intervalo}}
                                                             <span class="style_card_apresentacao_a_anos"> 
                                                                 à 

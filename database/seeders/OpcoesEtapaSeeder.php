@@ -27,7 +27,7 @@ class OpcoesEtapaSeeder extends Seeder
         foreach ($profissao_enum as $profissao) {
             DB::table('opcoes_etapas')->insert([
                 'opcao' => $profissao,
-                'etapa_id' => 3,
+                'etapa_id' => 2,
             ]);
         }
     }

@@ -18,7 +18,7 @@
     @endif
     
 
-    <div style="padding-bottom: 0rem;padding-top: 1rem;; margin-top: -15%; background-color: #fff;"> 
+    <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;"> 
         <img src="img/cabecalho_1.png" alt="Orientação" width="100%"> 
         <div class="container">
             <img src="img/cabecalho_2.png" alt="Orientação" width="100%">
@@ -44,28 +44,28 @@
                         <div class="col-md-12">
                             <form method="POST" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
-                                @if (old('publico') != null)
+                                @if (old('público') != null)
                                     @foreach ($publicos as $publico)
                                         @if ($publico->exibir_no_form)
                                             @if ($publico->tipo == $tipos[0])
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="defaultCheck2" name="publicos[]" value="{{$publico->id}}" @if(in_array($publico->id, old('publico'))) checked @endif>
-                                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
+                                                    <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
+                                                    <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                                 </div>
                                             @elseif ($publico->tipo == $tipos[1])
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="defaultCheck2" name="publicos[]" value="{{$publico->id}}" @if(in_array($publico->id, old('publico'))) checked @endif>
-                                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
+                                                    <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
+                                                    <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                                 </div>
                                             @elseif ($publico->tipo == $tipos[2])
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="defaultCheck2" onclick="funcaoMostrarOpcoes(this, {{$publico->id}})" name="publicos[]" value="{{$publico->id}}" @if(in_array($publico->id, old('publico'))) checked @endif>
-                                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
+                                                    <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
+                                                    <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
 
-                                                    <div id="divPublico_{{$publico->id}}" @if (in_array($publico->id, old('publico'))) style="display: block;" @else style="display: none;" @endif>
+                                                    <div id="divPublico_{{$publico->id}}" @if (old('público') == $publico->id) style="display: block;" @else style="display: none;" @endif>
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}(caso {{$publico->texto}})</label>
+                                                                <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}(caso {{mb_strtolower($publico->texto)}})</label>
                                                                 <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}"> 
                                                                     <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                     @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
@@ -85,28 +85,33 @@
                                             @endif
                                         @endif
                                     @endforeach
+                                    @error('público')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
+                                    </div>
+                                    @enderror
                                 @else
                                 @foreach ($publicos as $publico)
                                     @if ($publico->exibir_no_form) 
                                         @if ($publico->tipo == $tipos[0])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="defaultCheck2" name="publicos[]" value="{{$publico->id}}">
-                                                <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
+                                                <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                             </div>
                                         @elseif ($publico->tipo == $tipos[1])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="defaultCheck2" name="publicos[]" value="{{$publico->id}}">
-                                                <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
+                                                <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                             </div>
                                         @elseif ($publico->tipo == $tipos[2])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="defaultCheck2" onclick="funcaoMostrarOpcoes(this, {{$publico->id}})" name="publicos[]" value="{{$publico->id}}">
-                                                <label class="form-check-label style_titulo_input" for="defaultCheck2">{{mb_strtoupper($publico->texto)}}</label>
+                                                <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
 
                                                 <div id="divPublico_{{$publico->id}}" @if (old('publico_'.$publico->id)) style="display: block;" @else style="display: none;" @endif>
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}(caso {{$publico->texto}})</label>
+                                                            <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}(caso {{mb_strtolower($publico->texto)}})</label>
                                                             <select class="form-control" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}"> 
                                                                 <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                 @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
@@ -547,16 +552,45 @@
         postoPara(input);
      }
 
-     function funcaoMostrarOpcoes(input, id) {
-        if(document.getElementById("divPublico_"+id).style.display == "none"){
-            document.getElementById("divPublico_"+id).style.display = "block";
-            document.getElementById("publico_opcao_"+id).value = "";
-        }else{
-            document.getElementById("divPublico_"+id).style.display = "none";
-            document.getElementById("publico_opcao_"+id).value = "";
-        }
-        postoPara(input, id);
-     }
+    //  function funcaoMostrarOpcoes(input, id) {
+    //     var div = document.getElementById("divPublico_"+id);
+    //     var select = document.getElementById("publico_opcao_"+id);
+    //     // alert(div);
+    //     if(div.style.display == "none" && div != null){
+    //         div.style.display = "block";
+    //         select.value = "";
+    //     }else{
+    //         div.style.display = "none";
+    //         select.value = "";
+    //     }
+    //     postoPara(input, id);
+    //  }
+
+    $(document).ready(function() {
+        $('input:radio[name=público]').change(
+            function() {
+                var inputs = document.getElementsByName('público');
+                for (var i = 0; i < inputs.length; i++) {
+                    // console.log(this);
+                    // console.log(this.value);
+                    if (document.getElementById("divPublico_"+inputs[i].value)) {
+                        var div = document.getElementById("divPublico_"+inputs[i].value);
+                        var select = document.getElementById("publico_opcao_"+inputs[i].value);
+
+                        if(div.style.display == "none" && inputs[i].value == this.value){
+                            div.style.display = "block";
+                            select.value = "";
+                        }else{
+                            div.style.display = "none";
+                            select.value = "";
+                        }
+                    }
+                    
+                }
+                postoPara(this, this.value);
+            }
+        )
+    });
 
      
      function selecionar_posto(posto_selecionado) {
