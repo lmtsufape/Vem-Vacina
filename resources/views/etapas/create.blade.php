@@ -8,46 +8,56 @@
     <div style="margin-top: 30px;">
         <form action="{{route('etapas.store')}}" method="post">
             @csrf
-            <div class="container">
+            <div class="container" style="margin-bottom: 35px;">
                 <div class="row">
                     <div class="col-md-4">
                         <label for="tipo">Classficação do público</label>
                         <select name="tipo" id="tipo" class="form-control" onchange="selecionarDiv(this)">
                             <option value="" selected disabled>-- selecione a classificação do público --</option>
-                            <option value="{{$tipos[0]}}">Por idade</option>
-                            <option value="{{$tipos[1]}}">Texto livre</option>
-                            <option value="{{$tipos[2]}}">Texto livre com campo extra selecionável</option>
+                            <option value="{{$tipos[0]}}" @if(old('tipo') == $tipos[0]) selected @endif>Por idade</option>
+                            <option value="{{$tipos[1]}}" @if(old('tipo') == $tipos[1]) selected @endif>Texto livre</option>
+                            <option value="{{$tipos[2]}}" @if(old('tipo') == $tipos[2]) selected @endif>Texto livre com campo extra selecionável</option>
                         </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="texto">Texto exibido no agendamento</label>
-                        <input type="text" id="texto" name="texto" class="form-control" value="{{old('texto')}}">
 
-                        @error('texto')
-                            <div id="validationServer05Feedback" class="invalid-feedback">
+                        @error('tipo')
+                            <div id="tipo" class="invalid-feedback">
                                 <strong>{{$message}}</strong>
                             </div>
                         @enderror
                     </div>
                     <div class="col-md-4">
+                        <label for="texto_do_agendamento">Texto exibido no agendamento</label>
+                        <input type="text" id="texto_do_agendamento" name="texto_do_agendamento" class="form-control" value="{{old('texto_do_agendamento')}}">
+
+                        @error('texto_do_agendamento')
+                            <div id="texto_do_agendamento" class="invalid-feedback">
+                                <strong>{{$message}}</strong>
+                            </div>
+                        @enderror
+                        <input id="exibir_no_form" type="checkbox" name="exibir_no_form" @if(old('exibir_no_form')) checked @endif>
+                        <label for="exibir_no_form" >Exibir público no agendamento</label>
+                    </div>
+                    <div class="col-md-4">
                         <label for="texto_da_home">Texto exibido na home</label>
-                        <input id="texto_da_home" type="text" class="form-control @error('texto_da_home') is-invalid @enderror" name="texto_da_home" >
+                        <input id="texto_da_home" type="text" class="form-control @error('texto_da_home') is-invalid @enderror" name="texto_da_home" value="{{old('texto_da_home')}}">
 
                         @error('texto_da_home')
                             <div id="validationServer05Feedback" class="invalid-feedback">
                                 <strong>{{$message}}</strong>
                             </div>
                         @enderror
+                        <input id="exibir_na_home" type="checkbox" name="exibir_na_home" @if(old('exibir_na_home')) checked @endif>
+                        <label for="exibir_na_home" >Exibir público na home</label>
                     </div>
                 </div>
                 <br>
-                <div id="divIdade" style="display: none;">
+                <div id="divIdade" @if(old('tipo') == $tipos[0]) style="display: block;" @else style="display: none;" @endif>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inicio_faixa_etaria">Inicio da faixa etaria</label>
-                            <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etaria') is-invalid @enderror" type="number" name="inicio_faixa_etaria" placeholder="80" value="{{old('inicio_faixa_etaria')}}">
+                            <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etária') is-invalid @enderror" type="number" name="inicio_faixa_etária" placeholder="80" value="{{old('inicio_faixa_etária')}}">
                         
-                            @error('inicio_faixa_etaria')
+                            @error('inicio_faixa_etária')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
                                     <strong>{{$message}}</strong>
                                 </div>
@@ -55,9 +65,9 @@
                         </div>
                         <div class="col-md-6">
                             <label for="fim_faixa_etaria">Fim da faixa etaria</label>
-                            <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etaria') is-invalid @enderror" type="number" name="fim_faixa_etaria" placeholder="85" value="{{old('fim_faixa_etaria')}}">
+                            <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etária') is-invalid @enderror" type="number" name="fim_faixa_etária" placeholder="85" value="{{old('fim_faixa_etária')}}">
                             
-                            @error('fim_faixa_etaria')
+                            @error('fim_faixa_etária')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
                                     <strong>{{$message}}</strong>
                                 </div>
@@ -66,30 +76,39 @@
                     </div>
                     <br>
                 </div>
-                <div id="divOpcoes" style="display: none; 
+                <div id="divOpcoes" style="@if(old('tipo') == $tipos[2]) display: block; @else display: none; @endif 
                                            border: 1px solid rgb(196, 196, 196);
                                            padding: 15px;
                                            border-radius: 10px;">
                     <label>Opções do campo selecionável</label>
                     <div id="divTodasOpcoes" class="row">
-                        <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
-                                    padding: 15px;
-                                    border-radius: 10px;
-                                    margin: 15px;">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label>Opção</label>
+                        @if (old('opcoes') != null) 
+                            @foreach (old('opcoes') as $i => $textoOpcao)
+                                <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
+                                            padding: 15px;
+                                            border-radius: 10px;
+                                            margin: 15px;">
                                     <div class="row">
-                                        <div class="col-md-8">
-                                            <input type="text" name="opcoes" class="form-control" placeholder="Digite a opção selecionável">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <a class="btn btn-danger" onclick="excluirOpcao(this)" style="cursor: pointer; color: white;">Excluir</a>
+                                        <div class="col-md-12">
+                                            <label>Opção</label>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <input type="text" name="opcoes[]" class="form-control @error('opcoes.'.$i) is-invalid @enderror" placeholder="Digite a opção selecionável" value="{{$textoOpcao}}">
+                                                    @error('opcoes.'.$i)
+                                                        <div id="validationServer05Feedback" class="invalid-feedback">
+                                                            <strong>{{$message}}</strong>
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a class="btn btn-danger" onclick="excluirOpcao(this)" style="cursor: pointer; color: white;">Excluir</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            @endforeach
+                        @endif
                     </div>
                     <br>
                     <div class="row" style="text-align: right">
@@ -130,6 +149,28 @@
                 </div>
                 <br>
                 <div class="row">
+                    <div class="col-md-12">
+                        <h5>Vincular público a pontos</h5>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    @error('pontos')
+                        <div class="col-md-12">
+                            <div id="validationServer05Feedback" class="invalid-feedback">
+                                <strong>{{$message}}</strong>
+                            </div>
+                        </div>
+                    @enderror
+                    @foreach ($pontos as $ponto)
+                        <div class="col-md-4">
+                            <input type="checkbox" name="pontos[]" value="{{$ponto->id}}" @if(old('pontos') != null && in_array($ponto->id, old('pontos'))) checked @endif>
+                            <label for="">{{$ponto->nome}}</label>
+                        </div>
+                    @endforeach
+                </div>
+                <br>
+                <div class="row">
                     <div class="col-md-12" style="text-align: right;">
                         <button type="submit" class="btn btn-success" style="width: 25%;">Adicionar</button>
                     </div>
@@ -148,7 +189,7 @@
                                     <label>Opção</label>
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <input type="text" name="opcoes" class="form-control" placeholder="Digite a opção selecionável">
+                                            <input type="text" name="opcoes[]" class="form-control" placeholder="Digite a opção selecionável">
                                         </div>
                                         <div class="col-md-3">
                                             <a class="btn btn-danger" onclick="excluirOpcao(this)"  style="cursor: pointer; color: white;">Excluir</a>
@@ -169,18 +210,29 @@
             if (valor == "Por idade") {
                 document.getElementById('divIdade').style.display = "block";
                 document.getElementById('divOpcoes').style.display = "none";
+                excluirOpcoes();
             } else if (valor == "Texto livre") {
                 // alert(valor);
                 document.getElementById('divIdade').style.display = "none";
                 document.getElementById('divOpcoes').style.display = "none";
                 document.getElementById('inicio_faixa_etaria').value = "";
                 document.getElementById('fim_faixa_etaria').value = "";
+                excluirOpcoes();
             } else if (valor == "Texto livre com campo extra selecionável") {
                 // alert(valor);
                 document.getElementById('divIdade').style.display = "none";
                 document.getElementById('divOpcoes').style.display = "block";
                 document.getElementById('inicio_faixa_etaria').value = "";
                 document.getElementById('fim_faixa_etaria').value = "";
+                adicionarOpcao();
+            }
+        }
+
+        function excluirOpcoes() {
+            var todasOpcoes = document.getElementById('divTodasOpcoes');
+
+            for (var i = 0; i < todasOpcoes.children.length; i++) {
+                todasOpcoes.children[i].remove();
             }
         }
     </script>

@@ -135,6 +135,9 @@ return [
         ],
         'profissão' => [
             'required_if' => 'O campo :attribute é obrigatório quando o campo :other é marcado.'
+        ],
+        'opcoes.*'  => [
+            'required_if' => 'O campo de opção é obrigatório quando o campo :other é marcado com texto com campo extra selecionável.'
         ]
     ],
     
