@@ -83,9 +83,9 @@
                                     <label for="doseUnica " class="mr-2 mt-2">É dose única?</label>
                                     {{-- <input type="hidden" name="dose_unica" value="false"> --}}
                                     <input id="doseUnica" class="mb-2 mt-2" type="checkbox" name="dose_unica" value="true" aria-label="Checkbox for following text input">
-                                    @error('dose_unica') <div class="alert alert-danger">{{ $message }}</div> @enderror
-                                  </div>
                                 </div>
+                            </div>
+                            @error('dose_unica') <div class="alert alert-danger">{{ $message }}</div> @enderror
                             </div>
                         </div>
                     </div>

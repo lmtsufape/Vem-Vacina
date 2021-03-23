@@ -17,45 +17,47 @@ class PostoVacinacaoSeeder extends Seeder
     {
 
         DB::table('posto_vacinacaos')->insert([
-            'nome' => 'Escola CAIC',
-            'endereco' => 'Rua 1',
+            'nome' => 'Academia da Saúde (Brasília)',
+            'endereco' => 'Rua Barão de São Borges, s/nº',
             'para_idoso' => true,
             'para_profissional_da_saude' => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
-            'nome' => 'Centro Cultural',
-            'endereco' => 'Rua 1',
+            'nome' => 'Academia da Saúde da Cohab II',
+            'endereco' => 'Rua Professor Antônio Souto, s/nº',
             'para_idoso' => true,
             'para_profissional_da_saude' => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
-            'nome' => 'Academia da Saúde Cohab 2',
-            'endereco' => 'Rua 1',
+            'nome' => 'Centro Cultural Alfredo Leite Cavalcanti',
+            'endereco' => 'Entrada pela rua Coronel Antônio Vitor, s/nº, bairro São José',
             'para_idoso' => true,
             'para_profissional_da_saude' => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
-            'nome' => 'Academia da Saúde Brasília',
-            'endereco' => 'Rua 1',
+            'nome' => 'Escola Municipal Professor Antônio Gonçalves Dias (Caic)',
+            'endereco' => 'Rua Ebenezer Furtado Gueiros, s/nº, bairro Severiano Morais FIlho',
             'para_idoso' => true,
             'para_profissional_da_saude' => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
-            'nome' => 'CESMUC',
-            'endereco' => 'Rua 1',
+            'nome' => 'Ponto de Vacinação do Cesmuc',
+            'endereco' => 'Avenida Afonso Pena, S/n°, bairro São José',
             'para_idoso' => false,
             'para_profissional_da_saude' => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
-            'nome' => ' Drive thru ',
-            'endereco' => 'Rua 1(Na secretaria de saúde, somente aos sábados pela manhã)',
+            'nome' => 'Secretaria de Saúde de Garanhuns(Drive-thru)',
+            'endereco' => 'Rua Joaquim Távora, s/nº, bairro Heliópolis',
             'para_idoso' => false,
-            'para_profissional_da_saude' => true,
+            'para_profissional_da_saude' => false,
         ]);
+
+
     }
 }
