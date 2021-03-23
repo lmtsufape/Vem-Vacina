@@ -19,26 +19,34 @@ class PostoVacinacaoController extends Controller
         $todos_os_horarios_por_dia = [];
         $todos_os_horarios = [];
 
+        $posto = PostoVacinacao::find($posto_id);
+
         // Pega os proximos 7 dias
         for($i = 0; $i < 7; $i++) {
             $dia = Carbon::tomorrow()->addDay($i);
 
-            if($dia->isWeekend()) {
-                // Não adiciona finais de semana
-                continue;
+            // Não adiciona os dias caso não funcione nesses dias
+            if(!($posto->funciona_domingo) && $dia->isSunday()) {continue;}
+            if(!($posto->funciona_segunda) && $dia->isMonday()) {continue;}
+            if(!($posto->funciona_terca) && $dia->isTuesday()) {continue;}
+            if(!($posto->funciona_quarta) && $dia->isWednesday()) {continue;}
+            if(!($posto->funciona_quinta) && $dia->isThursday()) {continue;}
+            if(!($posto->funciona_sexta) && $dia->isFriday()) {continue;}
+            if(!($posto->funciona_sabado) && $dia->isSaturday()) {continue;}
+
+            if($posto->inicio_atendimento_manha && $posto->intervalo_atendimento_manha && $posto->fim_atendimento_manha) {
+                $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_manha);
+                $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_manha);
+                $periodos_da_manha = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_manha . " minutes", $fim_do_dia);
+                array_push($todos_os_horarios_por_dia, $periodos_da_manha);
             }
 
-            // O dia começa as 09:00
-            $inicio_do_dia = $dia->copy()->addHours(9);
-
-            // O dia encerra as 16:00
-            $fim_do_dia = $dia->copy()->addHours(16);
-
-            // Cria uma lista de intervalos de 10 min
-            $periodos_do_dia = CarbonPeriod::create($inicio_do_dia, '10 minutes', $fim_do_dia);
-
-            // Salva os periodos
-            array_push($todos_os_horarios_por_dia, $periodos_do_dia);
+            if($posto->inicio_atendimento_tarde && $posto->intervalo_atendimento_tarde && $posto->fim_atendimento_tarde) {
+                $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_tarde);
+                $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_tarde);
+                $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_tarde . " minutes", $fim_do_dia);
+                array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
+            }
         }
 
         // Os periodos são salvos como horarios[dia][janela]
@@ -124,18 +132,57 @@ class PostoVacinacaoController extends Controller
         $posto->nome = $request->nome;
         $posto->endereco = $request->endereco;
 
-        if ($request->para_idoso != null) {
-            $posto->para_idoso = true;
+        $posto->para_idoso = ($request->para_idoso != null);
+        $posto->para_profissional_da_saude = ($request->para_profissional_da_saude != null);
+
+
+        $posto->funciona_domingo = ($request->funciona_domingo == "on");
+        $posto->funciona_segunda = ($request->funciona_segunda == "on");
+        $posto->funciona_terca = ($request->funciona_terca == "on");
+        $posto->funciona_quarta = ($request->funciona_quarta == "on");
+        $posto->funciona_quinta = ($request->funciona_quinta == "on");
+        $posto->funciona_sexta = ($request->funciona_sexta == "on");
+        $posto->funciona_sabado = ($request->funciona_sabado == "on");
+
+
+        if($request->funcionamento_manha == "on") {
+            $request->validate([
+                "inicio_atendimento_manha" => "required|integer",
+                "intervalo_atendimento_manha" => "required|integer",
+                "fim_atendimento_manha" => "required|integer|gt:inicio_atendimento_manha",
+            ]);
+
+            $posto->inicio_atendimento_manha = $request->inicio_atendimento_manha;
+            $posto->intervalo_atendimento_manha = $request->intervalo_atendimento_manha;
+            $posto->fim_atendimento_manha = $request->fim_atendimento_manha;
         } else {
-            $posto->para_profissional_da_saude = false;
+            $posto->inicio_atendimento_manha = NULL;
+            $posto->intervalo_atendimento_manha = NULL;
+            $posto->fim_atendimento_manha = NULL;
         }
 
-        if ($request->para_profissional_da_saude != null) {
-            $posto->para_profissional_da_saude = true;
+
+
+        if($request->funcionamento_tarde == "on") {
+            $request->validate([
+                "inicio_atendimento_tarde" => "required|integer",
+                "intervalo_atendimento_tarde" => "required|integer",
+                "fim_atendimento_tarde" => "required|integer|gt:inicio_atendimento_tarde",
+            ]);
+
+            $posto->inicio_atendimento_tarde = $request->inicio_atendimento_tarde;
+            $posto->intervalo_atendimento_tarde = $request->intervalo_atendimento_tarde;
+            $posto->fim_atendimento_tarde = $request->fim_atendimento_tarde;
         } else {
-            $posto->para_profissional_da_saude = false;
+            $posto->inicio_atendimento_tarde = NULL;
+            $posto->intervalo_atendimento_tarde = NULL;
+            $posto->fim_atendimento_tarde = NULL;
         }
 
+
+
+
+        
         $posto->save();
 
         return redirect()->route('postos.index')->with('message', 'Posto criado com sucesso!');
@@ -177,7 +224,7 @@ class PostoVacinacaoController extends Controller
         Gate::authorize('editar-posto');
         $data = $request->all();
         $posto = PostoVacinacao::find($id);
-        
+
         $posto->nome = $request->nome;
         $posto->endereco = $request->endereco;
 
@@ -192,9 +239,57 @@ class PostoVacinacaoController extends Controller
         } else {
             $posto->para_profissional_da_saude = false;
         }
+
+
+        $posto->funciona_domingo = ($request->funciona_domingo == "on");
+        $posto->funciona_segunda = ($request->funciona_segunda == "on");
+        $posto->funciona_terca = ($request->funciona_terca == "on");
+        $posto->funciona_quarta = ($request->funciona_quarta == "on");
+        $posto->funciona_quinta = ($request->funciona_quinta == "on");
+        $posto->funciona_sexta = ($request->funciona_sexta == "on");
+        $posto->funciona_sabado = ($request->funciona_sabado == "on");
+
+
+        if($request->funcionamento_manha == "on") {
+            $request->validate([
+                "inicio_atendimento_manha" => "required|integer",
+                "intervalo_atendimento_manha" => "required|integer",
+                "fim_atendimento_manha" => "required|integer|gt:inicio_atendimento_manha",
+            ]);
+
+            $posto->inicio_atendimento_manha = $request->inicio_atendimento_manha;
+            $posto->intervalo_atendimento_manha = $request->intervalo_atendimento_manha;
+            $posto->fim_atendimento_manha = $request->fim_atendimento_manha;
+        } else {
+            $posto->inicio_atendimento_manha = NULL;
+            $posto->intervalo_atendimento_manha = NULL;
+            $posto->fim_atendimento_manha = NULL;
+        }
+
+
+
+        if($request->funcionamento_tarde == "on") {
+            $request->validate([
+                "inicio_atendimento_tarde" => "required|integer",
+                "intervalo_atendimento_tarde" => "required|integer",
+                "fim_atendimento_tarde" => "required|integer|gt:inicio_atendimento_tarde",
+            ]);
+
+            $posto->inicio_atendimento_tarde = $request->inicio_atendimento_tarde;
+            $posto->intervalo_atendimento_tarde = $request->intervalo_atendimento_tarde;
+            $posto->fim_atendimento_tarde = $request->fim_atendimento_tarde;
+        } else {
+            $posto->inicio_atendimento_tarde = NULL;
+            $posto->intervalo_atendimento_tarde = NULL;
+            $posto->fim_atendimento_tarde = NULL;
+        }
+
+
+
+
         
         $posto->update();
-        
+
         return redirect()->route('postos.index')->with('message', 'Posto editado com sucesso!');
     }
 
