@@ -19,13 +19,9 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             // LoteSeeder::class,
-<<<<<<< HEAD
             PostoVacinacaoSeeder::class,
             EtapaSeeder::class,
             OpcoesEtapaSeeder::class,
-=======
-            // PostoVacinacaoSeeder::class,
->>>>>>> ca1e4c87ea523473fbdf2f6bf7fdab1b303d4291
             // CandidatoSeeder::class,
         ]);
         DB::table('users')->insert([

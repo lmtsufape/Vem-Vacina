@@ -38,7 +38,7 @@ class CandidatoController extends Controller
 
         // TODO: pegar só os postos com vacinas disponiveis
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
-        $etapasAtuais = Etapa::where('atual', true)->get();
+        $etapasAtuais = Etapa::where('atual', true)->orderBy('texto')->get();
 
         $bairros = [
             "Magano",
@@ -62,7 +62,6 @@ class CandidatoController extends Controller
             "doses" => Candidato::DOSE_ENUM,
             "publicos" => $etapasAtuais,
             "tipos"    => Etapa::TIPO_ENUM,
-            "profissoes" => $profissoes_enum,
             "bairros" => $bairros,
         ]);
 
