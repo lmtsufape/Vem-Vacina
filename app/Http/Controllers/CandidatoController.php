@@ -10,6 +10,7 @@ use App\Models\Etapa;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
+use App\Notifications\CandidatoReprovado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
@@ -124,7 +125,7 @@ class CandidatoController extends Controller
             $candidato->cep = NULL;
         }
 
-        
+
         if ($request->profissional_da_saúde) {
             $candidato->profissional_da_saude = $request->profissão;
         }
@@ -143,6 +144,13 @@ class CandidatoController extends Controller
 
         //TODO: mover pro service provider
         if(!$this->validar_cpf($request->cpf)) {
+            return redirect()->back()->withErrors([
+                "cpf" => "Número de CPF inválido"
+            ])->withInput();
+
+        }
+
+        if(Candidato::where('cpf',$request->cpf )->contains()) {
             return redirect()->back()->withErrors([
                 "cpf" => "Número de CPF inválido"
             ])->withInput();
@@ -247,12 +255,25 @@ class CandidatoController extends Controller
         ]);
 
         $candidato = Candidato::find($id);
-        $candidato->aprovacao = $request->confirmacao;
 
-        $candidato->update();
-        if($candidato->email != null){
-            Notification::send($candidato, new CandidatoAprovado($candidato));
+        if($request->confirmacao == "Ausente"){
+            $candidato->delete();
+        }elseif($request->confirmacao == "Aprovado"){
+            $candidato->aprovacao = $request->confirmacao;
+            $candidato->update();
+            if($candidato->email != null){
+                Notification::send($candidato, new CandidatoAprovado($candidato));
+            }
+        }elseif($request->confirmacao == "Reprovado"){
+            $candidato->aprovacao = $request->confirmacao;
+            $candidato->update();
+
+            if($candidato->email != null){
+                Notification::send($candidato, new CandidatoReprovado($candidato));
+            }
+
         }
+
         return redirect()->back()->with(['mensagem' => 'Resposta salva com sucesso!']);
     }
 

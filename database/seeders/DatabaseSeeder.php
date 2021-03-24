@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call([
-            // LoteSeeder::class,
+            LoteSeeder::class,
             PostoVacinacaoSeeder::class,
-            // CandidatoSeeder::class,
+            CandidatoSeeder::class,
         ]);
         DB::table('users')->insert([
             'name' => 'Admin',

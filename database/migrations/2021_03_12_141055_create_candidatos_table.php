@@ -41,6 +41,7 @@ class CreateCandidatosTable extends Migration
             $table->enum("dose", Candidato::DOSE_ENUM)->default(Candidato::DOSE_ENUM[0])->nullable(true);
             $table->datetime("chegada")->nullable(true);
             $table->datetime("saida")->nullable(true);
+            $table->string("observacao")->nullable(true);
 
             $table->unsignedBigInteger('lote_id')->nullable(true);
             $table->unsignedBigInteger('posto_vacinacao_id')->nullable(true);
