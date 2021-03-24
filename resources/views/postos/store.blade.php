@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <input id="padrao_no_formulario" type="checkbox" name="padrao_no_formulario" @if(old('padrao_no_formulario')) checked @endif>
-                            <label for="padrao_no_formulario">Exibir por padrão no formulário</label>
+                            <label for="padrao_no_formulario">Exibir por padrão no agendamento</label>
                         </div>
                     </div>
                     <br>
@@ -123,7 +123,7 @@
                     <div id="seletores_funcionamento_manha" class="row"  @if(!(old('funcionamento_manha'))) style="display: none;" @endif >
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Inicio:</label>
-                            <select name="inicio_atendimento_manha">
+                            <select name="inicio_atendimento_manha" class="form-control">
                                 <option disabled selected> -- hrs</option>
                                 @for($i = 5; $i <= 12; $i++)
                                    <option value="{{$i}}" @if(old('inicio_atendimento_manha') == $i) selected @endif >{{$i}} hrs</option>
@@ -134,7 +134,7 @@
 
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Fim:</label>
-                            <select name="fim_atendimento_manha">
+                            <select name="fim_atendimento_manha" class="form-control">
                                 <option disabled selected> -- hrs</option>
                                 @for($i = 5; $i <= 12; $i++)
                                    <option value="{{$i}}" @if(old('fim_atendimento_manha') == $i) selected @endif >{{$i}} hrs</option>
@@ -144,7 +144,7 @@
                         </div>
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Intervalo (mins):</label>
-                            <input min="1" max="60" type="number" style="width: 32%;" name="intervalo_atendimento_manha" value="{{old('intervalo_atendimento_manha')}}">
+                            <input min="1" max="60" type="number" class="form-control" style="width: 75%;" name="intervalo_atendimento_manha" value="{{old('intervalo_atendimento_manha')}}">
                             @error('intervalo_atendimento_manha') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                     </div>
@@ -168,7 +168,7 @@
                     <div id="seletores_funcionamento_tarde" class="row" @if(!(old('funcionamento_tarde'))) style="display: none;" @endif>
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Inicio:</label>
-                            <select name="inicio_atendimento_tarde">
+                            <select name="inicio_atendimento_tarde" class="form-control">
                                 <option disabled selected> -- hrs</option>
                                 @for($i = 13; $i <= 18; $i++)
                                    <option value="{{$i}}" @if(old('inicio_atendimento_tarde') == $i) selected @endif >{{$i}} hrs</option>
@@ -179,7 +179,7 @@
 
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Fim:</label>
-                            <select name="fim_atendimento_tarde">
+                            <select name="fim_atendimento_tarde" class="form-control">
                                 <option disabled selected> -- hrs</option>
                                 @for($i = 13; $i <= 18; $i++)
                                    <option value="{{$i}}" @if(old('fim_atendimento_tarde') == $i) selected @endif>{{$i}} hrs</option>
@@ -189,7 +189,7 @@
                         </div>
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Intervalo (mins):</label>
-                            <input min="1" max="60" type="number" style="width: 32%;" name="intervalo_atendimento_tarde" value="{{old('intervalo_atendimento_tarde')}}">
+                            <input min="1" max="60" type="number" class="form-control" style="width: 75%;" name="intervalo_atendimento_tarde" value="{{old('intervalo_atendimento_tarde')}}">
                             @error('intervalo_atendimento_tarde') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                     </div>
