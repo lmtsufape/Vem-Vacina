@@ -284,11 +284,11 @@ class LoteController extends Controller
                         ->withInput();
         }
 
-        if ($posto->getVacinasDisponivel($request->lote_id) > $request->quantidade) {
+        if ($posto->getVacinasDisponivel($request->lote_id, $posto->id) > $request->quantidade) {
             $posto->subVacinaEmLote($request->lote_id, $request->quantidade) ;
             $lote->numero_vacinas += $request->quantidade;
             $lote->save();
-        }elseif($posto->getVacinasDisponivel($request->lote_id) == $request->quantidade){
+        }elseif($posto->getVacinasDisponivel($request->lote_id, $posto->id) == $request->quantidade){
             $lote->numero_vacinas += $request->quantidade;
             $lote->save();
             $posto->lotes()->detach($lote);
