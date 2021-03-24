@@ -329,4 +329,10 @@ class CandidatoController extends Controller
 
         return view("ver_agendamento", ["agendamentos" => $agendamentos]);
     }
+
+    public function CandidatoLote()
+    {
+        $candidatos = Candidato::all();
+        return view('candidatoLote', compact('candidatos'));
+    }
 }
