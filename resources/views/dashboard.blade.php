@@ -179,7 +179,11 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <input id="acamado_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_acamado) checked @endif>
-                                                        <label for="acamado_{{$candidato->id}}">Pasciente acamado</label>
+                                                        <label for="acamado_{{$candidato->id}}">Paciente acamado</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input id="dificuldade_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_dificuldade_locomocao) checked @endif>
+                                                        <label for="dificuldade_{{$candidato->id}}">Paciente com dificuldade de locomoção</label>
                                                     </div>
                                                 </div>
                                                 <br>
@@ -198,7 +202,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <label for="email_{{$candidato->id}}">Telefone</label>
+                                                        <label for="email_{{$candidato->id}}">E-mail</label>
                                                         <input id="email_{{$candidato->id}}" type="email" class="form-control" disabled value="{{$candidato->email}}">
                                                     </div>
                                                 </div>
@@ -208,11 +212,11 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <label for="cep_{{$candidato->id}}">Telefone</label>
+                                                        <label for="cep_{{$candidato->id}}">CEP</label>
                                                         <input id="cep_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->cep}}">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="cidade_{{$candidato->id}}">Whatsapp</label>
+                                                        <label for="cidade_{{$candidato->id}}">Cidade</label>
                                                         <input id="cidade_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->cidade}}">
                                                     </div>
                                                 </div>
@@ -222,7 +226,7 @@
                                                         <input id="bairro_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->bairro}}">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="logradouro_{{$candidato->id}}">Logradouro</label>
+                                                        <label for="logradouro_{{$candidato->id}}">Rua</label>
                                                         <input id="logradouro_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->logradouro}}">
                                                     </div>
                                                 </div>
