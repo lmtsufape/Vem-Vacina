@@ -220,7 +220,11 @@ class CandidatoController extends Controller
 
         $posto = PostoVacinacao::find($id_posto);
         $lote = Lote::find($id_lote);
-
+        if($lote) { // Se é 0 é porque não tem vacinas...
+            return redirect()->back()->withErrors([
+                "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto..."
+            ])->withInput();
+        }
         if (!$lote->dose_unica) {
             $datetime_chegada_segunda_dose = $candidato->chegada->modify('+'.$lote->inicio_periodo.' day');
             $candidatoSegundaDose = $candidato->replicate()->fill([
