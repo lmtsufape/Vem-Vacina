@@ -16,7 +16,7 @@
                     </x-nav-link>
                     @can('ver-posto')
                         <x-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
-                            {{ __('Lista de Postos') }}
+                            {{ __('Lista de Pontos') }}
                         </x-nav-link>
                     @endcan
                     @can('ver-lote')
@@ -90,7 +90,7 @@
             </x-responsive-nav-link>
             @can('ver-posto')
             <x-responsive-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
-                {{ __('Lista de Postos') }}
+                {{ __('Lista de Pontos') }}
             </x-responsive-nav-link>
             @endif
             @can('ver-lote')

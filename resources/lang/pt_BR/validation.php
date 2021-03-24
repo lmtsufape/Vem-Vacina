@@ -141,7 +141,10 @@ return [
             'max' => [
                 'string'  => 'O campo de opção não pode conter mais de :max caracteres.',
             ],
-        ]
+        ],
+        'publicos' => [
+            'required' => 'Escolha os públicos que seram vacinados nesse ponto.'
+        ],
     ],
     
 

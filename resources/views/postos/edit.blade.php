@@ -65,6 +65,9 @@
                                 @endif
                             </div>
                         @endforeach
+                        @error('publicos')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <br>
 

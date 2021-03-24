@@ -15,29 +15,6 @@ class PostoVacinacaoSeeder extends Seeder
      */
     public function run()
     {
-
-        DB::table('posto_vacinacaos')->insert([
-            'nome' => ' Drive thru ',
-            'endereco' => 'Rua 1(Na secretaria de saúde, somente aos sábados pela manhã)',
-            'padrao_no_formulario' => false,
-
-            "inicio_atendimento_manha" => 9,
-            "intervalo_atendimento_manha" => 30,
-            "fim_atendimento_manha" => 12,
-
-            "inicio_atendimento_tarde" => 14,
-            "intervalo_atendimento_tarde" => 30,
-            "fim_atendimento_tarde" => 16,
-
-            "funciona_domingo" => false,
-            "funciona_segunda" => true,
-            "funciona_terca" => true,
-            "funciona_quarta" => true,
-            "funciona_quinta" => true,
-            "funciona_sexta" => true,
-            "funciona_sabado" => false,
-        ]);
-
         DB::table('posto_vacinacaos')->insert([
             'nome' => 'Academia da Saúde da Cohab II',
             'endereco' => 'Rua Professor Antônio Souto, s/nº',

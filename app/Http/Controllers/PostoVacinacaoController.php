@@ -104,7 +104,7 @@ class PostoVacinacaoController extends Controller
     public function index()
     {
         Gate::authorize('ver-posto');
-        $postos = PostoVacinacao::all();
+        $postos = PostoVacinacao::orderBy('nome')->get();
         return view('postos.index', compact('postos'));
     }
 
@@ -132,7 +132,8 @@ class PostoVacinacaoController extends Controller
         $data = $request->all();
         $rules = [
             'nome'       => 'required|unique:posto_vacinacaos',
-            'endereco'   => 'required|max:30',
+            'endereco'   => 'required|max:100',
+            'publicos'   => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules );
@@ -232,7 +233,8 @@ class PostoVacinacaoController extends Controller
 
         $rules = [
             'nome'       => 'required',
-            'endereco'   => 'required|max:30',
+            'endereco'   => 'required|max:100',
+            'publicos'   => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules );
