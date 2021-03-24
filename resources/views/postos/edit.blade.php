@@ -22,6 +22,11 @@
                     @method('put')
                     <div class="row">
                         <div class="col-md-12">
+                            <h4>Informações necessárias</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <label for="nome">Nome</label>
                             <input id="nome" type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" value="{{ $posto->nome }}">
                             @error('nome')
@@ -38,17 +43,31 @@
                     </div>
                     <br>
                     <div class="row">
-                        <div class="col-md-6">
-                            <input id="para_idoso" type="checkbox" name="para_idoso" @if(old('para_idoso') || (old('para_idoso') == null && $posto->para_idoso)) checked @endif>
-                            <label for="para_idoso">Exclusivo para idosos</label>
-
-                            @error('para_idoso') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        <div class="col-md-12">
+                            <input id="padrao_no_formulario" type="checkbox" name="padrao_no_formulario" @if(old('padrao_no_formulario') || old('padrao_no_formulario') == null && $posto->padrao_no_formulario) checked @endif>
+                            <label for="padrao_no_formulario">Exibir por padrão no agendamento</label>
                         </div>
-                        <div class="col-md-6">
-                            <input id="para_profissional_da_saude" type="checkbox" name="para_profissional_da_saude" @if(old('para_profissional_da_saude') || (old('para_profissional_da_saude') == null && $posto->para_profissional_da_saude)) checked @endif >
-                            <label for="para_profissional_da_saude">Exclusivo para profissionais da saúde</label>
-                            @error('para_profissional_da_saude') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>Quais públicos são permitidos nesse ponto?</h4>
                         </div>
+                    </div>
+                    <div class="row">
+                        @foreach ($publicos as $publico)
+                            <div class="col-md-6">
+                                <input id="publico_{{$publico->id}}" type="checkbox" value="{{$publico->id}}" name="publicos[]" @if(old('publicos') != null && in_array($publico->id, old('publicos'))) @elseif(old('publicos') == null && $publicosDoPosto->contains('etapa_id', $publico->id)) checked @endif>
+                                @if($publico->tipo == $tipos[0])
+                                    <label for="publico_{{$publico->id}}">De {{$publico->inicio_intervalo}} à {{$publico->fim_intervalo}} anos</label>
+                                @elseif($publico->tipo == $tipos[1] || $publico->tipo == $tipos[2])
+                                    <label for="publico_{{$publico->id}}">{{$publico->texto}}</label>
+                                @endif
+                            </div>
+                        @endforeach
+                        @error('publicos')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <br>
 
@@ -100,7 +119,7 @@
                     <div id="seletores_funcionamento_manha" class="row"  @if(!(old('funcionamento_manha') || (old('funcionamento_manha') == null && $posto->inicio_atendimento_manha && $posto->intervalo_atendimento_manha && $posto->fim_atendimento_manha))) style="display: none;" @endif >
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Inicio:</label>
-                            <select name="inicio_atendimento_manha">
+                            <select name="inicio_atendimento_manha" class="form-control">
                                 <option disabled selected> -- hrs</option>
                                 @for($i = 5; $i <= 12; $i++)
                                    <option value="{{$i}}" @if(old('inicio_atendimento_manha', $posto->inicio_atendimento_manha) == $i) selected @endif >{{$i}} hrs</option>
@@ -111,7 +130,7 @@
 
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Fim:</label>
-                            <select name="fim_atendimento_manha">
+                            <select name="fim_atendimento_manha" class="form-control">
                                 <option disabled selected> -- hrs</option>
                                 @for($i = 5; $i <= 12; $i++)
                                    <option value="{{$i}}" @if(old('fim_atendimento_manha', $posto->fim_atendimento_manha) == $i) selected @endif>{{$i}} hrs</option>
@@ -121,7 +140,7 @@
                         </div>
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Intervalo (mins):</label>
-                            <input min="1" max="60" type="number" style="width: 32%;" name="intervalo_atendimento_manha" value="{{old('intervalo_atendimento_manha', $posto->intervalo_atendimento_manha)}}">
+                            <input min="1" max="60" type="number" class="form-control" style="width: 75%;" name="intervalo_atendimento_manha" value="{{old('intervalo_atendimento_manha', $posto->intervalo_atendimento_manha)}}">
                             @error('intervalo_atendimento_manha') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                     </div>
@@ -145,7 +164,7 @@
                     <div id="seletores_funcionamento_tarde" class="row" @if(!(old('funcionamento_tarde') || (old('funcionamento_tarde') == null && $posto->inicio_atendimento_tarde && $posto->intervalo_atendimento_tarde && $posto->fim_atendimento_tarde))) style="display: none;" @endif>
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Inicio:</label>
-                            <select name="inicio_atendimento_tarde">
+                            <select name="inicio_atendimento_tarde" class="form-control">
                                 <option disabled selected> -- hrs</option>
                                 @for($i = 13; $i <= 18; $i++)
                                    <option value="{{$i}}" @if(old('inicio_atendimento_tarde', $posto->inicio_atendimento_tarde) == $i) selected @endif >{{$i}} hrs</option>
@@ -156,7 +175,7 @@
 
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Fim:</label>
-                            <select name="fim_atendimento_tarde">
+                            <select name="fim_atendimento_tarde"class="form-control">
                                 <option disabled selected> -- hrs</option>
                                 @for($i = 13; $i <= 18; $i++)
                                    <option value="{{$i}}" @if(old('fim_atendimento_tarde', $posto->fim_atendimento_tarde) == $i) selected @endif>{{$i}} hrs</option>
@@ -166,7 +185,7 @@
                         </div>
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Intervalo (mins):</label>
-                            <input min="1" max="60" type="number" style="width: 32%;" name="intervalo_atendimento_tarde" value="{{old('intervalo_atendimento_tarde', $posto->intervalo_atendimento_tarde)}}">
+                            <input min="1" max="60" type="number" class="form-control" style="width: 75%;" name="intervalo_atendimento_tarde" value="{{old('intervalo_atendimento_tarde', $posto->intervalo_atendimento_tarde)}}">
                             @error('intervalo_atendimento_tarde') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                     </div>

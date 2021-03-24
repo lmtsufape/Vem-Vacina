@@ -8,6 +8,7 @@ use Carbon\CarbonPeriod;
 use App\Models\PostoVacinacao;
 use Illuminate\Http\Request;
 use App\Models\Candidato;
+use App\Models\Etapa;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
@@ -103,7 +104,7 @@ class PostoVacinacaoController extends Controller
     public function index()
     {
         Gate::authorize('ver-posto');
-        $postos = PostoVacinacao::all();
+        $postos = PostoVacinacao::orderBy('nome')->get();
         return view('postos.index', compact('postos'));
     }
 
@@ -115,7 +116,8 @@ class PostoVacinacaoController extends Controller
     public function create()
     {
         Gate::authorize('criar-posto');
-        return view('postos.store');
+        $etapas = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
+        return view('postos.store')->with(['publicos' => $etapas, 'tipos' => Etapa::TIPO_ENUM]);
     }
 
     /**
@@ -130,7 +132,8 @@ class PostoVacinacaoController extends Controller
         $data = $request->all();
         $rules = [
             'nome'       => 'required|unique:posto_vacinacaos',
-            'endereco'   => 'required|max:30',
+            'endereco'   => 'required|max:100',
+            'publicos'   => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules );
@@ -145,9 +148,11 @@ class PostoVacinacaoController extends Controller
         $posto->nome = $request->nome;
         $posto->endereco = $request->endereco;
 
-        $posto->para_idoso = ($request->para_idoso != null);
-        $posto->para_profissional_da_saude = ($request->para_profissional_da_saude != null);
-
+        if ($request->padrao_no_formulario) {
+            $posto->padrao_no_formulario = true;
+        } else {
+            $posto->padrao_no_formulario = false;
+        }
 
         $posto->funciona_domingo = ($request->funciona_domingo == "on");
         $posto->funciona_segunda = ($request->funciona_segunda == "on");
@@ -173,30 +178,15 @@ class PostoVacinacaoController extends Controller
             $posto->intervalo_atendimento_manha = NULL;
             $posto->fim_atendimento_manha = NULL;
         }
-
-
-
-        if($request->funcionamento_tarde == "on") {
-            $request->validate([
-                "inicio_atendimento_tarde" => "required|integer",
-                "intervalo_atendimento_tarde" => "required|integer",
-                "fim_atendimento_tarde" => "required|integer|gt:inicio_atendimento_tarde",
-            ]);
-
-            $posto->inicio_atendimento_tarde = $request->inicio_atendimento_tarde;
-            $posto->intervalo_atendimento_tarde = $request->intervalo_atendimento_tarde;
-            $posto->fim_atendimento_tarde = $request->fim_atendimento_tarde;
-        } else {
-            $posto->inicio_atendimento_tarde = NULL;
-            $posto->intervalo_atendimento_tarde = NULL;
-            $posto->fim_atendimento_tarde = NULL;
-        }
-
-
-
-
         
         $posto->save();
+
+        
+        if ($request->publicos != null) {
+            foreach ($request->publicos as $publico_id) {
+                $posto->etapas()->attach($publico_id);
+            }
+        }
 
         return redirect()->route('postos.index')->with('message', 'Posto criado com sucesso!');
     }
@@ -222,7 +212,12 @@ class PostoVacinacaoController extends Controller
     {
         Gate::authorize('editar-posto');
         $posto = PostoVacinacao::findOrFail($id);
-        return view('postos.edit', compact('posto'));
+        $etapas = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
+        $etapasDoPosto = $posto->etapas()->select('etapa_id')->get();
+        return view('postos.edit')->with(['posto' => $posto, 
+                                          'publicos' => $etapas, 
+                                          'tipos' => Etapa::TIPO_ENUM,
+                                          'publicosDoPosto' => $etapasDoPosto,]);
     }
 
     /**
@@ -238,7 +233,8 @@ class PostoVacinacaoController extends Controller
 
         $rules = [
             'nome'       => 'required',
-            'endereco'   => 'required|max:30',
+            'endereco'   => 'required|max:100',
+            'publicos'   => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules );
@@ -254,17 +250,11 @@ class PostoVacinacaoController extends Controller
 
         $posto->nome = $request->nome;
         $posto->endereco = $request->endereco;
-
-        if ($request->para_idoso == "on") {
-            $posto->para_idoso = true;
+        
+        if ($request->padrao_no_formulario) {
+            $posto->padrao_no_formulario = true;
         } else {
-            $posto->para_idoso = false;
-        }
-
-        if ($request->para_profissional_da_saude == "on") {
-            $posto->para_profissional_da_saude = true;
-        } else {
-            $posto->para_profissional_da_saude = false;
+            $posto->padrao_no_formulario = false;
         }
 
         $posto->funciona_domingo = ($request->funciona_domingo == "on");
@@ -292,8 +282,6 @@ class PostoVacinacaoController extends Controller
             $posto->fim_atendimento_manha = NULL;
         }
 
-
-
         if($request->funcionamento_tarde == "on") {
             $request->validate([
                 "inicio_atendimento_tarde" => "required|integer",
@@ -310,8 +298,17 @@ class PostoVacinacaoController extends Controller
             $posto->fim_atendimento_tarde = NULL;
         }
 
-
         $posto->update();
+        
+        if ($request->publicos != null) {
+            foreach ($posto->etapas as $key => $etapa) {
+                $posto->etapas()->detach($etapa->id);
+            }
+
+            foreach ($request->publicos as $publico_id) {
+                $posto->etapas()->attach($publico_id);
+            }
+        }
 
         return redirect()->route('postos.index')->with('message', 'Posto editado com sucesso!');
     }
@@ -337,9 +334,17 @@ class PostoVacinacaoController extends Controller
         return redirect()->route('postos.index')->with('message', 'Posto excluído com sucesso!');
     }
 
-    public function todosOsPostos() {
-        $postos = PostoVacinacao::all();
+    public function todosOsPostos(Request $request) {
+        $etapa = null;
 
-        return response()->json($postos);
+        if ($request->publico_id == 0) {
+            $postos = PostoVacinacao::where('padrao_no_formulario', true)->get();
+            return response()->json($postos);
+        } else {
+            $etapa = Etapa::find($request->publico_id);
+            return response()->json($etapa->pontos);
+        }
+
+        
     }
 }

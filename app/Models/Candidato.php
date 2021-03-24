@@ -16,13 +16,7 @@ class Candidato extends Model
     public const SEXO_ENUM = ["Masculino", "Feminino", "Não informar"];
     public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
     public const DOSE_ENUM = ["1ª Dose", '2ª Dose', "Dose única"];
-    public const PROFISSAO_ENUM = ["Acadêmico em saúde e estudante da área técnica em saúde em estágio hospitalar, atenção básica, clínica e laboratório",
-                                   "Agente comunitário de saúde", "Agente de combate às endemias", "Assistente social", "Biólogo(a)", "Biomédico(a)",
-                                   "Biomédico(a)", "Cuidador(a) de idoso", "Doulas/parteiras", "Enfermeiro(a)", "Farmacêutico(a)", "Fisioterapeuta",
-                                   "Fonoaudiólogo(a)", "Funcionário do sistema funerário", "Funcionário do Instituto Médico Legal (IML)", "Médico(a)",
-                                   "Médico(a) veterinário(a)", "Nutricionista", "Odontólogo(a)", "Profissional de educação física", "Profissional da vigilância em saúde",
-                                   "Profissional que atua em programas ou serviços de atendimento domiciliar", "Psicólogo(a)", "Serviço de Verificação de Óbito (SVO)",
-                                   "Técnicos e auxiliares em geral", "Terapeuta ocupacional", "Trabalhador de apoio geral"];
+    
 
     protected $fillable = [
         "nome_completo",
@@ -45,9 +39,10 @@ class Candidato extends Model
         "lote_id",
         "posto_vacinacao_id",
         "etapa_id",
+        "etapa_resultado",
         "dose",
-        "profissional_da_saude",
-        "pessoa_idosa",
+        // "profissional_da_saude",
+        // "pessoa_idosa",
     ];
 
     protected $casts = [
@@ -77,4 +72,7 @@ class Candidato extends Model
         return (new Carbon($this->data_de_nascimento))->format("d/m/Y");
     }
 
+    public function resultado() {
+        return $this->belongsTo(OpcoesEtapa::class, 'etapa_resultado');
+    }
 }

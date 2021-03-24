@@ -133,9 +133,18 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
-        'profissão' => [
-            'required_if' => 'O campo :attribute é obrigatório quando o campo :other é marcado.'
-        ]
+        'publico_opcao_*' => [
+            'required_if' => 'Esse é obrigatório para público marcado.'
+        ],
+        'opcoes.*'  => [
+            'required_if' => 'O campo de opção é obrigatório quando o campo :other é marcado com texto com campo extra selecionável.',
+            'max' => [
+                'string'  => 'O campo de opção não pode conter mais de :max caracteres.',
+            ],
+        ],
+        'publicos' => [
+            'required' => 'Escolha os públicos que seram vacinados nesse ponto.'
+        ],
     ],
     
 

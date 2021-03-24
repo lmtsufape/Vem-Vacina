@@ -15,16 +15,19 @@ class CreateEtapasTable extends Migration
     {
         Schema::create('etapas', function (Blueprint $table) {
             $table->id();
-            $table->integer('inicio_intervalo');
-            $table->integer('fim_intervalo');
+            $table->integer('inicio_intervalo')->nullable(true);
+            $table->integer('fim_intervalo')->nullable(true);
             $table->text('texto')->nullable(true);
+            $table->string('texto_home')->nullable(true);
+            $table->string('tipo');
             $table->boolean('atual');
+            $table->boolean('exibir_na_home');
+            $table->boolean('exibir_no_form');
             $table->boolean('dose_unica')->nullable(true);
             $table->bigInteger('total_pessoas_vacinadas_pri_dose')->nullable(true);
             $table->bigInteger('total_pessoas_vacinadas_seg_dose')->nullable(true);
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
