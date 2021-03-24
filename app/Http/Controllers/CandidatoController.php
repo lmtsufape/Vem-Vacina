@@ -10,6 +10,7 @@ use App\Models\Etapa;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
+use App\Notifications\CandidatoReprovado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
@@ -31,8 +32,8 @@ class CandidatoController extends Controller
             $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
         }
 
-        return view('dashboard')->with(['candidatos' => $candidatos, 
-                                        'candidato_enum' => Candidato::APROVACAO_ENUM, 
+        return view('dashboard')->with(['candidatos' => $candidatos,
+                                        'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM]);
     }
 
@@ -117,7 +118,7 @@ class CandidatoController extends Controller
         $candidato->complemento_endereco    = $request->complemento_endereco;
         $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
         $candidato->dose                    = Candidato::DOSE_ENUM[0];
-        
+
         // Se não foi passado CEP, o preg_replace retorna string vazia, mas no bd é uint nulavel, então anula
         if($candidato->cep == "") {
             $candidato->cep = NULL;
@@ -141,10 +142,10 @@ class CandidatoController extends Controller
                 return redirect()->back()->withErrors([
                     "publico_opcao_".$request->input('público') => "Esse campo é obrigatório para público marcado."
                 ])->withInput();
-            } 
+            }
             $candidato->etapa_resultado = $request->input("publico_opcao_".$request->input('público'));
         }
-        
+
         $candidato->etapa_id = $etapa->id;
         //TODO: mover pro service provider
         if(!$this->validar_cpf($request->cpf)) {
@@ -153,6 +154,13 @@ class CandidatoController extends Controller
             ])->withInput();
 
         }
+
+        // if(Candidato::where('cpf',$request->cpf )->contains()) {
+        //     return redirect()->back()->withErrors([
+        //         "cpf" => "Número de CPF inválido"
+        //     ])->withInput();
+
+        // }
 
         if(!$this->validar_telefone($request->telefone)) {
             return redirect()->back()->withErrors([
@@ -250,12 +258,25 @@ class CandidatoController extends Controller
         ]);
 
         $candidato = Candidato::find($id);
-        $candidato->aprovacao = $request->confirmacao;
 
-        $candidato->update();
-        if($candidato->email != null){
-            Notification::send($candidato, new CandidatoAprovado($candidato));
+        if($request->confirmacao == "Ausente"){
+            $candidato->delete();
+        }elseif($request->confirmacao == "Aprovado"){
+            $candidato->aprovacao = $request->confirmacao;
+            $candidato->update();
+            if($candidato->email != null){
+                Notification::send($candidato, new CandidatoAprovado($candidato));
+            }
+        }elseif($request->confirmacao == "Reprovado"){
+            $candidato->aprovacao = $request->confirmacao;
+            $candidato->update();
+
+            if($candidato->email != null){
+                Notification::send($candidato, new CandidatoReprovado($candidato));
+            }
+
         }
+
         return redirect()->back()->with(['mensagem' => 'Resposta salva com sucesso!']);
     }
 
@@ -307,5 +328,11 @@ class CandidatoController extends Controller
         }
 
         return view("ver_agendamento", ["agendamentos" => $agendamentos]);
+    }
+
+    public function CandidatoLote()
+    {
+        $candidatos = Candidato::all();
+        return view('candidatoLote', compact('candidatos'));
     }
 }

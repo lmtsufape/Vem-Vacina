@@ -68,6 +68,10 @@ class AuthServiceProvider extends ServiceProvider
                     $user->tipo == User::TIPO_ENUM['admin'];
         });
 
+        Gate::define('ver-candidato-lote', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
         //Posto
         Gate::define('ver-posto', function (User $user) {
             return $user->tipo == User::TIPO_ENUM['secretaria'] ||

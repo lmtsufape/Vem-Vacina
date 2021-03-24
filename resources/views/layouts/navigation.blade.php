@@ -34,6 +34,11 @@
                         {{ __('Exportar') }}
                     </x-nav-link>
                     @endcan
+                    @can('ver-candidato-lote')
+                    <x-nav-link :href="route('candidato.candidatoLote')" :active="request()->routeIs('candidato.*')">
+                        {{ __('Lista Candidato Lote') }}
+                    </x-nav-link>
+                    @endcan
                 </div>
             </div>
 

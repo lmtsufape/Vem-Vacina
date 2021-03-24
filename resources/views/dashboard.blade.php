@@ -307,10 +307,11 @@
                                             @csrf
                                             <div class="row">
                                                 <div class="col-md-8">
-                                                    <select id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
+                                                    <select onchange="myFunction()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
                                                         <option value="" selected disabled>selecione</option>
                                                         <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
-                                                        <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Vaga ocupada</option>
+                                                        <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
+                                                        <option value="Ausente" >Ausente</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-2">
@@ -350,3 +351,16 @@
     </div>
 
 </x-app-layout>
+<script>
+    function myFunction() {
+        console.log(event);
+    // var txt;
+    // var person = prompt("Please enter your name:", "Harry Potter");
+    // if (person == null || person == "") {
+    //     txt = "User cancelled the prompt.";
+    // } else {
+    //     txt = "Hello " + person + "! How are you today?";
+    // }
+    // document.getElementById("demo").innerHTML = txt;
+    }
+</script>
