@@ -117,10 +117,14 @@ class CandidatoController extends Controller
         $candidato->complemento_endereco    = $request->complemento_endereco;
         $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
         $candidato->dose                    = Candidato::DOSE_ENUM[0];
+        
+        // Se não foi passado CEP, o preg_replace retorna string vazia, mas no bd é uint nulavel, então anula
+        if($candidato->cep == "") {
+            $candidato->cep = NULL;
+        }
 
-        // Relacionar o candidato com o público escolhido e realiza 
+        // Relacionar o candidato com o público escolhido e realiza
         // a validação de acordo com o público escolhido
-
         $idade              = $this->idade($request->data_de_nascimento);
         $candidato->idade   = $idade;
 
