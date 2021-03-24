@@ -155,12 +155,12 @@ class CandidatoController extends Controller
 
         }
 
-        if(Candidato::where('cpf',$request->cpf )->contains()) {
-            return redirect()->back()->withErrors([
-                "cpf" => "Número de CPF inválido"
-            ])->withInput();
+        // if(Candidato::where('cpf',$request->cpf )->contains()) {
+        //     return redirect()->back()->withErrors([
+        //         "cpf" => "Número de CPF inválido"
+        //     ])->withInput();
 
-        }
+        // }
 
         if(!$this->validar_telefone($request->telefone)) {
             return redirect()->back()->withErrors([
