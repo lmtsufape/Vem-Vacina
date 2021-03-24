@@ -50,18 +50,18 @@ class PostoVacinacao extends Model
         return null;
     }
 
-    public function getCandidatosPorLote($lote_id)
+    public function getCandidatosPorLote($lote_id, $posto_id)
     {
         if ($this->lotes->find($lote_id)) {
-            return $this->lotes()->find($lote_id)->candidatos()->count();
+            return Candidato::where("lote_id", $lote_id)->where("posto_vacinacao_id", $posto_id)->count();
         }
         return null;
 
     }
 
-    public function getVacinasDisponivel($lote_id)
+    public function getVacinasDisponivel($lote_id, $posto_id)
     {
-        return $this->getVacinasDeLote($lote_id) - $this->getCandidatosPorLote($lote_id);
+        return $this->getVacinasDeLote($lote_id) - $this->getCandidatosPorLote($lote_id, $posto_id);
     }
 
     public function etapas() {
