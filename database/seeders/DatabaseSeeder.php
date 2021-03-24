@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             OpcoesEtapaSeeder::class,
             // CandidatoSeeder::class,
         ]);
-        
+
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
