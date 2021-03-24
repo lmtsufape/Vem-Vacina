@@ -47,10 +47,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/lotes/calcular', [ LoteController::class, 'calcular'])->name('lotes.calcular');
     Route::post('/lotes/alterarQuantidadeVacina', [ LoteController::class, 'alterarQuantidadeVacina'])->name('lotes.alterarQuantidadeVacina');
 
-    Route::post('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
+    Route::get('/etapas/definir-etapa-atual', [EtapaController::class, 'definirEtapa'])->name('etapas.definirEtapa');
     Route::get('/etapas', [EtapaController::class, 'index'])->name('etapas.index');
     Route::get('/etapas/adicionar', [EtapaController::class, 'create'])->name('etapas.create');
     Route::post('/etapas/salvar', [EtapaController::class, 'store'])->name('etapas.store');
+    Route::get('/etapas/{id}/editar', [EtapaController::class, 'edit'])->name('etapas.edit');
     Route::post('/etapas/{id}/excluir', [EtapaController::class, 'destroy'])->name('etapas.destroy');
     Route::post('/etapas/{id}/atualizar', [EtapaController::class, 'update'])->name('etapas.update');
 

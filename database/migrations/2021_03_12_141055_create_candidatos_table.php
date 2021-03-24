@@ -26,8 +26,10 @@ class CreateCandidatosTable extends Migration
             $table->string("nome_da_mae");
             $table->boolean("paciente_dificuldade_locomocao")->nullable(true);
             $table->boolean("paciente_acamado")->nullable(true);
-            $table->boolean("pessoa_idosa")->nullable(true);
-            $table->string("profissional_da_saude")->nullable(true);
+            $table->boolean("paciente_agente_de_saude")->nullable(true);
+            // $table->boolean("pessoa_idosa")->nullable(true);
+            // $table->string("profissional_da_saude")->nullable(true);
+            $table->string("unidade_caso_agente_de_saude")->nullable(true); //Nome da unidade de o agente de saude trabalha
             $table->string("telefone");
             $table->string("whatsapp")->nullable(true);
             $table->string("email")->nullable(true);
@@ -41,12 +43,10 @@ class CreateCandidatosTable extends Migration
             $table->enum("dose", Candidato::DOSE_ENUM)->default(Candidato::DOSE_ENUM[0])->nullable(true);
             $table->datetime("chegada")->nullable(true);
             $table->datetime("saida")->nullable(true);
-
             $table->unsignedBigInteger('lote_id')->nullable(true);
             $table->unsignedBigInteger('posto_vacinacao_id')->nullable(true);
-            $table->unsignedBigInteger('etapa_id')->nullable(true);
-
-            $table->foreign('lote_id')->references('id')->on('lotes');
+            $table->unsignedBigInteger('etapa_id');
+            $table->string('etapa_resultado')->nullable(true);
 
             $table->timestamps();
             $table->softDeletes();

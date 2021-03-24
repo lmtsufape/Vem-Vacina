@@ -18,7 +18,7 @@
     @endif
     
 
-    <div style="padding-bottom: 0rem;padding-top: 1rem;; margin-top: -15%; background-color: #fff;"> 
+    <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;"> 
         <img src="img/cabecalho_1.png" alt="Orientação" width="100%"> 
         <div class="container">
             <img src="img/cabecalho_2.png" alt="Orientação" width="100%">
@@ -44,47 +44,89 @@
                         <div class="col-md-12">
                             <form method="POST" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
-                                <div class="form-check">
-                                    <input class="form-check-input @error('pessoa_idosa') is-invalid @enderror" type="checkbox" id="defaultCheck2" name="pessoa_idosa" @if(old('pessoa_idosa')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PESSOA IDOSA (75 A 79 ANOS).</label>
-                                    
-                                    @error('pessoa_idosa')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input @error('profissional_da_saúde') is-invalid @enderror" type="checkbox" id="defaultCheck2" onclick="funcaoProfissionalSaude(this)" name="profissional_da_saúde" @if(old('profissional_da_saúde')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck2">PROFISSIONAL DA SAÚDE</label>
-                                    
-                                    @error('profissional_da_saúde')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-
-                                    <div id="divProfissionalSaude" @if (old('profissional_da_saúde')) style="display: block;" @else style="display: none;" @endif>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Profissão que exerce (caso profissional da saúde) </label>
-                                                <select type="text" class="form-control @error('profissão') is-invalid @enderror" id="inputProfissao" placeholder="Digite o nome da sua profissão" name="profissão"> 
-                                                    <option value="">-- Selecione sua profissão --</option>
-                                                    @foreach ($profissoes as $profissao)
-                                                        <option value="{{$profissao}}" @if(old('profissão') == $profissao) selected @endif>{{$profissao}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('profissão')
-                                                <div id="validationServer05Feedback" class="invalid-feedback">
-                                                    <strong>{{$message}}</strong>
+                                @if (old('público') != null)
+                                    @foreach ($publicos as $publico)
+                                        @if ($publico->exibir_no_form)
+                                            @if ($publico->tipo == $tipos[0])
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
+                                                    <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                                 </div>
-                                                @enderror
-                                                <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small>
-                                            </div>
-                                        </div>
+                                            @elseif ($publico->tipo == $tipos[1])
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
+                                                    <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
+                                                </div>
+                                            @elseif ($publico->tipo == $tipos[2])
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
+                                                    <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
+
+                                                    <div id="divPublico_{{$publico->id}}" @if (old('público') == $publico->id) style="display: block;" @else style="display: none;" @endif>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}(caso {{mb_strtolower($publico->texto)}})</label>
+                                                                <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}"> 
+                                                                    <option value="" seleceted disabled>-- Selecione o tipo --</option>
+                                                                    @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
+                                                                        <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                @error('publico_opcao_'.$publico->id)
+                                                                <div id="validationServer05Feedback" class="invalid-feedback">
+                                                                    <strong>{{$message}}</strong>
+                                                                </div>
+                                                                @enderror
+                                                                {{-- <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small> --}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                    @error('público')
+                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                        <strong>{{$message}}</strong>
                                     </div>
-                                    
-                                </div>
+                                    @enderror
+                                @else
+                                @foreach ($publicos as $publico)
+                                    @if ($publico->exibir_no_form) 
+                                        @if ($publico->tipo == $tipos[0])
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
+                                            </div>
+                                        @elseif ($publico->tipo == $tipos[1])
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
+                                            </div>
+                                        @elseif ($publico->tipo == $tipos[2])
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
+
+                                                <div id="divPublico_{{$publico->id}}" @if (old('publico_'.$publico->id)) style="display: block;" @else style="display: none;" @endif>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}(caso {{mb_strtolower($publico->texto)}})</label>
+                                                            <select class="form-control" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}"> 
+                                                                <option value="" seleceted disabled>-- Selecione o tipo --</option>
+                                                                @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
+                                                                    <option value="{{$opcao->id}}">{{$opcao->opcao}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            {{-- <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small> --}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endif
+                                @endforeach
+                                @endif
                                 <br>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
@@ -332,13 +374,7 @@
                                         <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
                                             <option selected disabled>-- Selecione o ponto --</option>
                                             @foreach($postos as $posto)
-                                                @if(old('profissional_da_saúde'))
-                                                    @if ($posto->para_profissional_da_saude)
-                                                        <option value="{{$posto->id}}">{{$posto->nome}}</option>
-                                                    @endif
-                                                @elseif($posto->para_idoso)
-                                                    <option value="{{$posto->id}}">{{$posto->nome}}</option>
-                                                @endif
+                                                <option value="{{$posto->id}}">{{$posto->nome}}</option>
                                             @endforeach
                                         </select>
                                         
@@ -516,16 +552,45 @@
         postoPara(input);
      }
 
-     function funcaoProfissionalSaude(input) {
-        if(document.getElementById("divProfissionalSaude").style.display == "none"){
-            document.getElementById("divProfissionalSaude").style.display = "block";
-            document.getElementById("inputProfissao").value = "";
-        }else{
-            document.getElementById("divProfissionalSaude").style.display = "none";
-            document.getElementById("inputProfissao").value = "";
-        }
-        postoPara(input);
-     }
+    //  function funcaoMostrarOpcoes(input, id) {
+    //     var div = document.getElementById("divPublico_"+id);
+    //     var select = document.getElementById("publico_opcao_"+id);
+    //     // alert(div);
+    //     if(div.style.display == "none" && div != null){
+    //         div.style.display = "block";
+    //         select.value = "";
+    //     }else{
+    //         div.style.display = "none";
+    //         select.value = "";
+    //     }
+    //     postoPara(input, id);
+    //  }
+
+    $(document).ready(function() {
+        $('input:radio[name=público]').change(
+            function() {
+                var inputs = document.getElementsByName('público');
+                for (var i = 0; i < inputs.length; i++) {
+                    // console.log(this);
+                    // console.log(this.value);
+                    if (document.getElementById("divPublico_"+inputs[i].value)) {
+                        var div = document.getElementById("divPublico_"+inputs[i].value);
+                        var select = document.getElementById("publico_opcao_"+inputs[i].value);
+
+                        if(div.style.display == "none" && inputs[i].value == this.value){
+                            div.style.display = "block";
+                            select.value = "";
+                        }else{
+                            div.style.display = "none";
+                            select.value = "";
+                        }
+                    }
+                    
+                }
+                postoPara(this, this.value);
+            }
+        )
+    });
 
      
      function selecionar_posto(posto_selecionado) {
@@ -586,28 +651,33 @@
          select_horarios.required = true;
      }
      
-    function postoPara(input) {
+    function postoPara(input, id) {
         valor = input.checked;
         $.ajax({
             url: "{{route('postos')}}",
             method: 'get',
             type: 'get',
+            data: {
+                publico_id: function () {
+                    if (valor) {
+                        return id;
+                    } else {
+                        return 0;
+                    }
+                } 
+            },
             statusCode: {
                 404: function() {
                     alert("Nenhum posto encontrado");
                 }
             },
             success: function(data){
-                
+                // console.log(data);
                 if (data != null) {
                     var option = '<option selected disabled>-- Selecione o posto --</option>';
                     if (data.length > 0) {
                         $.each(data, function(i, obj) {
-                            if (obj.para_profissional_da_saude && valor) {
-                                option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
-                            } else if (valor == false && obj.para_idoso) {
-                                option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
-                            }
+                            option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
                         })
                     } 
                     
