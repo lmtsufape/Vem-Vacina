@@ -44,6 +44,16 @@
                         <div class="col-md-12">
                             <form method="POST" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
+                                <input type="hidden" name="voltou" value="1">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 @if (old('público') != null)
                                     @foreach ($publicos as $publico)
                                         @if ($publico->exibir_no_form)
@@ -164,7 +174,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputCartaoSUS" class="style_titulo_input">NÚMERO DO CARTÃO SUS </label>
+                                        <label for="inputCartaoSUS" class="style_titulo_input">NÚMERO DO CARTÃO SUS <span class="style_titulo_campo"></span></label>
                                         <input type="text" class="form-control style_input sus @error('número_cartão_sus') is-invalid @enderror" id="inputCartaoSUS" placeholder="000 0000 0000 0000" name="número_cartão_sus" value="{{old('número_cartão_sus')}}">
                                     
                                         @error('número_cartão_sus')
@@ -207,7 +217,7 @@
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Contato</div>
                                     <div style="font-size: 15px; margin-bottom: 15px;">(Informe o telefone, whatsapp ou e-mail para contato que confirmaremos o agendamento da data e horário de aplicação da vacina)</div>
                                 </div>
-                                <div class="form-row">
+                                <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="inputTelefone" class="style_titulo_input">TELEFONE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
                                         <input type="text" class="form-control style_input celular @error('telefone') is-invalid @enderror" id="inputTelefone" placeholder="Digite o número do seu telefone" name="telefone" value="{{old('telefone')}}">
@@ -219,13 +229,13 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="inputCelular" class="style_titulo_input">WHATSAPP </label>
+                                        <label for="inputCelular" class="style_titulo_input">WHATSAPP<span class="style_titulo_campo"></span></label>
                                         <input type="text" class="form-control style_input celular @error('whatsapp') is-invalid @enderror" id="inputCelular" placeholder="Digite o número do seu whatsapp" name="whatsapp" value="{{old('whatsapp')}}">
                                     
                                         @error('whatsapp')
-                                        <div id="validationServer05Feedback" class="invalid-feedback">
-                                            <strong>{{$message}}</strong>
-                                        </div>
+                                            <div id="validationServer05Feedback" class="invalid-feedback">
+                                                <strong>{{$message}}</strong>
+                                            </div>
                                         @enderror
                                     </div> 
                                 </div>
@@ -235,10 +245,6 @@
                                         <input type="email" class="form-control style_input" id="inputEmail" placeholder="Digite o seu e-mail" name="email" value="{{old('email')}}">
                                     </div>
                                 </div>
-
-
-
-
                                 
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
@@ -384,7 +390,7 @@
                                         </div>
                                         @enderror
                                     </div> 
-                                    <div class="form-group col-md-6" id="seletor_horario" style="padding-top: 32px;"></div>
+                                    <div class="form-group col-md-6" id="seletor_horario" style="padding-top: 24px;"></div>
                                 </div>
 
                                 

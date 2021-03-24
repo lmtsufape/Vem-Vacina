@@ -13,7 +13,7 @@
     @foreach($horarios_por_dia as $dia => $horarios)
         <div class="seletor_horario_dia_div"  id="seletor_horario_dia_{{$dia}}" style="display:none;">
             <div class="form-row horario_vacina_div">
-                <div class="form-group" style="width: 49%;">
+                <div class="form-group" style="width: 100%;">
                     <label for="dia_vacinacao" class="style_titulo_input">HORÁRIO DA VACINAÇÃO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
                     <!-- é isso mesmo, o js que bota o name e id -->
                     <select id="" name="" class="form-control style_input">
