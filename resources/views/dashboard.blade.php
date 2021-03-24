@@ -37,6 +37,7 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th scope="col">#</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">CPF</th>
                                 <th scope="col">Dia</th>
@@ -56,6 +57,7 @@
                         <tbody>
                             @foreach ($candidatos as $i => $candidato)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
                                         {{$candidato->nome_completo}}
