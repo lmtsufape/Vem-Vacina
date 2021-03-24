@@ -198,6 +198,7 @@ class CandidatoController extends Controller
                ->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])
                ->count() < $lote->qtdVacina) {
                 $id_lote = $lote->id;
+                $chave_estrangeiro_lote = $lote->lote_id;
                 break;
             }
         }
@@ -219,13 +220,14 @@ class CandidatoController extends Controller
         $candidato->save();
 
         $posto = PostoVacinacao::find($id_posto);
-        $lote = Lote::find($id_lote);
-        print_r($lote);
-        if($lote == null) { // Se é 0 é porque não tem vacinas...
-            return redirect()->back()->withErrors([
-                "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto ..."
-            ])->withInput();
-        }
+        $lote = Lote::find($chave_estrangeiro_lote);
+
+        // dd($id_lote);
+        // // if( $posto->getCandidatosPorLote($lote->id, $posto->id) ) { // Se é 0 é porque não tem vacinas...
+        // //     return redirect()->back()->withErrors([
+        // //         "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto ..."
+        // //     ])->withInput();
+        // // }
         if (!$lote->dose_unica) {
             $datetime_chegada_segunda_dose = $candidato->chegada->modify('+'.$lote->inicio_periodo.' day');
             $candidatoSegundaDose = $candidato->replicate()->fill([
