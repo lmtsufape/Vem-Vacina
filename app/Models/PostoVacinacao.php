@@ -67,4 +67,9 @@ class PostoVacinacao extends Model
     public function etapas() {
         return $this->belongsToMany(Etapa::class, 'ocorrendo_vacinacaos', 'posto_id', 'etapa_id');
     }
+
+    public function candidatos()
+    {
+        return $this->hasMany(Candidato::class);
+    }
 }

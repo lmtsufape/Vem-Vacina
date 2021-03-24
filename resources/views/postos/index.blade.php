@@ -93,7 +93,7 @@
                                               <td>{{$lote->fabricante }}</td>
                                               <td>{{$lote->dose_unica ? 'Sim' : 'Não'}}</td>
                                               <td>{{$lote->dose_unica ? " - " : 'Entre '.$lote->inicio_periodo." à  ". $lote->fim_periodo." dias" }} </td>
-                                              <td>{{$lote->pivot->qtdVacina - $posto->getCandidatosPorLote($lote->id, $posto->id) }}</td>
+                                              <td>{{$lote->pivot->qtdVacina - $posto->candidatos->where('lote_id', $lote->id)->count() }}</td>
                                               <td>
                                                 <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
                                                     @csrf
