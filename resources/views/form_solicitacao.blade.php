@@ -453,7 +453,14 @@
     </div>
     
     <!--x rodapé x-->
-
+    @if (old('posto_vacinacao') != null && old('público') != null)
+        <script>
+            $(document).ready(function() {
+                var radio = document.getElementById('publico_{{old('público')}}');
+                postoPara(radio, radio.value);
+            });
+        </script>
+    @endif
 
     <script>
      function checkbox_visibilidade(div_alvo, checkbox) {
