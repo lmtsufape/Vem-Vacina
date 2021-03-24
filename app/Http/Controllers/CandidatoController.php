@@ -220,6 +220,7 @@ class CandidatoController extends Controller
 
         $posto = PostoVacinacao::find($id_posto);
         $lote = Lote::find($id_lote);
+        print_r($lote);
         if($lote == null) { // Se é 0 é porque não tem vacinas...
             return redirect()->back()->withErrors([
                 "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto ..."
