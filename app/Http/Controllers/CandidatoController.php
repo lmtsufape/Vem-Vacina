@@ -76,6 +76,7 @@ class CandidatoController extends Controller
     public function enviar_solicitacao(Request $request) {
 
         $request->validate([
+            "voltou"                => "nullable",
             "público"               => "required",
             "nome_completo"         => "required|string|max:65",
             "data_de_nascimento"    => "required|date",
