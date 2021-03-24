@@ -51,6 +51,133 @@
                         </div>
                     </div>
                     <br>
+
+
+                    <div class="row">
+                        <div class="col-md">
+                            <h4>Dias de funcionamento</h4>
+
+                            <input id="funciona_domingo" type="checkbox" name="funciona_domingo" @if(old('funciona_domingo') || (old('funciona_domingo') == null && $posto->funciona_domingo)) checked @endif>
+                            <label for="funciona_domingo">Funciona nos domingos</label>
+                            <br>
+
+                            <input id="funciona_segunda" type="checkbox" name="funciona_segunda" @if(old('funciona_segunda') || (old('funciona_segunda') == null && $posto->funciona_segunda)) checked @endif>
+                            <label for="funciona_segunda">Funciona nas segundas</label>
+                            <br>
+
+                            <input id="funciona_terca" type="checkbox" name="funciona_terca" @if(old('funciona_terca') || (old('funciona_terca') == null && $posto->funciona_terca)) checked @endif>
+                            <label for="funciona_terca">Funciona nas terças</label>
+                            <br>
+
+                            <input id="funciona_quarta" type="checkbox" name="funciona_quarta" @if(old('funciona_quarta') || (old('funciona_quarta') == null && $posto->funciona_quarta)) checked @endif>
+                            <label for="funciona_quarta">Funciona nas quartas</label>
+                            <br>
+
+                            <input id="funciona_quinta" type="checkbox" name="funciona_quinta" @if(old('funciona_quinta') || (old('funciona_quinta') == null && $posto->funciona_quinta)) checked @endif>
+                            <label for="funciona_quinta">Funciona nas quintas</label>
+                            <br>
+
+                            <input id="funciona_sexta" type="checkbox" name="funciona_sexta" @if(old('funciona_sexta') || (old('funciona_sexta') == null && $posto->funciona_sexta)) checked @endif>
+                            <label for="funciona_sexta">Funciona nas sextas</label>
+                            <br>
+
+                            <input id="funciona_sabado" type="checkbox" name="funciona_sabado" @if(old('funciona_sabado') || (old('funciona_sabado') == null && $posto->funciona_sabado)) checked @endif>
+                            <label for="funciona_sabado">Funciona nos sábados</label>
+
+                        </div>
+                    </div>
+                    <br>
+
+
+                    <div class="row">
+                        <div class="col-md">
+                            <input onchange="check_funcionamento(this, 'seletores_funcionamento_manha')" id="funcionamento_manha" type="checkbox" name="funcionamento_manha" @if(old('funcionamento_manha') || (old('funcionamento_manha') == null && $posto->inicio_atendimento_manha && $posto->intervalo_atendimento_manha && $posto->fim_atendimento_manha)) checked @endif>
+                            <label for="funcionamento_manha">Funciona pela manhã</label>
+                            @error('funcionamento_manha') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+
+                    <div id="seletores_funcionamento_manha" class="row"  @if(!(old('funcionamento_manha') || (old('funcionamento_manha') == null && $posto->inicio_atendimento_manha && $posto->intervalo_atendimento_manha && $posto->fim_atendimento_manha))) style="display: none;" @endif >
+                        <div class="col-md-4">
+                            <label style="margin-right: 8%;">Inicio:</label>
+                            <select name="inicio_atendimento_manha">
+                                <option disabled selected> -- hrs</option>
+                                @for($i = 5; $i <= 12; $i++)
+                                   <option value="{{$i}}" @if(old('inicio_atendimento_manha', $posto->inicio_atendimento_manha) == $i) selected @endif >{{$i}} hrs</option>
+                                @endfor
+                            </select>
+                            @error('inicio_atendimento_manha') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-4">
+                            <label style="margin-right: 8%;">Fim:</label>
+                            <select name="fim_atendimento_manha">
+                                <option disabled selected> -- hrs</option>
+                                @for($i = 5; $i <= 12; $i++)
+                                   <option value="{{$i}}" @if(old('fim_atendimento_manha', $posto->fim_atendimento_manha) == $i) selected @endif>{{$i}} hrs</option>
+                                @endfor
+                            </select>
+                            @error('fim_atendimento_manha') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md-4">
+                            <label style="margin-right: 8%;">Intervalo (mins):</label>
+                            <input min="1" max="60" type="number" style="width: 32%;" name="intervalo_atendimento_manha" value="{{old('intervalo_atendimento_manha', $posto->intervalo_atendimento_manha)}}">
+                            @error('intervalo_atendimento_manha') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    <br>
+
+
+
+
+
+
+
+                    
+                    <div class="row">
+                        <div class="col-md">
+                            <input onchange="check_funcionamento(this, 'seletores_funcionamento_tarde')" id="funcionamento_tarde" type="checkbox" name="funcionamento_tarde" @if(old('funcionamento_tarde') || (old('funcionamento_tarde') == null && $posto->inicio_atendimento_tarde && $posto->intervalo_atendimento_tarde && $posto->fim_atendimento_tarde)) checked @endif>
+                            <label for="funcionamento_tarde">Funciona pela tarde</label>
+                            @error('funcionamento_tarde') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+
+                    <div id="seletores_funcionamento_tarde" class="row" @if(!(old('funcionamento_tarde') || (old('funcionamento_tarde') == null && $posto->inicio_atendimento_tarde && $posto->intervalo_atendimento_tarde && $posto->fim_atendimento_tarde))) style="display: none;" @endif>
+                        <div class="col-md-4">
+                            <label style="margin-right: 8%;">Inicio:</label>
+                            <select name="inicio_atendimento_tarde">
+                                <option disabled selected> -- hrs</option>
+                                @for($i = 13; $i <= 18; $i++)
+                                   <option value="{{$i}}" @if(old('inicio_atendimento_tarde', $posto->inicio_atendimento_tarde) == $i) selected @endif >{{$i}} hrs</option>
+                                @endfor
+                            </select>
+                            @error('inicio_atendimento_tarde') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-4">
+                            <label style="margin-right: 8%;">Fim:</label>
+                            <select name="fim_atendimento_tarde">
+                                <option disabled selected> -- hrs</option>
+                                @for($i = 13; $i <= 18; $i++)
+                                   <option value="{{$i}}" @if(old('fim_atendimento_tarde', $posto->fim_atendimento_tarde) == $i) selected @endif>{{$i}} hrs</option>
+                                @endfor
+                            </select>
+                            @error('fim_atendimento_tarde') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md-4">
+                            <label style="margin-right: 8%;">Intervalo (mins):</label>
+                            <input min="1" max="60" type="number" style="width: 32%;" name="intervalo_atendimento_tarde" value="{{old('intervalo_atendimento_tarde', $posto->intervalo_atendimento_tarde)}}">
+                            @error('intervalo_atendimento_tarde') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+
+
+
+
+
                     <div class="row">
                         <div class="col-md-3">
                             <button class="btn btn-success">Salvar</button>
@@ -61,4 +188,20 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+
+     function check_funcionamento(check, div) {
+         if(check.checked) {
+             document.getElementById(div).style.display = "flex";
+         } else {
+             document.getElementById(div).style.display = "none";
+         }
+     }
+     
+    </script>
+
+
+    
   </x-app-layout>

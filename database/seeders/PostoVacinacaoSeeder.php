@@ -21,6 +21,23 @@ class PostoVacinacaoSeeder extends Seeder
             'endereco' => 'Rua Barão de São Borges, s/nº',
             'para_idoso' => true,
             'para_profissional_da_saude' => false,
+
+
+            "inicio_atendimento_manha" => 9,
+            "intervalo_atendimento_manha" => 30,
+            "fim_atendimento_manha" => 12,
+
+            "inicio_atendimento_tarde" => 14,
+            "intervalo_atendimento_tarde" => 30,
+            "fim_atendimento_tarde" => 16,
+
+            "funciona_domingo" => false,
+            "funciona_segunda" => true,
+            "funciona_terca" => true,
+            "funciona_quarta" => true,
+            "funciona_quinta" => true,
+            "funciona_sexta" => true,
+            "funciona_sabado" => false,
         ]);
 
         DB::table('posto_vacinacaos')->insert([
@@ -28,6 +45,24 @@ class PostoVacinacaoSeeder extends Seeder
             'endereco' => 'Rua Professor Antônio Souto, s/nº',
             'para_idoso' => true,
             'para_profissional_da_saude' => false,
+
+
+            "inicio_atendimento_manha" => 9,
+            "intervalo_atendimento_manha" => 30,
+            "fim_atendimento_manha" => 12,
+
+            "inicio_atendimento_tarde" => 14,
+            "intervalo_atendimento_tarde" => 30,
+            "fim_atendimento_tarde" => 16,
+
+            "funciona_domingo" => false,
+            "funciona_segunda" => true,
+            "funciona_terca" => true,
+            "funciona_quarta" => true,
+            "funciona_quinta" => true,
+            "funciona_sexta" => true,
+            "funciona_sabado" => false,
+
         ]);
 
         DB::table('posto_vacinacaos')->insert([
@@ -35,6 +70,24 @@ class PostoVacinacaoSeeder extends Seeder
             'endereco' => 'Entrada pela rua Coronel Antônio Vitor, s/nº, bairro São José',
             'para_idoso' => true,
             'para_profissional_da_saude' => false,
+
+
+            "inicio_atendimento_manha" => 9,
+            "intervalo_atendimento_manha" => 30,
+            "fim_atendimento_manha" => 12,
+
+            "inicio_atendimento_tarde" => 14,
+            "intervalo_atendimento_tarde" => 30,
+            "fim_atendimento_tarde" => 16,
+
+            "funciona_domingo" => false,
+            "funciona_segunda" => true,
+            "funciona_terca" => true,
+            "funciona_quarta" => true,
+            "funciona_quinta" => true,
+            "funciona_sexta" => true,
+            "funciona_sabado" => false,
+
         ]);
 
         DB::table('posto_vacinacaos')->insert([
@@ -42,6 +95,24 @@ class PostoVacinacaoSeeder extends Seeder
             'endereco' => 'Rua Ebenezer Furtado Gueiros, s/nº, bairro Severiano Morais FIlho',
             'para_idoso' => true,
             'para_profissional_da_saude' => false,
+
+
+            "inicio_atendimento_manha" => 9,
+            "intervalo_atendimento_manha" => 30,
+            "fim_atendimento_manha" => 12,
+
+            "inicio_atendimento_tarde" => 14,
+            "intervalo_atendimento_tarde" => 30,
+            "fim_atendimento_tarde" => 16,
+
+            "funciona_domingo" => false,
+            "funciona_segunda" => true,
+            "funciona_terca" => true,
+            "funciona_quarta" => true,
+            "funciona_quinta" => true,
+            "funciona_sexta" => true,
+            "funciona_sabado" => false,
+
         ]);
 
         DB::table('posto_vacinacaos')->insert([
@@ -49,6 +120,24 @@ class PostoVacinacaoSeeder extends Seeder
             'endereco' => 'Avenida Afonso Pena, S/n°, bairro São José',
             'para_idoso' => false,
             'para_profissional_da_saude' => false,
+
+
+            "inicio_atendimento_manha" => 9,
+            "intervalo_atendimento_manha" => 30,
+            "fim_atendimento_manha" => 12,
+
+            "inicio_atendimento_tarde" => 14,
+            "intervalo_atendimento_tarde" => 30,
+            "fim_atendimento_tarde" => 16,
+
+            "funciona_domingo" => false,
+            "funciona_segunda" => true,
+            "funciona_terca" => true,
+            "funciona_quarta" => true,
+            "funciona_quinta" => true,
+            "funciona_sexta" => true,
+            "funciona_sabado" => false,
+
         ]);
 
         DB::table('posto_vacinacaos')->insert([
@@ -56,6 +145,19 @@ class PostoVacinacaoSeeder extends Seeder
             'endereco' => 'Rua Joaquim Távora, s/nº, bairro Heliópolis',
             'para_idoso' => false,
             'para_profissional_da_saude' => false,
+
+            "inicio_atendimento_manha" => 9,
+            "intervalo_atendimento_manha" => 30,
+            "fim_atendimento_manha" => 12,
+
+            "funciona_domingo" => false,
+            "funciona_segunda" => false,
+            "funciona_terca" => false,
+            "funciona_quarta" => false,
+            "funciona_quinta" => false,
+            "funciona_sexta" => false,
+            "funciona_sabado" => true,
+
         ]);
 
 
