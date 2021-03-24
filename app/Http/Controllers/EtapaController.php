@@ -178,6 +178,27 @@ class EtapaController extends Controller
 
         $etapa = Etapa::find($id);
 
+        if ($request->tipo == Etapa::TIPO_ENUM[2] && $request->input('opcoes') != null && $request->input('op_ids') != null) {
+            $requestOpcoes = collect($request->input('op_ids'));
+            $opcaoEtapa = $etapa->opcoes;
+            foreach ($opcaoEtapa as $op) {
+                if (!($requestOpcoes->contains($op->id))) {
+                    if ($op->candidatos != null && count($op->candidatos) > 0) {
+                        return redirect()->back()->with([
+                            "error" => "Não é possivel excluir a opção " . $op->opcao . " pois exitem agendamentos que a selecionaram.",
+                        ]);
+                    }
+                } 
+            }
+        } else if (($request->tipo == Etapa::TIPO_ENUM[1] && $etapa->tipo == Etapa::TIPO_ENUM[2]) || ($request->tipo == Etapa::TIPO_ENUM[0] && $etapa->tipo == Etapa::TIPO_ENUM[2])) {
+            $candidatos = $etapa->candidatos;
+            if ($candidatos != null && count($candidatos) > 0) {
+                return redirect()->back()->with([
+                    "error" => "Não é possivel alterar o tipo do público, pois existem agendamentos que o reverenciam.",
+                ]);
+            }
+        }
+
         $etapa->texto = $request->texto_do_agendamento;
         $etapa->texto_home = $request->texto_da_home;
 
@@ -255,24 +276,29 @@ class EtapaController extends Controller
                 $etapa->inicio_intervalo = $request->input("inicio_faixa_etária");
                 $etapa->fim_intervalo = $request->input("fim_faixa_etária");
             } else if ($request->tipo == Etapa::TIPO_ENUM[2]) {
-                // Percorrendo o array checando se a opção foi excluida
-                // foreach ($etapa->opcoes as $opcao) {
-                //     if (in_array($opcao->opcao, $request->opcoes)) {
-                //         $opcao->opcao;
-                //     } else {
-                //         $opcao->delete();
-                //     }
-                // }
+                $requestOpcoes = collect($request->input('op_ids'));
+                $opcaoEtapa = $etapa->opcoes;
+                // Opções excluidas
+                foreach ($opcaoEtapa as $op) {
+                    if (!($requestOpcoes->contains($op->id))) {
+                        $op->delete();
+                    // Se ainda estiver contido atualizo
+                    } else {
+                        $key = array_search($op->id, $request->input('op_ids'));
+                        $op->opcao = $request->input('opcoes')[$key];
+                        $op->update();
+                    }
+                }
 
-                // // Percorrendo o collection checando se existe alguma nova opção
-                // foreach ($request->opcoes as $op) {
-                //     if (!(in_array($opcao->opcao, $request->opcoes))) {
-                //         $opcaoEtapa = new OpcoesEtapa();
-                //         $opcaoEtapa->opcao = $op;
-                //         $opcaoEtapa->etapa_id = $etapa->id;
-                //         $opcaoEtapa->save();
-                //     }
-                // }
+                // Adiciona novas opções
+                foreach ($request->input('op_ids') as $i => $op) {
+                    if ($op == 0) {
+                        $opcaoEtapa = new OpcoesEtapa();
+                        $opcaoEtapa->opcao = $request->input('opcoes')[$i];
+                        $opcaoEtapa->etapa_id = $etapa->id;
+                        $opcaoEtapa->save();
+                    }
+                }
             }
         }
 

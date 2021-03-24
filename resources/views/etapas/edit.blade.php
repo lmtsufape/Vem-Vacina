@@ -8,6 +8,15 @@
         <form id="editar_etapa_{{$publico->id}}" action="{{route('etapas.update', ['id' => $publico->id])}}" method="post">
             @csrf
             <div class="container" style="margin-bottom: 35px;">
+                @if(session('error'))
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger" role="alert">
+                                <p>{{session('error')}}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-md-4">
                         <label for="tipo">Classficação do público</label>
@@ -98,6 +107,7 @@
                                             <label>Opção</label>
                                             <div class="row">
                                                 <div class="col-md-8">
+                                                    <input type="hidden" name="op_ids[]" value="{{'op_ids.'.$i}}">
                                                     <input type="text" name="opcoes[]" class="form-control @error('opcoes.'.$i) is-invalid @enderror" placeholder="Digite a opção selecionável" value="{{$textoOpcao}}">
                                                     @error('opcoes.'.$i)
                                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -125,6 +135,7 @@
                                                 <label>Opção</label>
                                                 <div class="row">
                                                     <div class="col-md-8">
+                                                        <input type="hidden" name="op_ids[]" value="{{$op->id}}">
                                                         <input type="text" name="opcoes[]" class="form-control" placeholder="Digite a opção selecionável" value="{{$op->opcao}}">
                                                     </div>
                                                     <div class="col-md-3">
@@ -220,6 +231,7 @@
                                     <label>Opção</label>
                                     <div class="row">
                                         <div class="col-md-8">
+                                            <input type="hidden" name="op_ids[]" value="0">
                                             <input type="text" name="opcoes[]" class="form-control" placeholder="Digite a opção selecionável">
                                         </div>
                                         <div class="col-md-3">
