@@ -142,10 +142,10 @@ class CandidatoController extends Controller
                     "publico_opcao_".$request->input('público') => "Esse campo é obrigatório para público marcado."
                 ])->withInput();
             } 
-            $candidato->etapa_id = $etapa->id;
             $candidato->etapa_resultado = $request->input("publico_opcao_".$request->input('público'));
         }
         
+        $candidato->etapa_id = $etapa->id;
         //TODO: mover pro service provider
         if(!$this->validar_cpf($request->cpf)) {
             return redirect()->back()->withErrors([
