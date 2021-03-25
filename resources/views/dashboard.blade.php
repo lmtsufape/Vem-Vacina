@@ -2,7 +2,24 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Lista de agendamentos') }}
+            @php
+                $filtros =  array('Candidatos pendentes',
+                      'Candidatos aprovados',
+                      'Candidatos reprovados',
+                      'Candidatos vacinados',
+                      'Agendamentos do dia')
+            @endphp
+            @isset($filtro)
+                @foreach ($filtros as $key => $item)
+                    @if ( $filtro == $loop->iteration)
+                        {{ " - " .$item }}
+                    @endif
+                @endforeach
+            @endisset
         </h2>
+        <a href="{{ route('dashboard') }}">
+            <small>Atualizar página <i class="fas fa-redo"></i> </small>
+        </a>
     </x-slot>
 
     <div class="py-12">
@@ -13,10 +30,11 @@
                         <div class="col-sm-9">
                             <select name="filtro" class="form-control" id="filtro">
                                 <option value="">-- Selecione o filtro --</option>
-                                <option value="1">Candidatos pendentes</option>
-                                <option value="2">Candidatos aprovados</option>
-                                <option value="3">Candidatos reprovados</option>
-                                <option value="4">Candidatos vacinados</option>
+                                <option value="1" @if(isset($filtro) && $filtro == "1") selected @endif>Candidatos pendentes</option>
+                                <option value="2" @if(isset($filtro) && $filtro == "2") selected @endif>Candidatos aprovados</option>
+                                <option value="3" @if(isset($filtro) && $filtro == "3") selected @endif>Candidatos reprovados</option>
+                                <option value="4" @if(isset($filtro) && $filtro == "4") selected @endif>Candidatos vacinados</option>
+                                <option value="5" @if(isset($filtro) && $filtro == "5") selected @endif>Agendamentos do dia</option>
                             </select>
                         </div>
                         <div class="col-sm-3">
@@ -37,9 +55,31 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Nome</th>
-                                <th scope="col">CPF</th>
-                                <th scope="col">Dia</th>
+                                <th scope="col">#</th>
+                                <th scope="col">Nome
+                                    <a href="{{ route('candidato.order', ['field' => 'nome_completo' ,'order'=> 'ASC']) }}">
+                                        <i class="fas fa-arrow-circle-down"></i>
+                                    </a>
+                                    <a href="{{ route('candidato.order', ['field' => 'nome_completo' ,'order'=> 'DESC']) }}">
+                                        <i class="fas fa-arrow-circle-up"></i>
+                                    </a>
+                                </th>
+                                <th scope="col">CPF
+                                    <a href="{{ route('candidato.order', ['field' => 'cpf' ,'order'=> 'ASC']) }}">
+                                        <i class="fas fa-arrow-circle-down"></i>
+                                    </a>
+                                    <a href="{{ route('candidato.order', ['field' => 'cpf' ,'order'=> 'DESC']) }}">
+                                        <i class="fas fa-arrow-circle-up"></i>
+                                    </a>
+                                </th>
+                                <th scope="col">Dia
+                                    <a href="{{ route('candidato.order', ['field' => 'chegada' ,'order'=> 'ASC']) }}">
+                                        <i class="fas fa-arrow-circle-down"></i>
+                                    </a>
+                                    <a href="{{ route('candidato.order', ['field' => 'chegada' ,'order'=> 'DESC']) }}">
+                                        <i class="fas fa-arrow-circle-up"></i>
+                                    </a>
+                                </th>
                                 <th scope="col">Horário</th>
                                 <th scope="col">Visualizar</th>
                                 @can('confirmar-vaga-candidato')
@@ -56,6 +96,7 @@
                         <tbody>
                             @foreach ($candidatos as $i => $candidato)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
                                         {{$candidato->nome_completo}}
@@ -337,7 +378,7 @@
                                 <td>
                                     @can('whatsapp-candidato')
                                         @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
-                                            <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia {{ date('d/m/Y \à\s  H:i \h', strtotime($candidato->chegada)) }}. Aguardamos você!" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                            <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia {{date('d/m/Y \à\s  H:i \h', strtotime($candidato->chegada))}}. Aguardamos você!" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                         @elseif($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[2])
                                             <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi reprovado." class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                         @else

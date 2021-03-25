@@ -87,13 +87,13 @@
                                             </tr>
                                           </thead>
                                           <tbody>
-                                            @foreach ($posto->lotes as $lote)
+                                            @foreach ($posto->lotes as $key => $lote)
                                             <tr>
                                               <th scope="row">{{$lote->numero_lote}}</th>
                                               <td>{{$lote->fabricante }}</td>
                                               <td>{{$lote->dose_unica ? 'Sim' : 'Não'}}</td>
                                               <td>{{$lote->dose_unica ? " - " : 'Entre '.$lote->inicio_periodo." à  ". $lote->fim_periodo." dias" }} </td>
-                                              <td>{{$lote->pivot->qtdVacina - $posto->getCandidatosPorLote($lote->id, $posto->id) }}</td>
+                                              <td>{{$lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count()  }}</td>
                                               <td>
                                                 <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
                                                     @csrf
@@ -110,11 +110,11 @@
                                                 </form>
                                               </td>
                                             </tr>
+
                                             @endforeach
                                           </tbody>
                                         </table>
                                     </td>
-
                             </tr>
                         @endforeach
 
