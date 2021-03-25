@@ -32,7 +32,7 @@ class CandidatoController extends Controller
         } else if ($request->filtro == 4) {
             $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
         } else if ($request->filtro == 5) {
-            $candidatos = Candidato::where('chegada', now())->get();
+            $candidatos = Candidato::where('chegada','like',date("Y-m-d")."%")->get();
         }
 
         return view('dashboard')->with(['candidatos' => $candidatos,
