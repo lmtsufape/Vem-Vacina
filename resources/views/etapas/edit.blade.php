@@ -276,9 +276,8 @@
             
             var todasOpcoes = document.getElementById('divTodasOpcoes');
             
-            for (var i = 0; i < todasOpcoes.children.length; i++) {
-                console.log(todasOpcoes.children[i]);
-                todasOpcoes.children[i].remove();
+            while (todasOpcoes.firstChild) {
+                todasOpcoes.removeChild(todasOpcoes.lastChild);
             }
         }
     </script>

@@ -16,6 +16,7 @@ use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
 use Illuminate\Support\Facades\Notification;
+use DateInterval;
 
 
 class CandidatoController extends Controller
@@ -100,6 +101,7 @@ class CandidatoController extends Controller
             "posto_vacinacao"       => "required",
             "dia_vacinacao"         => "required",
             "horario_vacinacao"     => "required",
+            "opcao_etapa_".$request->input('público') => 'nullable',
         ]);
 
         $dados = $request->all();
@@ -221,9 +223,6 @@ class CandidatoController extends Controller
             $candidato->lote_id                 = $id_lote;
             $candidato->posto_vacinacao_id      = $id_posto;
 
-            $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
-            $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
-
         DB::beginTransaction();
 
         try {
@@ -260,6 +259,14 @@ class CandidatoController extends Controller
             return redirect()->back()->withErrors([
                 "message" => $e->getMessage(),
             ])->withInput();
+        }
+
+        if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+            if ($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0) {
+                foreach ($request->input("opcao_etapa_".$etapa->id) as $outra_info_id) {
+                    $candidato->outrasInfo()->attach($outra_info_id);
+                }
+            }
         }
 
         $agendamentos = Candidato::where('cpf', $candidato->cpf)->orderBy('dose')->get();

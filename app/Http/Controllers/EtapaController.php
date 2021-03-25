@@ -7,6 +7,7 @@ use App\Models\Etapa;
 use App\Models\Candidato;
 use App\Models\PostoVacinacao;
 use App\Models\OpcoesEtapa;
+use App\Models\OutrasInfoEtapa;
 use Illuminate\Support\Facades\Gate;
 
 class EtapaController extends Controller
@@ -62,6 +63,10 @@ class EtapaController extends Controller
             'primeria_dose'       => 'nullable|min:0',
             'segunda_unica'       => 'nullable|min:0',
             'pontos'              => 'required',
+            'outras_informações'  => 'nullable',
+            'texto_das_outras_informações' => 'nullable',
+            'outrasInfo'          => 'required_if:outras_informações,on',
+            'outrasInfo.*'        => 'required_if:outras_informações,on',
         ]);
         
         $etapa = new Etapa();
@@ -118,6 +123,21 @@ class EtapaController extends Controller
             foreach ($request->pontos as $ponto) {
                 $etapa->pontos()->attach($ponto);
             }
+        }
+        
+        if ($request->outras_informações != null) {
+            $etapa->texto_outras_informacoes = $request->texto_das_outras_informações;
+
+            if ($request->outrasInfo != null) {
+                foreach ($request->outrasInfo as $outraInfo) {
+                    $outra = new OutrasInfoEtapa();
+                    $outra->campo = $outraInfo;
+                    $outra->etapa_id = $etapa->id;
+                    $outra->save();
+                }
+            }
+
+            $etapa->update();
         }
 
         return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa adicionada com sucesso!']);
