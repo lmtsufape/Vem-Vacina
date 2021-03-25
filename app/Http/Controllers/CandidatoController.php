@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
-use DateInterval;
 use Illuminate\Support\Facades\Notification;
 
 
@@ -261,9 +260,10 @@ class CandidatoController extends Controller
             ])->withInput();
         }
 
+        $agendamentos = Candidato::where('cpf', $candidato->cpf)->orderBy('dose')->get();
 
-        return view('comprovante')->with('status', 'Cadastrado com sucesso');
-
+        return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+                                          'agendamentos' => $agendamentos]);
     }
 
     public function comprovante()
@@ -356,7 +356,7 @@ class CandidatoController extends Controller
             ])->withInput($validated);
         }
 
-        return view("ver_agendamento", ["agendamentos" => $agendamentos]);
+        return view("comprovante")->with(["status" => "Resultado da consulta", "agendamentos" => $agendamentos]);
     }
 
     public function CandidatoLote()
