@@ -2,7 +2,11 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Lista de agendamentos') }}
+
         </h2>
+        <a href="{{ route('dashboard') }}">
+            <small>Atualizar página <i class="fas fa-redo"></i> </small>
+        </a>
     </x-slot>
 
     <div class="py-12">
@@ -17,6 +21,7 @@
                                 <option value="2">Candidatos aprovados</option>
                                 <option value="3">Candidatos reprovados</option>
                                 <option value="4">Candidatos vacinados</option>
+                                <option value="5">Agendamentos do dia</option>
                             </select>
                         </div>
                         <div class="col-sm-3">
@@ -38,9 +43,30 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">CPF</th>
-                                <th scope="col">Dia</th>
+                                <th scope="col">Nome
+                                    <a href="{{ route('candidato.order', ['field' => 'nome_completo' ,'order'=> 'ASC']) }}">
+                                        <i class="fas fa-arrow-circle-down"></i>
+                                    </a>
+                                    <a href="{{ route('candidato.order', ['field' => 'nome_completo' ,'order'=> 'DESC']) }}">
+                                        <i class="fas fa-arrow-circle-up"></i>
+                                    </a>
+                                </th>
+                                <th scope="col">CPF
+                                    <a href="{{ route('candidato.order', ['field' => 'cpf' ,'order'=> 'ASC']) }}">
+                                        <i class="fas fa-arrow-circle-down"></i>
+                                    </a>
+                                    <a href="{{ route('candidato.order', ['field' => 'cpf' ,'order'=> 'DESC']) }}">
+                                        <i class="fas fa-arrow-circle-up"></i>
+                                    </a>
+                                </th>
+                                <th scope="col">Dia
+                                    <a href="{{ route('candidato.order', ['field' => 'chegada' ,'order'=> 'ASC']) }}">
+                                        <i class="fas fa-arrow-circle-down"></i>
+                                    </a>
+                                    <a href="{{ route('candidato.order', ['field' => 'chegada' ,'order'=> 'DESC']) }}">
+                                        <i class="fas fa-arrow-circle-up"></i>
+                                    </a>
+                                </th>
                                 <th scope="col">Horário</th>
                                 <th scope="col">Visualizar</th>
                                 @can('confirmar-vaga-candidato')
@@ -339,7 +365,7 @@
                                 <td>
                                     @can('whatsapp-candidato')
                                         @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
-                                            <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia {{ date('d/m/Y \à\s  H:i \h', strtotime($candidato->chegada)) }}. Aguardamos você!" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                            <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia {{date('d/m/Y \à\s  H:i \h', strtotime($candidato->chegada))}}. Aguardamos você!" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                         @elseif($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[2])
                                             <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi reprovado." class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                         @else

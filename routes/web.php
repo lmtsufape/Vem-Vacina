@@ -41,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento");
     Route::post("/agendamento/{id}/confirmar-vacinacao", [CandidatoController::class, 'vacinado'])->name('candidato.vacinado');
     Route::get("/candidato/lote", [CandidatoController::class, 'CandidatoLote'])->name('candidato.candidatoLote');
+    Route::get("/candidato/order/{field}/campo/{order}", [CandidatoController::class, 'ordenar'])->name('candidato.order');
 
     Route::resource('/postos', PostoVacinacaoController::class);
     Route::resource('/lotes', LoteController::class);

@@ -283,6 +283,14 @@ class LoteController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
+        foreach ($posto->lotes as $key => $lote) {
+            if($lote->pivot->lote_id == $request->lote_id && $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > $request->quantidade){
+                return redirect()->back()
+                            ->withErrors([
+                                "quantidade" => "Quantidade a devolver deve ser menor que a quantidade de vacinas disponíveis."
+                            ])->withInput();
+            }
+        }
 
         if ($posto->getVacinasDisponivel($request->lote_id, $posto->id) > $request->quantidade) {
             $posto->subVacinaEmLote($request->lote_id, $request->quantidade) ;

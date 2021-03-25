@@ -110,11 +110,11 @@
                                                 </form>
                                               </td>
                                             </tr>
+
                                             @endforeach
                                           </tbody>
                                         </table>
                                     </td>
-
                             </tr>
                         @endforeach
 
