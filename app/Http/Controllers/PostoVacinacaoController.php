@@ -107,14 +107,8 @@ class PostoVacinacaoController extends Controller
         Gate::authorize('ver-posto');
         $lotes = DB::table("lote_posto_vacinacao")->get();
 
-        // $users = DB::table('lote_posto_vacinacao')
-        //             ->join('lotes', 'lote_posto_vacinacao.lote_id', '=', 'lotes.id')
-        //             ->join('posto_vacinacaos', 'lote_posto_vacinacao.posto_vacinacao_id', '=', 'posto_vacinacaos.id')
-        //             ->select('users.*', 'contacts.phone', 'orders.price')
-        //             ->get();
+        $postos = PostoVacinacao::orderBy('nome')->paginate(10);
 
-        $postos = PostoVacinacao::orderBy('nome')->get();
-        // dd($lotes);
         return view('postos.index', compact('postos', 'lotes'));
     }
 
