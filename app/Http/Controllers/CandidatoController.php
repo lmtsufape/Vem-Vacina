@@ -199,10 +199,12 @@ class CandidatoController extends Controller
             // Se a quantidade de candidatos à tomar a vicina daquele lote, naquele posto, que não foram reprovados
             // for menor que a quantidade de vacinas daquele lote que foram pra aquele posto, então o candidato vai tomar
             // daquele lote
+            $lote_original = Lote::find($lote->lote_id);
             if (Candidato::where("lote_id", $lote->id)
                 ->where("posto_vacinacao_id", $id_posto)
                 ->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])
-                ->count() < $lote->qtdVacina
+                ->count() < $lote->qtdVacina &&
+                $lote_original->etapas->find($request->input('público')) != null
             ) {
                 $id_lote = $lote->id;
                 $chave_estrangeiro_lote = $lote->lote_id;
@@ -221,8 +223,8 @@ class CandidatoController extends Controller
         $candidato->lote_id                 = $id_lote;
         $candidato->posto_vacinacao_id      = $id_posto;
 
-        $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
-        $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
+        // $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
+        // $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
         DB::beginTransaction();
 
