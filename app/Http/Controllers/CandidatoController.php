@@ -224,7 +224,7 @@ class CandidatoController extends Controller
             $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
             $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
-            DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
 
@@ -237,17 +237,18 @@ class CandidatoController extends Controller
                 $candidatoSegundaDose = $candidato->replicate()->fill([
                     'chegada' =>  $datetime_chegada_segunda_dose,
                     'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
+                    'dose'   =>  Candidato::DOSE_ENUM[1],
                 ]);
 
                 $candidatoSegundaDose->save();
-                if($candidatoSegundaDose->email != null){
-                    Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
-                }
+                // if($candidatoSegundaDose->email != null){
+                //     Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
+                // }
             }
 
-            if($candidato->email != null){
-                Notification::send($candidato, new CandidatoInscrito($candidato));
-            }
+            // if($candidato->email != null){
+            //     Notification::send($candidato, new CandidatoInscrito($candidato));
+            // }
         } catch (\Throwable $e) {
             DB::rollback();
             return redirect()->back()->withErrors([
@@ -255,9 +256,9 @@ class CandidatoController extends Controller
             ])->withInput();
         }
 
-        $agendamentos = Candidato::where('cpf', $candidato->cpf)->get();
+        $agendamentos = Candidato::where('cpf', $candidato->cpf)->orderBy('dose')->get();
 
-        return view('confirmacao')->with(['status' => 'Cadastrado com sucesso!',
+        return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
                                           'agendamentos' => $agendamentos]);
     }
 
@@ -284,7 +285,8 @@ class CandidatoController extends Controller
         $candidato = Candidato::find($id);
 
         if($request->confirmacao == "Ausente"){
-            $candidato->delete();
+            Candidato::where('cpf', $candidato->cpf)->delete();
+
         }elseif($request->confirmacao == "Aprovado"){
             $candidato->aprovacao = $request->confirmacao;
             $candidato->update();
@@ -296,7 +298,7 @@ class CandidatoController extends Controller
             if($candidato->email != null){
                 Notification::send($candidato, new CandidatoReprovado($candidato));
             }
-            $candidato->delete();
+            Candidato::where('cpf', $candidato->cpf)->delete();
 
         }
 
@@ -340,17 +342,16 @@ class CandidatoController extends Controller
            ])->withInput($validated);
         }
 
-        $agendamentos = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])
-                      ->orderBy("created_at", "desc") // Mostra primeiro o agendamento mais recente
-                      ->get();
+        $agendamentos = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])->get();
 
+        dd($agendamentos);
         if ($agendamentos->count() == 0) {
             return redirect()->back()->withErrors([
                 "cpf" => "Dados não encontrados"
             ])->withInput($validated);
         }
 
-        return view("ver_agendamento", ["agendamentos" => $agendamentos]);
+        return view("comprovante")->with(["status" => "Resultado da consulta", "agendamentos" => $agendamentos]);
     }
 
     public function CandidatoLote()
