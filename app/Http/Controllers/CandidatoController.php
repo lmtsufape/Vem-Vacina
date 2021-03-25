@@ -233,7 +233,12 @@ class CandidatoController extends Controller
             $lote = Lote::find($chave_estrangeiro_lote);
 
             if (!$lote->dose_unica) {
-                $datetime_chegada_segunda_dose = $candidato->chegada->modify('+'.$lote->inicio_periodo.' day');
+                $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
+                if($datetime_chegada_segunda_dose->format('l') == "Saturday"){
+                    $datetime_chegada_segunda_dose->add(new DateInterval('P2D'));
+                }elseif($datetime_chegada_segunda_dose->format('l') == "Sunday"){
+                    $datetime_chegada_segunda_dose->add(new DateInterval('P1D'));
+                }
                 $candidatoSegundaDose = $candidato->replicate()->fill([
                     'chegada' =>  $datetime_chegada_segunda_dose,
                     'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
