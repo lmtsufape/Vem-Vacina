@@ -210,6 +210,105 @@
                 </div>
                 <br>
                 <div class="row">
+                    <div class="col-md-12">
+                        <h5>Outras informações</h5>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="checkbox" name="outras_informações" onclick="exibirOutrasInfo(this)" @if(old('outras_informações') != null || (old('outras_informações') == null && $publico->outrasInfo != null && count($publico->outrasInfo) > 0)) checked @endif>
+                        <label for="">Adicionar outras informações ao público</label>
+                    </div>
+                </div>
+                <br>
+                <div id="divOutrasInfo" style="@if(old('outras_informações') != null || (old('outras_informações') == null && $publico->outrasInfo != null && count($publico->outrasInfo) > 0)) display: block; @else display: none; @endif">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Texto das outras informações</label>
+                            <textarea name="texto_das_outras_informações" class="form-control" id="texto_das_outras_informações" cols="30" rows="5" placeholder="Insira aqui o texto informativo">@if(old('texto_das_outras_informações') != null){{old('texto_das_outras_informações')}}@else{{$publico->texto_outras_informacoes}}@endif</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div  style="border: 1px solid rgb(196, 196, 196);
+                                 padding: 15px;
+                                 margin-top: 15px;
+                                 margin-bottom: 15px;
+                                 border-radius: 10px;">
+                                <label>Opções de outras informações</label>
+                                <div id="divTodasOutrasInfo" class="row">
+                                    @if (old('outrasInfo') != null) 
+                                        @foreach (old('outrasInfo') as $i => $textoOutraInfo)
+                                            <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
+                                                        padding: 15px;
+                                                        border-radius: 10px;
+                                                        margin: 15px;">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label>Opção</label>
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <input type="hidden" name="outrasInfo_id[]" value="{{old('outrasInfo_id.'.$i)}}">
+                                                                <input type="text" name="outrasInfo[]" class="form-control @error('outrasInfo.'.$i) is-invalid @enderror" placeholder="Digite o texto da outra informação" value="{{$textoOutraInfo}}">
+                                                                @error('outrasInfo.'.$i)
+                                                                    <div id="validationServer05Feedback" class="invalid-feedback" style="text-align: justify;">
+                                                                        <strong>{{$message}}</strong>
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <a class="btn btn-danger" onclick="excluirOpcao(this)"  style="cursor: pointer; color: white;">Excluir</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        
+                                    @else 
+                                        @foreach($publico->outrasInfo as $outra) 
+                                            <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
+                                                        padding: 15px;
+                                                        border-radius: 10px;
+                                                        margin: 15px;">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label>Opção</label>
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <input type="hidden" name="outrasInfo_id[]" value="{{$outra->id}}">
+                                                                <input type="text" name="outrasInfo[]" class="form-control" placeholder="Digite o texto da outra informação" value="{{$outra->campo}}">
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <a class="btn btn-danger" onclick="excluirOpcao(this)"  style="cursor: pointer; color: white;">Excluir</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                    @error('outrasInfo')
+                                        <div class="col-md-11 alert alert-danger" style="border: 1px solid rgb(196, 196, 196);
+                                                            border-radius: 10px;
+                                                            margin: 15px;">
+                                                {{$message}}
+                                        </div>
+                                    @enderror
+                                </div>
+                                
+                                <br>
+                                <div class="row" style="text-align: right">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-info" onclick="adicionarOutraInfo()">Adicionar opção</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6" style="text-align: right;">
                         <a href="{{route('etapas.index')}}" class="btn btn-secondary" style="width: 100%; padding-top: 20px; padding-bottom: 20px; cursor:pointer; color:white;">Voltar</a>
                     </div>
@@ -276,9 +375,48 @@
             
             var todasOpcoes = document.getElementById('divTodasOpcoes');
             
-            for (var i = 0; i < todasOpcoes.children.length; i++) {
-                console.log(todasOpcoes.children[i]);
-                todasOpcoes.children[i].remove();
+            while (todasOpcoes.firstChild) {
+                todasOpcoes.removeChild(todasOpcoes.lastChild);
+            }
+        }
+
+        function exibirOutrasInfo(input) {
+            if(input.checked) {
+                document.getElementById('divOutrasInfo').style.display = "block";
+                adicionarOutraInfo();
+            } else {
+                document.getElementById('divOutrasInfo').style.display = "none";
+                excluirOutrasInfo();
+            }
+        }
+
+        function adicionarOutraInfo() {
+            html = `<div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    margin: 15px;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Opção</label>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input type="hidden" name="outrasInfo_id[]" value="0">
+                                            <input type="text" name="outrasInfo[]" class="form-control" placeholder="Digite o texto da outra informação">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a class="btn btn-danger" onclick="excluirOpcao(this)"  style="cursor: pointer; color: white;">Excluir</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+            $('#divTodasOutrasInfo').append(html);
+        }
+        
+        function excluirOutrasInfo() {
+            var todasOutrasInfos = document.getElementById('divTodasOutrasInfo');
+            while (todasOutrasInfos.firstChild) {
+                todasOutrasInfos.removeChild(todasOutrasInfos.lastChild);
             }
         }
     </script>

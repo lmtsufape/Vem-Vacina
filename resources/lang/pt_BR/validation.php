@@ -148,6 +148,12 @@ return [
         'publicos' => [
             'required' => 'Escolha os públicos que seram vacinados nesse ponto.'
         ],
+        'outrasInfo' => [
+            'required_if' => 'Você deve colocar opções para ticar caso o campo adicionar outras informações ao público esteja marcado.'
+        ],
+        'outrasInfo.*' => [
+            'required_if' => 'Texto da opção é obrigátorio caso o campo adicionar outras informações ao público esteja marcado.'
+        ],
     ],
     
 

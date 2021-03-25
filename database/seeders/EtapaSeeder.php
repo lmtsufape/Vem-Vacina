@@ -26,6 +26,7 @@ class EtapaSeeder extends Seeder
             'atual'            => true,
             'total_pessoas_vacinadas_pri_dose' => 0,
             'total_pessoas_vacinadas_seg_dose' => 0,
+            'texto_outras_informacoes' => 'Informe se o idoso é acamado ou possui dificuldade de locomoção'
         ]);
 
         DB::table('etapas')->insert([
