@@ -256,7 +256,7 @@ class CandidatoController extends Controller
         }
 
 
-        return view('confirmacao')->with('status', 'Cadastrado com sucesso');
+        return view('comprovante')->with('status', 'Cadastrado com sucesso');
 
     }
 
