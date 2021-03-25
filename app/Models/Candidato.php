@@ -75,4 +75,8 @@ class Candidato extends Model
     public function resultado() {
         return $this->belongsTo(OpcoesEtapa::class, 'etapa_resultado');
     }
+
+    public function outrasInfo() {
+        return $this->belongsToMany(OutrasInfoEtapa::class, 'agendamento_outras_infos', 'candidato_id', 'outras_info_id');
+    }
 }

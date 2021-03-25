@@ -171,6 +171,91 @@
                 </div>
                 <br>
                 <div class="row">
+                    <div class="col-md-12">
+                        <h5>Outras informações</h5>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="checkbox" name="outras_informações" onclick="exibirOutrasInfo(this)">
+                        <label for="">Adicionar outras informações ao público</label>
+                    </div>
+                </div>
+                <br>
+                <div id="divOutrasInfo" style="@if(old('tipo') == $tipos[2]) display: block; @else display: none; @endif">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Texto das outras informações</label>
+                            <textarea name="texto_das_outras_informações" class="form-control" id="texto_das_outras_informações" cols="30" rows="5">{{old('texto_das_outras_informações')}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div  style="border: 1px solid rgb(196, 196, 196);
+                                 padding: 15px;
+                                 margin-top: 15px;
+                                 margin-bottom: 15px;
+                                 border-radius: 10px;">
+                                <label>Opções de outras informações</label>
+                                <div id="divTodasOutrasInfo" class="row">
+                                    {{-- @if (old('opcoes') != null) 
+                                        @foreach (old('opcoes') as $i => $textoOpcao)
+                                            <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
+                                                        padding: 15px;
+                                                        border-radius: 10px;
+                                                        margin: 15px;">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label>Opção</label>
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <input type="text" name="opcoes[]" class="form-control @error('opcoes.'.$i) is-invalid @enderror" placeholder="Digite a opção selecionável" value="{{$textoOpcao}}">
+                                                                @error('opcoes.'.$i)
+                                                                    <div id="validationServer05Feedback" class="invalid-feedback">
+                                                                        <strong>{{$message}}</strong>
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <a class="btn btn-danger" onclick="excluirOpcao(this)" style="cursor: pointer; color: white;">Excluir</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif --}}
+                                    <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
+                                                padding: 15px;
+                                                border-radius: 10px;
+                                                margin: 15px;">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>Opção</label>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <input type="text" name="opcoes[]" class="form-control " placeholder="Digite a opção selecionável" value="">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <a class="btn btn-danger" onclick="excluirOpcao(this)" style="cursor: pointer; color: white;">Excluir</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row" style="text-align: right">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-info" onclick="adicionarOutraInfo()">Adicionar opção</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6" style="text-align: right;">
                         <a href="{{route('etapas.index')}}" class="btn btn-secondary" style="width: 100%; padding-top: 20px; padding-bottom: 20px; cursor:pointer; color:white;">Voltar</a>
                     </div>
@@ -237,6 +322,36 @@
             for (var i = 0; i < todasOpcoes.children.length; i++) {
                 todasOpcoes.children[i].remove();
             }
+        }
+
+        function exibirOutrasInfo(input) {
+            if(input.checked) {
+                document.getElementById('divOutrasInfo').style.display = "block";
+            } else {
+                document.getElementById('divOutrasInfo').style.display = "none";
+            }
+        }
+
+        function adicionarOutraInfo() {
+            html = `<div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    margin: 15px;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Opção</label>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input type="text" name="outrasInfo[]" class="form-control" placeholder="Digite o texto da outra informação">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a class="btn btn-danger" onclick="excluirOutraInfo(this)"  style="cursor: pointer; color: white;">Excluir</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+            $('#divTodasOutrasInfo').append(html);
         }
     </script>
 </x-app-layout>

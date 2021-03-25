@@ -37,4 +37,8 @@ class Etapa extends Model
     public function pontos() {
         return $this->belongsToMany(PostoVacinacao::class, 'ocorrendo_vacinacaos', 'etapa_id', 'posto_id');
     }
+
+    public function outrasInfo() {
+        return $this->hasMany(OutrasInfoEtapa::class, 'etapa_id');
+    }
 }
