@@ -82,20 +82,20 @@ class CandidatoController extends Controller
         $request->validate([
             "voltou"                => "nullable",
             "público"               => "required",
-            "nome_completo"         => "required|string|max:65",
-            "data_de_nascimento"    => "required|date",
+            "nome_completo"         => "required|string|min:8|max:65|alpha",
+            "data_de_nascimento"    => "required|date|before:today",
             "cpf"                   => "required",
             "número_cartão_sus"     => "required",
             "sexo"                  => "required",
-            "nome_da_mãe"           => "required|string|max:65",
+            "nome_da_mãe"           => "required|string|min:8|max:65|alpha",
             "telefone"              => "required",
             "whatsapp"              => "nullable",
             "email"                 => "nullable|email",
             "cep"                   => "nullable",
             // "cidade"                => "required", // como valor é fixado no front, pode ser desabilitado e hardcoded aqui no controller
             "bairro"                => "required",
-            "rua"                   => "required",
-            "número_residencial"    => "required",
+            "rua"                   => "required|alpha_num|min:5", // Na cohab 2, as pessoas não sabem os nomes das ruas, só os numeros, então tem gente que vai por "Rua 2"
+            "número_residencial"    => "required|alpha_num",
             "complemento_endereco"  => "nullable",
             "posto_vacinacao"       => "required",
             "dia_vacinacao"         => "required",
@@ -105,124 +105,122 @@ class CandidatoController extends Controller
         $dados = $request->all();
 
 
+        $candidato = new Candidato;
+        $candidato->nome_completo           = $request->nome_completo;
+        $candidato->data_de_nascimento      = $request->data_de_nascimento;
+        $candidato->cpf                     = $request->cpf;
+        $candidato->numero_cartao_sus       = $request->input("número_cartão_sus");
+        $candidato->sexo                    = $request->sexo;
+        $candidato->nome_da_mae             = $request->input("nome_da_mãe");
+        $candidato->telefone                = $request->telefone;
+        $candidato->whatsapp                = $request->whatsapp;
+        $candidato->email                   = $request->email;
+        $candidato->cep                     = preg_replace('/[^0-9]/', '', $request->cep);
+        // $candidato->cidade                  = $request->cidade;
+        $candidato->cidade                  = "Garanhuns";
+        $candidato->bairro                  = $request->bairro;
+        $candidato->logradouro              = $request->rua;
+        $candidato->numero_residencia       = $request->input("número_residencial");
+        $candidato->complemento_endereco    = $request->complemento_endereco;
+        $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
+        $candidato->dose                    = Candidato::DOSE_ENUM[0];
 
-            $candidato = new Candidato;
-            $candidato->nome_completo           = $request->nome_completo;
-            $candidato->data_de_nascimento      = $request->data_de_nascimento;
-            $candidato->cpf                     = $request->cpf;
-            $candidato->numero_cartao_sus       = $request->input("número_cartão_sus");
-            $candidato->sexo                    = $request->sexo;
-            $candidato->nome_da_mae             = $request->input("nome_da_mãe");
-            $candidato->telefone                = $request->telefone;
-            $candidato->whatsapp                = $request->whatsapp;
-            $candidato->email                   = $request->email;
-            $candidato->cep                     = preg_replace('/[^0-9]/', '', $request->cep);
-            // $candidato->cidade                  = $request->cidade;
-            $candidato->cidade                  = "Garanhuns";
-            $candidato->bairro                  = $request->bairro;
-            $candidato->logradouro              = $request->rua;
-            $candidato->numero_residencia       = $request->input("número_residencial");
-            $candidato->complemento_endereco    = $request->complemento_endereco;
-            $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
-            $candidato->dose                    = Candidato::DOSE_ENUM[0];
+        // Se não foi passado CEP, o preg_replace retorna string vazia, mas no bd é uint nulavel, então anula
+        if ($candidato->cep == "") {
+            $candidato->cep = NULL;
+        }
 
-            // Se não foi passado CEP, o preg_replace retorna string vazia, mas no bd é uint nulavel, então anula
-            if($candidato->cep == "") {
-                $candidato->cep = NULL;
-            }
+        // Relacionar o candidato com o público escolhido e realiza
+        // a validação de acordo com o público escolhido
+        $idade              = $this->idade($request->data_de_nascimento);
+        $candidato->idade   = $idade;
 
-            // Relacionar o candidato com o público escolhido e realiza
-            // a validação de acordo com o público escolhido
-            $idade              = $this->idade($request->data_de_nascimento);
-            $candidato->idade   = $idade;
+        $etapa = Etapa::find($request->input('público'));
 
-            $etapa = Etapa::find($request->input('público'));
-
-            if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
-                if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
-                    return redirect()->back()->withErrors([
-                        "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
-                    ])->withInput();
-                }
-            } else if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
-                if ($request->input("publico_opcao_".$request->input('público')) == null) {
-                    return redirect()->back()->withErrors([
-                        "publico_opcao_".$request->input('público') => "Esse campo é obrigatório para público marcado."
-                    ])->withInput();
-                }
-                $candidato->etapa_resultado = $request->input("publico_opcao_".$request->input('público'));
-            }
-
-            $candidato->etapa_id = $etapa->id;
-            //TODO: mover pro service provider
-            if(!$this->validar_cpf($request->cpf)) {
+        if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
+            if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
                 return redirect()->back()->withErrors([
-                    "cpf" => "Número de CPF inválido"
-                ])->withInput();
-
-            }
-
-            // if(Candidato::where('cpf',$request->cpf )->contains()) {
-            //     return redirect()->back()->withErrors([
-            //         "cpf" => "Número de CPF inválido"
-            //     ])->withInput();
-
-            // }
-
-            if(!$this->validar_telefone($request->telefone)) {
-                return redirect()->back()->withErrors([
-                    "telefone" => "Número de telefone inválido"
+                    "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
                 ])->withInput();
             }
-
-            $dia_vacinacao = $request->dia_vacinacao;
-            $horario_vacinacao = $request->horario_vacinacao;
-            $id_posto = $request->posto_vacinacao;
-            $datetime_chegada = Carbon::createFromFormat("d/m/Y H:i" , $dia_vacinacao . " " . $horario_vacinacao);
-            $datetime_saida = $datetime_chegada->copy()->addMinutes(10);
-
-            $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime_chegada)->where("posto_vacinacao_id", $id_posto)->get();
-
-            if($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
+        } else if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+            if ($request->input("publico_opcao_" . $request->input('público')) == null) {
                 return redirect()->back()->withErrors([
-                    "posto_vacinacao" => "Alguém conseguiu preencher o formulário mais rápido que você, escolha outro horario por favor."
+                    "publico_opcao_" . $request->input('público') => "Esse campo é obrigatório para público marcado."
                 ])->withInput();
             }
+            $candidato->etapa_resultado = $request->input("publico_opcao_" . $request->input('público'));
+        }
 
-            // Pega a lista de todos os lotes que foram pra tal posto
-            $lotes_disponiveis = DB::table("lote_posto_vacinacao")->where("posto_vacinacao_id", $id_posto)->get();
+        $candidato->etapa_id = $etapa->id;
+        //TODO: mover pro service provider
+        if (!$this->validar_cpf($request->cpf)) {
+            return redirect()->back()->withErrors([
+                "cpf" => "Número de CPF inválido"
+            ])->withInput();
+        }
 
-            $id_lote = 0;
+        // if(Candidato::where('cpf',$request->cpf )->contains()) {
+        //     return redirect()->back()->withErrors([
+        //         "cpf" => "Número de CPF inválido"
+        //     ])->withInput();
+        // }
 
-            // Pra cada lote que esteje no posto
-            foreach($lotes_disponiveis as $lote) {
+        if (!$this->validar_telefone($request->telefone)) {
+            return redirect()->back()->withErrors([
+                "telefone" => "Número de telefone inválido"
+            ])->withInput();
+        }
 
-                // Se a quantidade de candidatos à tomar a vicina daquele lote, naquele posto, que não foram reprovados
-                // for menor que a quantidade de vacinas daquele lote que foram pra aquele posto, então o candidato vai tomar
-                // daquele lote
-                if(Candidato::where("lote_id", $lote->id)
-                   ->where("posto_vacinacao_id", $id_posto)
-                   ->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])
-                   ->count() < $lote->qtdVacina) {
-                    $id_lote = $lote->id;
-                    $chave_estrangeiro_lote = $lote->lote_id;
-                    break;
-                }
+        $dia_vacinacao = $request->dia_vacinacao;
+        $horario_vacinacao = $request->horario_vacinacao;
+        $id_posto = $request->posto_vacinacao;
+        $datetime_chegada = Carbon::createFromFormat("d/m/Y H:i", $dia_vacinacao . " " . $horario_vacinacao);
+        $datetime_saida = $datetime_chegada->copy()->addMinutes(10);
+
+        $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime_chegada)->where("posto_vacinacao_id", $id_posto)->get();
+
+        if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
+            return redirect()->back()->withErrors([
+                "posto_vacinacao" => "Alguém conseguiu preencher o formulário mais rápido que você, escolha outro horario por favor."
+            ])->withInput();
+        }
+
+        // Pega a lista de todos os lotes que foram pra tal posto
+        $lotes_disponiveis = DB::table("lote_posto_vacinacao")->where("posto_vacinacao_id", $id_posto)->get();
+
+        $id_lote = 0;
+
+        // Pra cada lote que esteje no posto
+        foreach ($lotes_disponiveis as $lote) {
+
+            // Se a quantidade de candidatos à tomar a vicina daquele lote, naquele posto, que não foram reprovados
+            // for menor que a quantidade de vacinas daquele lote que foram pra aquele posto, então o candidato vai tomar
+            // daquele lote
+            if (Candidato::where("lote_id", $lote->id)
+                ->where("posto_vacinacao_id", $id_posto)
+                ->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])
+                ->count() < $lote->qtdVacina
+            ) {
+                $id_lote = $lote->id;
+                $chave_estrangeiro_lote = $lote->lote_id;
+                break;
             }
+        }
 
-            if($id_lote == 0) { // Se é 0 é porque não tem vacinas...
-                return redirect()->back()->withErrors([
-                    "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto..."
-                ])->withInput();
-            }
+        if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
+            return redirect()->back()->withErrors([
+                "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto..."
+            ])->withInput();
+        }
 
-            $candidato->chegada                 = $datetime_chegada;
-            $candidato->saida                   = $datetime_saida;
-            $candidato->lote_id                 = $id_lote;
-            $candidato->posto_vacinacao_id      = $id_posto;
+        $candidato->chegada                 = $datetime_chegada;
+        $candidato->saida                   = $datetime_saida;
+        $candidato->lote_id                 = $id_lote;
+        $candidato->posto_vacinacao_id      = $id_posto;
 
-            $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
-            $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
+        $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
+        $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
         DB::beginTransaction();
 

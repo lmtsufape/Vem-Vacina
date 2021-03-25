@@ -133,6 +133,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'data_de_nascimento' => [
+            'before' => "A data de nascimento deve ser antes que hoje", //Se tiver outra regra que use o before no mesmo validator, dá ruim
+        ],
         'publico_opcao_*' => [
             'required_if' => 'Esse é obrigatório para público marcado.'
         ],
