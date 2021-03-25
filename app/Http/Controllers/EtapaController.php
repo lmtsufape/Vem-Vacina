@@ -194,6 +194,9 @@ class EtapaController extends Controller
             'primeria_dose'       => 'nullable|min:0',
             'segunda_unica'       => 'nullable|min:0',
             'pontos'              => 'required',
+            'texto_das_outras_informações' => 'nullable',
+            'outrasInfo'          => 'required_if:outras_informações,on',
+            'outrasInfo.*'        => 'required_if:outras_informações,on',
         ]);
 
         $etapa = Etapa::find($id);
@@ -216,6 +219,28 @@ class EtapaController extends Controller
                 return redirect()->back()->with([
                     "error" => "Não é possivel alterar o tipo do público, pois existem agendamentos que o reverenciam.",
                 ]);
+            }
+        }
+
+        if (!($request->input('outras_informações') != null) && $etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+            foreach ($etapa->outrasInfo as $outra) {
+                if ($outra->agendamentos != null && count($outra->agendamentos) > 0) {
+                    return redirect()->back()->with([
+                        "error" => "Não é possivel excluir as outras opções do público, pois existem agendamentos que o reverenciam.",
+                    ]);
+                }
+            }
+        }
+
+        if ($request->input('outrasInfo_id') != null && count($request->input('outrasInfo_id')) > 0) {
+            $requestOutras = collect($request->input('outrasInfo_id'));
+            $outrasInfoEtapa = $etapa->outrasInfo;
+            foreach ($outrasInfoEtapa as $outra) {
+                if (!($requestOutras->contains($outra->id))) {
+                    return redirect()->back()->with([
+                        "error" => "Não é possivel excluir as outras opções do público, pois existem agendamentos que o reverenciam.",
+                    ]);
+                }
             }
         }
 
@@ -332,6 +357,40 @@ class EtapaController extends Controller
                 $etapa->pontos()->attach($ponto);
             }
         }
+
+        if (!($request->input('outras_informações') != null) && $etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+            foreach ($etapa->outrasInfo as $outra) {
+                $outra->delete();
+            }
+        }
+
+        if ($request->input('outrasInfo_id') != null && count($request->input('outrasInfo_id')) > 0) { 
+            $requestOutras = collect($request->input('outrasInfo_id'));
+            $outrasInfoEtapa = $etapa->outrasInfo;
+
+            // Excluir opções
+            foreach ($outrasInfoEtapa as $outra) {
+                if (!($requestOutras->contains($outra->id))) {
+                    $outra->delete();
+                    // Se ainda estiver contido atualizo
+                } else {
+                    $key = array_search($outra->id, $request->input('outrasInfo_id'));
+                    $outra->campo = $request->input('outrasInfo')[$key];
+                    $outra->update();
+                }
+            }
+
+            // Adiciona novas opções
+            foreach ($request->input('outrasInfo_id') as $i => $outra) {
+                if ($outra == 0) {
+                    $outraInfo = new OutrasInfoEtapa();
+                    $outraInfo->campo = $request->input('outrasInfo')[$i];
+                    $outraInfo->etapa_id = $etapa->id;
+                    $outraInfo->save();
+                }
+            }
+        }
+
 
         $etapa->update();
 

@@ -252,7 +252,7 @@
                                                 <div style="font-size: 15px; margin-bottom: 15px;">@if($publico->texto_outras_informacoes!=null)({{$publico->texto_outras_informacoes}})@endif</div>
                                             </div>
                                             
-                                            @foreach ($publico->outrasInfo as $outra)
+                                            @foreach ($publico->outrasInfo()->orderBy('campo')->get() as $outra)
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" id="defaultCheck0" name="opcao_etapa_{{$publico->id}}[]" value="{{$outra->id}}" @if(old('opcao_etapa_'.$publico->id) != null && in_array($outra->id, old('opcao_etapa_'.$publico->id))) checked @endif>
                                                     <label class="form-check-label style_titulo_input" for="defaultCheck0">{{mb_strtoupper($outra->campo)}}</label>

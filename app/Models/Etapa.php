@@ -24,6 +24,7 @@ class Etapa extends Model
         'dose_unica',
         'total_pessoas_vacinadas_pri_dose',
         'total_pessoas_vacinadas_seg_dose',
+        'texto_outras_informacoes',
     ];
 
     public function candidatos() {
