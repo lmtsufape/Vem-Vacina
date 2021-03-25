@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
+use DateInterval;
 use Illuminate\Support\Facades\Notification;
 
 
@@ -254,6 +255,7 @@ class CandidatoController extends Controller
             if($candidato->email != null){
                 Notification::send($candidato, new CandidatoInscrito($candidato));
             }
+            DB::commit();
         } catch (\Throwable $e) {
             DB::rollback();
             return redirect()->back()->withErrors([
