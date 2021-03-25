@@ -83,19 +83,19 @@ class CandidatoController extends Controller
         $request->validate([
             "voltou"                => "nullable",
             "público"               => "required",
-            "nome_completo"         => "required|string|max:65|alpha",
+            "nome_completo"         => "required|string|min:8|max:65|alpha",
             "data_de_nascimento"    => "required|date",
             "cpf"                   => "required",
             "número_cartão_sus"     => "required",
             "sexo"                  => "required",
-            "nome_da_mãe"           => "required|string|max:65|alpha",
+            "nome_da_mãe"           => "required|string|min:8|max:65|alpha",
             "telefone"              => "required",
             "whatsapp"              => "nullable",
             "email"                 => "nullable|email",
             "cep"                   => "nullable",
             // "cidade"                => "required", // como valor é fixado no front, pode ser desabilitado e hardcoded aqui no controller
             "bairro"                => "required",
-            "rua"                   => "required|alpha_num",
+            "rua"                   => "required|alpha_num|min:5", // Na cohab 2, as pessoas não sabem os nomes das ruas, só os numeros, então tem gente que vai por "Rua 2"
             "número_residencial"    => "required|alpha_num",
             "complemento_endereco"  => "nullable",
             "posto_vacinacao"       => "required",
