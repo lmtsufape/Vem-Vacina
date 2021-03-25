@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
+use DateInterval;
 use Illuminate\Support\Facades\Notification;
 
 
@@ -212,7 +213,7 @@ class CandidatoController extends Controller
 
             if($id_lote == 0) { // Se é 0 é porque não tem vacinas...
                 return redirect()->back()->withErrors([
-                    "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto..."
+                    "posto_vacinacao" => "Não existem vacinas disponíveis nesse posto..."
                 ])->withInput();
             }
 
