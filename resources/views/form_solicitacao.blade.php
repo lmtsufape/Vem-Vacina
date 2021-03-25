@@ -668,41 +668,4 @@
         valor = input.checked;
         $.ajax({
             url: "{{route('postos')}}",
-            method: 'get',
-            type: 'get',
-            data: {
-                publico_id: function () {
-                    if (valor) {
-                        return id;
-                    } else {
-                        return 0;
-                    }
-                } 
-            },
-            statusCode: {
-                404: function() {
-                    alert("Nenhum posto encontrado");
-                }
-            },
-            success: function(data){
-                // console.log(data);
-                if (data != null) {
-                    var option = '<option selected disabled>-- Selecione o posto --</option>';
-                    if (data.length > 0) {
-                        $.each(data, function(i, obj) {
-                            option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
-                        })
-                    } 
-                    
-                    document.getElementById("posto_vacinacao").innerHTML = option;
-                }
-            }
-        })
-        
-              
-    }
-     
-    </script>
-
-
-</x-guest-layout>
+            method: 'get'

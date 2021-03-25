@@ -2,6 +2,7 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Lista de agendamentos') }}
+
         </h2>
     </x-slot>
     <div class="py-12">
@@ -20,11 +21,12 @@
                     <tbody>
                         @foreach ($candidatos as $candidato)
                             <tr>
-                                <th>{{ $candidato->nome_completo }}</th>
-                                <td>{{ $candidato->lote->numero_lote }}</td>
-                                <td>{{ $candidato->lote->fabricante }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $candidato->nome_completo }}</td>
+                                <td>{{ $candidato->lote->numero_lote ?? "Indefinido" }}</td>
+                                {{-- <td>{{ $candidato->lote->fabricante }}</td>
                                 <td>{{ $candidato->lote->numero_vacinas }}</td>
-                                <td>{{ $candidato->lote->dose_unica }}</td>
+                                <td>{{ $candidato->lote->dose_unica }}</td> --}}
                             </tr>
                         @endforeach
                     </tbody>

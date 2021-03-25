@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class PostoVacinacao extends Model
 {
@@ -17,7 +18,7 @@ class PostoVacinacao extends Model
     public function lotes()
     {
         return $this->belongsToMany(Lote::class, 'lote_posto_vacinacao',  'posto_vacinacao_id', 'lote_id')
-                    ->withPivot('qtdVacina');;
+                    ->withPivot('id','qtdVacina');;
     }
 
 
@@ -66,5 +67,10 @@ class PostoVacinacao extends Model
 
     public function etapas() {
         return $this->belongsToMany(Etapa::class, 'ocorrendo_vacinacaos', 'posto_id', 'etapa_id');
+    }
+
+    public function candidatos()
+    {
+        return $this->hasMany(Candidato::class);
     }
 }

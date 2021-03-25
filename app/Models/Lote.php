@@ -24,7 +24,7 @@ class Lote extends Model
     public function postos()
     {
         return $this->belongsToMany(PostoVacinacao::class, 'lote_posto_vacinacao', 'lote_id', 'posto_vacinacao_id')
-                    ->withPivot('qtdVacina');
+                    ->withPivot('id','qtdVacina');
     }
 
     public function candidatos()

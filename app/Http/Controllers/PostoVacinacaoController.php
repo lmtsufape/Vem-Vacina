@@ -11,6 +11,7 @@ use App\Models\Candidato;
 use App\Models\Etapa;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class PostoVacinacaoController extends Controller
 {
@@ -104,8 +105,17 @@ class PostoVacinacaoController extends Controller
     public function index()
     {
         Gate::authorize('ver-posto');
+        $lotes = DB::table("lote_posto_vacinacao")->get();
+
+        // $users = DB::table('lote_posto_vacinacao')
+        //             ->join('lotes', 'lote_posto_vacinacao.lote_id', '=', 'lotes.id')
+        //             ->join('posto_vacinacaos', 'lote_posto_vacinacao.posto_vacinacao_id', '=', 'posto_vacinacaos.id')
+        //             ->select('users.*', 'contacts.phone', 'orders.price')
+        //             ->get();
+
         $postos = PostoVacinacao::orderBy('nome')->get();
-        return view('postos.index', compact('postos'));
+        // dd($lotes);
+        return view('postos.index', compact('postos', 'lotes'));
     }
 
     /**
@@ -178,10 +188,10 @@ class PostoVacinacaoController extends Controller
             $posto->intervalo_atendimento_manha = NULL;
             $posto->fim_atendimento_manha = NULL;
         }
-        
+
         $posto->save();
 
-        
+
         if ($request->publicos != null) {
             foreach ($request->publicos as $publico_id) {
                 $posto->etapas()->attach($publico_id);
@@ -214,8 +224,8 @@ class PostoVacinacaoController extends Controller
         $posto = PostoVacinacao::findOrFail($id);
         $etapas = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
         $etapasDoPosto = $posto->etapas()->select('etapa_id')->get();
-        return view('postos.edit')->with(['posto' => $posto, 
-                                          'publicos' => $etapas, 
+        return view('postos.edit')->with(['posto' => $posto,
+                                          'publicos' => $etapas,
                                           'tipos' => Etapa::TIPO_ENUM,
                                           'publicosDoPosto' => $etapasDoPosto,]);
     }
@@ -250,7 +260,7 @@ class PostoVacinacaoController extends Controller
 
         $posto->nome = $request->nome;
         $posto->endereco = $request->endereco;
-        
+
         if ($request->padrao_no_formulario) {
             $posto->padrao_no_formulario = true;
         } else {
@@ -299,7 +309,7 @@ class PostoVacinacaoController extends Controller
         }
 
         $posto->update();
-        
+
         if ($request->publicos != null) {
             foreach ($posto->etapas as $key => $etapa) {
                 $posto->etapas()->detach($etapa->id);
@@ -345,6 +355,6 @@ class PostoVacinacaoController extends Controller
             return response()->json($etapa->pontos);
         }
 
-        
+
     }
 }
