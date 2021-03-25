@@ -2,7 +2,18 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Lista de agendamentos') }}
-
+            @php
+                $filtros =  array('Candidatos pendentes',
+                      'Candidatos aprovados',
+                      'Candidatos reprovados',
+                      'Candidatos vacinados',
+                      'Agendamentos do dia')
+            @endphp
+            @foreach ($filtros as $key => $item)
+                @if ( $filtro == $loop->iteration)
+                    {{ " - " .$item }}
+                @endif
+            @endforeach
         </h2>
         <a href="{{ route('dashboard') }}">
             <small>Atualizar página <i class="fas fa-redo"></i> </small>
@@ -17,11 +28,11 @@
                         <div class="col-sm-9">
                             <select name="filtro" class="form-control" id="filtro">
                                 <option value="">-- Selecione o filtro --</option>
-                                <option value="1">Candidatos pendentes</option>
-                                <option value="2">Candidatos aprovados</option>
-                                <option value="3">Candidatos reprovados</option>
-                                <option value="4">Candidatos vacinados</option>
-                                <option value="5">Agendamentos do dia</option>
+                                <option value="1" @if($filtro == "1") selected @endif>Candidatos pendentes</option>
+                                <option value="2" @if($filtro == "2") selected @endif>Candidatos aprovados</option>
+                                <option value="3" @if($filtro == "3") selected @endif>Candidatos reprovados</option>
+                                <option value="4" @if($filtro == "4") selected @endif>Candidatos vacinados</option>
+                                <option value="5" @if($filtro == "5") selected @endif>Agendamentos do dia</option>
                             </select>
                         </div>
                         <div class="col-sm-3">

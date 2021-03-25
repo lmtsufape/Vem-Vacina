@@ -37,7 +37,8 @@ class CandidatoController extends Controller
 
         return view('dashboard')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
-                                        'tipos' => Etapa::TIPO_ENUM]);
+                                        'tipos' => Etapa::TIPO_ENUM,
+                                        'filtro' => $request->filtro]);
     }
 
     public function solicitar() {
@@ -290,8 +291,6 @@ class CandidatoController extends Controller
                 Notification::send($candidato, new CandidatoAprovado($candidato));
             }
         }elseif($request->confirmacao == "Reprovado"){
-            $candidato->aprovacao = $request->confirmacao;
-            $candidato->update();
 
             if($candidato->email != null){
                 Notification::send($candidato, new CandidatoReprovado($candidato));
