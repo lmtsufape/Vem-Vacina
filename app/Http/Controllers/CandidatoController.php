@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
-use DateInterval;
 use Illuminate\Support\Facades\Notification;
 
 
@@ -255,7 +254,7 @@ class CandidatoController extends Controller
             // if($candidato->email != null){
             //     Notification::send($candidato, new CandidatoInscrito($candidato));
             // }
-            
+            DB::commit();
         } catch (\Throwable $e) {
             DB::rollback();
             return redirect()->back()->withErrors([
@@ -349,9 +348,10 @@ class CandidatoController extends Controller
            ])->withInput($validated);
         }
 
-        $agendamentos = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])->get();
+        $agendamentos = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])
+                      ->orderBy("created_at", "desc") // Mostra primeiro o agendamento mais recente
+                      ->get();
 
-        dd($agendamentos);
         if ($agendamentos->count() == 0) {
             return redirect()->back()->withErrors([
                 "cpf" => "Dados não encontrados"

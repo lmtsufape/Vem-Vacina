@@ -36,7 +36,8 @@
                                 </div>
                                 <div class="justify-content-center destaque-pri-dose">
                                     <div class="row">
-                                        <div class="col-md-12">1ª Dose</div>
+                                        <div class="col-md-6">1ª Dose</div>
+                                        <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div>
                                         <div class="col-md-12"><hr class="style_linha_dose"></div>
                                     </div>
                                     <div class="row">
@@ -56,7 +57,8 @@
                                 </div>
                                 <div class="justify-content-center destaque-seg-dose">
                                     <div class="row">
-                                        <div class="col-md-12">2ª Dose</div>
+                                        <div class="col-md-6">2ª Dose</div>
+                                        <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div>
                                         <div class="col-md-12"><hr class="style_linha_dose"></div>
                                     </div>
                                     <div class="row">
