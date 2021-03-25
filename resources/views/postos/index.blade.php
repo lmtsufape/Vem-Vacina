@@ -120,6 +120,7 @@
 
                     </tbody>
                 </table>
+                {{ $postos->links() }}
             </div>
           </div>
       </div>

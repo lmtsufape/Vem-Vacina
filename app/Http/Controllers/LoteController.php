@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lote;
+use App\Models\Etapa;
 use Illuminate\Http\Request;
 use App\Models\PostoVacinacao;
-use App\Http\Requests\StoreLoteRequest;
-use App\Http\Requests\DistribuicaoRequest;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\StoreLoteRequest;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\DistribuicaoRequest;
 
 class LoteController extends Controller
 {
@@ -22,7 +23,8 @@ class LoteController extends Controller
         Gate::authorize('ver-lote');
 
         $lotes = Lote::paginate(10);
-        return view('lotes.index', compact('lotes'));
+        $tipos = Etapa::TIPO_ENUM;
+        return view('lotes.index', compact('lotes', 'tipos'));
     }
 
     /**
@@ -33,7 +35,12 @@ class LoteController extends Controller
     public function create()
     {
         Gate::authorize('criar-lote');
-        return view('lotes.store');
+
+        $etapas = Etapa::where('tipo', '!=', Etapa::TIPO_ENUM[3])->orderBy('id')->get();
+        $pontos = PostoVacinacao::all();
+        return view('lotes.store')->with(['etapas' => $etapas,
+                                           'tipos' => Etapa::TIPO_ENUM,]);
+
     }
 
     /**
@@ -92,6 +99,8 @@ class LoteController extends Controller
         $data = $request->all();
         $lote = Lote::create($data);
 
+        $lote->etapas()->sync($request->etapa_id);
+
         return redirect()->route('lotes.index')->with('message', 'Lote criado com sucesso!');
     }
 
@@ -117,7 +126,8 @@ class LoteController extends Controller
         Gate::authorize('editar-lote');
 
         $lote = Lote::findOrFail($id);
-        return view('lotes.edit', compact('lote'));
+        $tipos = Etapa::TIPO_ENUM;
+        return view('lotes.edit', compact('lote', 'tipos'));
     }
 
     /**
@@ -176,8 +186,10 @@ class LoteController extends Controller
         }
 
         $data = $request->all();
+        // dd($request->all());
         $lote = Lote::findOrFail($id);
         $lote->update($data);
+        $lote->etapas()->sync($request->etapa_id);
 
         return redirect()->route('lotes.index')->with('message', 'Lote editado com sucesso!');
     }
