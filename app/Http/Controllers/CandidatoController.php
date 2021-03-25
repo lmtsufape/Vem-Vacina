@@ -224,9 +224,9 @@ class CandidatoController extends Controller
             $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
             $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
-            DB::beginTransaction();
+        DB::beginTransaction();
 
-            try {
+        try {
 
             $candidato->save();
 
@@ -237,6 +237,7 @@ class CandidatoController extends Controller
                 $candidatoSegundaDose = $candidato->replicate()->fill([
                     'chegada' =>  $datetime_chegada_segunda_dose,
                     'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
+                    'dose'   =>  Candidato::DOSE_ENUM[1],
                 ]);
 
                 $candidatoSegundaDose->save();
