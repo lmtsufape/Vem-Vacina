@@ -224,9 +224,9 @@ class CandidatoController extends Controller
             $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
             $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
-            DB::beginTransaction();
+        DB::beginTransaction();
 
-            try {
+        try {
 
             $candidato->save();
 
@@ -237,6 +237,7 @@ class CandidatoController extends Controller
                 $candidatoSegundaDose = $candidato->replicate()->fill([
                     'chegada' =>  $datetime_chegada_segunda_dose,
                     'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
+                    'dose'   =>  Candidato::DOSE_ENUM[1],
                 ]);
 
                 $candidatoSegundaDose->save();
@@ -256,7 +257,7 @@ class CandidatoController extends Controller
         }
 
 
-        return view('confirmacao')->with('status', 'Cadastrado com sucesso');
+        return view('comprovante')->with('status', 'Cadastrado com sucesso');
 
     }
 
@@ -283,7 +284,8 @@ class CandidatoController extends Controller
         $candidato = Candidato::find($id);
 
         if($request->confirmacao == "Ausente"){
-            $candidato->delete();
+            Candidato::where('cpf', $candidato->cpf)->delete();
+
         }elseif($request->confirmacao == "Aprovado"){
             $candidato->aprovacao = $request->confirmacao;
             $candidato->update();
@@ -295,7 +297,7 @@ class CandidatoController extends Controller
             if($candidato->email != null){
                 Notification::send($candidato, new CandidatoReprovado($candidato));
             }
-            $candidato->delete();
+            Candidato::where('cpf', $candidato->cpf)->delete();
 
         }
 
