@@ -80,7 +80,7 @@ class CandidatoController extends Controller
             "público"               => "required",
             "nome_completo"         => "required|string|max:65",
             "data_de_nascimento"    => "required|date",
-            "cpf"                   => "required",
+            "cpf"                   => "required|unique:candidatos",
             "número_cartão_sus"     => "required",
             "sexo"                  => "required",
             "nome_da_mãe"           => "required|string|max:65",

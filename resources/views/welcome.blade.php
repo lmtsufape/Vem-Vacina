@@ -312,7 +312,7 @@
                         <input type="hidden" name="consulta" value="1">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                <label for="inputCPF" class="style_titulo_input">CPF <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                 <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
                             
                                 @error('cpf')
@@ -334,7 +334,7 @@
                                     <strong>{{$message}}</strong>
                                 </div>
                                 @enderror --}}
-                                <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                 <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
                                 
                                 @error('data_de_nascimento')
