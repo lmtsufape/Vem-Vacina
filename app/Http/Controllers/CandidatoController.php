@@ -255,8 +255,13 @@ class CandidatoController extends Controller
         }
 
 
-        return redirect()->back()->with('status', 'Cadastrado com sucesso');
+        return view('confirmacao')->with('status', 'Cadastrado com sucesso');
 
+    }
+
+    public function comprovante()
+    {
+        return view('comprovante')->with('status', 'Cadastrado com sucesso');
     }
 
     public function uploadFile($request, $input, $nome){
