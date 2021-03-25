@@ -84,7 +84,7 @@ class CandidatoController extends Controller
             "voltou"                => "nullable",
             "público"               => "required",
             "nome_completo"         => "required|string|min:8|max:65|alpha",
-            "data_de_nascimento"    => "required|date",
+            "data_de_nascimento"    => "required|date|before:today",
             "cpf"                   => "required",
             "número_cartão_sus"     => "required",
             "sexo"                  => "required",
@@ -165,7 +165,6 @@ class CandidatoController extends Controller
         //     return redirect()->back()->withErrors([
         //         "cpf" => "Número de CPF inválido"
         //     ])->withInput();
-
         // }
 
         if (!$this->validar_telefone($request->telefone)) {
