@@ -246,14 +246,14 @@ class CandidatoController extends Controller
                 ]);
 
                 $candidatoSegundaDose->save();
-                // if($candidatoSegundaDose->email != null){
-                //     Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
-                // }
+                if($candidatoSegundaDose->email != null){
+                    Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
+                }
             }
 
-            // if($candidato->email != null){
-            //     Notification::send($candidato, new CandidatoInscrito($candidato));
-            // }
+            if($candidato->email != null){
+                Notification::send($candidato, new CandidatoInscrito($candidato));
+            }
             DB::commit();
         } catch (\Throwable $e) {
             DB::rollback();
