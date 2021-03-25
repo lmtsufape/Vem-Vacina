@@ -19,9 +19,9 @@
     
 
     <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;"> 
-        <img src="img/cabecalho_1.png" alt="Orientação" width="100%"> 
+        <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%"> 
         <div class="container">
-            <img src="img/cabecalho_2.png" alt="Orientação" width="100%">
+            <img src="{{asset('img/cabecalho_2.png')}}" alt="Orientação" width="100%">
         </div>
     </div>
     <div class="container" style="margin-bottom: 1rem;background-color: #fff;">
@@ -33,7 +33,7 @@
                         <div class="col-md-12">
                             <div class="row" style="text-align: center;">
                                 <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
-                                    <img src="img/logo_programa_1.png" alt="Orientação" width="300px"> 
+                                    <img src="{{asset('img/logo_programa_1.png')}}" alt="Orientação" width="300px"> 
                                 </div>
                             </div>
                         </div>
@@ -426,7 +426,7 @@
             <div class="row">
               <div class="col-sm">
                 <div class="row justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
-                    <div class="col-12" style="margin-bottom: 45px; color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="img/logo_rede_sociais.png" alt="LMTS" width="20px"> Redes Sociais</div>
+                    <div class="col-12" style="margin-bottom: 45px; color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="{{asset('img/logo_rede_sociais.png')}}" alt="LMTS" width="20px"> Redes Sociais</div>
                     <a href="https://www.facebook.com/PrefeituradeGaranhuns/" target="_blank"><img src="{{asset('img/facebook.png')}}" alt="LMTS" width="55px"> </a>
                     <a href="https://twitter.com/garanhunspref" target="_blank"><img src="{{asset('img/twitter.png')}}" alt="LMTS" width="55px"> </a>
                     <a href="https://www.instagram.com/prefgaranhuns/" target="_blank"><img src="{{asset('img/instagram.png')}}" alt="LMTS" width="55px"> </a>

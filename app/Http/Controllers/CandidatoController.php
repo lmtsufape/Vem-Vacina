@@ -226,7 +226,7 @@ class CandidatoController extends Controller
 
             DB::beginTransaction();
 
-            try {
+        try {
 
             $candidato->save();
 
@@ -255,9 +255,10 @@ class CandidatoController extends Controller
             ])->withInput();
         }
 
+        $agendamentos = Candidato::where('cpf', $candidato->cpf)->get();
 
-        return view('confirmacao')->with('status', 'Cadastrado com sucesso');
-
+        return view('confirmacao')->with(['status' => 'Cadastrado com sucesso!',
+                                          'agendamentos' => $agendamentos]);
     }
 
     public function comprovante()
