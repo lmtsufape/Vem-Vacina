@@ -173,7 +173,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputCartaoSUS" class="style_titulo_input">NÚMERO DO CARTÃO SUS <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
+                                        <label for="inputCartaoSUS" class="style_titulo_input">NÚMERO DO CARTÃO SUS<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                         <input type="text" class="form-control style_input sus @error('número_cartão_sus') is-invalid @enderror" id="inputCartaoSUS" placeholder="000 0000 0000 0000" name="número_cartão_sus" value="{{old('número_cartão_sus')}}">
 
                                         @error('número_cartão_sus')
