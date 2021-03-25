@@ -214,19 +214,19 @@
                                                     </div>
                                                 </div>
                                                 <br>
-                                                <div class="row">
-                                                    <h4>Outras informações</h4>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <input id="acamado_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_acamado) checked @endif>
-                                                        <label for="acamado_{{$candidato->id}}">Paciente acamado</label>
+                                                @if ($candidato->outrasInfo != null && count($candidato->outrasInfo) > 0)
+                                                    <div class="row">
+                                                        <h4>Outras informações</h4>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <input id="dificuldade_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_dificuldade_locomocao) checked @endif>
-                                                        <label for="dificuldade_{{$candidato->id}}">Paciente com dificuldade de locomoção</label>
+                                                    <div class="row">
+                                                        @foreach ($candidato->etapa->outrasInfo as $outraInfo)
+                                                            <div class="col-md-6">
+                                                                <input id="outra_{{$outraInfo->id}}" type="checkbox" disabled @if($candidato->outrasInfo->contains('id', $outraInfo->id)) checked @endif>
+                                                                <label for="outra_{{$outraInfo->id}}">{{$outraInfo->campo}}</label>
+                                                            </div>
+                                                        @endforeach
                                                     </div>
-                                                </div>
+                                                @endif
                                                 <br>
                                                 <div class="row">
                                                     <h4>Contato</h4>

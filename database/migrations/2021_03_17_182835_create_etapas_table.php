@@ -26,6 +26,7 @@ class CreateEtapasTable extends Migration
             $table->boolean('dose_unica')->nullable(true);
             $table->bigInteger('total_pessoas_vacinadas_pri_dose')->nullable(true);
             $table->bigInteger('total_pessoas_vacinadas_seg_dose')->nullable(true);
+            $table->text('texto_outras_informacoes')->nullable(true);
             $table->timestamps();
             $table->softDeletes();
         });

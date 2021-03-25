@@ -173,7 +173,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="inputCartaoSUS" class="style_titulo_input">NÚMERO DO CARTÃO SUS <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
+                                        <label for="inputCartaoSUS" class="style_titulo_input">NÚMERO DO CARTÃO SUS<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                         <input type="text" class="form-control style_input sus @error('número_cartão_sus') is-invalid @enderror" id="inputCartaoSUS" placeholder="000 0000 0000 0000" name="número_cartão_sus" value="{{old('número_cartão_sus')}}">
 
                                         @error('número_cartão_sus')
@@ -244,40 +244,23 @@
                                         <input type="email" class="form-control style_input" id="inputEmail" placeholder="Digite o seu e-mail" name="email" value="{{old('email')}}">
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">(Informe se o idoso é acamado ou possui dificuldade de locomoção)</div>
-                                </div>
-
-
-                                <div class="form-check">
-                                    <input class="form-check-input @error('paciente_dificuldade_locomocao') is-invalid @enderror" type="checkbox" id="defaultCheck0" name="paciente_dificuldade_locomocao" @if(old('paciente_dificuldade_locomocao')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck0">PACIENTE ESTÁ COM DIFICULDADE DE LOCOMOÇÃO.</label>
-
-                                    @error('paciente_dificuldade_locomocao')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
-
-
-                                <div class="form-check">
-                                    <input class="form-check-input @error('paciente_acamado') is-invalid @enderror" type="checkbox" id="defaultCheck1" name="paciente_acamado" @if(old('paciente_acamado')) checked @endif>
-                                    <label class="form-check-label style_titulo_input" for="defaultCheck1">PACIENTE ESTÁ ACAMADO.</label>
-
-                                    @error('paciente_acamado')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-                                </div>
-
-
-
-
-
+                                @foreach ($publicos as $publico)
+                                    @if ($publico->outrasInfo != null && count($publico->outrasInfo) > 0)
+                                        <div id="divOutrasInformacoes_{{$publico->id}}" @if(old('opcao_etapa_'.$publico->id) != null) style="display: block;" @else style="display: none;" @endif>
+                                            <div class="form-group">
+                                                <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
+                                                <div style="font-size: 15px; margin-bottom: 15px;">@if($publico->texto_outras_informacoes!=null)({{$publico->texto_outras_informacoes}})@endif</div>
+                                            </div>
+                                            
+                                            @foreach ($publico->outrasInfo()->orderBy('campo')->get() as $outra)
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="defaultCheck0" name="opcao_etapa_{{$publico->id}}[]" value="{{$outra->id}}" @if(old('opcao_etapa_'.$publico->id) != null && in_array($outra->id, old('opcao_etapa_'.$publico->id))) checked @endif>
+                                                    <label class="form-check-label style_titulo_input" for="defaultCheck0">{{mb_strtoupper($outra->campo)}}</label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                @endforeach  
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Endereço</div>
                                     <div style="font-size: 15px; margin-bottom: 15px;">(Informe seu endereço, rua, número, se casa ou apartamento, CEP e bairro)</div>
@@ -595,6 +578,16 @@
                         }else{
                             div.style.display = "none";
                             select.value = "";
+                        }
+                    }
+
+                    if (document.getElementById("divOutrasInformacoes_"+inputs[i].value)) {
+                        var div = document.getElementById("divOutrasInformacoes_"+inputs[i].value);
+
+                        if (div.style.display == "none" && inputs[i].value == this.value) {
+                            div.style.display = "block";
+                        } else {
+                            div.style.display = "none";
                         }
                     }
 
