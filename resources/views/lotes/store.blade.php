@@ -75,6 +75,31 @@
                             @error('data_validade') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                     </div>
+                    <hr>
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <h5>Selecione a que público(s) se destina esse lote:</h5>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            @foreach ($etapas as $etapa)
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                        <input type="checkbox"  name="etapa_id[]" value="{{ $etapa->id }}" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                    <input type="hidden"  >
+                                    <input type="text" class="form-control"  aria-label="Text input with checkbox"
+                                        @if ($etapa->tipo == $tipos[0])
+                                            value="{{ 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo}}"
+                                        @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
+                                            value="{{$etapa->texto}}"
+                                        @endif
+                                        >
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-6 mt-2">
                             <div class="input-group mt-2">

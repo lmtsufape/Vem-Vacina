@@ -31,4 +31,9 @@ class Lote extends Model
     {
         return $this->hasMany(Candidato::class, 'lote_id');
     }
+
+    public function etapas()
+    {
+        return $this->belongsToMany(Etapa::class, 'lote_etapas', 'lote_id', 'etapa_id');
+    }
 }
