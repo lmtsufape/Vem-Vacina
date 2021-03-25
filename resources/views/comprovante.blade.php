@@ -10,26 +10,117 @@
                 <div class="row justify-content-center">
                     <!-- covid-19 programa de vacinacao -->
                     <div class="col-md-9 style_card_apresentacao">
-                        <div class="container" style="padding-top: 10px;;">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row" style="text-align: center;">
-                                        <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
-                                            <img src="{{asset('/img/logo_programa_1.png')}}" alt="Orientação" width="300px">
+                        @if ($agendamentos != null && count($agendamentos) > 1)
+                            <div class="container" style="padding-top: 10px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row" style="text-align: center;">
+                                            <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
+                                                <img src="{{asset('/img/logo_programa_1.png')}}" alt="Orientação" width="300px">
+                                            </div>
                                         </div>
-                                        <div class="col-md-12 style_card_apresentacao_subtitulo">A campanha de vacinação contra a Covid-19 segue atualmente em Garanhuns, para idosos acima de 75 anos e trabalhadores da saúde.</div>
+                                    </div>
+
+                                    <div class="col-md-12" >
+                                        <div class="row">
+                                            <div class="col-md-12 style_titulo_campo" style="font-size: 32px;">{{$status}}</div>
+                                            <div class="col-md-12"><hr class="style_linha_campo"></div>
+                                            <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos.</div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="col-md-12" style="margin-bottom: 32px;">
-                                    <div class="row">
-                                        <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAÇÃO REALIZADA COM SUCESSO</div>
-                                        <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.</div>
-
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="style_titulo_input" style="font-size: 32px;">Sr(a). <span class="style_titulo_campo" style="font-size: 32px;">{{$agendamentos[0]->nome_completo}}</span>, anote as informações para não esquecer!</span>
                                     </div>
-                                 </div>
+                                </div>
+                                <div class="justify-content-center destaque-pri-dose">
+                                    <div class="row">
+                                        <div class="col-md-6">1ª Dose</div>
+                                        <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div>
+                                        <div class="col-md-12"><hr class="style_linha_dose"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Local<br>
+                                            {{$agendamentos[0]->posto->nome}}
+                                        </div>
+                                        <div class="col-md-3">
+                                            Data<br>
+                                            {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
+                                        </div>
+                                        <div class="col-md-3">
+                                            Hora<br>
+                                            {{date('H:i',strtotime($agendamentos[1]->chegada))}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="justify-content-center destaque-seg-dose">
+                                    <div class="row">
+                                        <div class="col-md-6">2ª Dose</div>
+                                        <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div>
+                                        <div class="col-md-12"><hr class="style_linha_dose"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Local<br>
+                                            {{$agendamentos[1]->posto->nome}}
+                                        </div>
+                                        <div class="col-md-3">
+                                            Data<br>
+                                            {{date('d/m/Y',strtotime($agendamentos[1]->chegada))}}
+                                        </div>
+                                        <div class="col-md-3">
+                                            Hora<br>
+                                            {{date('H:i',strtotime($agendamentos[1]->chegada))}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="text-align: center;">
+                                    <div class="col-md-12">
+                                        <span class="style_titulo_campo" style="font-size: 32px;">AVISO</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="text-align: justify;">
+                                    <div class="col-md-12">Fica atento a seu e-mail, whatsapp ou telefone, para a confirmação do agendamento por parte da Secretaria de Saúde. Ou caso prefira, acesse novamente a página principal do sistema, e clique em "Consultar agendamento"</div>
+                                </div>
+                                <br>
+                                <div class="row" style="text-align: center;">
+                                    <div class="col-md-12">Nós não iremos, em momento algum, solicitar dados de cartão de crédito, senhas bancárias ou quaisquer confirmações por SMS. Cuidado com golpes!</div>
+                                </div>
+                                <hr class="style-linha-divisora-red">
+                                <div class="row">
+                                    <div class="col-md-12 style_titulo_campo"><span style="font-size: 28px;">Outras informações</span></div>
+                                </div>
+                                <br>
+                                <div class="row" style="text-align: justify;">
+                                    <div class="col-md-12">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos.</div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="style_titulo_input">E-mail</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        emailDaSecretaria@email.com
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="style_titulo_input">Telefone</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 32px;">
+                                    <div class="col-md-12">
+                                        (87) 3361-0123<br>
+                                        (87) 99999-9999
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -43,7 +134,7 @@
                 <div class="row">
                   <div class="col-sm">
                     <div class="row justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
-                        <div class="col-12" style="margin-bottom: 45px; color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="img/logo_rede_sociais.png" alt="LMTS" width="20px"> Redes Sociais</div>
+                        <div class="col-12" style="margin-bottom: 45px; color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="{{asset('img/logo_rede_sociais.png')}}" alt="LMTS" width="20px"> Redes Sociais</div>
                         <a href="https://www.facebook.com/PrefeituradeGaranhuns/" target="_blank"><img src="{{asset('img/facebook.png')}}" alt="LMTS" width="55px"> </a>
                         <a href="https://twitter.com/garanhunspref" target="_blank"><img src="{{asset('img/twitter.png')}}" alt="LMTS" width="55px"> </a>
                         <a href="https://www.instagram.com/prefgaranhuns/" target="_blank"><img src="{{asset('img/instagram.png')}}" alt="LMTS" width="55px"> </a>

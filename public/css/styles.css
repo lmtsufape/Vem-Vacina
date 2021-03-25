@@ -107,3 +107,37 @@
 }
 
 /* X tela - cadastro X */
+/* tela - comprovante */
+
+.destaque-pri-dose {
+    background-color: #205e88;
+    border-radius: 3px;
+    color: white;
+    padding: 15px;
+    font-size: 25px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.style_linha_dose {
+    background-color: white;
+    position: relative;
+    bottom: 10px;
+}
+
+.destaque-seg-dose {
+    background-color: #208888;
+    border-radius: 3px;
+    color: white;
+    padding: 15px;
+    font-size: 25px;
+    margin-top: 16px;
+    margin-bottom: 32px;
+}
+
+.style-linha-divisora-red {
+    background-color: red;
+    margin-top: 50px;
+}
+
+/* X tela - comprovante X */
