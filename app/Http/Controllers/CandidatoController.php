@@ -283,7 +283,8 @@ class CandidatoController extends Controller
         $candidato = Candidato::find($id);
 
         if($request->confirmacao == "Ausente"){
-            $candidato->delete();
+            Candidato::where('cpf', $candidato->cpf)->delete();
+
         }elseif($request->confirmacao == "Aprovado"){
             $candidato->aprovacao = $request->confirmacao;
             $candidato->update();
@@ -295,7 +296,7 @@ class CandidatoController extends Controller
             if($candidato->email != null){
                 Notification::send($candidato, new CandidatoReprovado($candidato));
             }
-            $candidato->delete();
+            Candidato::where('cpf', $candidato->cpf)->delete();
 
         }
 
