@@ -35,6 +35,7 @@ Route::get("/cep/{cep}", function($cep) {
     $results = simplexml_load_file("http://cep.republicavirtual.com.br/web_cep.php?formato=xml&cep=" . $cep);
     return response()->json($results);
 });
+Route::get("/candidato/comprovante", [CandidatoController::class, 'comprovante'])->name('candidato.comprovante');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard',  [CandidatoController::class, 'show'])->name('dashboard');
@@ -42,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/agendamento/{id}/confirmar-vacinacao", [CandidatoController::class, 'vacinado'])->name('candidato.vacinado');
     Route::get("/candidato/lote", [CandidatoController::class, 'CandidatoLote'])->name('candidato.candidatoLote');
     Route::get("/candidato/order/{field}/campo/{order}", [CandidatoController::class, 'ordenar'])->name('candidato.order');
-    Route::get("/candidato/comprovante", [CandidatoController::class, 'comprovante'])->name('candidato.comprovante');
+    
 
     Route::resource('/postos', PostoVacinacaoController::class);
     Route::resource('/lotes', LoteController::class);
