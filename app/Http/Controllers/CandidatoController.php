@@ -299,19 +299,19 @@ class CandidatoController extends Controller
 
         } catch (\Throwable $e) {
             DB::rollback();
+            if(env('APP_DEBUG')){
+                return redirect()->back()->withErrors([
+                    "message" => $e->getMessage(),
+                ])->withInput();
+            }
             return redirect()->back()->withErrors([
-                "message" => $e->getMessage(),
+                "message" => "Houve algum erro, entre em contato com a administração do site.",
             ])->withInput();
-            // if(env('APP_DEBUG')){
-            // }
-            // return redirect()->back()->withErrors([
-            //     "message" => "Houve algum erro, entre em contato com a administração do site.",
-            // ])->withInput();
         }
 
         if(!Candidato::where('cpf', $candidato->cpf)->count()){
             return redirect()->back()->withErrors([
-                "message" => "Houve algum erro, seu agendamento não foi realizado,entre em contato com a administração do site.",
+                "message" => "Houve algum erro, seu agendamento não,entre em contato com a administração do site.",
             ])->withInput();
         }
 
