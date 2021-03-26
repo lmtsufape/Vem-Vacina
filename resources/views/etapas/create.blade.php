@@ -35,7 +35,7 @@
                             </div>
                         @enderror
                         <input id="exibir_no_form" type="checkbox" name="exibir_no_form" @if(old('exibir_no_form')) checked @endif>
-                        <label for="exibir_no_form" >Exibir público no agendamento</label>
+                        <label for="exibir_no_form">Exibir público no agendamento</label>
                     </div>
                     <div class="col-md-4">
                         <label for="texto_da_home">Texto exibido na home</label>
@@ -55,7 +55,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inicio_faixa_etaria">Inicio da faixa etaria</label>
-                            <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etária') is-invalid @enderror" type="number" name="inicio_faixa_etária" placeholder="80" value="{{old('inicio_faixa_etária')}}" min="0">
+                            <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etária') is-invalid @enderror" type="number" name="inicio_faixa_etária" placeholder="80" value="{{old('inicio_faixa_etária')}}" min="0" max="1000">
                         
                             @error('inicio_faixa_etária')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="fim_faixa_etaria">Fim da faixa etaria</label>
-                            <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etária') is-invalid @enderror" type="number" name="fim_faixa_etária" placeholder="85" value="{{old('fim_faixa_etária')}}" min="0">
+                            <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etária') is-invalid @enderror" type="number" name="fim_faixa_etária" placeholder="85" value="{{old('fim_faixa_etária')}}" min="0" max="1000">
                             
                             @error('fim_faixa_etária')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
@@ -121,7 +121,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="pri_dose">Total de pessoas vacinadas na 1ª dose</label>
-                        <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="{{old('primeria_dose')}}" min="0">
+                        <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="{{old('primeria_dose')}}" min="0" max="1000000000000">
 
                         @error('primeria_dose')
                             <div id="validationServer05Feedback" class="invalid-feedback">
@@ -131,7 +131,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="seg_dose">Total de pessoas vacinadas na 2ª dose</label>
-                        <input id="seg_dose" class="form-control @error('segunda_unica') is-invalid @enderror" type="number" name="segunda_unica" placeholder="0" value="{{old('segunda_unica')}}" min="0">
+                        <input id="seg_dose" class="form-control @error('segunda_unica') is-invalid @enderror" type="number" name="segunda_unica" placeholder="0" value="{{old('segunda_unica')}}" min="0" max="1000000000000">
 
                         @error('segunda_unica')
                             <div id="validationServer05Feedback" class="invalid-feedback">
