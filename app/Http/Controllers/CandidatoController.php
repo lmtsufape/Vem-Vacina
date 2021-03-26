@@ -279,14 +279,14 @@ class CandidatoController extends Controller
                 ]);
 
                 $candidatoSegundaDose->save();
-                if($candidatoSegundaDose->email != null){
-                    Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
-                }
+                // if($candidatoSegundaDose->email != null){
+                //     Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
+                // }
             }
 
-            if($candidato->email != null){
-                Notification::send($candidato, new CandidatoInscrito($candidato));
-            }
+            // if($candidato->email != null){
+            //     Notification::send($candidato, new CandidatoInscrito($candidato));
+            // }
 
 
             if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
@@ -320,7 +320,8 @@ class CandidatoController extends Controller
         $agendamentos = Candidato::where('cpf', $candidato->cpf)->orderBy('dose')->get();
 
         return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
-                                          'agendamentos' => $agendamentos]);
+                                          'agendamentos' => $agendamentos,
+                                          'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
     }
 
     public function comprovante()
@@ -404,7 +405,7 @@ class CandidatoController extends Controller
         }
 
         $agendamentos = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])
-                      ->orderBy("created_at", "desc") // Mostra primeiro o agendamento mais recente
+                      ->orderBy("dose") // Mostra primeiro o agendamento mais recente
                       ->get();
 
         if ($agendamentos->count() == 0) {
@@ -413,7 +414,7 @@ class CandidatoController extends Controller
             ])->withInput($validated);
         }
 
-        return view("comprovante")->with(["status" => "Resultado da consulta", "agendamentos" => $agendamentos]);
+        return view("comprovante")->with(["status" => "Resultado da consulta", "agendamentos" => $agendamentos, 'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
     }
 
     public function CandidatoLote()
