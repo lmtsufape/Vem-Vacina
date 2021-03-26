@@ -69,7 +69,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inicio_faixa_etaria">Inicio da faixa etaria</label>
-                            <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etária') is-invalid @enderror" type="number" name="inicio_faixa_etária" placeholder="80" value="@if(old('inicio_faixa_etária') != null){{old('inicio_faixa_etária')}}@else{{$publico->inicio_intervalo}}@endif" min="0">
+                            <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etária') is-invalid @enderror" type="number" name="inicio_faixa_etária" placeholder="80" value="@if(old('inicio_faixa_etária') != null){{old('inicio_faixa_etária')}}@else{{$publico->inicio_intervalo}}@endif" min="0" max="1000">
                         
                             @error('inicio_faixa_etária')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
@@ -79,7 +79,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="fim_faixa_etaria">Fim da faixa etaria</label>
-                            <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etária') is-invalid @enderror" type="number" name="fim_faixa_etária" placeholder="85" value="@if(old('fim_faixa_etária') != null){{old('fim_faixa_etária')}}@else{{$publico->fim_intervalo}}@endif" min="0">
+                            <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etária') is-invalid @enderror" type="number" name="fim_faixa_etária" placeholder="85" value="@if(old('fim_faixa_etária') != null){{old('fim_faixa_etária')}}@else{{$publico->fim_intervalo}}@endif" min="0" max="1000">
                             
                             @error('fim_faixa_etária')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
@@ -160,7 +160,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="pri_dose">Total de pessoas vacinadas na 1ª dose</label>
-                        <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="@if(old('primeria_dose') != null){{old('primeria_dose')}}@else{{$publico->total_pessoas_vacinadas_pri_dose}}@endif" min="0">
+                        <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="@if(old('primeria_dose') != null){{old('primeria_dose')}}@else{{$publico->total_pessoas_vacinadas_pri_dose}}@endif" min="0" max="1000000000000">
 
                         @error('primeria_dose')
                             <div id="validationServer05Feedback" class="invalid-feedback">
@@ -170,7 +170,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="seg_dose">Total de pessoas vacinadas na 2ª dose</label>
-                        <input id="seg_dose" class="form-control @error('segunda_dose') is-invalid @enderror" type="number" name="segunda_dose" placeholder="0" value="@if(old('segunda_dose')!=null){{old('segunda_dose')}}@else{{$publico->total_pessoas_vacinadas_seg_dose}}@endif" min="0">
+                        <input id="seg_dose" class="form-control @error('segunda_dose') is-invalid @enderror" type="number" name="segunda_dose" placeholder="0" value="@if(old('segunda_dose')!=null){{old('segunda_dose')}}@else{{$publico->total_pessoas_vacinadas_seg_dose}}@endif" min="0" max="1000000000000">
 
                         @error('segunda_dose')
                             <div id="validationServer05Feedback" class="invalid-feedback">
