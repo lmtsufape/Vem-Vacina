@@ -81,6 +81,7 @@
                                     </a>
                                 </th>
                                 <th scope="col">Horário</th>
+                                <th scope="col">Dose</th>
                                 <th scope="col">Visualizar</th>
                                 @can('confirmar-vaga-candidato')
                                     <th scope="col">Resultado</th>
@@ -105,6 +106,9 @@
                                 <td>{{$candidato->cpf}}</td>
                                 <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
                                 <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td>
+                                <td>
+                                    {{ $candidato->dose  }}
+                                </td>
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
                                 </td>
@@ -160,7 +164,7 @@
                                                             <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->numero_lote ?? "Indefinido"}}">
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <label for="nome_{{$candidato->id}}">Segunda dose</label>
+                                                            <label for="nome_{{$candidato->id}}">Dose única</label>
                                                             <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ? "Sim" : "Não"}}">
                                                         </div>
                                                         <div class="col-md-6">
