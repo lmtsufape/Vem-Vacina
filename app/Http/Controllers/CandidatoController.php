@@ -345,15 +345,29 @@ class CandidatoController extends Controller
         $candidato = Candidato::find($id);
 
         if($request->confirmacao == "Ausente"){
+            $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
+
+            $candidatos->toQuery()->update([
+                'aprovacao' => $request->confirmacao,
+            ]);
             Candidato::where('cpf', $candidato->cpf)->delete();
 
         }elseif($request->confirmacao == "Aprovado"){
-            $candidato->aprovacao = $request->confirmacao;
-            $candidato->update();
+            $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
+
+            $candidatos->toQuery()->update([
+                'aprovacao' => $request->confirmacao,
+            ]);
             if($candidato->email != null){
                 Notification::send($candidato, new CandidatoAprovado($candidato));
             }
         }elseif($request->confirmacao == "Reprovado"){
+
+            $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
+
+            $candidatos->toQuery()->update([
+                'aprovacao' => $request->confirmacao,
+            ]);
 
             if($candidato->email != null){
                 Notification::send($candidato, new CandidatoReprovado($candidato));
