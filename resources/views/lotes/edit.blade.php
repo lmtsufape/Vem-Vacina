@@ -71,7 +71,7 @@
                             <h5>Selecione a que público(s) se destina esse lote:</h5>
                         </div>
                         <div class="col-md-12 mt-2">
-                            @foreach ($lote->etapas as $etapa)
+                            @foreach ($etapas as $etapa)
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">

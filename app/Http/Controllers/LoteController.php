@@ -127,7 +127,8 @@ class LoteController extends Controller
 
         $lote = Lote::findOrFail($id);
         $tipos = Etapa::TIPO_ENUM;
-        return view('lotes.edit', compact('lote', 'tipos'));
+        $etapas = Etapa::all();
+        return view('lotes.edit', compact('lote', 'tipos', 'etapas'));
     }
 
     /**
