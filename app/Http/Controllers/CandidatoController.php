@@ -420,14 +420,9 @@ class CandidatoController extends Controller
                       ->get();
 
         if ($agendamentos->count() == 0) {
-            $agendamentos = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])
-                      ->orderBy("created_at", "desc") // Mostra primeiro o agendamento mais recente
-                      ->withTrashed()->get();
-            if($agendamentos->count() == 0){
-                return redirect()->back()->withErrors([
-                    "cpf" => "Dados não encontrados"
-                ])->withInput($validated);
-            }
+            return redirect()->back()->withErrors([
+                "cpf" => "Dados não encontrados"
+            ])->withInput($validated);
         }
 
         return view("comprovante")->with(["status" => "Resultado da consulta", "agendamentos" => $agendamentos]);
