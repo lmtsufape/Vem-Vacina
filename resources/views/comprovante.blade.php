@@ -25,7 +25,27 @@
                                         <div class="row">
                                             <div class="col-md-12 style_titulo_campo" style="font-size: 32px;">{{$status}}</div>
                                             <div class="col-md-12"><hr class="style_linha_campo"></div>
-                                            <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos.</div>
+                                            <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">
+                                                <p>
+                                                    Sr(a) cidadão(ã),
+                                                </p>
+                                                {{-- {{dd($agendamentos[0]->aprovacao)}} --}}
+                                                @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
+                                                    <p>
+                                                        Informamos que a sua solicitação de agendamento para vacinação foi recebida com sucesso e se encontra em avaliação pela Secretaria Municipal de Saúde de Garanhuns - PE.
+                                                    </p>
+                                                    <p>
+                                                        Caso sua solicitação seja aprovada, o dia, horário e local de aplicação da primeira e segunda dose são os seguintes:
+                                                    </p>
+                                                @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
+                                                    <p>
+                                                        Informamos que a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE.
+                                                    </p>
+                                                    <p>
+                                                        A seguir, encontram-se o dia, horário e local de aplicação da primeira e segunda dose para que registre ou imprima:
+                                                    </p>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -36,8 +56,8 @@
                                 </div>
                                 <div class="justify-content-center destaque-pri-dose">
                                     <div class="row">
-                                        <div class="col-md-6">1ª Dose</div>
-                                        <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div>
+                                        <div class="col-md-12">1ª Dose</div>
+                                        {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
                                         <div class="col-md-12"><hr class="style_linha_dose"></div>
                                     </div>
                                     <div class="row">
@@ -57,8 +77,8 @@
                                 </div>
                                 <div class="justify-content-center destaque-seg-dose">
                                     <div class="row">
-                                        <div class="col-md-6">2ª Dose</div>
-                                        <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div>
+                                        <div class="col-md-12">2ª Dose</div>
+                                        {{-- <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div> --}}
                                         <div class="col-md-12"><hr class="style_linha_dose"></div>
                                     </div>
                                     <div class="row">
@@ -94,29 +114,47 @@
                                 </div>
                                 <br>
                                 <div class="row" style="text-align: justify;">
-                                    <div class="col-md-12">Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos.</div>
-                                </div>
-                                <br>
-                                <div class="row">
                                     <div class="col-md-12">
-                                        <span class="style_titulo_input">E-mail</span>
+                                        @if($agendamentos[0]->aprovacao == $aprovacao_enum[0]) 
+                                            <p>
+                                                A confirmação de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo "Consultar agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.
+                                            </p>
+                                            <p>
+                                                Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!
+                                            </p>
+                                        @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
+                                            <p>
+                                                Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!
+                                            </p>
+                                        @endif
+                                        <p>
+                                            Secretaria Municipal de Saúde (Garanhuns - PE)
+                                        </p>
+                                        <p>
+                                            Para outras informações ou dúvidas não sanadas nos canais acima, tais como: dificuldades ou problemas técnicos para uso no sistema, esclarecimento de dúvidas quanto a faixa etária, favor entrar em contato pelo e-mail, telefone ou whatsapp disponibilizados:
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        emailDaSecretaria@email.com
+                                        <span class="style_titulo_input">E-mail:</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        agendamentovacinacovidgus@gmail.com
                                     </div>
                                 </div>
                                 <br>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <span class="style_titulo_input">Telefone</span>
+                                        <span class="style_titulo_input">Telefones / Whatsapp:</span>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-bottom: 32px;">
                                     <div class="col-md-12">
-                                        (87) 3361-0123<br>
-                                        (87) 99999-9999
+                                        (87) 3762-1252<br>
+                                        (87) 9.8835-4998 (Whatsapp)
                                     </div>
                                 </div>
                             </div>
