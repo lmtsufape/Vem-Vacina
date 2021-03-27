@@ -75,7 +75,7 @@
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                        <input type="checkbox" name="etapa_id[]" value="{{ $etapa->id }}" aria-label="Checkbox for following text input">
+                                        <input type="checkbox" name="etapa_id[]" @if($lote->etapas()->find($etapa->id)) checked @endif value="{{ $etapa->id }}" aria-label="Checkbox for following text input">
                                         </div>
                                     </div>
                                     <input type="hidden" >
