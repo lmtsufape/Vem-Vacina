@@ -54,7 +54,14 @@
                                     <div class="row">
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.</div>
-                                        <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($vacinasDisponiveis == 0) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >QUERO SOLICITAR MINHA VACINA</a>
+                                        @auth
+                                            <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($vacinasDisponiveis == 0) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >QUERO SOLICITAR MINHA VACINA</a>
+                                        @else 
+                                            <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($vacinasDisponiveis == 0 || $config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >QUERO SOLICITAR MINHA VACINA</a>
+                                        @endauth
+                                        @if($config->botao_fila_de_espera)
+                                            <a href="{{$config->link_do_form_fila_de_espera}}" class="btn btn-danger style_card_apresentacao_botao" style="color:white;" target=”_blank”>SOLICITAR AGENDAMENTO DA LISTA DE ESPERA</a>
+                                        @endif
                                         <a href="#" class="btn btn-primary style_card_apresentacao_botao" style="color:white;" data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR AGENDAMENTO</a>
                                         {{-- <div class="col-md-12"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;"><a href="#"  style="color: #000000;">Consultar agendamento.</a></div> --}}
                                     </div>
