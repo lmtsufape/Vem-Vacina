@@ -228,7 +228,7 @@ class CandidatoController extends Controller
 
                         if ( !$lote_original->dose_unica && !($qtd >= 2) ) {
                             return redirect()->back()->withErrors([
-                                "posto_vacinacao" => "Não existem vacinas disponíveis nesse posto1..."
+                                "posto_vacinacao" => "Não existem vacinas disponíveis nesse ponto de vacinação..."
                             ])->withInput();
                         }
                         break;
@@ -248,7 +248,7 @@ class CandidatoController extends Controller
 
             if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
                 return redirect()->back()->withErrors([
-                    "posto_vacinacao" => "Não existem vacinas disponíveis nesse posto2..."
+                    "posto_vacinacao" => "Não existem vacinas disponíveis nesse ponto de vacinação..."
                 ])->withInput();
             }
 

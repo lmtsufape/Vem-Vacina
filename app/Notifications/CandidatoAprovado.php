@@ -59,23 +59,30 @@ class CandidatoAprovado extends Notification
      */
     public function toMail($notifiable)
     {
-        if(!$this->candidato->lote->dose_unica){
-            return (new MailMessage)
-                        ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
-                        ->line('Sr(a) cidadão(ã),')
-                        ->line($this->texto_dose_dupla)
-                        ->action('Acessar site', url('/'))
-                        ->line('Obrigador por utilizar nosso site!');
+        try {
+            if(!$this->candidato->lote->dose_unica){
+                return (new MailMessage)
+                            ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
+                            ->line('Sr(a) cidadão(ã),')
+                            ->line($this->texto_dose_dupla)
+                            ->action('Acessar site', url('/'))
+                            ->line('Obrigador por utilizar nosso site!');
 
-        }else{
-            return (new MailMessage)
-                        ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
-                        ->line('Sr(a) cidadão(ã),')
-                        ->line($this->texto_dose_unica)
-                        ->action('Acessar site', url('/'))
-                        ->line('Obrigador por utilizar nosso site!');
+            }else{
+                return (new MailMessage)
+                            ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
+                            ->line('Sr(a) cidadão(ã),')
+                            ->line($this->texto_dose_unica)
+                            ->action('Acessar site', url('/'))
+                            ->line('Obrigador por utilizar nosso site!');
 
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->withErrors([
+                "message" => "Houve algum erro, entre em contato com a administração do site.",
+            ])->withInput();
         }
+
     }
 
     /**
