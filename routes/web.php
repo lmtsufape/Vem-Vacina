@@ -7,6 +7,7 @@ use App\Http\Controllers\PostoVacinacaoController;
 use App\Http\Controllers\EtapaController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\ConfiguracaoController;
 use App\Http\Livewire\StoreLote;
 
 /*
@@ -64,6 +65,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('exportar/postos', [ExportController::class, 'exportPosto'])->name('export.posto');
     Route::get('exportar/index', [ExportController::class, 'index'])->name('export.index');
 
+    Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('config.index');
+    Route::get('/configuracoes/salvar', [ConfiguracaoController::class, 'update'])->name('config.update');
 });
 
 

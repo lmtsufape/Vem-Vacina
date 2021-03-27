@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             EtapaSeeder::class,
             OpcoesEtapaSeeder::class,
             OutrasInfoEtapaSeeder::class,
+            ConfiguracaoSeeder::class,
             // CandidatoSeeder::class,
         ]);
 
