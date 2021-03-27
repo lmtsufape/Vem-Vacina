@@ -35,6 +35,11 @@ width: 100% !important;
 <tr>
 <td class="body" width="100%" cellpadding="0" cellspacing="0">
 <table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+    <tr>
+        <td class="header">
+            <img src="https://i.ibb.co/yq0GXj0/logo-programa-1.png" class="logo" alt="Prefeitura de Garanhuns" style="height: 400px;width:210px">
+        </td>
+    </tr>
 <!-- Body content -->
 <tr>
 <td class="content-cell">
