@@ -42,9 +42,15 @@
                                 <th scope="col">Dia</th>
                                 <th scope="col">Horário</th>
                                 <th scope="col">Visualizar</th>
-                                <th scope="col">Resultado</th>
-                                <th scope="col" class="text-center">Confirmar vacinação</th>
-                                <th scope="col" class="text-center">Link</th>
+                                @can('confirmar-vaga-candidato')
+                                    <th scope="col">Resultado</th>
+                                @endcan
+                                @can('vacinado-candidato')
+                                    <th scope="col" class="text-center">Confirmar vacinação</th>
+                                @endcan
+                                @can('whatsapp-candidato')
+                                    <th scope="col" class="text-center">Link</th>
+                                @endcan
                             </tr>
                         </thead>
                         <tbody>
@@ -73,32 +79,56 @@
                                         </div>
                                         <div class="container">
                                             <div class="modal-body">
-                                                @if ($candidato->pessoa_idosa || $candidato->profissional_da_saude != null)
                                                 <div class="row">
-                                                    <h4>Informações especiais</h4>
+                                                    <h4>Informações do público</h4>
                                                 </div>
                                                 <div class="row">
-                                                    @if ($candidato->pessoa_idosa)
-                                                    <div class="col-md-6">
-                                                        <input id="pessoa_idosa_{{$candidato->id}}" type="checkbox" disabled @if($candidato->pessoa_idosa) checked @endif>
-                                                        <label for="pessoa_idosa_{{$candidato->id}}">Pessoa idosa</label>
-                                                    </div>
-                                                    @endif
-                                                    @if ($candidato->profissional_da_saude != null)
-                                                    <div class="col-md-6">
-                                                        <input id="profissional_da_saude_{{$candidato->id}}" type="checkbox" disabled @if($candidato->profissional_da_saude != null) checked @endif>
-                                                        <label for="profissional_da_saude_{{$candidato->id}}">Profissional da saúde</label>
-                                                    </div>
-                                                    @endif
-                                                    @if ($candidato->profissional_da_saude != null)
-                                                    <div class="col-md-12">
-                                                        <label for="profissao_{{$candidato->id}}">Profissão</label>
-                                                        <input id="profissao_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->profissional_da_saude}}">
-                                                    </div>
+                                                    @if ($candidato->etapa->tipo == $tipos[0] || $candidato->etapa->tipo == $tipos[1] )
+                                                        <div class="col-md-12">
+                                                            <label for="">Público</label>
+                                                            <input type="text" class="form-control" value="{{$candidato->etapa->texto}}" disabled>
+                                                        </div>
+                                                    @elseif($candidato->etapa->tipo == $tipos[2])
+                                                        <div class="col-md-6">
+                                                            <label for="">Público</label>
+                                                            <input type="text" class="form-control" value="{{$candidato->etapa->texto}}" disabled>
+                                                        </div>
+                                                        {{-- @if($candidato->id > 10)
+                                                        {{dd(App\Models\OpcoesEtapa::find((integer)$candidato->etapa_resultado))}}
+                                                        @endif --}}
+                                                        @if(App\Models\OpcoesEtapa::find($candidato->etapa_resultado) != null)
+                                                            <div class="col-md-6">
+                                                                <label for="">Opção selecionada</label>
+                                                                <input type="text" class="form-control" value="{{App\Models\OpcoesEtapa::find($candidato->etapa_resultado)->opcao}}" disabled>
+                                                            </div>
+                                                        @endif
                                                     @endif
                                                 </div>
                                                 <br>
+                                                @if ($candidato->lote != null)
+                                                    <div class="row">
+                                                        <h4>Lote</h4>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label for="nome_{{$candidato->id}}">fabricante</label>
+                                                            <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->fabricante ?? "Indefinido"}}">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="nome_{{$candidato->id}}">Nº do lote</label>
+                                                            <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->numero_lote ?? "Indefinido"}}">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="nome_{{$candidato->id}}">Segunda dose</label>
+                                                            <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ? "Sim" : "Não"}}">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="nome_{{$candidato->id}}">Tempo para segunda dose</label>
+                                                            <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ?  " - " : $candidato->lote->inicio_periodo ." dias"  }}">
+                                                        </div>
+                                                    </div>
                                                 @endif
+                                                <br>
                                                 <div class="row">
                                                     <h4>Informações pessoais</h4>
                                                 </div>
@@ -149,22 +179,13 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <input id="acamado_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_acamado) checked @endif>
-                                                        <label for="acamado_{{$candidato->id}}">Pasciente acamado</label>
+                                                        <label for="acamado_{{$candidato->id}}">Paciente acamado</label>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input id="agente_saude_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_agente_de_saude) checked @endif>
-                                                        <label for="agente_saude_{{$candidato->id}}">Agente de saúde</label>
+                                                        <input id="dificuldade_{{$candidato->id}}" type="checkbox" disabled @if($candidato->paciente_dificuldade_locomocao) checked @endif>
+                                                        <label for="dificuldade_{{$candidato->id}}">Paciente com dificuldade de locomoção</label>
                                                     </div>
                                                 </div>
-                                                @if($candidato->paciente_agente_de_saude)
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <br>
-                                                        <label for="unidade_saude_{{$candidato->id}}">Unidade de saúde</label>
-                                                        <input id="unidade_saude_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->unidade_caso_agente_de_saude}}">
-                                                    </div>
-                                                </div>
-                                                @endif
                                                 <br>
                                                 <div class="row">
                                                     <h4>Contato</h4>
@@ -181,7 +202,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <label for="email_{{$candidato->id}}">Telefone</label>
+                                                        <label for="email_{{$candidato->id}}">E-mail</label>
                                                         <input id="email_{{$candidato->id}}" type="email" class="form-control" disabled value="{{$candidato->email}}">
                                                     </div>
                                                 </div>
@@ -191,11 +212,11 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <label for="cep_{{$candidato->id}}">Telefone</label>
+                                                        <label for="cep_{{$candidato->id}}">CEP</label>
                                                         <input id="cep_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->cep}}">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="cidade_{{$candidato->id}}">Whatsapp</label>
+                                                        <label for="cidade_{{$candidato->id}}">Cidade</label>
                                                         <input id="cidade_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->cidade}}">
                                                     </div>
                                                 </div>
@@ -205,7 +226,7 @@
                                                         <input id="bairro_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->bairro}}">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="logradouro_{{$candidato->id}}">Logradouro</label>
+                                                        <label for="logradouro_{{$candidato->id}}">Rua</label>
                                                         <input id="logradouro_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->logradouro}}">
                                                     </div>
                                                 </div>
@@ -285,36 +306,44 @@
                                     @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
                                         Vacinado
                                     @else
+                                        @can('confirmar-vaga-candidato')
                                         <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
                                             @csrf
                                             <div class="row">
-                                                <div class="col-md-7">
-                                                    <select id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
+                                                <div class="col-md-8">
+                                                    <select onchange="myFunction()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
                                                         <option value="" selected disabled>selecione</option>
                                                         <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
-                                                        <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Vaga ocupada</option>
+                                                        <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
+                                                        <option value="Ausente" >Ausente</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-3">
-                                                    <button class="btn btn-success">Salvar</button>
+                                                <div class="col-md-2">
+
+                                                        <button class="btn btn-success">Salvar</button>
+
                                                 </div>
                                             </div>
                                         </form>
+                                        @endcan
                                     @endif
                                 </td>
 
                                 <td style="text-align: center;">
-                                    <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif>Vacinado</button>
+                                    @can('vacinado-candidato')
+                                        <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif>Vacinado</button>
+                                    @endcan
                                 </td>
                                 <td>
-                                    @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
-                                        <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia {{ date('d/m/Y \à\s  H:i \h', strtotime($candidato->chegada)) }}. Aguardamos você!" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
-                                    @elseif($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[2])
-                                        <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi reprovado." class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
-                                    @else
-                                        <a class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
-                                    @endif
-
+                                    @can('whatsapp-candidato')
+                                        @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
+                                            <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Sua vacinação foi aprovada e será realizada no Ponto de Vacinação escolhido no momento do cadastro, dia {{ date('d/m/Y \à\s  H:i \h', strtotime($candidato->chegada)) }}. Aguardamos você!" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                        @elseif($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[2])
+                                            <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text=Seu agendamento foi reprovado." class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                        @else
+                                            <a class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                        @endif
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach
@@ -326,3 +355,16 @@
     </div>
 
 </x-app-layout>
+<script>
+    function myFunction() {
+        console.log(event);
+    // var txt;
+    // var person = prompt("Please enter your name:", "Harry Potter");
+    // if (person == null || person == "") {
+    //     txt = "User cancelled the prompt.";
+    // } else {
+    //     txt = "Hello " + person + "! How are you today?";
+    // }
+    // document.getElementById("demo").innerHTML = txt;
+    }
+</script>

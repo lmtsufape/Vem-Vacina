@@ -8,10 +8,13 @@
         </div>
 
         <div class="container" style="margin-bottom: 1rem;;">
+            @foreach($agendamentos as $agendamento)
             <div class="row justify-content-center  style_card_apresentacao">
                 @if($agendamento)
                     <div class="col-md-12">
                         <br>
+                        <h2>Informações sobre o agendamento da {{$agendamento->dose}}</h2>
+                        <hr>
                         <h3>Informações pessoais</h3>
                         <table class="table">
                             <tr><td>{{$agendamento->nome_completo}}</td></tr>
@@ -31,6 +34,7 @@
                     <div style="text-align: center;">Número de agendamento invalido</div>
                 @endif
             </div>
+            @endforeach
         </div>
        <br>
 

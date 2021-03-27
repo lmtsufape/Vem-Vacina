@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CondidatoExport;
 use App\Exports\LoteExport;
 use App\Exports\PostoExport;
+use Illuminate\Support\Facades\Gate;
 
 class ExportController extends Controller
 {
@@ -20,6 +21,7 @@ class ExportController extends Controller
      */
     public function index()
     {
+        Gate::authorize('ver-export');
         $candidatos = Candidato::all()->count();
         $lotes = Lote::all()->count();
         $postos = PostoVacinacao::all()->count();
@@ -28,19 +30,19 @@ class ExportController extends Controller
 
     public function exportCandidato()
     {
-
+        Gate::authorize('baixar-export');
         return Excel::download(new CondidatoExport, 'candidatos.xlsx');
     }
 
     public function exportLote()
     {
-
+        Gate::authorize('baixar-export');
         return Excel::download(new LoteExport, 'lotes.xlsx');
     }
 
     public function exportPosto()
     {
-
+        Gate::authorize('baixar-export');
         return Excel::download(new PostoExport, 'postos.xlsx');
     }
 

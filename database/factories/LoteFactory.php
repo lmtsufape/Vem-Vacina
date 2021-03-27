@@ -26,7 +26,9 @@ class LoteFactory extends Factory
             'numero_lote' => $this->faker->regexify('[A-Z]{5}[0-4]{3}'),
             'fabricante' => $this->faker->numerify('fab-####'),
             'numero_vacinas' => $this->faker->numberBetween(50, 10000),
-            'segunda_dose' => $bool[$this->faker->numberBetween(0, 1)] ,
+            'dose_unica' => $bool[$this->faker->numberBetween(0, 1)] ,
+            'inicio_periodo' => $this->faker->numberBetween(2, 90),
+            'fim_periodo' => $this->faker->numberBetween(2, 90),
             'data_fabricacao' => $this->faker->dateTimeBetween('-2 week', '-1 week'),
             'data_validade' => $this->faker->dateTimeBetween('+1 week', '+3 week')
         ];

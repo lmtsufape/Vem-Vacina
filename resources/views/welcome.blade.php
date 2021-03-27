@@ -22,9 +22,29 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
-                                        @if ($etapa != null)
+                                        @if ($etapas != null)
                                             <div class="col-md-12 style_card_apresentacao_grupos_a_serem_vacinados" >GRUPOS A SEREM VACINADOS NESTA ETAPA:</div>
-                                            <div class="col-md-12 style_card_apresentacao_idade">{{$etapa->inicio_intervalo}}<span class="style_card_apresentacao_a_anos"> à </span>{{$etapa->fim_intervalo}}<span class="style_card_apresentacao_a_anos"> anos</span></div>
+                                            <div class="col-md-12 style_card_apresentacao_idade">
+                                                @foreach ($etapas as $i => $etapa)
+                                                    @if ($etapa->exibir_na_home)
+                                                        @if ($etapa->tipo == $tipos[0])
+                                                            @if ($i != 0) <hr> @endif
+                                                            {{$etapa->inicio_intervalo}}
+                                                            <span class="style_card_apresentacao_a_anos"> 
+                                                                à 
+                                                            </span>{{$etapa->fim_intervalo}}
+                                                            <span class="style_card_apresentacao_a_anos"> 
+                                                                anos 
+                                                            </span>
+                                                        @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
+                                                            @if ($i != 0) <hr> @endif
+                                                            <span class="style_card_apresentacao_a_anos" style="position: relative; bottom: 10px;"> 
+                                                                {{$etapa->texto_home}}
+                                                            </span>
+                                                        @endif
+                                                    @endif
+                                                @endforeach
+                                            </div>
                                         @else
                                             <div class="col-md-12 style_card_apresentacao_grupos_a_serem_vacinados" >ETAPA ATUAL NÃO DEFINIDA</div>
                                         @endif
@@ -46,47 +66,123 @@
             </div>
 
             <div class="container">
-                <div class="row justify-content-center">
-                    <!-- grupos a serem vacinados nesta etapa -->
-                    <div class="col-md-9 style_card_medio">
-                    @if ($etapa != null)
-                        <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">GRUPOS A SEREM VACINADOS NESTA ETAPA:</div>
+                <!-- grupos a serem vacinados nesta etapa -->
+                @if ($etapas != null && count($etapas) > 0)
+                    @foreach ($etapas as $etapa)
+                        @if ($etapa->exibir_na_home)
+                            <div class="row justify-content-center">
+                                <div class="col-md-9 style_card_medio">
+                                    @if ($etapa->tipo == $tipos[0])
+                                        <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">
+                                            GRUPOS A SEREM VACINADOS NESTA ETAPA:
+                                        </div>
+                                        <div class="container" style="padding-top: 10px;">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="row style_card_divisao_horizontal" >
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{$etapa->inicio_intervalo}} à {{$etapa->fim_intervalo}} anos</div>
+                                                        <div class="col-md-12 style_card_medio_legenda">FAIXA ETÁRIA</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{count($etapa->candidatos)}}</div>
+                                                        <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTA FAIXA ETÁRIA</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row style_card_divisao" style="height: 90%;">
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{$etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose}}</div>
+                                                        <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @elseif ($etapa->tipo == $tipos[1])
+                                        <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">
+                                            GRUPOS A SEREM VACINADOS NESTA ETAPA:
+                                        </div>
+                                        <div class="container" style="padding-top: 10px;">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="row style_card_divisao_horizontal" >
+                                                        <div class="col-md-12 style_card_medio_conteudo">
+                                                            @if ($etapa->texto_home != null)
+                                                                {{$etapa->texto_home}}
+                                                            @else
+                                                                {{$etapa->texto}}
+                                                            @endif
+                                                        </div>
+                                                        <div class="col-md-12 style_card_medio_legenda">PÚBLICO ALVO</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{count($etapa->candidatos)}}</div>
+                                                        <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTE PÚBLICO</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row style_card_divisao" style="height: 90%;">
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{$etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose}}</div>
+                                                        <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS NESTE PÚBLICO</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @elseif ($etapa->tipo == $tipos[2])
+                                        <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">
+                                            GRUPOS A SEREM VACINADOS NESTA ETAPA:
+                                        </div>
+                                        <div class="container" style="padding-top: 10px;">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="row style_card_divisao_horizontal" >
+                                                        <div class="col-md-12 style_card_medio_conteudo">
+                                                            @if ($etapa->texto_home != null)
+                                                                {{$etapa->texto_home}}
+                                                            @else
+                                                                {{$etapa->texto}}
+                                                            @endif
+                                                        </div>
+                                                        <div class="col-md-12 style_card_medio_legenda">PÚBLICO ALVO</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{count($etapa->candidatos)}}</div>
+                                                        <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTE PÚBLICO</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="row style_card_divisao" style="height: 90%;">
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{$etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose}}</div>
+                                                        <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS NESTE PÚBLICO</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                @else 
+                    <div class="row justify-content-center">
+                        <div class="col-md-9 style_card_medio">
+                            <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">
+                                ETAPA ATUAL NÃO DEFINIDA
+                            </div>
                             <div class="container" style="padding-top: 10px;">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="row style_card_divisao_horizontal" >
-                                            <div class="col-md-12 style_card_medio_conteudo">{{$etapa->inicio_intervalo}} à {{$etapa->fim_intervalo}} anos</div>
+                                            <div class="col-md-12 style_card_medio_conteudo">ETAPA ATUAL NÃO DEFINIDA</div>
                                             <div class="col-md-12 style_card_medio_legenda">FAIXA ETÁRIA</div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
-                                            <div class="col-md-12 style_card_medio_conteudo">{{count($etapa->candidatos)}}</div>
-                                            <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTA FAIXA ETÁRIA</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="row style_card_divisao" style="height: 90%;">
-                                            <div class="col-md-12 style_card_medio_conteudo">{{$etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose}}</div>
-                                            <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS</div>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    @else 
-                        <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">ETAPA ATUAL NÃO DEFINIDA</div>
-                            <div class="container" style="padding-top: 10px;">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="row style_card_divisao_horizontal" >
-                                            <div class="col-md-12 style_card_medio_conteudo">ETAPA ATUAL NÃO DEFINIDA</div>
-                                            <div class="col-md-12 style_card_medio_legenda">FAIXA ETÁRIA</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
                                             <div class="col-md-12 style_card_medio_conteudo">ETAPA ATUAL NÃO DEFINIDA</div>
                                             <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTA FAIXA ETÁRIA</div>
                                         </div>
@@ -97,12 +193,11 @@
                                             <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS</div>
                                         </div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         </div>
-                    @endif
-                </div>
+                    </div>
+                @endif
             </div>
 
             <div class="container" style="margin-bottom: 2rem;">
@@ -155,37 +250,49 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-9"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;margin-bottom: 2rem;"><a href="http://lmts.uag.ufrpe.br/" style="color: #909090;">Programa de vacinação criado pelo Laboratório Multidisciplinar de Tecnologias Sociais - LMTS com o apoio da Universidade Federal do Agreste de Pernambuco - UFAPE.</a></div>
+                    
                 </div>
             </div>
 
 
         <!-- rodapé -->
-        <div style="background-color:#BDC3C7; display: flex; flex-wrap: wrap; justify-content: center;padding-bottom:5rem">
-            <div class="row" style="margin-top:1rem;text-align:center">
-                <hr class="col-md-12" size = 7 style="background-color:#fff">
-                <div class="col-md-4">
-                    <div class="row justify-content-center" style="text-align:center; margin-bottom:2rem;">
-                        <div class="col-12" style="margin-bottom: 10px; color:#fff;">Desenvolvido por:</div>
-                        <img src="{{asset('/img/logo_lmts_p_branco.png')}}" alt="LMTS" width="200px"> 
+        <div style="background-color:#313561; display: flex; flex-wrap: wrap;">
+            <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="row justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
+                        <div class="col-12" style="margin-bottom: 45px; color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="img/logo_rede_sociais.png" alt="LMTS" width="20px"> Redes Sociais</div>
+                        <a href="https://www.facebook.com/PrefeituradeGaranhuns/" target="_blank"><img src="{{asset('img/facebook.png')}}" alt="LMTS" width="55px"> </a>
+                        <a href="https://twitter.com/garanhunspref" target="_blank"><img src="{{asset('img/twitter.png')}}" alt="LMTS" width="55px"> </a>
+                        <a href="https://www.instagram.com/prefgaranhuns/" target="_blank"><img src="{{asset('img/instagram.png')}}" alt="LMTS" width="55px"> </a>
+                        <a href="https://www.youtube.com/channel/UCHNqCIPyK42cjWUgO85C7Yg" target="_blank"><img src="{{asset('img/youtube.png')}}" alt="LMTS" width="43px" height="43x" style="margin-top: 4.5px;margin-left: 4px;"></a>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="row justify-content-center" style="text-align:center; margin-bottom:2rem;">
-                        <div class="col-12" style="color:#fff;">Apoio:</div>
-                        <img src="{{asset('/img/logo_ufape_branco.png')}}" alt="UFAPE" width="240px"> 
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
+                        <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="{{asset('img/logo_fale_conosco.png')}}" alt="LMTS" width="15px"> Fale Conosco</div>
+                        <div style="color:#fff; font-size: 30px; font-weight: 600; font-family: Arial, Helvetica, sans-serif; margin-top:43px">(87) 3762-7000</div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="row justify-content-center" style="text-align:center">
-                        <div class="col-12" style="margin-bottom: 2rem; color:#fff;">Redes sociais:</div>
-                        <img src="{{asset('/img/logo_facebook_branco.png')}}" width="40px" height="40px" style="margin-left: 10px; margin-right: 10px;">
-                        <img src="{{asset('/img/logo_instagram_branco.png')}}" width="40px" height="40px" style="margin-left: 10px; margin-right: 10px;">
-                        <img src="{{asset('/img/logo_twitter_branco.png')}}" width="40px" height="40px" style="margin-left: 10px; margin-right: 10px;">
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
+                        <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;">Desenvolvido por:</div>
+                        <div class="btn-group">
+                            <div style="margin-top: 21px;margin-right: 15px;"><a href="http://ufape.edu.br/" target="_blank"><img src="{{asset('img/logo_ufape.png')}}" alt="LMTS" width="165px"> </a></div>
+                            <div style="margin-top: 35px;"><a href="http://lmts.uag.ufrpe.br/" target="_blank"><img src="{{asset('img/logo_lmts.png')}}" alt="LMTS" width="140px"> </a></div>
+                        </div>
                     </div>
+                  </div>
+                  <div class="col-sm-12" style="text-align: center; margin-bottom: 2rem;margin-top: 1rem;">
+                    <a href="https://garanhuns.pe.gov.br/mapa-do-site/" target="_blank" style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">MAPA DO SITE</a>
+                    <a href="https://garanhuns.pe.gov.br/teclas-de-acessibilidade/" target="_blank" style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">TECLAS DE ACESSIBILIDADE</a>
+                    <a href="https://garanhuns.pe.gov.br/telefones-uteis/" target="_blank" style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">TELEFONES ÚTEIS</a>
+
+                  </div>
                 </div>
-            </div>
+              </div>
         </div>
+        
         <!--x rodapé x-->
     </body>
     <!-- Modal checar agendamento -->
@@ -205,7 +312,7 @@
                         <input type="hidden" name="consulta" value="1">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                 <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
                             
                                 @error('cpf')
@@ -215,7 +322,7 @@
                                 @enderror
                             </div>
                             <div class="col-md-6">
-                                {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">(obrigatório)</span></label>
+                                {{-- <label for="dose" class="style_titulo_input">QUAL A DOSE? <span class="style_subtitulo_input">*(obrigatório)</span></label>
                                 <select id="dose" class="form-control style_input @error('dose') is-invalid @enderror" name="dose" required>
                                     <option selected disabled>-- Selecione a dose --</option>
                                     <option @if(old('dose') == $doses[0]) selected @endif value="{{$doses[0]}}">{{$doses[0]}}</option>
@@ -227,7 +334,7 @@
                                     <strong>{{$message}}</strong>
                                 </div>
                                 @enderror --}}
-                                <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">(obrigatório)</span> </label>
+                                <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
                                 <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
                                 
                                 @error('data_de_nascimento')

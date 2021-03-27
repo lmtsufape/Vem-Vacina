@@ -10,9 +10,11 @@ use App\Models\Etapa;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
+use App\Notifications\CandidatoReprovado;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 
 
 class CandidatoController extends Controller
@@ -30,22 +32,42 @@ class CandidatoController extends Controller
             $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
         }
 
-        return view('dashboard')->with(['candidatos' => $candidatos, 'candidato_enum' => Candidato::APROVACAO_ENUM]);
+        return view('dashboard')->with(['candidatos' => $candidatos,
+                                        'candidato_enum' => Candidato::APROVACAO_ENUM,
+                                        'tipos' => Etapa::TIPO_ENUM]);
     }
 
     public function solicitar() {
 
         // TODO: pegar só os postos com vacinas disponiveis
-        $postos_com_vacina = PostoVacinacao::all();
-        $profissoes_enum = Candidato::PROFISSAO_ENUM;
-        sort($profissoes_enum);
+        $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
+        $etapasAtuais = Etapa::where('atual', true)->orderBy('texto')->get();
+
+        $bairros = [
+            "Magano",
+            "Dom Hélder Câmara",
+            "Dom Thiago Postma",
+            "São José",
+            "Santo Antônio",
+            "Aloísio Pinto",
+            "Boa Vista",
+            "Francisco Figueira",
+            "Heliópolis",
+            "José Maria Dourado",
+            "Novo Heliópolis",
+            "Severiano Moraes Filho",
+            "Manoel Chéu",
+        ];
 
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
             "postos" => $postos_com_vacina,
             "doses" => Candidato::DOSE_ENUM,
-            "profissoes" => $profissoes_enum,
+            "publicos" => $etapasAtuais,
+            "tipos"    => Etapa::TIPO_ENUM,
+            "bairros" => $bairros,
         ]);
+
     }
     public function ver($id) {
         return view("ver_agendamento", ["agendamento" => Candidato::find($id)]);
@@ -54,17 +76,19 @@ class CandidatoController extends Controller
     public function enviar_solicitacao(Request $request) {
 
         $request->validate([
-            "nome_completo"         => "required",
+            "voltou"                => "nullable",
+            "público"               => "required",
+            "nome_completo"         => "required|string|max:65",
             "data_de_nascimento"    => "required|date",
             "cpf"                   => "required",
             "número_cartão_sus"     => "required",
             "sexo"                  => "required",
-            "nome_da_mãe"           => "required",
+            "nome_da_mãe"           => "required|string|max:65",
             "telefone"              => "required",
             "whatsapp"              => "nullable",
-            "email"                 => "nullable",
+            "email"                 => "nullable|email",
             "cep"                   => "nullable",
-            "cidade"                => "required",
+            // "cidade"                => "required", // como valor é fixado no front, pode ser desabilitado e hardcoded aqui no controller
             "bairro"                => "required",
             "rua"                   => "required",
             "número_residencial"    => "required",
@@ -72,9 +96,6 @@ class CandidatoController extends Controller
             "posto_vacinacao"       => "required",
             "dia_vacinacao"         => "required",
             "horario_vacinacao"     => "required",
-            "dose"                  => "nullable",
-            "pessoa_idosa"          => "nullable",
-            "profissão"             => "required_if:profissional_da_saúde,on"
         ]);
 
         $dados = $request->all();
@@ -90,31 +111,43 @@ class CandidatoController extends Controller
         $candidato->whatsapp                = $request->whatsapp;
         $candidato->email                   = $request->email;
         $candidato->cep                     = preg_replace('/[^0-9]/', '', $request->cep);
-        $candidato->cidade                  = $request->cidade;
+        // $candidato->cidade                  = $request->cidade;
+        $candidato->cidade                  = "Garanhuns";
         $candidato->bairro                  = $request->bairro;
         $candidato->logradouro              = $request->rua;
         $candidato->numero_residencia       = $request->input("número_residencial");
         $candidato->complemento_endereco    = $request->complemento_endereco;
         $candidato->aprovacao               = Candidato::APROVACAO_ENUM[0];
-        $candidato->dose                    = Candidato::APROVACAO_ENUM[0];
-        $candidato->pessoa_idosa            = $request->pessoa_idosa;
+        $candidato->dose                    = Candidato::DOSE_ENUM[0];
 
-        if ($request->profissional_da_saúde) {
-            $candidato->profissional_da_saude = $request->profissão;
+        // Se não foi passado CEP, o preg_replace retorna string vazia, mas no bd é uint nulavel, então anula
+        if($candidato->cep == "") {
+            $candidato->cep = NULL;
         }
 
-        // Relacionar o candidato com uma etapa (se existir)
+        // Relacionar o candidato com o público escolhido e realiza
+        // a validação de acordo com o público escolhido
         $idade              = $this->idade($request->data_de_nascimento);
         $candidato->idade   = $idade;
-        $etapa = Etapa::where([['inicio_intervalo', '<=', $idade], ['fim_intervalo', '>=', $idade], ['atual', true]])->first();
-        if ($etapa != null) {
-            $candidato->etapa_id = $etapa->id;
-        } else {
-            return redirect()->back()->withErrors([
-                "data_de_nascimento" => "Idade fora da faixa etária atual de vacinação"
-            ])->withInput();
+
+        $etapa = Etapa::find($request->input('público'));
+
+        if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
+            if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                return redirect()->back()->withErrors([
+                    "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                ])->withInput();
+            }
+        } else if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+            if ($request->input("publico_opcao_".$request->input('público')) == null) {
+                return redirect()->back()->withErrors([
+                    "publico_opcao_".$request->input('público') => "Esse campo é obrigatório para público marcado."
+                ])->withInput();
+            }
+            $candidato->etapa_resultado = $request->input("publico_opcao_".$request->input('público'));
         }
 
+        $candidato->etapa_id = $etapa->id;
         //TODO: mover pro service provider
         if(!$this->validar_cpf($request->cpf)) {
             return redirect()->back()->withErrors([
@@ -123,13 +156,18 @@ class CandidatoController extends Controller
 
         }
 
+        // if(Candidato::where('cpf',$request->cpf )->contains()) {
+        //     return redirect()->back()->withErrors([
+        //         "cpf" => "Número de CPF inválido"
+        //     ])->withInput();
+
+        // }
+
         if(!$this->validar_telefone($request->telefone)) {
             return redirect()->back()->withErrors([
                 "telefone" => "Número de telefone inválido"
             ])->withInput();
         }
-
-
 
         $dia_vacinacao = $request->dia_vacinacao;
         $horario_vacinacao = $request->horario_vacinacao;
@@ -161,6 +199,7 @@ class CandidatoController extends Controller
                ->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])
                ->count() < $lote->qtdVacina) {
                 $id_lote = $lote->id;
+                $chave_estrangeiro_lote = $lote->lote_id;
                 break;
             }
         }
@@ -171,23 +210,37 @@ class CandidatoController extends Controller
             ])->withInput();
         }
 
-
         $candidato->chegada                 = $datetime_chegada;
         $candidato->saida                   = $datetime_saida;
         $candidato->lote_id                 = $id_lote;
         $candidato->posto_vacinacao_id      = $id_posto;
 
         $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
-
-        if(isset($dados["paciente_agente_de_saude"])) {
-            $candidato->paciente_agente_de_saude = true;
-            $candidato->unidade_caso_agente_de_saude = $dados["unidade_caso_agente_de_saude"];
-        } else {
-            $candidato->paciente_agente_de_saude = false;
-            $candidato->unidade_caso_agente_de_saude = "Não informado";
-        }
+        $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
         $candidato->save();
+
+        $posto = PostoVacinacao::find($id_posto);
+        $lote = Lote::find($chave_estrangeiro_lote);
+
+        // dd($id_lote);
+        // // if( $posto->getCandidatosPorLote($lote->id, $posto->id) ) { // Se é 0 é porque não tem vacinas...
+        // //     return redirect()->back()->withErrors([
+        // //         "posto_vacinacao" => "Não existem vacinas dispoiveis nesse posto ..."
+        // //     ])->withInput();
+        // // }
+        if (!$lote->dose_unica) {
+            $datetime_chegada_segunda_dose = $candidato->chegada->modify('+'.$lote->inicio_periodo.' day');
+            $candidatoSegundaDose = $candidato->replicate()->fill([
+                'chegada' =>  $datetime_chegada_segunda_dose,
+                'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
+            ]);
+
+            $candidatoSegundaDose->save();
+            if($candidatoSegundaDose->email != null){
+                Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
+            }
+        }
 
         if($candidato->email != null){
             Notification::send($candidato, new CandidatoInscrito($candidato));
@@ -207,17 +260,31 @@ class CandidatoController extends Controller
     }
 
     public function update(Request $request, $id) {
+        Gate::authorize('confirmar-vaga-candidato');
         $validated = $request->validate([
             'confirmacao' => 'required'
         ]);
 
         $candidato = Candidato::find($id);
-        $candidato->aprovacao = $request->confirmacao;
 
-        $candidato->update();
-        if($candidato->email != null){
-            Notification::send($candidato, new CandidatoAprovado($candidato));
+        if($request->confirmacao == "Ausente"){
+            $candidato->delete();
+        }elseif($request->confirmacao == "Aprovado"){
+            $candidato->aprovacao = $request->confirmacao;
+            $candidato->update();
+            if($candidato->email != null){
+                Notification::send($candidato, new CandidatoAprovado($candidato));
+            }
+        }elseif($request->confirmacao == "Reprovado"){
+            $candidato->aprovacao = $request->confirmacao;
+            $candidato->update();
+
+            if($candidato->email != null){
+                Notification::send($candidato, new CandidatoReprovado($candidato));
+            }
+
         }
+
         return redirect()->back()->with(['mensagem' => 'Resposta salva com sucesso!']);
     }
 
@@ -227,11 +294,10 @@ class CandidatoController extends Controller
     }
 
     public function vacinado($id) {
+        Gate::authorize('vacinado-candidato');
         $candidato = Candidato::find($id);
         $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
         $candidato->update();
-        $candidato->posto->vacinas_disponiveis -= 1;
-        $candidato->posto->update();
 
         $etapa = $candidato->etapa;
         if ($etapa != null) {
@@ -250,7 +316,6 @@ class CandidatoController extends Controller
         $validated = $request->validate([
             'consulta'              => "required",
             'cpf'                   => 'required',
-            // 'dose'      => 'required',
             'data_de_nascimento'    => 'required'
         ]);
 
@@ -260,14 +325,22 @@ class CandidatoController extends Controller
            ])->withInput($validated);
         }
 
-        $candidato = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])->first();
+        $agendamentos = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])
+                      ->orderBy("created_at", "desc") // Mostra primeiro o agendamento mais recente
+                      ->get();
 
-        if ($candidato == null) {
+        if ($agendamentos->count() == 0) {
             return redirect()->back()->withErrors([
                 "cpf" => "Dados não encontrados"
             ])->withInput($validated);
         }
 
-        return view("ver_agendamento", ["agendamento" => $candidato]);
+        return view("ver_agendamento", ["agendamentos" => $agendamentos]);
+    }
+
+    public function CandidatoLote()
+    {
+        $candidatos = Candidato::all();
+        return view('candidatoLote', compact('candidatos'));
     }
 }

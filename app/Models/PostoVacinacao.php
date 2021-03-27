@@ -10,7 +10,7 @@ class PostoVacinacao extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['nome', 'endereco'];
+    protected $fillable = ['nome', 'endereco', 'padrao_no_formulario'];
 
 
 
@@ -20,12 +20,51 @@ class PostoVacinacao extends Model
                     ->withPivot('qtdVacina');;
     }
 
-    public function getVacinasDisponivel()
+
+
+    public function addVacinaEmLote($lote_id, $qtd)
     {
-        $totalVacinas = null;
-        foreach ($this->lotes->all() as $key => $value) {
-            $totalVacinas += $value->pivot->qtdVacina;
+        if ($this->lotes->find($lote_id)) {
+            $this->lotes->find($lote_id)->pivot->qtdVacina += $qtd;
+            $this->lotes->find($lote_id)->pivot->save();
+            return $this->lotes->find($lote_id)->pivot->qtdVacina;
         }
-        return $totalVacinas;
+        return null;
+    }
+
+    public function subVacinaEmLote($lote_id, $qtd)
+    {
+        if ($this->lotes->find($lote_id)) {
+            $this->lotes->find($lote_id)->pivot->qtdVacina -= $qtd;
+            $this->lotes->find($lote_id)->pivot->save();
+            return $this->lotes->find($lote_id)->pivot->qtdVacina;
+        }
+        return null;
+    }
+
+    public function getVacinasDeLote($lote_id)
+    {
+        if ($this->lotes->find($lote_id)) {
+            return $this->lotes->find($lote_id)->pivot->qtdVacina;
+        }
+        return null;
+    }
+
+    public function getCandidatosPorLote($lote_id, $posto_id)
+    {
+        if ($this->lotes->find($lote_id)) {
+            return Candidato::where("lote_id", $lote_id)->where("posto_vacinacao_id", $posto_id)->count();
+        }
+        return null;
+
+    }
+
+    public function getVacinasDisponivel($lote_id, $posto_id)
+    {
+        return $this->getVacinasDeLote($lote_id) - $this->getCandidatosPorLote($lote_id, $posto_id);
+    }
+
+    public function etapas() {
+        return $this->belongsToMany(Etapa::class, 'ocorrendo_vacinacaos', 'posto_id', 'etapa_id');
     }
 }

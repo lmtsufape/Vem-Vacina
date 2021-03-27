@@ -26,7 +26,7 @@
                                 @endphp
 
                             @else
-                                <p>Cadastre Postos de Vacinação</p>
+                                <p>Cadastre um Ponto de Vacinação</p>
                             @endif
                         </div>
                     </div>
@@ -51,13 +51,13 @@
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">{{  $posto->vacinas_disponiveis}}</span>
+                                            <span class="input-group-text">{{ $posto->getVacinasDisponivel($lote->id, $posto->id ) ? $posto->getVacinasDisponivel($lote->id, $posto->id) : 0 }}</span>
                                             <span class="input-group-text">+</span>
                                         </div>
                                         @if($sobras >= 0)
-                                            <input type="number" class="form-control " name="posto[{{ $posto->id }}]" value="{{ intdiv ( $lote->numero_vacinas , $postos->count()) + 1 }}" >
+                                            <input type="number" class="form-control " min="0" name="posto[{{ $posto->id }}]" value="{{ intdiv ( $lote->numero_vacinas , $postos->count()) + 1 }}" >
                                         @else
-                                            <input type="number" class="form-control " name="posto[{{ $posto->id }}]" value="{{ intdiv ( $lote->numero_vacinas , $postos->count()) }}" >
+                                            <input type="number" class="form-control " min="0" name="posto[{{ $posto->id }}]" value="{{ intdiv ( $lote->numero_vacinas , $postos->count()) }}" >
                                         @endif
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">{{  $posto->nome }}</span>

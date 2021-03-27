@@ -28,8 +28,6 @@ class CandidatoSeeder extends Seeder
                 'sexo' => "Masculino",
                 'nome_da_mae' => 'NomeDaMae'.$i,
                 'paciente_acamado' => true,
-                'paciente_agente_de_saude' => false,
-                'unidade_caso_agente_de_saude' => '',
                 'telefone' => '(87) 99999-9999',
                 'whatsapp' => '(87) 99999-9999',
                 'email' => 'gabriel.antonio.dev@gmail.com',
@@ -44,8 +42,10 @@ class CandidatoSeeder extends Seeder
                 'lote_id' => null,
                 'posto_vacinacao_id' => 1,
                 'lote_id' => 1,
-                'profissional_da_saude' => Candidato::PROFISSAO_ENUM[$i],
-                'pessoa_idosa'  => true,
+                // 'profissional_da_saude' => Candidato::PROFISSAO_ENUM[$i],
+                // 'pessoa_idosa'  => true,
+                'etapa_id'      => 1,
+                'etapa_resultado' => null,
             ]);
 
             $chegada->addMinutes(10);

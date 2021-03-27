@@ -27,9 +27,11 @@ class StoreLoteRequest extends FormRequest
             'numero_lote'       => 'required',
             'fabricante'        => 'required',
             'numero_vacinas'    => 'required',
-            'segunda_dose'      => '',
-            'data_fabricacao'   => 'required',
-            'data_validade'     => 'required',
+            'dose_unica'      => '',
+            'inicio_periodo'    => 'required|integer|',
+            'fim_periodo'       => 'required|gte:inicio_periodo|integer',
+            'data_fabricacao'   => 'nullable|before:data_validade',
+            'data_validade'     => 'nullable|after:data_fabricacao',
         ];
     }
 }
