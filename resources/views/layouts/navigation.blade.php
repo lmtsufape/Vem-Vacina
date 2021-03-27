@@ -39,6 +39,9 @@
                         {{ __('Lista Candidato Lote') }}
                     </x-nav-link>
                     @endcan
+                    <x-nav-link :href="route('config.index')" :active="request()->routeIs('config.*')">
+                        {{ __('Configurações') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -111,6 +114,9 @@
             @can('ver-export')
             <x-responsive-nav-link :href="route('export.index')" :active="request()->routeIs('export.*')">
                 {{ __('Exportar') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('config.index')" :active="request()->routeIs('config.*')">
+                {{ __('Configurações') }}
             </x-responsive-nav-link>
             @endcan
         </div>
