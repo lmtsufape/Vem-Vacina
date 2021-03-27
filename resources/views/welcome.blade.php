@@ -54,7 +54,7 @@
                                     <div class="row">
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.</div>
-                                        <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white;">QUERO SOLICITAR MINHA VACINA</a>
+                                        <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($vacinasDisponiveis == 0) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >QUERO SOLICITAR MINHA VACINA</a>
                                         <a href="#" class="btn btn-primary style_card_apresentacao_botao" style="color:white;" data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR AGENDAMENTO</a>
                                         {{-- <div class="col-md-12"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;"><a href="#"  style="color: #000000;">Consultar agendamento.</a></div> --}}
                                     </div>
@@ -261,7 +261,7 @@
                 <div class="row">
                   <div class="col-sm">
                     <div class="row justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
-                        <div class="col-12" style="margin-bottom: 45px; color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="img/logo_rede_sociais.png" alt="LMTS" width="20px"> Redes Sociais</div>
+                        <div class="col-12" style="margin-bottom: 45px; color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="{{asset('img/logo_rede_sociais.png')}}" alt="LMTS" width="20px"> Redes Sociais</div>
                         <a href="https://www.facebook.com/PrefeituradeGaranhuns/" target="_blank"><img src="{{asset('img/facebook.png')}}" alt="LMTS" width="55px"> </a>
                         <a href="https://twitter.com/garanhunspref" target="_blank"><img src="{{asset('img/twitter.png')}}" alt="LMTS" width="55px"> </a>
                         <a href="https://www.instagram.com/prefgaranhuns/" target="_blank"><img src="{{asset('img/instagram.png')}}" alt="LMTS" width="55px"> </a>
@@ -312,7 +312,7 @@
                         <input type="hidden" name="consulta" value="1">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                <label for="inputCPF" class="style_titulo_input">CPF <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                 <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
                             
                                 @error('cpf')
@@ -334,7 +334,7 @@
                                     <strong>{{$message}}</strong>
                                 </div>
                                 @enderror --}}
-                                <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                 <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
                                 
                                 @error('data_de_nascimento')

@@ -27,7 +27,7 @@ class CandidatoSeeder extends Seeder
                 'numero_cartao_sus' => '12345678',
                 'sexo' => "Masculino",
                 'nome_da_mae' => 'NomeDaMae'.$i,
-                'paciente_acamado' => true,
+                // 'paciente_acamado' => true,
                 'telefone' => '(87) 99999-9999',
                 'whatsapp' => '(87) 99999-9999',
                 'email' => 'gabriel.antonio.dev@gmail.com',

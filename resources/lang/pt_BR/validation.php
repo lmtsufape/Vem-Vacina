@@ -133,6 +133,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'data_de_nascimento' => [
+            'before' => "A data de nascimento deve ser antes que hoje", //Se tiver outra regra que use o before no mesmo validator, dá ruim
+        ],
         'publico_opcao_*' => [
             'required_if' => 'Esse é obrigatório para público marcado.'
         ],
@@ -144,6 +147,12 @@ return [
         ],
         'publicos' => [
             'required' => 'Escolha os públicos que seram vacinados nesse ponto.'
+        ],
+        'outrasInfo' => [
+            'required_if' => 'Você deve colocar opções para ticar caso o campo adicionar outras informações ao público esteja marcado.'
+        ],
+        'outrasInfo.*' => [
+            'required_if' => 'Texto da opção é obrigátorio caso o campo adicionar outras informações ao público esteja marcado.'
         ],
     ],
     

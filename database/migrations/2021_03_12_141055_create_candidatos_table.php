@@ -24,12 +24,12 @@ class CreateCandidatosTable extends Migration
             $table->string("numero_cartao_sus");
             $table->enum('sexo', Candidato::SEXO_ENUM);
             $table->string("nome_da_mae");
-            $table->boolean("paciente_dificuldade_locomocao")->nullable(true);
-            $table->boolean("paciente_acamado")->nullable(true);
-            $table->boolean("paciente_agente_de_saude")->nullable(true);
+            // $table->boolean("paciente_dificuldade_locomocao")->nullable(true);
+            // $table->boolean("paciente_acamado")->nullable(true);
+            // $table->boolean("paciente_agente_de_saude")->nullable(true);
             // $table->boolean("pessoa_idosa")->nullable(true);
             // $table->string("profissional_da_saude")->nullable(true);
-            $table->string("unidade_caso_agente_de_saude")->nullable(true); //Nome da unidade de o agente de saude trabalha
+            // $table->string("unidade_caso_agente_de_saude")->nullable(true); //Nome da unidade de o agente de saude trabalha
             $table->string("telefone");
             $table->string("whatsapp")->nullable(true);
             $table->string("email")->nullable(true);

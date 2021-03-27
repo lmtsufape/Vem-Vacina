@@ -16,7 +16,7 @@ class Candidato extends Model
     public const SEXO_ENUM = ["Masculino", "Feminino", "Não informar"];
     public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
     public const DOSE_ENUM = ["1ª Dose", '2ª Dose', "Dose única"];
-    
+
 
     protected $fillable = [
         "nome_completo",
@@ -74,5 +74,9 @@ class Candidato extends Model
 
     public function resultado() {
         return $this->belongsTo(OpcoesEtapa::class, 'etapa_resultado');
+    }
+
+    public function outrasInfo() {
+        return $this->belongsToMany(OutrasInfoEtapa::class, 'agendamento_outras_infos', 'candidato_id', 'outras_info_id');
     }
 }

@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             PostoVacinacaoSeeder::class,
             EtapaSeeder::class,
             OpcoesEtapaSeeder::class,
+            OutrasInfoEtapaSeeder::class,
             // CandidatoSeeder::class,
         ]);
 

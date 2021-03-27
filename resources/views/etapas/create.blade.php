@@ -35,7 +35,7 @@
                             </div>
                         @enderror
                         <input id="exibir_no_form" type="checkbox" name="exibir_no_form" @if(old('exibir_no_form')) checked @endif>
-                        <label for="exibir_no_form" >Exibir público no agendamento</label>
+                        <label for="exibir_no_form">Exibir público no agendamento</label>
                     </div>
                     <div class="col-md-4">
                         <label for="texto_da_home">Texto exibido na home</label>
@@ -55,7 +55,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inicio_faixa_etaria">Inicio da faixa etaria</label>
-                            <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etária') is-invalid @enderror" type="number" name="inicio_faixa_etária" placeholder="80" value="{{old('inicio_faixa_etária')}}">
+                            <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etária') is-invalid @enderror" type="number" name="inicio_faixa_etária" placeholder="80" value="{{old('inicio_faixa_etária')}}" min="0" max="1000">
                         
                             @error('inicio_faixa_etária')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="fim_faixa_etaria">Fim da faixa etaria</label>
-                            <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etária') is-invalid @enderror" type="number" name="fim_faixa_etária" placeholder="85" value="{{old('fim_faixa_etária')}}">
+                            <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etária') is-invalid @enderror" type="number" name="fim_faixa_etária" placeholder="85" value="{{old('fim_faixa_etária')}}" min="0" max="1000">
                             
                             @error('fim_faixa_etária')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
@@ -95,7 +95,7 @@
                                                 <div class="col-md-8">
                                                     <input type="text" name="opcoes[]" class="form-control @error('opcoes.'.$i) is-invalid @enderror" placeholder="Digite a opção selecionável" value="{{$textoOpcao}}">
                                                     @error('opcoes.'.$i)
-                                                        <div id="validationServer05Feedback" class="invalid-feedback">
+                                                        <div id="validationServer05Feedback" class="invalid-feedback" style="text-align: justify;">
                                                             <strong>{{$message}}</strong>
                                                         </div>
                                                     @enderror
@@ -121,7 +121,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="pri_dose">Total de pessoas vacinadas na 1ª dose</label>
-                        <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="{{old('primeria_dose')}}">
+                        <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="{{old('primeria_dose')}}" min="0" max="1000000000000">
 
                         @error('primeria_dose')
                             <div id="validationServer05Feedback" class="invalid-feedback">
@@ -131,7 +131,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="seg_dose">Total de pessoas vacinadas na 2ª dose</label>
-                        <input id="seg_dose" class="form-control @error('segunda_unica') is-invalid @enderror" type="number" name="segunda_unica" placeholder="0" value="{{old('segunda_unica')}}">
+                        <input id="seg_dose" class="form-control @error('segunda_unica') is-invalid @enderror" type="number" name="segunda_unica" placeholder="0" value="{{old('segunda_unica')}}" min="0" max="1000000000000">
 
                         @error('segunda_unica')
                             <div id="validationServer05Feedback" class="invalid-feedback">
@@ -170,6 +170,81 @@
                     @endforeach
                 </div>
                 <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Outras informações</h5>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="checkbox" name="outras_informações" onclick="exibirOutrasInfo(this)" @if(old('outras_informações')) checked @endif>
+                        <label for="">Adicionar outras informações ao público</label>
+                    </div>
+                </div>
+                <br>
+                <div id="divOutrasInfo" style="@if(old('outras_informações')) display: block; @else display: none; @endif">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Texto das outras informações</label>
+                            <textarea name="texto_das_outras_informações" class="form-control" id="texto_das_outras_informações" cols="30" rows="5" placeholder="Insira aqui o texto informativo">{{old('texto_das_outras_informações')}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div  style="border: 1px solid rgb(196, 196, 196);
+                                 padding: 15px;
+                                 margin-top: 15px;
+                                 margin-bottom: 15px;
+                                 border-radius: 10px;">
+                                <label>Opções de outras informações</label>
+                                <div id="divTodasOutrasInfo" class="row">
+                                    @if (old('outrasInfo') != null) 
+                                        @foreach (old('outrasInfo') as $i => $textoOutraInfo)
+                                            <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
+                                                        padding: 15px;
+                                                        border-radius: 10px;
+                                                        margin: 15px;">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label>Opção</label>
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <input type="text" name="outrasInfo[]" class="form-control @error('outrasInfo.'.$i) is-invalid @enderror" placeholder="Digite o texto da outra informação" value="{{$textoOutraInfo}}">
+                                                                @error('outrasInfo.'.$i)
+                                                                    <div id="validationServer05Feedback" class="invalid-feedback" style="text-align: justify;">
+                                                                        <strong>{{$message}}</strong>
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <a class="btn btn-danger" onclick="excluirOpcao(this)"  style="cursor: pointer; color: white;">Excluir</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                    @error('outrasInfo')
+                                        <div class="col-md-11 alert alert-danger" style="border: 1px solid rgb(196, 196, 196);
+                                                            border-radius: 10px;
+                                                            margin: 15px;">
+                                                {{$message}}
+                                        </div>
+                                    @enderror
+                                </div>
+                                
+                                <br>
+                                <div class="row" style="text-align: right">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-info" onclick="adicionarOutraInfo()">Adicionar opção</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6" style="text-align: right;">
                         <a href="{{route('etapas.index')}}" class="btn btn-secondary" style="width: 100%; padding-top: 20px; padding-bottom: 20px; cursor:pointer; color:white;">Voltar</a>
@@ -234,8 +309,47 @@
         function excluirOpcoes() {
             var todasOpcoes = document.getElementById('divTodasOpcoes');
 
-            for (var i = 0; i < todasOpcoes.children.length; i++) {
-                todasOpcoes.children[i].remove();
+            while (todasOpcoes.firstChild) {
+                todasOpcoes.removeChild(todasOpcoes.lastChild);
+            }
+        }
+
+        function exibirOutrasInfo(input) {
+            if(input.checked) {
+                document.getElementById('divOutrasInfo').style.display = "block";
+                adicionarOutraInfo();
+            } else {
+                document.getElementById('divOutrasInfo').style.display = "none";
+                excluirOutrasInfo();
+            }
+        }
+
+        function adicionarOutraInfo() {
+            html = `<div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
+                                    padding: 15px;
+                                    border-radius: 10px;
+                                    margin: 15px;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>Opção</label>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input type="text" name="outrasInfo[]" class="form-control" placeholder="Digite o texto da outra informação">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a class="btn btn-danger" onclick="excluirOpcao(this)"  style="cursor: pointer; color: white;">Excluir</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+            $('#divTodasOutrasInfo').append(html);
+        }
+        
+        function excluirOutrasInfo() {
+            var todasOutrasInfos = document.getElementById('divTodasOutrasInfo');
+            while (todasOutrasInfos.firstChild) {
+                todasOutrasInfos.removeChild(todasOutrasInfos.lastChild);
             }
         }
     </script>

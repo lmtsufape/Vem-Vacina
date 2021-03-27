@@ -24,6 +24,7 @@ class Etapa extends Model
         'dose_unica',
         'total_pessoas_vacinadas_pri_dose',
         'total_pessoas_vacinadas_seg_dose',
+        'texto_outras_informacoes',
     ];
 
     public function candidatos() {
@@ -36,5 +37,13 @@ class Etapa extends Model
 
     public function pontos() {
         return $this->belongsToMany(PostoVacinacao::class, 'ocorrendo_vacinacaos', 'etapa_id', 'posto_id');
+    }
+
+    public function outrasInfo() {
+        return $this->hasMany(OutrasInfoEtapa::class, 'etapa_id');
+    }
+    
+    public function lotes() {
+        return $this->belongsToMany(Lote::class, 'lote_etapas', 'etapa_id', 'lote_id');
     }
 }
