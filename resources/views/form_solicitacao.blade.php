@@ -689,4 +689,10 @@
                     document.getElementById("posto_vacinacao").innerHTML = option;
                 }
             }
+        })
+    }
+    </script>
+
+
+</x-guest-layout>
      
