@@ -20,6 +20,9 @@ class CandidatoInscritoSegundaDose extends Notification
     public $texto_dose_dupla;
     public $lote;
     public $segundo;
+    public $linha_p1;
+    public $linha_p2;
+    public $linha_p3;
 
     /**
      * Create a new notification instance.
@@ -29,9 +32,18 @@ class CandidatoInscritoSegundaDose extends Notification
     public function __construct(Candidato $candidato,  Lote $lote)
     {
         $this->candidato = $candidato;
-
-        $this->lote = $lote;
         $this->data_chegada =  date('d/m/Y \à\s  H:i \h', strtotime($this->candidato->chegada));
+        $this->linha_p1 = "Sr(a) " . $this->candidato->nome_completo.",";
+        $this->linha_p2 = "Informamos que a vossa solicitação de agendamento para vacinação foi recebida com sucesso e se encontra em avaliação pela Secretaria Municipal de Saúde de Garanhuns - PE!
+        Caso sua solicitação seja aprovada, seu dia, horário e local de aplicação da segunda dose são os seguintes:";
+        $this->linha_p3 = "Dose: ".$this->candidato->dose ." - Data: ".$this->data_chegada;
+        $this->texto_p1 = "A confirmação de seu agendamento poderá ser realizada de três formas: ";
+        $this->texto_p2 = "a) por meio do próprio site, no campo 'Consultar agendamento';";
+        $this->texto_p3 = "b) por comunicação feito por e-mail, caso tenha cadastrado;"; 
+        $this->texto_p4 = "c) por comunicação feita no Whatsapp, caso tenha cadastrado.";
+        $this->texto_p5 = "Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!";
+        $this->lote = $lote;
+        $this->texto_dose_unica = "".$this->data_chegada.".";
 
     }
 
@@ -55,16 +67,16 @@ class CandidatoInscritoSegundaDose extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                            ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
-                            ->line("{$this->candidato->nome_completo},")
-                            ->line("Informamos que a sua slicitação de agendamento para vacinação foi recebida com sucesso, e se encontra em avaliação pela Secretaria Municipal de Saúde de Garanhuns-PE.
-                                    Caso a solicitação seja aprovada se dirija ao local escolhido no momento do agendamento, o dia e horário de aplicação da {$this->candidato->dose} é o seguinte:")
-                            ->line("Dia: {$this->data_chegada}.")
-                            ->line("A confirmação de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo 'Consultar agendamento'; b) por comunicação feita por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.")
-                            ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos!
-                            Secretaria Municipal de Saúde (Garanhuns-PE).")
-                            ->action('Acessar site', url('/'))
-                            ->line('Obrigador por utilizar nosso site!');
+            ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
+            ->line($this->linha_p1)
+            ->line($this->linha_p2)
+            ->line($this->linha_p3)
+            ->line($this->texto_p1)
+            ->line($this->texto_p2)
+            ->line($this->texto_p3)
+            ->line($this->texto_p4)
+            ->line($this->texto_p5)
+            ->action('Acessar site', url('/'));
     }
 
     /**
