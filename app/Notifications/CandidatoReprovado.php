@@ -2,30 +2,29 @@
 
 namespace App\Notifications;
 
+use App\Models\Lote;
 use App\Models\Candidato;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class CandidatoReprovado extends Notification
 {
     use Queueable;
 
     public $candidato;
-    public $texto = "Sr(a) cidadão(ã),
-    Informamos que a vossa solicitação de agendamento para vacinação não foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE!
-    O pedido possuía algum tipo de inconsistência, que pode ter ocorrido por diversas razões: desde a divergência entre a data de nascimento e faixa etária sendo vacinada, ou erros de digitação. Caso o erro tenha sido de digitação de algum número, por exemplo, pedimos que refaça a solicitação de agendamento.
-    Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!
-    Secretaria Municipal de Saúde (Garanhuns - PE)";
+    public $lote;
+    public $texto_dose ;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Candidato $candidato)
+    public function __construct(Candidato $candidato, Lote $lote)
     {
         $this->candidato = $candidato;
+        $this->lote = $lote;
     }
 
     /**
@@ -49,7 +48,11 @@ class CandidatoReprovado extends Notification
     {
         return (new MailMessage)
                     ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
-                    ->line($this->texto)
+                    ->line("{$this->candidato->nome_completo},")
+                    ->line("Informamos que a vossa solicitação de agendamento para vacinação não foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE!")
+                    ->line("O pedido possuía algum tipo de inconsistência, que pode ter ocorrido por diversas razões: desde a divergência entre a data de nascimento e faixa etária sendo vacinada, ou erros de digitação. Caso o erro tenha sido de digitação de algum número, por exemplo, pedimos que refaça a solicitação de agendamento.")
+                    ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!
+                    Secretaria Municipal de Saúde (Garanhuns - PE).")
                     ->action('Acessar site', url('/'))
                     ->line('Obrigador por utilizar nosso site!');
     }

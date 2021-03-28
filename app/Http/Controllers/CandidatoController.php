@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Throwable;
+use DateInterval;
 use Carbon\Carbon;
 use App\Models\Lote;
 use App\Models\Etapa;
@@ -15,9 +16,9 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
-use DateInterval;
 use App\Models\Configuracao;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\CandidatoInscritoSegundaDose;
 
 
 class CandidatoController extends Controller
@@ -198,7 +199,7 @@ class CandidatoController extends Controller
 
             if(!$etapa->lotes->count()){
                 return redirect()->back()->withErrors([
-                    "posto_vacinacao" => "Não existem vacinas disponíveis para essa etapa..."
+                    "posto_vacinacao" => "Não há mais doses disponíveis. Favor realize o seu cadastro na fila de espera pela página principal."
                 ])->withInput();
             }
             //Retorna um array de IDs do lotes associados a etapa escolhida
@@ -231,7 +232,7 @@ class CandidatoController extends Controller
 
                         if ( !$lote_original->dose_unica && !($qtd >= 2) ) {
                             return redirect()->back()->withErrors([
-                                "posto_vacinacao" => "Não existem vacinas disponíveis nesse ponto de vacinação..."
+                                "posto_vacinacao" => "Não há mais doses disponíveis. Favor realize o seu cadastro na fila de espera pela página principal."
                             ])->withInput();
                         }
                         break;
@@ -251,7 +252,7 @@ class CandidatoController extends Controller
 
             if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
                 return redirect()->back()->withErrors([
-                    "posto_vacinacao" => "Não existem vacinas disponíveis nesse ponto de vacinação..."
+                    "posto_vacinacao" => "Não há mais doses disponíveis. Favor realize o seu cadastro na fila de espera pela página principal."
                 ])->withInput();
             }
 
@@ -281,12 +282,12 @@ class CandidatoController extends Controller
 
                 $candidatoSegundaDose->save();
                 if($candidatoSegundaDose->email != null){
-                    Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
+                    Notification::send($candidatoSegundaDose, new CandidatoInscritoSegundaDose($candidatoSegundaDose, $lote ));
                 }
             }
 
             if($candidato->email != null){
-                Notification::send($candidato, new CandidatoInscrito($candidato));
+                Notification::send($candidato, new CandidatoInscrito($candidato, $lote));
             }
 
 
@@ -346,34 +347,30 @@ class CandidatoController extends Controller
         ]);
 
         $candidato = Candidato::find($id);
-
+        $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+        $lote = Lote::find($lote[0]->lote_id);
+        // dd($lote);
         if($request->confirmacao == "Ausente"){
-            $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
 
-            $candidatos->toQuery()->update([
-                'aprovacao' => $request->confirmacao,
-            ]);
             Candidato::where('cpf', $candidato->cpf)->delete();
 
         }elseif($request->confirmacao == "Aprovado"){
-            $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
+            $candidato = Candidato::find($id);
 
-            $candidatos->toQuery()->update([
-                'aprovacao' => $request->confirmacao,
-            ]);
+
             if($candidato->email != null){
-                Notification::send($candidato, new CandidatoAprovado($candidato));
+                $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+                $lote = Lote::find($lote[0]->lote_id);
+                Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
             }
         }elseif($request->confirmacao == "Reprovado"){
 
-            $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
 
-            $candidatos->toQuery()->update([
-                'aprovacao' => $request->confirmacao,
-            ]);
-
+            $candidato = Candidato::find($id);
             if($candidato->email != null){
-                Notification::send($candidato, new CandidatoReprovado($candidato));
+                $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+                $lote = Lote::find($lote[0]->lote_id);
+                Notification::send($candidato, new CandidatoReprovado($candidato, $lote ));
             }
             Candidato::where('cpf', $candidato->cpf)->delete();
 

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Lote;
 use App\Models\Candidato;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
@@ -13,18 +14,23 @@ class CandidatoInscrito extends Notification
     use Queueable;
 
     public $candidato;
+    public $candidatoSegundo;
     public $data_chegada;
     public $texto;
+    public $texto_dose_unica;
+    public $texto_dose_dupla;
+    public $lote;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Candidato $candidato)
+    public function __construct(Candidato $candidato,  Lote $lote)
     {
         $this->candidato = $candidato;
         $this->data_chegada =  date('d/m/Y \à\s  H:i \h', strtotime($this->candidato->chegada));
-        $this->texto = "Sr(a) cidadão(ã),
+        $this->texto = "Olá,
+         " . $this->candidato . " 
         Informamos que a vossa solicitação de agendamento para vacinação foi recebida com sucesso e se encontra em avaliação pela Secretaria Municipal de Saúde de Garanhuns - PE!
         Caso sua solicitação seja aprovada, seu dia, horário e local de aplicação da primeira e segunda dose são os seguintes:
         Dose:".$this->candidato->dose ." - Data: ".$this->data_chegada."";
@@ -32,9 +38,9 @@ class CandidatoInscrito extends Notification
         $this->texto_p2 = "a) por meio do próprio site, no campo 'Consultar agendamento';";
         $this->texto_p3 = "b) por comunicação feito por e-mail, caso tenha cadastrado;"; 
         $this->texto_p4 = "c) por comunicação feita no Whatsapp, caso tenha cadastrado.";
-        $this->texto_p5 = "Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!
-
-        Secretaria Municipal de Saúde (Garanhuns - PE)";
+        $this->texto_p5 = "Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!";
+        $this->lote = $lote;
+        $this->texto_dose_unica = "".$this->data_chegada.".";
     }
 
     /**
@@ -57,15 +63,15 @@ class CandidatoInscrito extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
-                    ->line($this->texto)
-                    ->line($this->texto_p1)
-                    ->line($this->texto_p2)
-                    ->line($this->texto_p3)
-                    ->line($this->texto_p4)
-                    ->line($this->texto_p5)
-                    ->action('Acessar site', url('/'))
-                    ->line('Obrigador por utilizar nosso site!');
+            ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
+            ->line($this->texto)
+            ->line($this->texto_p1)
+            ->line($this->texto_p2)
+            ->line($this->texto_p3)
+            ->line($this->texto_p4)
+            ->line($this->texto_p5)
+            ->action('Acessar site', url('/'))
+            ->line('Obrigador por utilizar nosso site!');
     }
 
     /**

@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CandidatoAprovado extends Notification
+class CandidatoInscritoSegundaDose extends Notification
 {
     use Queueable;
 
@@ -19,17 +19,20 @@ class CandidatoAprovado extends Notification
     public $texto_dose_unica;
     public $texto_dose_dupla;
     public $lote;
+    public $segundo;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Candidato $candidato, Lote $lote)
+    public function __construct(Candidato $candidato,  Lote $lote)
     {
         $this->candidato = $candidato;
+
         $this->lote = $lote;
-        $this->data_chegada =  date('d/m/Y \à\s  H:i\h', strtotime($this->candidato->chegada));
+        $this->data_chegada =  date('d/m/Y \à\s  H:i \h', strtotime($this->candidato->chegada));
+
     }
 
     /**
@@ -54,14 +57,14 @@ class CandidatoAprovado extends Notification
         return (new MailMessage)
                             ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
                             ->line("{$this->candidato->nome_completo},")
-                            ->line("Informamos que a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE.
-                            A seguir se dirija ao local escolhido no momento do agendamento e o dia e horário da aplicação da {$this->candidato->dose} para que registre ou imprima:")
+                            ->line("Informamos que a sua slicitação de agendamento para vacinação foi recebida com sucesso, e se encontra em avaliação pela Secretaria Municipal de Saúde de Garanhuns-PE.
+                                    Caso a solicitação seja aprovada se dirija ao local escolhido no momento do agendamento, o dia e horário de aplicação da {$this->candidato->dose} é o seguinte:")
                             ->line("Dia: {$this->data_chegada}.")
-                            ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!
-                            Secretaria Municipal de Saúde (Garanhuns - PE).")
+                            ->line("A confirmação de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo 'Consultar agendamento'; b) por comunicação feita por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.")
+                            ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos!
+                            Secretaria Municipal de Saúde (Garanhuns-PE).")
                             ->action('Acessar site', url('/'))
                             ->line('Obrigador por utilizar nosso site!');
-
     }
 
     /**
@@ -73,8 +76,7 @@ class CandidatoAprovado extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Condidato de ID:'. $this->candidato->id. ' Aprovado'
+            'message' => 'Condidato de ID:'. $this->candidato->id. ' registrado'
         ];
     }
-
 }

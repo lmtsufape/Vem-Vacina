@@ -10,7 +10,7 @@
                 <div class="row justify-content-center">
                     <!-- covid-19 programa de vacinacao -->
                     <div class="col-md-9 style_card_apresentacao">
-                        @if ($agendamentos != null && count($agendamentos) > 1)
+                        @if ($agendamentos != null && count($agendamentos) > 0)
                             <div class="container" style="padding-top: 10px;">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -54,48 +54,52 @@
                                         <span class="style_titulo_input" style="font-size: 32px;">Sr(a). <span class="style_titulo_campo" style="font-size: 32px;">{{$agendamentos[0]->nome_completo}}</span>, anote as informações para não esquecer!</span>
                                     </div>
                                 </div>
-                                <div class="justify-content-center destaque-pri-dose">
-                                    <div class="row">
-                                        <div class="col-md-12">1ª Dose</div>
-                                        {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
-                                        <div class="col-md-12"><hr class="style_linha_dose"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            Local<br>
-                                            {{$agendamentos[0]->posto->nome}}
+                                @if(count($agendamentos) > 0)
+                                    <div class="justify-content-center destaque-pri-dose">
+                                        <div class="row">
+                                            <div class="col-md-12">1ª Dose</div>
+                                            {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
+                                            <div class="col-md-12"><hr class="style_linha_dose"></div>
                                         </div>
-                                        <div class="col-md-3">
-                                            Data<br>
-                                            {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
-                                        </div>
-                                        <div class="col-md-3">
-                                            Hora<br>
-                                            {{date('H:i',strtotime($agendamentos[1]->chegada))}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="justify-content-center destaque-seg-dose">
-                                    <div class="row">
-                                        <div class="col-md-12">2ª Dose</div>
-                                        {{-- <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div> --}}
-                                        <div class="col-md-12"><hr class="style_linha_dose"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            Local<br>
-                                            {{$agendamentos[1]->posto->nome}}
-                                        </div>
-                                        <div class="col-md-3">
-                                            Data<br>
-                                            {{date('d/m/Y',strtotime($agendamentos[1]->chegada))}}
-                                        </div>
-                                        <div class="col-md-3">
-                                            Hora<br>
-                                            {{date('H:i',strtotime($agendamentos[1]->chegada))}}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Local<br>
+                                                {{$agendamentos[0]->posto->nome}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Data<br>
+                                                {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Hora<br>
+                                                {{date('H:i',strtotime($agendamentos[0]->chegada))}}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
+                                @if(count($agendamentos) > 1)
+                                    <div class="justify-content-center destaque-seg-dose">
+                                        <div class="row">
+                                            <div class="col-md-12">2ª Dose</div>
+                                            {{-- <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div> --}}
+                                            <div class="col-md-12"><hr class="style_linha_dose"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Local<br>
+                                                {{$agendamentos[1]->posto->nome}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Data<br>
+                                                {{date('d/m/Y',strtotime($agendamentos[1]->chegada))}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Hora<br>
+                                                {{date('H:i',strtotime($agendamentos[1]->chegada))}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="row" style="text-align: center;">
                                     <div class="col-md-12">
                                         <span class="style_titulo_campo" style="font-size: 32px;">AVISO</span>
@@ -115,7 +119,7 @@
                                 <br>
                                 <div class="row" style="text-align: justify;">
                                     <div class="col-md-12">
-                                        @if($agendamentos[0]->aprovacao == $aprovacao_enum[0]) 
+                                        @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
                                             <p>
                                                 A confirmação de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo "Consultar agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.
                                             </p>
