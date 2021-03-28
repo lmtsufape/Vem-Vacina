@@ -89,7 +89,7 @@ class CandidatoController extends Controller
             "público"               => "required",
             "nome_completo"         => "required|string|min:8|max:65|regex:/^[\pL\s]+$/u",
             "data_de_nascimento"    => "required|date|before:today",
-            "cpf"                   => "required|unique:candidatos",
+            "cpf"                   => "required",
             "número_cartão_sus"     => "required",
             "sexo"                  => "required",
             "nome_da_mãe"           => "required|string|min:8|max:65|regex:/^[\pL\s]+$/u",
@@ -113,6 +113,12 @@ class CandidatoController extends Controller
         DB::beginTransaction();
 
         try {
+            if (Candidato::where([['cpf', $request->cpf], ['aprovacao', Candidato::APROVACAO_ENUM[0]]])->get()->count() > 0) {
+                return redirect()->back()->withErrors([
+                    "cpf" => "Existe um agendamento pendente para esse CPF."
+                ])->withInput();
+            }
+
 
             $candidato = new Candidato;
             $candidato->nome_completo           = $request->nome_completo;
