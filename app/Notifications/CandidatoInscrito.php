@@ -76,9 +76,7 @@ class CandidatoInscrito extends Notification
             ->line($this->texto_p3)
             ->line($this->texto_p4)
             ->line($this->texto_p5)
-            ->action('Acessar site', url('/'))
-            ->line($this->texto_p6)
-            ->line($this->texto_p7);
+            ->action('Acessar site', url('/'));
     }
 
     /**

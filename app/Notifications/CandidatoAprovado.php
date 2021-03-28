@@ -58,9 +58,7 @@ class CandidatoAprovado extends Notification
                             ->line("Dirija-se ao local escolhido, no dia e horário do agendamento para a aplicação da {$this->candidato->dose}.")
                             ->line("Dia: {$this->data_chegada}.")
                             ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!.")
-                            ->action('Acessar site', url('/'))
-                            ->line('Atenciosamente,')
-                            ->line('Secretaria Municipal de Saúde (Garanhuns - PE)');
+                            ->action('Acessar site', url('/'));
 
     }
 
