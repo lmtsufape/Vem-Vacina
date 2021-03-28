@@ -351,12 +351,7 @@ class CandidatoController extends Controller
         $lote = Lote::find($lote[0]->lote_id);
         // dd($lote);
         if($request->confirmacao == "Ausente"){
-            $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
 
-            foreach($candidatos as $candidato){
-                $candidato->aprovacao = $request->confirmacao;
-                $candidato->save();
-            }
             Candidato::where('cpf', $candidato->cpf)->delete();
 
         }elseif($request->confirmacao == "Aprovado"){
@@ -370,12 +365,7 @@ class CandidatoController extends Controller
             }
         }elseif($request->confirmacao == "Reprovado"){
 
-            $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
 
-            foreach($candidatos as $candidato){
-                $candidato->aprovacao = $request->confirmacao;
-                $candidato->save();
-            }
             $candidato = Candidato::find($id);
             if($candidato->email != null){
                 $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
