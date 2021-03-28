@@ -20,6 +20,8 @@ class CandidatoInscrito extends Notification
     public $texto_dose_unica;
     public $texto_dose_dupla;
     public $lote;
+    public $linha_p1;
+    public $linha_p2;
     /**
      * Create a new notification instance.
      *
@@ -29,11 +31,11 @@ class CandidatoInscrito extends Notification
     {
         $this->candidato = $candidato;
         $this->data_chegada =  date('d/m/Y \à\s  H:i \h', strtotime($this->candidato->chegada));
-        $this->texto = "Olá,
-         " . $this->candidato . " 
-        Informamos que a vossa solicitação de agendamento para vacinação foi recebida com sucesso e se encontra em avaliação pela Secretaria Municipal de Saúde de Garanhuns - PE!
+        $this->texto = "Olá,";
+        $this->linha_p1 = "Sr(a), " . $this->candidato->nome_completo;
+        $this->linha_p2 = "Informamos que a vossa solicitação de agendamento para vacinação foi recebida com sucesso e se encontra em avaliação pela Secretaria Municipal de Saúde de Garanhuns - PE!
         Caso sua solicitação seja aprovada, seu dia, horário e local de aplicação da primeira e segunda dose são os seguintes:
-        Dose:".$this->candidato->dose ." - Data: ".$this->data_chegada."";
+        Dose:".$this->candidato->dose ." - Data: ".$this->data_chegada;
         $this->texto_p1 = "A confirmação de seu agendamento poderá ser realizada de três formas: ";
         $this->texto_p2 = "a) por meio do próprio site, no campo 'Consultar agendamento';";
         $this->texto_p3 = "b) por comunicação feito por e-mail, caso tenha cadastrado;"; 
@@ -65,6 +67,8 @@ class CandidatoInscrito extends Notification
         return (new MailMessage)
             ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
             ->line($this->texto)
+            ->line($this->linha_p1)
+            ->line($this->linha_p2)
             ->line($this->texto_p1)
             ->line($this->texto_p2)
             ->line($this->texto_p3)
