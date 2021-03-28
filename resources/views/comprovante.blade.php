@@ -100,6 +100,10 @@
                                         </div>
                                     </div>
                                 @endif
+                                <br>
+                                <div class="row" style="text-align: justify;">
+                                    <div class="col-md-12">A verificação da confirmação, ou não, de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo "Consultar agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.</div>
+                                </div>
                                 <div class="row" style="text-align: center;">
                                     <div class="col-md-12">
                                         <span class="style_titulo_campo" style="font-size: 32px;">AVISO</span>
@@ -112,9 +116,11 @@
                                 <div class="row" style="text-align: center;">
                                     <div class="col-md-12">Nós não iremos, em momento algum, solicitar dados de cartão de crédito, senhas bancárias ou quaisquer confirmações por SMS. Cuidado com golpes!</div>
                                 </div>
+                                <br>
                                 <div class="row" style="text-align: justify;">
                                     <div class="col-md-12">Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!</div>
                                 </div>
+                                <br>
                                 <div class="row" style="text-align: justify;">
                                     <div class="col-md-12">Secretaria Municipal de Saúde (Garanhuns - PE)</div>
                                 </div>
