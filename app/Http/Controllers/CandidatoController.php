@@ -16,6 +16,7 @@ use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
 use DateInterval;
+use App\Models\Configuracao;
 use Illuminate\Support\Facades\Notification;
 
 
@@ -47,6 +48,7 @@ class CandidatoController extends Controller
         // TODO: pegar só os postos com vacinas disponiveis
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
         $etapasAtuais = Etapa::where('atual', true)->orderBy('texto')->get();
+        $config = Configuracao::first();
 
         $bairros = [
             "Magano",
@@ -71,6 +73,7 @@ class CandidatoController extends Controller
             "publicos" => $etapasAtuais,
             "tipos"    => Etapa::TIPO_ENUM,
             "bairros" => $bairros,
+            "config"    => $config,
         ]);
 
     }
