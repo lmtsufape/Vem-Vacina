@@ -32,7 +32,7 @@
                         <div class="col-md-12">
                             <div class="row" style="text-align: center;">
                                 <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
-                                    <img src="{{asset('img/logo_programa_1.png')}}" alt="Orientação" width="300px"> 
+                                    <img src="{{asset('img/logo_vem_vacina.png')}}" alt="Orientação" width="300px"> 
                                 </div>
                             </div>
                         </div>
