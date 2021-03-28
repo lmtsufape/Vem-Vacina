@@ -25,10 +25,13 @@
                                         @if ($etapas != null)
                                             <div class="col-md-12 style_card_apresentacao_grupos_a_serem_vacinados" >GRUPOS A SEREM VACINADOS NESTA ETAPA:</div>
                                             <div class="col-md-12 style_card_apresentacao_idade">
+                                                @php
+                                                    $primeiro = 0;
+                                                @endphp
                                                 @foreach ($etapas as $i => $etapa)
                                                     @if ($etapa->exibir_na_home)
                                                         @if ($etapa->tipo == $tipos[0])
-                                                            @if ($i != 0) <hr> @endif
+                                                            @if ($primeiro != 0) <hr> @endif
                                                             {{$etapa->inicio_intervalo}}
                                                             <span class="style_card_apresentacao_a_anos">
                                                                 a
@@ -37,11 +40,14 @@
                                                                 anos
                                                             </span>
                                                         @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
-                                                            @if ($i != 0) <hr> @endif
+                                                            @if ($primeiro != 0) <hr> @endif
                                                             <span class="style_card_apresentacao_a_anos" style="position: relative; bottom: 10px;">
                                                                 {{$etapa->texto_home}}
                                                             </span>
                                                         @endif
+                                                        @php
+                                                            $primeiro++;
+                                                        @endphp
                                                     @endif
                                                 @endforeach
                                             </div>
