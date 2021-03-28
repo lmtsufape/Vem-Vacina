@@ -72,7 +72,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 Hora<br>
-                                                {{date('H:i',strtotime($agendamentos[1]->chegada))}}
+                                                {{date('H:i',strtotime($agendamentos[0]->chegada))}}
                                             </div>
                                         </div>
                                     </div>
@@ -91,11 +91,11 @@
                                             </div>
                                             <div class="col-md-3">
                                                 Data<br>
-                                                {{date('d/m/Y',strtotime($agendamentos[1]->chegada))}}
+                                                {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
                                             </div>
                                             <div class="col-md-3">
                                                 Hora<br>
-                                                {{date('H:i',strtotime($agendamentos[1]->chegada))}}
+                                                {{date('H:i',strtotime($agendamentos[0]->chegada))}}
                                             </div>
                                         </div>
                                     </div>
@@ -119,7 +119,7 @@
                                 <br>
                                 <div class="row" style="text-align: justify;">
                                     <div class="col-md-12">
-                                        @if($agendamentos[0]->aprovacao == $aprovacao_enum[0]) 
+                                        @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
                                             <p>
                                                 A confirmação de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo "Consultar agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.
                                             </p>
