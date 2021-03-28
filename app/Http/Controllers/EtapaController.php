@@ -246,6 +246,10 @@ class EtapaController extends Controller
 
         $etapa->texto = $request->texto_do_agendamento;
         $etapa->texto_home = $request->texto_da_home;
+        
+        if ($request->texto_das_outras_informações != null) {
+            $etapa->texto_outras_informacoes = $request->texto_das_outras_informações;
+        }
 
         if ($request->atual != null) {
             $etapa->atual = true;

@@ -17,7 +17,7 @@
                                         <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
                                             <img src="{{asset('/img/logo_programa_1.png')}}" alt="Orientação" width="300px"> 
                                         </div>
-                                        <div class="col-md-12 style_card_apresentacao_subtitulo">A campanha de vacinação contra a Covid-19 segue atualmente em Garanhuns, para idosos acima de 75 anos e trabalhadores da saúde.</div>
+                                        <div class="col-md-12 style_card_apresentacao_subtitulo">A plataforma “Vem Vacina Garanhuns” é a ferramenta oficial da Secretaria de Saúde de Garanhuns, desenvolvida em parceria com a Universidade Federal do Agreste de Pernambuco, para cadastro e agendamento da vacinação contra a Covid-19.</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -31,7 +31,7 @@
                                                             @if ($i != 0) <hr> @endif
                                                             {{$etapa->inicio_intervalo}}
                                                             <span class="style_card_apresentacao_a_anos"> 
-                                                                à 
+                                                                a 
                                                             </span>{{$etapa->fim_intervalo}}
                                                             <span class="style_card_apresentacao_a_anos"> 
                                                                 anos 
@@ -87,7 +87,7 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="row style_card_divisao_horizontal" >
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{$etapa->inicio_intervalo}} à {{$etapa->fim_intervalo}} anos</div>
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{$etapa->inicio_intervalo}} a {{$etapa->fim_intervalo}} anos</div>
                                                         <div class="col-md-12 style_card_medio_legenda">FAIXA ETÁRIA</div>
                                                     </div>
                                                 </div>
