@@ -41,7 +41,7 @@ class CandidatoInscritoSegundaDose extends Notification
         $this->texto_p2 = "a) por meio do próprio site, no campo 'Consultar agendamento';";
         $this->texto_p3 = "b) por comunicação feito por e-mail, caso tenha cadastrado;"; 
         $this->texto_p4 = "c) por comunicação feita no Whatsapp, caso tenha cadastrado.";
-        $this->texto_p5 = "Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!.";
+        $this->texto_p5 = "Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!";
         $this->texto_p6 = "Atenciosamente,";
         $this->texto_p7 = "Secretaria Municipal de Saúde (Garanhuns - PE)";
         $this->lote = $lote;
