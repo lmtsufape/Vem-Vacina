@@ -145,7 +145,7 @@ class LoteController extends Controller
         $rules = [
             'numero_lote'       => 'required|min:6|max:8',
             'fabricante'        => 'required|max:30',
-            'numero_vacinas'    => 'required|gt:0|integer',
+            'numero_vacinas'    => 'required|gte:0|integer',
             'dose_unica'        => '',
             'inicio_periodo'    => 'nullable|gte:0',
             'fim_periodo'       => 'nullable|gte:inicio_periodo|gte:1',
