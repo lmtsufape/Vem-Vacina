@@ -72,7 +72,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 Hora<br>
-                                                {{date('H:i',strtotime($agendamentos[1]->chegada))}}
+                                                {{date('H:i',strtotime($agendamentos[0]->chegada))}}
                                             </div>
                                         </div>
                                     </div>
