@@ -422,7 +422,7 @@ class CandidatoController extends Controller
         $agendamentos = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])
                       ->orderBy("dose") // Mostra primeiro o agendamento mais recente
                       ->get();
-
+                      
         if ($agendamentos->count() == 0) {
             return redirect()->back()->withErrors([
                 "cpf" => "Dados não encontrados"
