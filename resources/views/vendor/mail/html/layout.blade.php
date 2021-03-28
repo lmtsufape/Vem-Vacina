@@ -37,7 +37,7 @@ width: 100% !important;
 <table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
     <tr>
         <td class="header">
-            <img src="https://i.ibb.co/ZXRK2YD/logo-vem-vacina.pngp" class="logo" alt="Prefeitura de Garanhuns" style="height: 400px;width:210px">
+            <img src="https://i.ibb.co/ZXRK2YD/logo-vem-vacina.pngp" class="logo" alt="Prefeitura de Garanhuns" style="height: 400px;width:150px">
         </td>
     </tr>
 <!-- Body content -->
