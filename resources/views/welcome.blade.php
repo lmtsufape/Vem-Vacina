@@ -15,7 +15,7 @@
                                 <div class="col-md-12">
                                     <div class="row" style="text-align: center;">
                                         <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
-                                            <img src="{{asset('/img/logo_programa_1.png')}}" alt="Orientação" width="300px"> 
+                                            <img src="{{asset('/img/logo_vem_vacina.png')}}" alt="Orientação" width="300px"> 
                                         </div>
                                         <div class="col-md-12 style_card_apresentacao_subtitulo">A plataforma “Vem Vacina Garanhuns” é a ferramenta oficial da Secretaria de Saúde de Garanhuns, desenvolvida em parceria com a Universidade Federal do Agreste de Pernambuco, para cadastro e agendamento da vacinação contra a Covid-19.</div>
                                     </div>

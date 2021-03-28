@@ -16,7 +16,7 @@
                                     <div class="col-md-12">
                                         <div class="row" style="text-align: center;">
                                             <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
-                                                <img src="{{asset('/img/logo_programa_1.png')}}" alt="Orientação" width="300px">
+                                                <img src="{{asset('/img/logo_vem_vacina.png')}}" alt="Orientação" width="300px">
                                             </div>
                                         </div>
                                     </div>
@@ -27,7 +27,7 @@
                                             <div class="col-md-12"><hr class="style_linha_campo"></div>
                                             <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">
                                                 <p>
-                                                    Sr(a) cidadão(ã),
+                                                    Sr(a) {{$agendamentos[0]->nome_completo}},
                                                 </p>
                                                 {{-- {{dd($agendamentos[0]->aprovacao)}} --}}
                                                 @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
@@ -49,11 +49,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-md-12">
                                         <span class="style_titulo_input" style="font-size: 32px;">Sr(a). <span class="style_titulo_campo" style="font-size: 32px;">{{$agendamentos[0]->nome_completo}}</span>, anote as informações para não esquecer!</span>
                                     </div>
-                                </div>
+                                </div> --}}
                                 @if(count($agendamentos) > 0)
                                     <div class="justify-content-center destaque-pri-dose">
                                         <div class="row">
@@ -100,6 +100,10 @@
                                         </div>
                                     </div>
                                 @endif
+                                <br>
+                                <div class="row" style="text-align: justify;">
+                                    <div class="col-md-12">A verificação da confirmação, ou não, de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo "Consultar agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.</div>
+                                </div>
                                 <div class="row" style="text-align: center;">
                                     <div class="col-md-12">
                                         <span class="style_titulo_campo" style="font-size: 32px;">AVISO</span>
@@ -112,6 +116,14 @@
                                 <div class="row" style="text-align: center;">
                                     <div class="col-md-12">Nós não iremos, em momento algum, solicitar dados de cartão de crédito, senhas bancárias ou quaisquer confirmações por SMS. Cuidado com golpes!</div>
                                 </div>
+                                <br>
+                                <div class="row" style="text-align: justify;">
+                                    <div class="col-md-12">Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!</div>
+                                </div>
+                                <br>
+                                <div class="row" style="text-align: justify;">
+                                    <div class="col-md-12">Secretaria Municipal de Saúde (Garanhuns - PE)</div>
+                                </div>
                                 <hr class="style-linha-divisora-red">
                                 <div class="row">
                                     <div class="col-md-12 style_titulo_campo"><span style="font-size: 28px;">Outras informações</span></div>
@@ -119,21 +131,6 @@
                                 <br>
                                 <div class="row" style="text-align: justify;">
                                     <div class="col-md-12">
-                                        @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
-                                            <p>
-                                                A confirmação de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo "Consultar agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.
-                                            </p>
-                                            <p>
-                                                Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!
-                                            </p>
-                                        @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
-                                            <p>
-                                                Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!
-                                            </p>
-                                        @endif
-                                        <p>
-                                            Secretaria Municipal de Saúde (Garanhuns - PE)
-                                        </p>
                                         <p>
                                             Para outras informações ou dúvidas não sanadas nos canais acima, tais como: dificuldades ou problemas técnicos para uso no sistema, esclarecimento de dúvidas quanto a faixa etária, favor entrar em contato pelo e-mail, telefone ou whatsapp disponibilizados:
                                         </p>
