@@ -1,7 +1,7 @@
 <x-guest-layout>
     <body style="background-color: #FBFBFB;">
-        <div style="padding-bottom: 0rem;padding-top: 1rem;; margin-top: -15%;"> 
-            <img src="{{asset('/img/cabecalho_1.png')}}" alt="Orientação" width="100%"> 
+        <div style="padding-bottom: 0rem;padding-top: 1rem;; margin-top: -15%;">
+            <img src="{{asset('/img/cabecalho_1.png')}}" alt="Orientação" width="100%">
             <div class="container">
                 <img src="{{asset('/img/cabecalho_2.png')}}" alt="Orientação" width="100%">
             </div>
@@ -15,7 +15,7 @@
                                 <div class="col-md-12">
                                     <div class="row" style="text-align: center;">
                                         <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
-                                            <img src="{{asset('/img/logo_vem_vacina.png')}}" alt="Orientação" width="300px"> 
+                                            <img src="{{asset('/img/logo_vem_vacina.png')}}" alt="Orientação" width="300px">
                                         </div>
                                         <div class="col-md-12 style_card_apresentacao_subtitulo">A plataforma “Vem Vacina Garanhuns” é a ferramenta oficial da Secretaria de Saúde de Garanhuns, desenvolvida em parceria com a Universidade Federal do Agreste de Pernambuco, para cadastro e agendamento da vacinação contra a Covid-19.</div>
                                     </div>
@@ -30,15 +30,15 @@
                                                         @if ($etapa->tipo == $tipos[0])
                                                             @if ($i != 0) <hr> @endif
                                                             {{$etapa->inicio_intervalo}}
-                                                            <span class="style_card_apresentacao_a_anos"> 
-                                                                a 
+                                                            <span class="style_card_apresentacao_a_anos">
+                                                                a
                                                             </span>{{$etapa->fim_intervalo}}
-                                                            <span class="style_card_apresentacao_a_anos"> 
-                                                                anos 
+                                                            <span class="style_card_apresentacao_a_anos">
+                                                                anos
                                                             </span>
                                                         @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
                                                             @if ($i != 0) <hr> @endif
-                                                            <span class="style_card_apresentacao_a_anos" style="position: relative; bottom: 10px;"> 
+                                                            <span class="style_card_apresentacao_a_anos" style="position: relative; bottom: 10px;">
                                                                 {{$etapa->texto_home}}
                                                             </span>
                                                         @endif
@@ -56,7 +56,7 @@
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.</div>
                                         @auth
                                             <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($vacinasDisponiveis == 0) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif">@if($vacinasDisponiveis == 0)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else QUERO SOLICITAR MINHA VACINA @endif</a>
-                                        @else 
+                                        @else
                                             <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($vacinasDisponiveis == 0 || $config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($vacinasDisponiveis == 0 || $config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else QUERO SOLICITAR MINHA VACINA @endif</a>
                                         @endauth
                                         @if($config->botao_fila_de_espera)
@@ -174,7 +174,7 @@
                             </div>
                         @endif
                     @endforeach
-                @else 
+                @else
                     <div class="row justify-content-center">
                         <div class="col-md-9 style_card_medio">
                             <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">
@@ -257,7 +257,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -278,7 +278,7 @@
                   <div class="col-sm">
                     <div class="form-group justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
                         <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="{{asset('img/logo_fale_conosco.png')}}" alt="LMTS" width="15px"> Fale Conosco</div>
-                        <div style="color:#fff; font-size: 30px; font-weight: 600; font-family: Arial, Helvetica, sans-serif; margin-top:43px">(87) 3762-7000</div>
+                        <div style="color:#fff; font-size: 30px; font-weight: 600; font-family: Arial, Helvetica, sans-serif; margin-top:43px">(87) 3762-1252</div>
                     </div>
                   </div>
                   <div class="col-sm">
@@ -299,7 +299,7 @@
                 </div>
               </div>
         </div>
-        
+
         <!--x rodapé x-->
     </body>
     <!-- Modal checar agendamento -->
@@ -321,7 +321,7 @@
                             <div class="col-md-6">
                                 <label for="inputCPF" class="style_titulo_input">CPF <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                 <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
-                            
+
                                 @error('cpf')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
                                     <strong>{{$message}}</strong>
@@ -335,7 +335,7 @@
                                     <option @if(old('dose') == $doses[0]) selected @endif value="{{$doses[0]}}">{{$doses[0]}}</option>
                                     <option @if(old('dose') == $doses[1]) selected @endif value="{{$doses[1]}}">{{$doses[1]}}</option>
                                 </select>
-                                
+
                                 @error('dose')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
                                     <strong>{{$message}}</strong>
@@ -343,7 +343,7 @@
                                 @enderror --}}
                                 <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                 <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
-                                
+
                                 @error('data_de_nascimento')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
                                     <strong>{{$message}}</strong>
@@ -354,7 +354,7 @@
                         <br>
                         <div class="row">
                             <div class="col-md-6">
-                                
+
                             </div>
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-success" style="width: 100%;" form="consultar_agendamento">Consultar</button>
@@ -367,7 +367,7 @@
         </div>
     </div>
     <!-- Fim modal checar agendamento -->
-    @if (old('consulta') != null) 
+    @if (old('consulta') != null)
         <script>
             $(document).ready(function() {
                 $("#modalChecarAgendamento").modal('show');

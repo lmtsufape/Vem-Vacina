@@ -44,7 +44,7 @@
 {{ $salutation }}
 @else
 @lang('Regards'),<br>
-{{ config('app.name') }}
+{{ "Secretaria Municipal de Saúde (Garanhuns - PE)" }}
 @endif
 
 {{-- Subcopy --}}
