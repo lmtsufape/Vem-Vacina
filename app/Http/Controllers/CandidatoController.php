@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Throwable;
+use DateInterval;
 use Carbon\Carbon;
 use App\Models\Lote;
 use App\Models\Etapa;
@@ -15,8 +16,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
-use DateInterval;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\CandidatoInscritoSegundaDose;
 
 
 class CandidatoController extends Controller
@@ -278,12 +279,12 @@ class CandidatoController extends Controller
 
                 $candidatoSegundaDose->save();
                 if($candidatoSegundaDose->email != null){
-                    Notification::send($candidatoSegundaDose, new CandidatoInscrito($candidatoSegundaDose));
+                    Notification::send($candidatoSegundaDose, new CandidatoInscritoSegundaDose($candidatoSegundaDose, $lote ));
                 }
             }
 
             if($candidato->email != null){
-                Notification::send($candidato, new CandidatoInscrito($candidato));
+                Notification::send($candidato, new CandidatoInscrito($candidato, $lote));
             }
 
 
@@ -343,34 +344,46 @@ class CandidatoController extends Controller
         ]);
 
         $candidato = Candidato::find($id);
-
+        $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+        $lote = Lote::find($lote[0]->lote_id);
+        // dd($lote);
         if($request->confirmacao == "Ausente"){
             $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
 
-            $candidatos->toQuery()->update([
-                'aprovacao' => $request->confirmacao,
-            ]);
+            foreach($candidatos as $candidato){
+                $candidato->aprovacao = $request->confirmacao;
+                $candidato->save();
+            }
             Candidato::where('cpf', $candidato->cpf)->delete();
 
         }elseif($request->confirmacao == "Aprovado"){
             $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
 
-            $candidatos->toQuery()->update([
-                'aprovacao' => $request->confirmacao,
-            ]);
+            foreach($candidatos as $candidato){
+                $candidato->aprovacao = $request->confirmacao;
+                $candidato->save();
+            }
+            // $candidatos->toQuery()->update([
+            //     'aprovacao' => $request->confirmacao,
+            // ]);
             if($candidato->email != null){
-                Notification::send($candidato, new CandidatoAprovado($candidato));
+                $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+                $lote = Lote::find($lote[0]->lote_id);
+                Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
             }
         }elseif($request->confirmacao == "Reprovado"){
 
             $candidatos = Candidato::where('cpf', $candidato->cpf)->get();
 
-            $candidatos->toQuery()->update([
-                'aprovacao' => $request->confirmacao,
-            ]);
+            foreach($candidatos as $candidato){
+                $candidato->aprovacao = $request->confirmacao;
+                $candidato->save();
+            }
 
             if($candidato->email != null){
-                Notification::send($candidato, new CandidatoReprovado($candidato));
+                $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+                $lote = Lote::find($lote[0]->lote_id);
+                Notification::send($candidato, new CandidatoReprovado($candidato, $lote ));
             }
             Candidato::where('cpf', $candidato->cpf)->delete();
 
