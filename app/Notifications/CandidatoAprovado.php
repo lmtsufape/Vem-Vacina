@@ -57,7 +57,7 @@ class CandidatoAprovado extends Notification
                             ->line("Informamos que a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE!")
                             ->line("Dirija-se ao local escolhido, no dia e horário do agendamento para a aplicação da {$this->candidato->dose}.")
                             ->line("Dia: {$this->data_chegada}.")
-                            ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!.")
+                            ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!")
                             ->action('Acessar site', url('/'));
 
     }
