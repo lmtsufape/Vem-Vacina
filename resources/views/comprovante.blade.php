@@ -91,11 +91,11 @@
                                             </div>
                                             <div class="col-md-3">
                                                 Data<br>
-                                                {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
+                                                {{date('d/m/Y',strtotime($agendamentos[1]->chegada))}}
                                             </div>
                                             <div class="col-md-3">
                                                 Hora<br>
-                                                {{date('H:i',strtotime($agendamentos[0]->chegada))}}
+                                                {{date('H:i',strtotime($agendamentos[1]->chegada))}}
                                             </div>
                                         </div>
                                     </div>

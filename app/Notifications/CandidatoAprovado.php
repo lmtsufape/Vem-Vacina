@@ -53,12 +53,12 @@ class CandidatoAprovado extends Notification
     {
         return (new MailMessage)
                             ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
-                            ->line('Sr(a) cidadão(ã),')
+                            ->line("{$this->candidato->nome_completo},")
                             ->line("Informamos que a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE.
-                            A seguir, encontram-se o dia, horário e local de aplicação da {$this->candidato->dose} para que registre ou imprima:")
+                            A seguir se dirija ao local escolhido no momento do agendamento e o dia e horário da aplicação da {$this->candidato->dose} para que registre ou imprima:")
                             ->line("Dia: {$this->data_chegada}.")
                             ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!
-                            Secretaria Municipal de Saúde (Garanhuns - PE)")
+                            Secretaria Municipal de Saúde (Garanhuns - PE).")
                             ->action('Acessar site', url('/'))
                             ->line('Obrigador por utilizar nosso site!');
 
