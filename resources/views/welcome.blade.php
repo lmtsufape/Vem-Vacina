@@ -17,7 +17,7 @@
                                         <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
                                             <img src="{{asset('/img/logo_programa_1.png')}}" alt="Orientação" width="300px"> 
                                         </div>
-                                        <div class="col-md-12 style_card_apresentacao_subtitulo">A campanha de vacinação contra a Covid-19 segue atualmente em Garanhuns, para idosos acima de 75 anos e trabalhadores da saúde.</div>
+                                        <div class="col-md-12 style_card_apresentacao_subtitulo">A plataforma “Vem Vacina Garanhuns” é a ferramenta oficial da Secretaria de Saúde de Garanhuns, desenvolvida em parceria com a Universidade Federal do Agreste de Pernambuco, para cadastro e agendamento da vacinação contra a Covid-19.</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
