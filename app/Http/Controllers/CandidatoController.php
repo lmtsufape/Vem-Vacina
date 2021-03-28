@@ -351,7 +351,9 @@ class CandidatoController extends Controller
         $lote = Lote::find($lote[0]->lote_id);
         // dd($lote);
         if($request->confirmacao == "Ausente"){
-
+            $candidato = Candidato::find($id);
+            $candidato->aprovacao = "Reprovado";
+            $candidato->save();
             Candidato::where('cpf', $candidato->cpf)->delete();
 
         }elseif($request->confirmacao == "Aprovado"){
