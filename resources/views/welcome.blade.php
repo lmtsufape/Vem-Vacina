@@ -25,10 +25,13 @@
                                         @if ($etapas != null)
                                             <div class="col-md-12 style_card_apresentacao_grupos_a_serem_vacinados" >GRUPOS A SEREM VACINADOS NESTA ETAPA:</div>
                                             <div class="col-md-12 style_card_apresentacao_idade">
+                                                @php
+                                                    $primeiro = 0;
+                                                @endphp
                                                 @foreach ($etapas as $i => $etapa)
                                                     @if ($etapa->exibir_na_home)
                                                         @if ($etapa->tipo == $tipos[0])
-                                                            @if ($i != 0) <hr> @endif
+                                                            @if ($primeiro != 0) <hr> @endif
                                                             {{$etapa->inicio_intervalo}}
                                                             <span class="style_card_apresentacao_a_anos">
                                                                 a
@@ -37,11 +40,14 @@
                                                                 anos
                                                             </span>
                                                         @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
-                                                            @if ($i != 0) <hr> @endif
+                                                            @if ($primeiro != 0) <hr> @endif
                                                             <span class="style_card_apresentacao_a_anos" style="position: relative; bottom: 10px;">
                                                                 {{$etapa->texto_home}}
                                                             </span>
                                                         @endif
+                                                        @php
+                                                            $primeiro++;
+                                                        @endphp
                                                     @endif
                                                 @endforeach
                                             </div>
@@ -53,7 +59,14 @@
                                 <div class="col-md-6" style="margin-bottom: 32px;">
                                     <div class="row">
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
-                                        <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.</div>
+                                        <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.
+                                            @if($config->botao_fila_de_espera)
+                                                <p>
+                                                    <br>
+                                                    <strong>INFORME:</strong> VACINAS PARA A ETAPA DE <strong>65 A 69 ANOS</strong> ESTÃO ESGOTADAS. ESTAMOS AGUARDANDO NOVAS REMESSAS DE DOSES. FAVOR CADASTRAR-SE NA <strong>LISTA DE ESPERA.</strong>
+                                                </p>
+                                            @endif
+                                        </div>
                                         @auth
                                             <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($vacinasDisponiveis == 0) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif">@if($vacinasDisponiveis == 0)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else QUERO SOLICITAR MINHA VACINA @endif</a>
                                         @else

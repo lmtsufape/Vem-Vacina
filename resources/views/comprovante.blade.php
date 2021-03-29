@@ -100,22 +100,34 @@
                                         </div>
                                     </div>
                                 @endif
+                                @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
                                 <br>
-                                <div class="row" style="text-align: justify;">
-                                    <div class="col-md-12">A verificação da confirmação, ou não, de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo "Consultar agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.</div>
-                                </div>
+                                    <div class="row" style="text-align: justify;">
+                                        <div class="col-md-12">A verificação da confirmação, ou não, de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo "Consultar agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.</div>
+                                    </div>
+                                @endif
                                 <div class="row" style="text-align: center;">
                                     <div class="col-md-12">
                                         <span class="style_titulo_campo" style="font-size: 32px;">AVISO</span>
                                     </div>
                                 </div>
-                                <div class="row" style="text-align: justify;">
-                                    <div class="col-md-12">Fica atento a seu e-mail, whatsapp ou telefone, para a confirmação do agendamento por parte da Secretaria de Saúde. Ou caso prefira, acesse novamente a página principal do sistema, e clique em "Consultar agendamento"</div>
-                                </div>
-                                <br>
-                                <div class="row" style="text-align: center;">
-                                    <div class="col-md-12">Nós não iremos, em momento algum, solicitar dados de cartão de crédito, senhas bancárias ou quaisquer confirmações por SMS. Cuidado com golpes!</div>
-                                </div>
+                                @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
+                                    <div class="row" style="text-align: justify;">
+                                        <div class="col-md-12">Além disso, fica atento a seu e-mail, whatsapp ou telefone, para a confirmação do agendamento por parte da Secretaria de Saúde. Ou caso prefira, acesse novamente a página principal do sistema, e clique em "Consultar agendamento"</div>
+                                    </div>
+                                    <br>
+                                    <div class="row" style="text-align: center;">
+                                        <div class="col-md-12">Nós não iremos, em momento algum, solicitar dados de cartão de crédito, senhas bancárias ou quaisquer confirmações por SMS. Cuidado com golpes!</div>
+                                    </div>
+                                @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
+                                    <div class="row" style="text-align: justify;">
+                                        <div class="col-md-12">Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.</div>
+                                    </div>
+                                    <br>
+                                    <div class="row" style="text-align: justify;">
+                                        <div class="col-md-12">Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.</div>
+                                    </div>
+                                @endif
                                 <br>
                                 <div class="row" style="text-align: justify;">
                                     <div class="col-md-12">Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!</div>
