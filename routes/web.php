@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/agendamento/{id}/confirmar-vacinacao", [CandidatoController::class, 'vacinado'])->name('candidato.vacinado');
     Route::get("/candidato/lote", [CandidatoController::class, 'CandidatoLote'])->name('candidato.candidatoLote');
     Route::get("/candidato/order/{field}/campo/{order}", [CandidatoController::class, 'ordenar'])->name('candidato.order');
-    
+
 
     Route::resource('/postos', PostoVacinacaoController::class);
     Route::resource('/lotes', LoteController::class);
@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('exportar/lote', [ExportController::class, 'exportLote'])->name('export.lote');
     Route::get('exportar/postos', [ExportController::class, 'exportPosto'])->name('export.posto');
     Route::get('exportar/index', [ExportController::class, 'index'])->name('export.index');
+    Route::get('exportar/listaCandidato', [ExportController::class, 'listarCandidato'])->name('export.candidatos');
 
     Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('config.index');
     Route::get('/configuracoes/salvar', [ConfiguracaoController::class, 'update'])->name('config.update');

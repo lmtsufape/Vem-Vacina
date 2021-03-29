@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Candidato;
 use App\Models\Lote;
-use App\Models\PostoVacinacao;
-use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\CondidatoExport;
+use App\Models\Etapa;
+use App\Models\Candidato;
 use App\Exports\LoteExport;
 use App\Exports\PostoExport;
+use Illuminate\Http\Request;
+use App\Models\PostoVacinacao;
+use App\Exports\CandidatoExport;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ExportController extends Controller
 {
@@ -31,7 +32,7 @@ class ExportController extends Controller
     public function exportCandidato()
     {
         Gate::authorize('baixar-export');
-        return Excel::download(new CondidatoExport, 'candidatos.xlsx');
+        return Excel::download(new CandidatoExport, 'candidatos.xlsx');
     }
 
     public function exportLote()
@@ -46,9 +47,12 @@ class ExportController extends Controller
         return Excel::download(new PostoExport, 'postos.xlsx');
     }
 
-    public function create()
+    public function listarCandidato()
     {
-
+        return view('export.candidatos', [
+            'candidatos' => Candidato::where('aprovacao', "Aprovado")->get(),
+            'tipos' => Etapa::TIPO_ENUM
+        ]);
     }
 
 

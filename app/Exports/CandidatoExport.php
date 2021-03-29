@@ -2,12 +2,15 @@
 
 namespace App\Exports;
 
+use App\Models\Etapa;
 use App\Models\Candidato;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class CondidatoExport implements FromCollection, ShouldAutoSize,WithHeadings
+class CandidatoExport implements ShouldAutoSize,WithHeadings, FromView
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -41,6 +44,14 @@ class CondidatoExport implements FromCollection, ShouldAutoSize,WithHeadings
             'chegada',
             'saida',
         ];
+    }
+
+    public function view(): View
+    {
+        return view('export.candidatos', [
+            'candidatos' => Candidato::where('aprovacao', "Aprovado")->get(),
+            'tipos' => Etapa::TIPO_ENUM
+        ]);
     }
 
 }
