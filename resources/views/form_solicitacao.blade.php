@@ -17,8 +17,8 @@
         </div>
     @endif
 
-    <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;"> 
-        <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%"> 
+    <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;">
+        <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%">
         <div class="container">
             <img src="{{asset('img/cabecalho_2.png')}}" alt="Orientação" width="100%">
         </div>
@@ -32,7 +32,7 @@
                         <div class="col-md-12">
                             <div class="row" style="text-align: center;">
                                 <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
-                                    <img src="{{asset('img/logo_vem_vacina.png')}}" alt="Orientação" width="300px"> 
+                                    <img src="{{asset('img/logo_vem_vacina.png')}}" alt="Orientação" width="300px">
                                 </div>
                             </div>
                         </div>
@@ -251,7 +251,7 @@
                                                 <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
                                                 <div style="font-size: 15px; margin-bottom: 15px;">@if($publico->texto_outras_informacoes!=null)({{$publico->texto_outras_informacoes}})@endif</div>
                                             </div>
-                                            
+
                                             @foreach ($publico->outrasInfo()->orderBy('campo')->get() as $outra)
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" id="defaultCheck0" name="opcao_etapa_{{$publico->id}}[]" value="{{$outra->id}}" @if(old('opcao_etapa_'.$publico->id) != null && in_array($outra->id, old('opcao_etapa_'.$publico->id))) checked @endif>
@@ -260,7 +260,7 @@
                                             @endforeach
                                         </div>
                                     @endif
-                                @endforeach  
+                                @endforeach
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Endereço</div>
                                     <div style="font-size: 15px; margin-bottom: 15px;">(Informe seu endereço, rua, número, se casa ou apartamento, CEP e bairro)</div>
@@ -697,4 +697,4 @@
 
 
 </x-guest-layout>
-     
+

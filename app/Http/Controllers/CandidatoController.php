@@ -27,15 +27,21 @@ class CandidatoController extends Controller
         $candidatos = null;
 
         if($request->filtro == null || $request->filtro == 1) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get();
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->paginate(30);
         } else if ($request->filtro == 2) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[1])->paginate(30);
         } else if ($request->filtro == 3) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[2])->get();
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[2])->paginate(30);
         } else if ($request->filtro == 4) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->paginate(30);
         } else if ($request->filtro == 5) {
-            $candidatos = Candidato::where('chegada','like',date("Y-m-d")."%")->get();
+            $candidatos = Candidato::where('chegada','like',date("Y-m-d")."%")->paginate(30);
+        } else if ($request->filtro == 6) {
+            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[0])->paginate(30);
+        } else if ($request->filtro == 7) {
+            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[1])->paginate(30);
+        } else if ($request->filtro == 8) {
+            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[2])->paginate(30);
         }
 
         return view('dashboard')->with(['candidatos' => $candidatos,
