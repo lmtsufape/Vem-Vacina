@@ -35,6 +35,9 @@
                                 <option value="3" @if(isset($filtro) && $filtro == "3") selected @endif>Candidatos reprovados</option>
                                 <option value="4" @if(isset($filtro) && $filtro == "4") selected @endif>Candidatos vacinados</option>
                                 <option value="5" @if(isset($filtro) && $filtro == "5") selected @endif>Agendamentos do dia</option>
+                                <option value="6" @if(isset($filtro) && $filtro == "6") selected @endif>Primeira dose</option>
+                                <option value="7" @if(isset($filtro) && $filtro == "7") selected @endif>Segunda dose</option>
+                                <option value="8" @if(isset($filtro) && $filtro == "8") selected @endif>Dose única</option>
                             </select>
                         </div>
                         <div class="col-sm-3">
@@ -395,6 +398,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $candidatos->links() }}
             </div>
         </div>
     </div>
