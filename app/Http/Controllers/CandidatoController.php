@@ -50,6 +50,19 @@ class CandidatoController extends Controller
                                         'filtro' => $request->filtro]);
     }
 
+    // public function pendentes(Request $request) {
+    //     $candidatos = null;
+
+    //     if($request->filtro == null || $request->filtro == 1) {
+    //         $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->paginate(30);
+    //     }
+
+    //     return view('dashboard')->with(['candidatos' => $candidatos,
+    //     'candidato_enum' => Candidato::APROVACAO_ENUM,
+    //     'tipos' => Etapa::TIPO_ENUM,
+    //     'filtro' => $request->filtro]);
+    // }
+
     public function solicitar() {
 
         // TODO: pegar só os postos com vacinas disponiveis
@@ -453,8 +466,25 @@ class CandidatoController extends Controller
 
     public function ordenar($field ,$order)
     {
+
         $candidatos = Candidato::orderBy($field, $order)->paginate(30);
-        // dd($candidatos);
+
+        return view('dashboard')->with(['candidatos' => $candidatos,
+                                        'candidato_enum' => Candidato::APROVACAO_ENUM,
+                                        'tipos' => Etapa::TIPO_ENUM]);
+
+    }
+
+    public function filtro($field ,$tipo)
+    {
+
+        if($tipo == "Chegada"){
+            $candidatos = Candidato::where('chegada','like',date("Y-m-d")."%")->paginate(30);
+        }else{
+
+            $candidatos = Candidato::where($field, $tipo)->paginate(30);
+        }
+
 
         return view('dashboard')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
