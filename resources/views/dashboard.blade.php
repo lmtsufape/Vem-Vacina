@@ -1,25 +1,36 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Lista de agendamentos') }}
-            @php
-                $filtros =  array('Candidatos pendentes',
-                      'Candidatos aprovados',
-                      'Candidatos reprovados',
-                      'Candidatos vacinados',
-                      'Agendamentos do dia')
-            @endphp
-            @isset($filtro)
-                @foreach ($filtros as $key => $item)
-                    @if ( $filtro == $loop->iteration)
-                        {{ " - " .$item }}
-                    @endif
-                @endforeach
-            @endisset
-        </h2>
-        <a href="{{ route('dashboard') }}">
-            <small>Atualizar página <i class="fas fa-redo"></i> </small>
-        </a>
+        <div class="row">
+            <div class="col-md-8">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Lista de agendamentos') }}
+                    @php
+                        $filtros =  array('Candidatos pendentes',
+                                'Candidatos aprovados',
+                                'Candidatos reprovados',
+                                'Candidatos vacinados',
+                                'Agendamentos do dia')
+                    @endphp
+                    @isset($filtro)
+                        @foreach ($filtros as $key => $item)
+                            @if ( $filtro == $loop->iteration)
+                                {{ " - " .$item }}
+                            @endif
+                        @endforeach
+                    @endisset
+                </h2>
+                <a href="{{ route('dashboard') }}">
+                    <small>Atualizar página <i class="fas fa-redo"></i> </small>
+                </a>
+            </div>
+            <div class="col-md-4" style="text-align: right;">
+                <a href="{{route('solicitacao.candidato')}}">
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                        Fazer agendamento
+                    </button>
+                </a>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
