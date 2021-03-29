@@ -50,7 +50,7 @@ class ExportController extends Controller
     public function listarCandidato()
     {
         return view('export.candidatos', [
-            'candidatos' => Candidato::where('aprovacao', "Aprovado")->get(),
+            'candidatos' => Candidato::all(),
             'tipos' => Etapa::TIPO_ENUM
         ]);
     }
