@@ -453,7 +453,7 @@ class CandidatoController extends Controller
 
     public function ordenar($field ,$order)
     {
-        $candidatos = Candidato::orderBy($field, $order)->get();
+        $candidatos = Candidato::orderBy($field, $order)->paginate(30);
         // dd($candidatos);
 
         return view('dashboard')->with(['candidatos' => $candidatos,
