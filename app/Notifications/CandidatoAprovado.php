@@ -54,12 +54,15 @@ class CandidatoAprovado extends Notification
         return (new MailMessage)
                             ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
                             ->line("Sr(a). {$this->candidato->nome_completo},")
-                            ->line("Informamos que a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE!")
-                            ->line("Dirija-se ao local escolhido, no dia e horário do agendamento para a aplicação da {$this->candidato->dose}.")
+                            ->line("Informamos que a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE.")
+                            ->line("A seguir, encontram-se o dia, horário e local de aplicação da {$this->candidato->dose} para que registre ou imprima:")
                             ->line("Dia: {$this->data_chegada}.")
+                            ->line("Local: {$this->candidato->posto->nome}.")
+                            ->line("Endereço: {$this->candidato->posto->endereco}.")
+                            ->line("Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.")
+                            ->line("Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.")
                             ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!")
                             ->action('Acessar site', url('/'));
-
     }
 
     /**
