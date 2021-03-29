@@ -322,7 +322,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputNumeroResidencia" class="style_titulo_input">NÚMERO DA RESIDÊNCIA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
-                                        <input type="text" class="form-control style_input @error('número_residencial') is-invalid @enderror" id="inputNumeroResidencia" placeholder="Digite o nome da residência" name="número_residencial" value="{{old('número_residencial')}}">
+                                        <input type="text" class="form-control style_input @error('número_residencial') is-invalid @enderror" id="inputNumeroResidencia" placeholder="Digite o número da residência" name="número_residencial" value="{{old('número_residencial')}}">
 
                                         @error('número_residencial')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -347,7 +347,7 @@
 
                                 <div class="form-group">
                                     <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Local da vacinação</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">(Escolha o local, dia e horário que você quer se vacinar)</div>
+                                    <div style="font-size: 15px; margin-bottom: 15px;">(Escolha o local, dia e horário que você quer ser vacinado)</div>
                                 </div>
 
                                 <!-- informações do atendimento -->
@@ -418,7 +418,9 @@
               <div class="col-sm">
                 <div class="form-group justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
                     <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="{{asset('img/logo_fale_conosco.png')}}" alt="LMTS" width="15px"> Fale Conosco</div>
-                    <div style="color:#fff; font-size: 30px; font-weight: 600; font-family: Arial, Helvetica, sans-serif; margin-top:43px">(87) 3762-1252 <br>agendamentovacinacovidgus@gmail.com </div>
+                    <div style="color:#fff; font-size: 30px; font-weight: 600; font-family: Arial, Helvetica, sans-serif; margin-top:20px">(87) 3762-1252</div>
+                    <div style="color:#fff; font-size: 18px; font-weight: 100; font-family: Arial, Helvetica, sans-serif; margin-top:6px">agendamentovacinacovidgus@gmail.com</div>
+
                 </div>
               </div>
               <div class="col-sm">
@@ -690,11 +692,9 @@
                 }
             }
         })
-
-
     }
-
     </script>
 
 
 </x-guest-layout>
+

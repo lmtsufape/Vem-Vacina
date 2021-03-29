@@ -93,7 +93,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{count($etapa->candidatos)}}</div>
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{count($etapa->candidatos)/2}}</div>
                                                         <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTA FAIXA ETÁRIA</div>
                                                     </div>
                                                 </div>
@@ -125,7 +125,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{count($etapa->candidatos)}}</div>
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{count($etapa->candidatos)/2}}</div>
                                                         <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTE PÚBLICO</div>
                                                     </div>
                                                 </div>
@@ -157,7 +157,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{count($etapa->candidatos)}}</div>
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{count($etapa->candidatos)/2}}</div>
                                                         <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTE PÚBLICO</div>
                                                     </div>
                                                 </div>
@@ -217,7 +217,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasCadastradas}}</div>
+                                            <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasCadastradas/2}}</div>
                                             <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
                                         </div>
                                     </div>
@@ -278,7 +278,9 @@
                   <div class="col-sm">
                     <div class="form-group justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
                         <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="{{asset('img/logo_fale_conosco.png')}}" alt="LMTS" width="15px"> Fale Conosco</div>
-                        <div style="color:#fff; font-size: 30px; font-weight: 600; font-family: Arial, Helvetica, sans-serif; margin-top:43px">(87) 3762-1252 <br> agendamentovacinacovidgus@gmail.com</div>
+                        <div style="color:#fff; font-size: 30px; font-weight: 600; font-family: Arial, Helvetica, sans-serif; margin-top:20px">(87) 3762-1252</div>
+                        <div style="color:#fff; font-size: 18px; font-weight: 100; font-family: Arial, Helvetica, sans-serif; margin-top:6px">agendamentovacinacovidgus@gmail.com</div>
+
                     </div>
                   </div>
                   <div class="col-sm">
