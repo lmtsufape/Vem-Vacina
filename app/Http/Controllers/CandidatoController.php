@@ -37,7 +37,8 @@ class CandidatoController extends Controller
         } 
 
         if ($request->data_check && $request->data != null) {
-            $query->where('chegada','like',$request->data."%");
+            $amanha = (new Carbon($request->data))->addDays(1);
+            $query->where([['chegada','>=',$request->data], ['chegada','<=', $amanha]]);
         } 
 
         if ($request->dose_check && $request->dose != null) {
