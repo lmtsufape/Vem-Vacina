@@ -36,53 +36,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="container">
-                <p>
-
-                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    Filtros
-                  </button>
-                </p>
-                <div class="collapse" id="collapseExample">
-                  <div class="card card-body">
-                      <div class="row">
-                          <div class="col-2 my-2">
-                            <a class="btn btn-info" href="{{ route('candidato.filtro', ['field' => 'aprovacao' ,'tipo'=> 'Não Analisado']) }}">
-                                Pendentes
-                            </a>
-                          </div>
-                          <div class="col-2 my-2">
-                            <a class="btn btn-info" href="{{ route('candidato.filtro', ['field' => 'aprovacao' ,'tipo'=> 'Aprovado']) }}">
-                                Aprovados
-                            </a>
-                          </div>
-                          <div class="col-2 my-2">
-                            <a class="btn btn-info" href="{{ route('candidato.filtro', ['field' => 'aprovacao' ,'tipo'=> 'Vacinado']) }}">
-                                Vacinado
-                            </a>
-                          </div>
-                          <div class="col-2 my-2">
-                            <a class="btn btn-info" href="{{ route('candidato.filtro', ['field' => 'chegada' ,'tipo'=> now()]) }}">
-                                De Hoje
-                            </a>
-                          </div>
-                          <div class="col-2 my-2">
-                            <a class="btn btn-info" href="{{ route('candidato.filtro', ['field' => 'dose' ,'tipo'=> '1ª Dose']) }}">
-                                Primeira Dose
-                            </a>
-                          </div>
-                          <div class="col-2 my-2">
-                            <a class="btn btn-info" href="{{ route('candidato.filtro', ['field' => 'dose' ,'tipo'=> '2ª Dose']) }}">
-                                Segunda Dose
-                            </a>
-                          </div>
-
-                      </div>
-
-
-                  </div>
-                </div>
-
-                {{-- <form method="GET" action="{{route('dashboard')}}">
+                <form method="GET" action="{{route('dashboard')}}">
                     <div class="row">
                         <div class="col-sm-9">
                             <select name="filtro" class="form-control" id="filtro">
@@ -101,7 +55,7 @@
                             <button class="btn btn-primary" style="width: 100%;">Filtrar</button>
                         </div>
                     </div>
-                </form> --}}
+                </form>
                 <div class="row">
                     @if(session('mensagem'))
                     <div class="col-md-12">
@@ -111,7 +65,6 @@
                     </div>
                     @endif
                 </div>
-                <br>
                 <div class="row">
                     <table class="table">
                         <thead>
@@ -158,7 +111,7 @@
                         <tbody>
                             @foreach ($candidatos as $i => $candidato)
                             <tr>
-                                <td>{{ $candidatos->firstItem() + $i }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
                                         {{$candidato->nome_completo}}
