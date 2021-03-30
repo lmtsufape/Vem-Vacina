@@ -25,28 +25,56 @@ class CandidatoController extends Controller
 {
     public function show(Request $request) {
         $candidatos = null;
+        
+        $query = Candidato::query();
 
-        if($request->filtro == null || $request->filtro == 1) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get();
-        } else if ($request->filtro == 2) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
-        } else if ($request->filtro == 3) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[2])->get();
-        } else if ($request->filtro == 4) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
-        } else if ($request->filtro == 5) {
-            $candidatos = Candidato::where('chegada','like',date("Y-m-d")."%")->get();
-        } else if ($request->filtro == 6) {
-            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[0])->get();
-        } else if ($request->filtro == 7) {
-            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[1])->get();
-        } else if ($request->filtro == 8) {
-            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[2])->get();
+        if ($request->nome_check && $request->nome != null) {
+            $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
+        } 
+
+        if ($request->cpf_check && $request->cpf != null) {
+            $query->where('cpf', $request->cpf);
+        } 
+
+        if ($request->data_check && $request->data != null) {
+            $query->where('chegada','like',$request->data."%");
+        } 
+
+        if ($request->dose_check && $request->dose != null) {
+            $query->where('dose',$request->dose);
         }
-        return view('dashboard')->with(['candidatos' => $candidatos,
+
+        if ($request->aprovado) {
+            $query->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
+        }
+
+        if ($request->reprovado) {
+            $query->where('aprovacao', Candidato::APROVACAO_ENUM[2]);
+        }
+        
+        $agendamentos = $query->get();
+        
+        if ($request->outro) {
+            $agendamentosComOutrasInfo = collect();
+
+            foreach ($agendamentos as $agendamento) {
+                $outros = $agendamento->outrasInfo;
+                if($outros != null && count($outros) > 0) {
+                    $agendamentosComOutrasInfo;
+                }
+            }
+
+            if ($agendamentosComOutrasInfo->count() > 0) {
+                $agendamentos = $agendamentosComOutrasInfo;
+            } else {
+                $agendamentos = collect();
+            }
+        }        
+
+        return view('dashboard')->with(['candidatos' => $agendamentos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM,
-                                        'filtro' => $request->filtro]);
+                                        'doses' => Candidato::DOSE_ENUM]);
     }
 
     // public function pendentes(Request $request) {
@@ -575,5 +603,54 @@ class CandidatoController extends Controller
         return view('agendamentos.reprovados')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM]);
+    }
+
+    public function filtroAjax(Request $request) {        
+        $query = Candidato::query();
+
+        if ($request->nome_check && $request->nome != null) {
+            $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
+        } 
+
+        if ($request->cpf_check && $request->cpf != null) {
+            $query->where('cpf', $request->cpf);
+        } 
+
+        if ($request->data_check && $request->data != null) {
+            $query->where('chegada','like',$request->data."%");
+        } 
+
+        if ($request->dose_check && $request->dose != null) {
+            $query->where('dose',$request->dose);
+        }
+
+        if ($request->aprovado) {
+            $query->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
+        }
+
+        if ($request->reprovado) {
+            $query->where('aprovacao', Candidato::APROVACAO_ENUM[2]);
+        }
+        
+        $agendamentos = $query->orderBy('nome_completo')->get();
+        
+        if ($request->outro) {
+            $agendamentosComOutrasInfo = collect();
+
+            foreach ($agendamentos as $agendamento) {
+                $outros = $agendamento->outrasInfo;
+                if($outros != null && count($outros) > 0) {
+                    $agendamentosComOutrasInfo;
+                }
+            }
+
+            if ($agendamentosComOutrasInfo->count() > 0) {
+                $agendamentos = $agendamentosComOutrasInfo;
+            } else {
+                $agendamentos = collect();
+            }
+        }        
+
+        return $agendamentos;
     }
 }
