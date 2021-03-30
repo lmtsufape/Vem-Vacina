@@ -56,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/agendamentos/pontos",          [CandidatoController::class, 'pontos'])->name('candidato.pontos');
     Route::get("/agendamentos/fila",          [CandidatoController::class, 'fila'])->name('candidato.fila.espera');
     Route::get("/agendamentos/reprovados",          [CandidatoController::class, 'reprovados'])->name('candidato.reprovados');
+    Route::get("/agendamentos", [CandidatoController::class, 'filtroAjax'])->name('agendamentos.filtro.ajax');
 
     Route::resource('/postos', PostoVacinacaoController::class);
     Route::resource('/lotes', LoteController::class);
