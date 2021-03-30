@@ -46,6 +46,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/candidato/order/{field}/campo/{order}", [CandidatoController::class, 'ordenar'])->name('candidato.order');
     Route::get("/candidato/filtro/{field}/tipo/{tipo}", [CandidatoController::class, 'filtro'])->name('candidato.filtro');
 
+    Route::get("/agendamentos/pendentes",       [CandidatoController::class, 'pendentes'])->name('candidato.pendentes');
+    Route::get("/agendamentos/aprovados",       [CandidatoController::class, 'aprovados'])->name('candidato.aprovados');
+    Route::get("/agendamentos/vacinados",       [CandidatoController::class, 'vacinados'])->name('candidato.vacinados');
+    Route::get("/agendamentos/primeira/dose",   [CandidatoController::class, 'primeiraDose'])->name('candidato.primeira.dose');
+    Route::get("/agendamentos/segunda/dose",    [CandidatoController::class, 'segundaDose'])->name('candidato.segunda.dose');
+    Route::get("/agendamentos/dose/unica",      [CandidatoController::class, 'doseUnica'])->name('candidato.dose.unica');
+    Route::get("/agendamentos/pontos",          [CandidatoController::class, 'pontos'])->name('candidato.pontos');
+    Route::get("/agendamentos/fila",          [CandidatoController::class, 'fila'])->name('candidato.fila.espera');
 
     Route::resource('/postos', PostoVacinacaoController::class);
     Route::resource('/lotes', LoteController::class);

@@ -34,14 +34,13 @@
                         {{ __('Exportar') }}
                     </x-nav-link>
                     @endcan
-                    @can('ver-candidato-lote')
-                    <x-nav-link :href="route('candidato.candidatoLote')" :active="request()->routeIs('candidato.*')">
-                        {{ __('Lista Candidato Lote') }}
-                    </x-nav-link>
-                    @endcan
                     <x-nav-link :href="route('config.index')" :active="request()->routeIs('config.*')">
                         {{ __('Configurações') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('candidato.pendentes')" :active="request()->routeIs('candidato.*')">
+                        {{ __('Nova Lista') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 
