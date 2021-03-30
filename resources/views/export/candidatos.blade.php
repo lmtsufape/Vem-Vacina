@@ -28,6 +28,10 @@ use App\Models\Lote;
         <th>posto_vacinacao_id</th>
         <th>etapa_id</th>
         <th>Informações(acamado)</th>
+        <th>criado</th>
+        <th>atualizado(acamado)</th>
+        <th>apagado</th>
+
     </tr>
     </thead>
     <tbody>
@@ -65,6 +69,9 @@ use App\Models\Lote;
                     {{ $item->campo . '/'}}
                 @endforeach
             </td>
+            <td>{{ $candidato->created_at }}</td>
+            <td>{{ $candidato->updated_at }}</td>
+            <td>{{ $candidato->deleted_at }}</td>
         </tr>
     @endforeach
     </tbody>
