@@ -23,7 +23,7 @@ class ExportController extends Controller
     public function index()
     {
         Gate::authorize('ver-export');
-        $candidatos = Candidato::all()->count();
+        $candidatos = Candidato::withTrashed()->count();
         $lotes = Lote::all()->count();
         $postos = PostoVacinacao::all()->count();
         return view('export.index', compact('candidatos', 'lotes', 'postos'));

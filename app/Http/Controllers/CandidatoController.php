@@ -431,7 +431,7 @@ class CandidatoController extends Controller
         }elseif($request->confirmacao == "Reprovado"){
 
             $candidato = Candidato::find($id);
-            $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
+            $candidato->aprovacao = Candidato::APROVACAO_ENUM[2];
             $candidato->save();
             if($candidato->email != null){
                 $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
