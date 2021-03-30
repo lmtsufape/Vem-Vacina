@@ -43,7 +43,6 @@ class CandidatoController extends Controller
         } else if ($request->filtro == 8) {
             $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[2])->get();
         }
-
         return view('dashboard')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM,
