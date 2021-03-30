@@ -60,7 +60,7 @@ class CandidatoController extends Controller
             foreach ($agendamentos as $agendamento) {
                 $outros = $agendamento->outrasInfo;
                 if($outros != null && count($outros) > 0) {
-                    $agendamentosComOutrasInfo;
+                    $agendamentosComOutrasInfo->push($agendamento);
                 }
             }
 
@@ -333,6 +333,15 @@ class CandidatoController extends Controller
                 ]);
 
                 $candidatoSegundaDose->save();
+
+                if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+                    if ($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0) {
+                        foreach ($request->input("opcao_etapa_".$etapa->id) as $outra_info_id) {
+                            $candidatoSegundaDose->outrasInfo()->attach($outra_info_id);
+                        }
+                    }
+                }
+
                 if($candidatoSegundaDose->email != null){
                     Notification::send($candidatoSegundaDose, new CandidatoInscritoSegundaDose($candidatoSegundaDose, $lote ));
                 }
