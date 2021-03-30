@@ -40,7 +40,7 @@
                 </th>
                 <th scope="col">Horário</th>
                 <th scope="col">Dose</th>
-                <th scope="col">Visualizar</th>
+                <th scope="col">Ver</th>
                 @can('confirmar-vaga-candidato')
                     <th scope="col">Resultado</th>
                 @endcan
