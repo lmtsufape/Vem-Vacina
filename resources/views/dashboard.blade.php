@@ -409,7 +409,6 @@
                         </tbody>
                     </table>
                 </div>
-                {{ $candidatos->links() }}
             </div>
         </div>
     </div>
