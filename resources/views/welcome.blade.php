@@ -106,7 +106,11 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
+<<<<<<< HEAD
                                                         <div class="col-md-12 style_card_medio_conteudo">{{(int) intval(count($etapa->candidatos)/2) }}</div>
+=======
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{intval(count($etapa->candidatos)/2)}}</div>
+>>>>>>> upstream/main
                                                         <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTA FAIXA ETÁRIA</div>
                                                     </div>
                                                 </div>
@@ -138,7 +142,11 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
+<<<<<<< HEAD
                                                         <div class="col-md-12 style_card_medio_conteudo">{{(int) intval(count($etapa->candidatos)/2) }}</div>
+=======
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{intval(count($etapa->candidatos)/2)}}</div>
+>>>>>>> upstream/main
                                                         <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTE PÚBLICO</div>
                                                     </div>
                                                 </div>
@@ -170,7 +178,11 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
+<<<<<<< HEAD
                                                         <div class="col-md-12 style_card_medio_conteudo">{{(int) intval(count($etapa->candidatos)/2) }}</div>
+=======
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{intval(count($etapa->candidatos)/2)}}</div>
+>>>>>>> upstream/main
                                                         <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTE PÚBLICO</div>
                                                     </div>
                                                 </div>
@@ -230,7 +242,11 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
+<<<<<<< HEAD
                                             <div class="col-md-12 style_card_menor_conteudo">{{ intval($quantPessoasCadastradas/2) }}</div>
+=======
+                                            <div class="col-md-12 style_card_menor_conteudo">{{intval($quantPessoasCadastradas/2)}}</div>
+>>>>>>> upstream/main
                                             <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
                                         </div>
                                     </div>
