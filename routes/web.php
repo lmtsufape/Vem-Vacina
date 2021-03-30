@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/candidato/order/{field}/campo/{order}", [CandidatoController::class, 'ordenar'])->name('candidato.order');
     Route::get("/candidato/filtro/{field}/tipo/{tipo}", [CandidatoController::class, 'filtro'])->name('candidato.filtro');
 
+    Route::get("/agendamentos/todos",       [CandidatoController::class, 'todos'])->name('candidato.todos');
     Route::get("/agendamentos/pendentes",       [CandidatoController::class, 'pendentes'])->name('candidato.pendentes');
     Route::get("/agendamentos/aprovados",       [CandidatoController::class, 'aprovados'])->name('candidato.aprovados');
     Route::get("/agendamentos/vacinados",       [CandidatoController::class, 'vacinados'])->name('candidato.vacinados');
