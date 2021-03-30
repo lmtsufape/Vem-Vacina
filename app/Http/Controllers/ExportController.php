@@ -25,8 +25,9 @@ class ExportController extends Controller
         Gate::authorize('ver-export');
         $candidatos = Candidato::all()->count();
         $lotes = Lote::all()->count();
-        $postos = PostoVacinacao::all()->count();
-        return view('export.index', compact('candidatos', 'lotes', 'postos'));
+        $postos = PostoVacinacao::all();
+        $qtd_postos = $postos->count();
+        return view('export.index', compact('candidatos', 'lotes', 'qtd_postos', 'postos'));
     }
 
     public function exportCandidato()
@@ -53,6 +54,10 @@ class ExportController extends Controller
             'candidatos' => Candidato::all(),
             'tipos' => Etapa::TIPO_ENUM
         ]);
+    }
+
+    public function agendamentosDoPosto($id) {
+        dd($id);
     }
 
 
