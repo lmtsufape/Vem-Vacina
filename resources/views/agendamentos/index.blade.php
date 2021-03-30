@@ -2,6 +2,9 @@
     <x-slot name="header">
         <ul class="nav nav-pills justify-content-center">
             <li class="nav-item">
+              <a class="nav-link @if(request()->routeIs('candidato.todos')) active @endif " href="{{ route('candidato.todos') }}">Todos</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link @if(request()->routeIs('candidato.pendentes')) active @endif " href="{{ route('candidato.pendentes') }}">Pendentes</a>
             </li>
             <li class="nav-item">

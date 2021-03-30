@@ -55,7 +55,7 @@
         <tbody>
             @foreach ($candidatos as $i => $candidato)
             <tr>
-                <td>{{ $candidatos->firstItem() + $i }}</td>
+                <td>{{ $candidato->id }}</td>
                 <td>
                     <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
                         {{$candidato->nome_completo}}
@@ -359,4 +359,4 @@
         </tbody>
     </table>
 </div>
-{{ $candidatos->links() }}
+

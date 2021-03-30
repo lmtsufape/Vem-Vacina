@@ -111,7 +111,7 @@
                         <tbody>
                             @foreach ($candidatos as $i => $candidato)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $candidato->id }}</td>
                                 <td>
                                     <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
                                         {{$candidato->nome_completo}}
@@ -409,22 +409,10 @@
                         </tbody>
                     </table>
                 </div>
-                {{ $candidatos->links() }}
+
             </div>
         </div>
     </div>
 
 </x-app-layout>
-<script>
-    function myFunction() {
-        console.log(event);
-    // var txt;
-    // var person = prompt("Please enter your name:", "Harry Potter");
-    // if (person == null || person == "") {
-    //     txt = "User cancelled the prompt.";
-    // } else {
-    //     txt = "Hello " + person + "! How are you today?";
-    // }
-    // document.getElementById("demo").innerHTML = txt;
-    }
-</script>
+
