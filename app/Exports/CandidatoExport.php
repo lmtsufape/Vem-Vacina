@@ -49,7 +49,7 @@ class CandidatoExport implements ShouldAutoSize,WithHeadings, FromView
     public function view(): View
     {
         return view('export.candidatos', [
-            'candidatos' => Candidato::all(),
+            'candidatos' => Candidato::withTrashed()->get(),
             'tipos' => Etapa::TIPO_ENUM
         ]);
     }

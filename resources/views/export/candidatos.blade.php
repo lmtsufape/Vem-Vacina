@@ -27,6 +27,7 @@ use App\Models\Lote;
         <th>fabricante</th>
         <th>posto_vacinacao_id</th>
         <th>etapa_id</th>
+        <th>Informações(acamado)</th>
     </tr>
     </thead>
     <tbody>
@@ -59,6 +60,11 @@ use App\Models\Lote;
             @elseif($candidato->etapa->tipo == $tipos[1] || $candidato->etapa->tipo == $tipos[2])
                 <td> {{$candidato->etapa->texto}} </td>
             @endif
+            <td>
+                @foreach ($candidato->outrasInfo as $item)
+                    {{ $item->campo . '/'}}
+                @endforeach
+            </td>
         </tr>
     @endforeach
     </tbody>
