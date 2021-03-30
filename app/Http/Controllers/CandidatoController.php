@@ -27,21 +27,21 @@ class CandidatoController extends Controller
         $candidatos = null;
 
         if($request->filtro == null || $request->filtro == 1) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->paginate(30);
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->paginate(100);
         } else if ($request->filtro == 2) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[1])->paginate(30);
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[1])->paginate(100);
         } else if ($request->filtro == 3) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[2])->paginate(30);
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[2])->paginate(100);
         } else if ($request->filtro == 4) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->paginate(30);
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->paginate(100);
         } else if ($request->filtro == 5) {
-            $candidatos = Candidato::where('chegada','like',date("Y-m-d")."%")->paginate(30);
+            $candidatos = Candidato::where('chegada','like',date("Y-m-d")."%")->paginate(100);
         } else if ($request->filtro == 6) {
-            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[0])->paginate(30);
+            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[0])->paginate(100);
         } else if ($request->filtro == 7) {
-            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[1])->paginate(30);
+            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[1])->paginate(100);
         } else if ($request->filtro == 8) {
-            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[2])->paginate(30);
+            $candidatos = Candidato::where('dose',Candidato::DOSE_ENUM[2])->paginate(100);
         }
 
         return view('dashboard')->with(['candidatos' => $candidatos,
@@ -468,7 +468,7 @@ class CandidatoController extends Controller
     public function ordenar($field ,$order)
     {
 
-        $candidatos = Candidato::orderBy($field, $order)->paginate(30);
+        $candidatos = Candidato::orderBy($field, $order)->paginate(100);
 
         return back()->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
@@ -480,10 +480,10 @@ class CandidatoController extends Controller
     {
 
         if($tipo == "Chegada"){
-            $candidatos = Candidato::where('chegada','like',date("Y-m-d")."%")->paginate(30);
+            $candidatos = Candidato::where('chegada','like',date("Y-m-d")."%")->paginate(100);
         }else{
 
-            $candidatos = Candidato::where($field, $tipo)->paginate(30);
+            $candidatos = Candidato::where($field, $tipo)->paginate(100);
         }
 
 
@@ -495,7 +495,7 @@ class CandidatoController extends Controller
 
     public function pendentes()
     {
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->paginate(30);
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->paginate(100);
 
         return view('agendamentos.pendentes')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
@@ -504,7 +504,7 @@ class CandidatoController extends Controller
 
     public function aprovados()
     {
-        $candidatos = Candidato::where('aprovacao', "Aprovado")->paginate(30);
+        $candidatos = Candidato::where('aprovacao', "Aprovado")->paginate(100);
 
         return view('agendamentos.aprovados')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
@@ -513,7 +513,7 @@ class CandidatoController extends Controller
 
     public function vacinados()
     {
-        $candidatos = Candidato::where('aprovacao', 'Vacinado')->paginate(30);
+        $candidatos = Candidato::where('aprovacao', 'Vacinado')->paginate(100);
 
         return view('agendamentos.vacinados')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
@@ -522,7 +522,7 @@ class CandidatoController extends Controller
 
     public function primeiraDose()
     {
-        $candidatos = Candidato::where('dose', '1ª Dose')->paginate(30);
+        $candidatos = Candidato::where('dose', '1ª Dose')->paginate(100);
 
         return view('agendamentos.primeira_dose')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
@@ -532,7 +532,7 @@ class CandidatoController extends Controller
 
     public function segundaDose()
     {
-        $candidatos = Candidato::where('dose', '2ª Dose')->paginate(30);
+        $candidatos = Candidato::where('dose', '2ª Dose')->paginate(100);
 
         return view('agendamentos.segunda_dose')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
@@ -541,7 +541,7 @@ class CandidatoController extends Controller
 
     public function doseUnica()
     {
-        $candidatos = Candidato::where('dose', 'Dose única')->paginate(30);
+        $candidatos = Candidato::where('dose', 'Dose única')->paginate(100);
 
         return view('agendamentos.dose_unica')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
@@ -551,7 +551,7 @@ class CandidatoController extends Controller
     public function pontos(Request $request)
     {
         // dd($request->all());
-        $candidatos = Candidato::where('posto_vacinacao_id', $request->id)->paginate(30);
+        $candidatos = Candidato::where('posto_vacinacao_id', $request->id)->paginate(100);
         $pontos = PostoVacinacao::all();
         return view('agendamentos.pontos')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
@@ -562,9 +562,18 @@ class CandidatoController extends Controller
 
     public function fila()
     {
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->paginate(30);
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->paginate(100);
 
         return view('agendamentos.pendentes')->with(['candidatos' => $candidatos,
+                                        'candidato_enum' => Candidato::APROVACAO_ENUM,
+                                        'tipos' => Etapa::TIPO_ENUM]);
+    }
+
+    public function reprovados()
+    {
+        $candidatos = Candidato::withTrashed()->where('aprovacao', 'Reprovado')->paginate(100);
+
+        return view('agendamentos.reprovados')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM]);
     }

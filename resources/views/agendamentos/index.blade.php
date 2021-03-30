@@ -25,6 +25,9 @@
             <li class="nav-item">
               <a class="nav-link @if(request()->routeIs('candidato.fila.espera')) active @endif " href="{{ route('candidato.fila.espera') }}">Fila</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link @if(request()->routeIs('candidato.reprovados')) active @endif " href="{{ route('candidato.reprovados') }}">Reprovado</a>
+            </li>
 
 
           </ul>
