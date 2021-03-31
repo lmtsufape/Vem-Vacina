@@ -38,7 +38,8 @@ class CandidatoController extends Controller
 
         if ($request->data_check && $request->data != null) {
             $amanha = (new Carbon($request->data))->addDays(1);
-            $query->where([['chegada','>=',$request->data], ['chegada','<=', $amanha]]);
+            $hoje = (new Carbon($request->data));
+            $query->where([['chegada','>=',$hoje], ['chegada','<=', $amanha]]);
         }
 
         if ($request->dose_check && $request->dose != null) {
