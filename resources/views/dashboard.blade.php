@@ -41,31 +41,31 @@
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="nome_check" id="nome_check_input" onclick="mostrarFiltro(this, 'nome_check')">
+                                    <input type="checkbox" name="nome_check" id="nome_check_input" onclick="mostrarFiltro(this, 'nome_check')" @if($request->nome_check != null && $request->nome_check) checked @endif>
                                     <label>Por nome</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="cpf_check" id="cpf_check_input" onclick="mostrarFiltro(this, 'cpf_check')">
+                                    <input type="checkbox" name="cpf_check" id="cpf_check_input" onclick="mostrarFiltro(this, 'cpf_check')" @if($request->cpf_check != null && $request->cpf_check) checked @endif>
                                     <label>Por CPF</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="data_check" id="data_check_input" onclick="mostrarFiltro(this, 'data_check')">
+                                    <input type="checkbox" name="data_check" id="data_check_input" onclick="mostrarFiltro(this, 'data_check')" @if($request->data_check != null && $request->data_check) checked @endif>
                                     <label>Por data de agendamento</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="dose_check" id="dose_check_input" onclick="mostrarFiltro(this, 'dose_check')">
+                                    <input type="checkbox" name="dose_check" id="dose_check_input" onclick="mostrarFiltro(this, 'dose_check')" @if($request->dose_check != null && $request->dose_check) checked @endif>
                                     <label>Por dose</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="outro" id="outro">
+                                    <input type="checkbox" name="outro" id="outro" @if($request->outro != null && $request->outro) checked @endif>
                                     <label>É acamado</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="aprovado" id="aprovado">
+                                    <input type="checkbox" name="aprovado" id="aprovado" @if($request->aprovado != null && $request->aprovado) checked @endif>
                                     <label>Aprovados</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="reprovado" id="reprovado">
+                                    <input type="checkbox" name="reprovado" id="reprovado" @if($request->reprovado != null && $request->reprovado) checked @endif>
                                     <label>Reprovados</label>
                                 </div>
                                 <div class="col-md-3">
@@ -82,20 +82,20 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div id="nome_check" class="col-md-3" style="display: none;">
-                                    <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite o nome">
+                                <div id="nome_check" class="col-md-3" style="@if($request->nome_check != null && $request->nome_check) display: block; @else display: none; @endif">
+                                    <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite o nome" @if($request->nome != null) value="{{$request->nome}}" @endif>
                                 </div>
-                                <div id="cpf_check" class="col-md-3" style="display: none;">
-                                    <input type="text" class="form-control cpf" name="cpf" id="cpf" placeholder="Digite o CPF">
+                                <div id="cpf_check" class="col-md-3" style="@if($request->cpf_check != null && $request->cpf_check) display: block; @else display: none; @endif">
+                                    <input type="text" class="form-control cpf" name="cpf" id="cpf" placeholder="Digite o CPF"  @if($request->cpf != null) value="{{$request->cpf}}" @endif>
                                 </div>
-                                <div id="data_check" class="col-md-3" style="display: none;">
-                                    <input type="date" class="form-control" name="data" id="data">
+                                <div id="data_check" class="col-md-3" style="@if($request->data_check != null && $request->data_check) display: block; @else display: none; @endif">
+                                    <input type="date" class="form-control" name="data" id="data" @if($request->data != null) value="{{$request->data}}" @endif>
                                 </div>
-                                <div id="dose_check" class="col-md-3" style="display: none;">
+                                <div id="dose_check" class="col-md-3" style="@if($request->dose_check != null && $request->dose_check) display: block; @else display: none; @endif">
                                     <select id="dose" name="dose" class="form-control">
                                         <option value="">-- Dose --</option>
-                                        <option value="{{$doses[0]}}">1ª dose</option>
-                                        <option value="{{$doses[1]}}">2ª dose</option>
+                                        <option @if($request->dose == $doses[0]) selected @endif value="{{$doses[0]}}">1ª dose</option>
+                                        <option @if($request->data == $doses[1]) selected @endif value="{{$doses[1]}}">2ª dose</option>
                                     </select>
                                 </div>
                                 <div id="campo_check" class="col-md-3" style="display: none;">
@@ -142,30 +142,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Nome
-                                    <a href="{{ route('candidato.order', ['field' => 'nome_completo' ,'order'=> 'ASC']) }}">
-                                        <i class="fas fa-arrow-circle-down"></i>
-                                    </a>
-                                    <a href="{{ route('candidato.order', ['field' => 'nome_completo' ,'order'=> 'DESC']) }}">
-                                        <i class="fas fa-arrow-circle-up"></i>
-                                    </a>
-                                </th>
-                                <th scope="col">CPF
-                                    <a href="{{ route('candidato.order', ['field' => 'cpf' ,'order'=> 'ASC']) }}">
-                                        <i class="fas fa-arrow-circle-down"></i>
-                                    </a>
-                                    <a href="{{ route('candidato.order', ['field' => 'cpf' ,'order'=> 'DESC']) }}">
-                                        <i class="fas fa-arrow-circle-up"></i>
-                                    </a>
-                                </th>
-                                <th scope="col">Dia
-                                    <a href="{{ route('candidato.order', ['field' => 'chegada' ,'order'=> 'ASC']) }}">
-                                        <i class="fas fa-arrow-circle-down"></i>
-                                    </a>
-                                    <a href="{{ route('candidato.order', ['field' => 'chegada' ,'order'=> 'DESC']) }}">
-                                        <i class="fas fa-arrow-circle-up"></i>
-                                    </a>
-                                </th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">CPF</th>
+                                <th scope="col">Dia</th>
                                 <th scope="col">Horário</th>
                                 <th scope="col">Dose</th>
                                 <th scope="col">Ponto</th>

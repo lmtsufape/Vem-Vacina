@@ -94,7 +94,8 @@ class CandidatoController extends Controller
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM,
                                         'postos' => PostoVacinacao::all(),
-                                        'doses' => Candidato::DOSE_ENUM]);
+                                        'doses' => Candidato::DOSE_ENUM,
+                                        'request' => $request]);
     }
 
     // public function pendentes(Request $request) {
