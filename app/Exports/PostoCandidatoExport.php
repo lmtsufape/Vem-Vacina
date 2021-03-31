@@ -4,17 +4,25 @@ namespace App\Exports;
 
 use App\Models\Etapa;
 use App\Models\Candidato;
+use App\Models\PostoVacinacao;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class PostoCandidatoExport implements ShouldAutoSize,WithHeadings, FromView
 {
+    public $posto_id;
+    public $posto;
+
+    public function __construct($posto_id)
+    {
+        $this->posto_id = $posto_id;
+    }
     public function collection()
     {
-        return Candidato::all();
+        $posto = PostoVacinacao::where('nome', $this->posto_id)->first();
+        return $posto->candidatos;
     }
 
     public function headings(): array
@@ -45,9 +53,12 @@ class PostoCandidatoExport implements ShouldAutoSize,WithHeadings, FromView
 
     public function view(): View
     {
+
+        $this->posto = PostoVacinacao::with('candidatos')->where('id', $this->posto_id)->first();
         return view('export.candidatos', [
-            'candidatos' => Candidato::withTrashed()->get(),
+            'candidatos' => $this->posto->candidatos->where('chegada', '>=', now())->where('chegada', '<=', now()->addDays(1)),
             'tipos' => Etapa::TIPO_ENUM
         ]);
     }
+
 }
