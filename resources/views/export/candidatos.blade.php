@@ -29,7 +29,7 @@ use App\Models\Lote;
         <th>etapa_id</th>
         <th>Informações(acamado)</th>
         <th>criado</th>
-        <th>atualizado(acamado)</th>
+        <th>atualizado</th>
         <th>apagado</th>
 
     </tr>

@@ -39,7 +39,7 @@ class CandidatoController extends Controller
         if ($request->data_check && $request->data != null) {
             $amanha = (new Carbon($request->data))->addDays(1);
             $query->where([['chegada','>=',$request->data], ['chegada','<=', $amanha]]);
-        } 
+        }
 
         if ($request->dose_check && $request->dose != null) {
             $query->where('dose',$request->dose);
@@ -421,7 +421,7 @@ class CandidatoController extends Controller
         }elseif($request->confirmacao == "Aprovado"){
             $candidato = Candidato::find($id);
             $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
-            $candidato->save();
+            $candidato->update();
 
             if($candidato->email != null){
                 $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();

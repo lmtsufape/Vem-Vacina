@@ -80,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/exportar/agendamentos/posto/{id}', [ExportController::class,'agendamentosDoPosto'])->name('export.agendamentos.posto');
     Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('config.index');
     Route::get('/configuracoes/salvar', [ConfiguracaoController::class, 'update'])->name('config.update');
+    Route::post('/configuracoes/aprovar', [ConfiguracaoController::class, 'aprovarAgendamentos'])->name('config.agendados.aprovados');
 });
 
 
