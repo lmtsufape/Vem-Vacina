@@ -68,6 +68,14 @@
                                     <input type="checkbox" name="reprovado" id="reprovado">
                                     <label>Reprovados</label>
                                 </div>
+                                <div class="col-md-3">
+                                    <input type="checkbox" name="campo_check" id="campo_check_input" onclick="mostrarFiltro(this, 'campo_check')">
+                                    <label>Campo</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="checkbox" name="ordem_check" id="ordem_check_input" onclick="mostrarFiltro(this, 'ordem_check')">
+                                    <label>Ordem</label>
+                                </div>
                             </div>
                             <div class="row">
                                 <div id="nome_check" class="col-md-3" style="display: none;">
@@ -84,6 +92,21 @@
                                         <option value="">-- Dose --</option>
                                         <option value="{{$doses[0]}}">1ª dose</option>
                                         <option value="{{$doses[1]}}">2ª dose</option>
+                                    </select>
+                                </div>
+                                <div id="campo_check" class="col-md-3" style="display: none;">
+                                    <select id="campo" name="campo" class="form-control">
+                                        <option value="">-- campo --</option>
+                                        <option value="cpf">cpf</option>
+                                        <option value="nome_completo">nome</option>
+                                        <option value="chegada">dia</option>
+                                    </select>
+                                </div>
+                                <div id="ordem_check" class="col-md-3" style="display: none;">
+                                    <select id="ordem" name="ordem" class="form-control">
+                                        <option value="">-- ordem --</option>
+                                        <option value="asc">Crescente</option>
+                                        <option value="desc">Descrescente</option>
                                     </select>
                                 </div>
                             </div>
@@ -491,6 +514,8 @@
                 cpf: document.getElementById('cpf').value,
                 data: document.getElementById('data').value,
                 dose: document.getElementById('dose').value,
+                field: document.getElementById('field').value,
+                order: document.getElementById('order').value,
             },
             statusCode: {
                 404: function() {

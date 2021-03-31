@@ -23,9 +23,9 @@ use App\Notifications\CandidatoInscritoSegundaDose;
 
 class CandidatoController extends Controller
 {
-    public function show(Request $request) {
+    public function show(Request $request, $campo = 'nome_completo') {
         $candidatos = null;
-
+        // dd($request->all());
         $query = Candidato::query();
         if ($request->nome_check && $request->nome != null) {
             $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
@@ -51,6 +51,18 @@ class CandidatoController extends Controller
 
         if ($request->reprovado) {
             $query->where('aprovacao', Candidato::APROVACAO_ENUM[2]);
+        }
+
+        if ($request->ordem_check && $request->ordem != null) {
+            if($request->campo != null){
+                $query->orderBy($request->campo, $request->ordem);
+            }else{
+                $query->orderBy($campo, $request->ordem);
+            }
+        }
+
+        if ($request->campo_check && $request->campo != null) {
+            $query->orderBy($request->campo);
         }
 
         $agendamentos = $query->get();
