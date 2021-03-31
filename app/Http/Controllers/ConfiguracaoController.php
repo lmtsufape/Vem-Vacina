@@ -53,6 +53,7 @@ class ConfiguracaoController extends Controller
                 $lote = Lote::find($lote[0]->lote_id);
                 Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
             }
+            sleep(10);
         }
         return redirect()->back()->with(['mensagem' => 'Aprovados']);
     }
