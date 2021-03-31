@@ -56,7 +56,7 @@ class PostoCandidatoExport implements ShouldAutoSize,WithHeadings, FromView
 
         $this->posto = PostoVacinacao::with('candidatos')->where('id', $this->posto_id)->first();
         return view('export.candidatos', [
-            'candidatos' => $this->posto->candidatos->where('chegada', '>=', now())->where('chegada', '<=', now()->addDays(1)),
+            'candidatos' => $this->posto->candidatos,
             'tipos' => Etapa::TIPO_ENUM
         ]);
     }
