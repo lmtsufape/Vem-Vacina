@@ -23,7 +23,7 @@ use App\Notifications\CandidatoInscritoSegundaDose;
 
 class CandidatoController extends Controller
 {
-    public function show(Request $request, $campo = 'nome_completo') {
+    public function show(Request $request) {
         $candidatos = null;
         // dd($request->all());
         $query = Candidato::query();
@@ -63,7 +63,7 @@ class CandidatoController extends Controller
             if($request->campo != null){
                 $query->orderBy($request->campo, $request->ordem);
             }else{
-                $query->orderBy($campo, $request->ordem);
+                $query->orderBy('nome_completo', $request->ordem);
             }
         }
 
