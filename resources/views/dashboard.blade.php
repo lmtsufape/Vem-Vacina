@@ -509,7 +509,11 @@
                 // }
                 // document.getElementById('agendamentos').innerHTML = "";
                 // $('#agendamentos').append(html);
-            }
+            },
+            error:function(data){
+                console.log('erro')
+                alert('Erro'.data);
+            },
         })
     }
 </script>

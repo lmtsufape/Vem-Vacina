@@ -112,7 +112,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="row style_card_divisao" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{$etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose}}</div>
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{ intval( $etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose )  }}</div>
                                                         <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS</div>
                                                     </div>
                                                 </div>
@@ -144,7 +144,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="row style_card_divisao" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{$etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose}}</div>
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{ intval($etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose) }}</div>
                                                         <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS NESTE PÚBLICO</div>
                                                     </div>
                                                 </div>
@@ -176,7 +176,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="row style_card_divisao" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{$etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose}}</div>
+                                                        <div class="col-md-12 style_card_medio_conteudo">{{ intval($etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose) }}</div>
                                                         <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS NESTE PÚBLICO</div>
                                                     </div>
                                                 </div>
@@ -246,7 +246,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasPriDose}}</div>
+                                            <div class="col-md-12 style_card_menor_conteudo">{{ intval($quantPessoasPriDose) }}</div>
                                             <div class="col-md-12 style_card_menor_legenda">TOTAL DE PESSOAS VACINADAS</div>
                                         </div>
                                     </div>
@@ -262,7 +262,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasSegDose}}</div>
+                                            <div class="col-md-12 style_card_menor_conteudo">{{ intval($quantPessoasSegDose) }}</div>
                                             <div class="col-md-12 style_card_menor_legenda">TOTAL DE PESSOAS VACINADAS</div>
                                         </div>
                                     </div>

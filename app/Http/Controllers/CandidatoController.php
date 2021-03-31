@@ -26,7 +26,6 @@ class CandidatoController extends Controller
     public function show(Request $request) {
 
         $query = Candidato::query();
-
         if ($request->nome_check && $request->nome != null) {
             $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
         }
@@ -37,8 +36,9 @@ class CandidatoController extends Controller
 
         if ($request->data_check && $request->data != null) {
             $amanha = (new Carbon($request->data))->addDays(1);
-            $query->where([['chegada','>=',$request->data], ['chegada','<=', $amanha]]);
-        } 
+            $hoje = (new Carbon($request->data));
+            $query->where([['chegada','>=',$hoje], ['chegada','<=', $amanha]]);
+        }
 
         if ($request->dose_check && $request->dose != null) {
             $query->where('dose',$request->dose);
@@ -421,7 +421,7 @@ class CandidatoController extends Controller
         }elseif($request->confirmacao == "Aprovado"){
             $candidato = Candidato::find($id);
             $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
-            $candidato->save();
+            $candidato->update();
 
             if($candidato->email != null){
                 $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
@@ -509,7 +509,8 @@ class CandidatoController extends Controller
 
         return view('dashboard')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
-                                        'tipos' => Etapa::TIPO_ENUM]);
+                                        'tipos' => Etapa::TIPO_ENUM,
+                                        'doses' => Candidato::DOSE_ENUM]);
 
     }
     public function ordenarNovaLista($field ,$order)

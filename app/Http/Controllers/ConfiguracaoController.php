@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Lote;
+use App\Models\Candidato;
 use App\Models\Configuracao;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Notifications\CandidatoAprovado;
+use Illuminate\Support\Facades\Notification;
 
 class ConfiguracaoController extends Controller
 {
@@ -29,10 +34,27 @@ class ConfiguracaoController extends Controller
         } else {
             $config->link_do_form_fila_de_espera = "Vazio";
         }
-        
+
 
         $config->update();
 
         return redirect()->back()->with(['mensagem' => 'Configurações salvar']);
+    }
+
+    public function aprovarAgendamentos()
+    {
+        $candidatos = Candidato::withTrashed()->where('aprovacao', Candidato::APROVACAO_ENUM[0])->get();
+        // dd($candidatos);
+        foreach ($candidatos as $key => $candidato) {
+            $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
+            $candidato->update();
+            if($candidato->email != null){
+                $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+                $lote = Lote::find($lote[0]->lote_id);
+                Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
+            }
+            sleep(10);
+        }
+        return redirect()->back()->with(['mensagem' => 'Aprovados']);
     }
 }

@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => 'Admin',
-            'email' => 'admin@admin.com',
+            'email' => 'gabriel.uag.ufrpe@gmail.com',
             'tipo' => User::TIPO_ENUM['admin'],
             'password' => Hash::make('12345678'),
             'email_verified_at' => now(),
