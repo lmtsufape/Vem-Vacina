@@ -27,7 +27,6 @@ class CandidatoController extends Controller
         $candidatos = null;
 
         $query = Candidato::query();
-
         if ($request->nome_check && $request->nome != null) {
             $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
         }
