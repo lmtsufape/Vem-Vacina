@@ -12,6 +12,7 @@ use App\Models\PostoVacinacao;
 use App\Exports\CandidatoExport;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PostoCandidatoExport;
 
 class ExportController extends Controller
 {
@@ -46,6 +47,13 @@ class ExportController extends Controller
     {
         Gate::authorize('baixar-export');
         return Excel::download(new PostoExport, 'postos.xlsx');
+    }
+
+    public function exportPostoCandidato($id)
+    {
+        Gate::authorize('baixar-export');
+
+        return Excel::download(new PostoCandidatoExport($id), 'postosCandidato.xlsx');
     }
 
     public function listarCandidato()
