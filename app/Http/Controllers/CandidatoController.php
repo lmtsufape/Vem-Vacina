@@ -31,6 +31,10 @@ class CandidatoController extends Controller
             $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
         }
 
+        if ($request->ponto_check && $request->ponto != null) {
+            $query->where('posto_vacinacao_id', $request->ponto);
+        }
+
         if ($request->cpf_check && $request->cpf != null) {
             $query->where('cpf', $request->cpf);
         }
@@ -87,6 +91,7 @@ class CandidatoController extends Controller
         return view('dashboard')->with(['candidatos' => $agendamentos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM,
+                                        'postos' => PostoVacinacao::all(),
                                         'doses' => Candidato::DOSE_ENUM]);
     }
 

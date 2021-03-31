@@ -76,6 +76,10 @@
                                     <input type="checkbox" name="ordem_check" id="ordem_check_input" onclick="mostrarFiltro(this, 'ordem_check')">
                                     <label>Ordem</label>
                                 </div>
+                                <div class="col-md-3">
+                                    <input type="checkbox" name="ponto_check" id="ponto_check_input" onclick="mostrarFiltro(this, 'ponto_check')">
+                                    <label>Ponto</label>
+                                </div>
                             </div>
                             <div class="row">
                                 <div id="nome_check" class="col-md-3" style="display: none;">
@@ -107,6 +111,14 @@
                                         <option value="">-- ordem --</option>
                                         <option value="asc">Crescente</option>
                                         <option value="desc">Descrescente</option>
+                                    </select>
+                                </div>
+                                <div id="ponto_check" class="col-md-3" style="display: none;">
+                                    <select id="ponto" name="ponto" class="form-control">
+                                        <option value="">-- ponto --</option>
+                                        @foreach ($postos as $posto)
+                                            <option value="{{ $posto->id }}">{{ $posto->nome }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -156,7 +168,8 @@
                                 </th>
                                 <th scope="col">Horário</th>
                                 <th scope="col">Dose</th>
-                                <th scope="col">Visualizar</th>
+                                <th scope="col">Ponto</th>
+                                <th scope="col">Ver</th>
                                 @can('confirmar-vaga-candidato')
                                     <th scope="col">Resultado</th>
                                 @endcan
@@ -183,6 +196,11 @@
                                 <td>
                                     {{ $candidato->dose  }}
                                 </td>
+                                <td>
+                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
+                                        {{$candidato->posto->nome}}
+                                      </span>
+                                </td>
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
                                 </td>
@@ -194,28 +212,28 @@
                                         <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
                                             @csrf
                                             <div class="row">
-                                                <div class="col-md-8">
-                                                    <select onchange="myFunction()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
+                                                <div class="col-md-12 px-0">
+                                                    <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
                                                         <option value="" selected disabled>selecione</option>
                                                         <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
                                                         <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
                                                         <option value="Ausente" >Ausente</option>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-2">
+                                                {{-- <div class="col-md-2">
 
-                                                        <button class="btn btn-success">Salvar</button>
+                                                        <button class="btn btn-success"><i class="far fa-check-circle"></i></button>
 
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </form>
                                         @endcan
                                     @endif
                                 </td>
 
-                                <td style="text-align: center;">
+                                <td style="text-align: center;" class="pl-4">
                                     @can('vacinado-candidato')
-                                        <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif>Vacinado</button>
+                                        <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif><i class="fas fa-syringe"></i></button>
                                     @endcan
                                 </td>
                                 <td>
@@ -477,16 +495,9 @@
     @endforeach
 </x-app-layout>
 <script>
-    function myFunction() {
+    function myFunction(event) {
         console.log(event);
-    // var txt;
-    // var person = prompt("Please enter your name:", "Harry Potter");
-    // if (person == null || person == "") {
-    //     txt = "User cancelled the prompt.";
-    // } else {
-    //     txt = "Hello " + person + "! How are you today?";
-    // }
-    // document.getElementById("demo").innerHTML = txt;
+
     }
 
     function mostrarFiltro(check, id) {
