@@ -154,6 +154,9 @@ return [
         'outrasInfo.*' => [
             'required_if' => 'Texto da opção é obrigátorio caso o campo adicionar outras informações ao público esteja marcado.'
         ],
+        'posto_vacinacao_*' => [
+            'required' => 'Selecione o posto do reagendamento',
+        ],
     ],
     
 
