@@ -416,31 +416,77 @@
                         <div class="row">
                             <h4>Agendado para</h4>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="posto_{{$candidato->id}}">Ponto</label>
-                                <input id="posto_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{$candidato->posto->nome}}@endif">
+                        <div id="agendado_para_{{$candidato->id}}" style="display: block;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="posto_{{$candidato->id}}">Ponto</label>
+                                    <input id="posto_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{$candidato->posto->nome}}@endif">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="dose_{{$candidato->id}}">Dose</label>
+                                    <input id="dose_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->dose}}">
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="dose_{{$candidato->id}}">Dose</label>
-                                <input id="dose_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->dose}}">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="data_{{$candidato->id}}">Data</label>
+                                    <input id="data_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('d/m/Y',strtotime($candidato->chegada))}}@endif">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="chegada_{{$candidato->id}}">Horário de chegada</label>
+                                    <input id="chegada_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('H:i',strtotime($candidato->chegada))}}@endif">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="saida_{{$candidato->id}}">Horário de saida</label>
+                                    <input id="saida_{{$candidato->id}}" type="text" class="form-control" disabled value="{{date('H:i',strtotime($candidato->saida))}}">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-6">
+                                    <button id="btn_edit_{{$candidato->id}}" type="button" class="btn btn-primary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, true)">Reagendar</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="data_{{$candidato->id}}">Data</label>
-                                <input id="data_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('d/m/Y',strtotime($candidato->chegada))}}@endif">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="chegada_{{$candidato->id}}">Horário de chegada</label>
-                                <input id="chegada_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('H:i',strtotime($candidato->chegada))}}@endif">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="saida_{{$candidato->id}}">Horário de saida</label>
-                                <input id="saida_{{$candidato->id}}" type="text" class="form-control" disabled value="{{date('H:i',strtotime($candidato->saida))}}">
-                            </div>
+                        
+                        <div id="editar_agendado_para_{{$candidato->id}}" style="display: none;">
+                            <form id="form_editar_agendado_para_{{$candidato->id}}" action="{{route('agendamento.posto.update', ['id' => $candidato->id])}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="edit_agendamento_id" value="{{$candidato->id}}">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="posto_vacinacao" class="style_titulo_input">PONTO DE VACINAÇÃO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
+                                        <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao_'.$candidato->id) is-invalid @enderror" name="posto_vacinacao_{{$candidato->id}}" required onchange="selecionar_posto(this, {{$candidato->id}})">
+                                            <option selected disabled>-- Selecione o ponto --</option>
+                                            @foreach($postos as $posto)
+                                                <option value="{{$posto->id}}">{{$posto->nome}}</option>
+                                            @endforeach
+                                        </select>
+
+                                        @error('posto_vacinacao_'.$candidato->id)
+                                        <div id="validationServer05Feedback" class="invalid-feedback">
+                                            <strong>{{$message}}</strong>
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group col-md-6" id="seletor_data_{{$candidato->id}}"></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12" id="seletor_horario_{{$candidato->id}}"></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-secondary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, false)">Cancelar</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-success" style="width: 100%;" form="form_editar_agendado_para_{{$candidato->id}}">Salvar</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -474,6 +520,14 @@
     <!-- Fim modal confirmar vacinação -->
     @endforeach
 </x-app-layout>
+@if(old('edit_agendamento_id') != null)
+    <script>
+        $(document).ready(function() {
+            $('#visualizar_candidato_{{old('edit_agendamento_id')}}').modal('show');
+            $('#btn_edit_{{old('edit_agendamento_id')}}').click();
+        })
+    </script>
+@endif
 <script>
     function myFunction(event) {
         console.log(event);
@@ -531,5 +585,91 @@
                 alert('Erro'.data);
             },
         })
+    }
+
+    function selecionar_posto(posto_selecionado, id) {
+        document.getElementById('seletor_data_'+id).innerHTML = "";
+        document.getElementById('seletor_horario_'+id).innerHTML = "";
+        $.ajax({
+            url: "{{route('dias.posto.ajax')}}",
+            method: 'GET',
+            type: 'GET',
+            data: {
+                posto_id: posto_selecionado.value,
+            },
+            statusCode: {
+                404: function() {
+                    alert("Nenhum posto encontrado");
+                }
+            },
+            success: function(data){
+                // console.log(data);
+                var htmlDatas = "";
+                var htmlHorarios ="";
+                if (data != null) {
+                    htmlDatas += `<label for="dia_vacinacao_${id}" class="style_titulo_input">DIA DA VACINAÇÃO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
+                            <select id="dia_vacinacao_${id}" class="form-control style_input" name="dia_vacinacao_${id}" required onchange="selecionar_dia_vacinacao(this, ${id})"><option selected disabled>-- Selecione o dia --</option>`;
+                    $.each(data, function(i, obj) {
+                        htmlDatas += `<option value="${i}">${i}</option>`;
+                    })
+                    htmlDatas += `</select>`;
+                    
+                    $.each(data, function(i, obj) {
+                        htmlHorarios += `<div class="seletor_horario_dia_div_${id}"  id="seletor_horario_dia_${i}_${id}" style="display:none;">
+                                    <div class="row horario_vacina_div">
+                                        <div class="form-group col-md-12" style="width: 100%;">
+                                            <label for="dia_vacinacao" class="style_titulo_input">HORÁRIO DA VACINAÇÃO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
+                                            <select id="select_horario_input_${i}_${id}" name="hora_${id}" class="form-control style_input">
+                                                <option selected disabled>-- Selecione o horário --</option>`;
+                        $.each(obj, function(c, obj_include) {
+                            var data_horario = (new Date(obj_include)).toString();
+                            htmlHorarios += `<option value="${data_horario.substring(16,21).split(':').join(':')}">${data_horario.substring(16,21).split(':').join(':')}</option>`;
+                        })
+                         
+                        htmlHorarios += `</select>
+                                        </div>
+                                    </div>
+                                </div>`;
+                    })
+                }
+                $('#seletor_data_'+id).append(htmlDatas)
+                $('#seletor_horario_'+id).append(htmlHorarios);
+            },
+            error:function(data){
+                console.log('erro')
+                alert('Erro'.data);
+            },
+        })
+    }
+
+    function selecionar_dia_vacinacao(select_dia, id) {
+        var divHorarios = document.getElementById('seletor_horario_'+id);
+        for (var i = 0; i < divHorarios.children.length; i++) {
+            var divHoras = document.getElementById("seletor_horario_dia_"+select_dia.value+"_"+id);
+            var inputHoras = document.getElementById("select_horario_input_"+select_dia.value+"_"+id);
+            if (divHoras == divHorarios.children[i]) {
+                divHoras.style.display = "block";
+                inputHoras.setAttribute('name', "hora_"+id);
+                inputHoras.name = "horario_vacinacao_"+id;
+                inputHoras.id = "horario_vacinacao_"+id;
+                inputHoras.required = true;
+            } else {
+                divHorarios.children[i].style="display:none";
+                inputHoras.options.selectedIndex = 0;
+                inputHoras.name = "";
+                inputHoras.required = false;
+            }
+        }
+        
+    }
+
+    function reagendar(id, bool) {
+        if (bool) {
+            document.getElementById("editar_agendado_para_"+id).style.display = "block";
+            document.getElementById("agendado_para_"+id).style.display = "none";
+        } else {
+            document.getElementById("editar_agendado_para_"+id).style.display = "none";
+            document.getElementById("agendado_para_"+id).style.display = "block";
+        }
     }
 </script>

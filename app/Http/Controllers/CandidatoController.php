@@ -623,4 +623,120 @@ class CandidatoController extends Controller
 
         return $agendamentos;
     }
+
+    public function reagendar(Request $request, $id) {
+        $candidato = Candidato::find($id);
+
+        $validated = $request->validate([
+            'edit_agendamento_id'       => 'required',
+            'posto_vacinacao_' . $id    => 'required',
+            'dia_vacinacao_' . $id      => 'required',
+            'horario_vacinacao_' . $id  => 'required',
+        ]);
+
+        $dia_vacinacao          = $request->input('dia_vacinacao_'.$id);
+        $horario_vacinacao      = $request->input('horario_vacinacao_'.$id);
+        $id_posto               = $request->input('posto_vacinacao_'.$id);
+        $datetime_chegada       = Carbon::createFromFormat("d/m/Y H:i", $dia_vacinacao . " " . $horario_vacinacao);
+        $datetime_saida         = $datetime_chegada->copy()->addMinutes(10);
+
+        $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime_chegada)->where("posto_vacinacao_id", $id_posto)->get();
+        
+        if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
+            return redirect()->back()->withErrors([
+                'posto_vacinacao_' . $id => "Alguém conseguiu preencher o formulário mais rápido, escolha outro horario por favor."
+            ])->withInput();
+        }
+
+        $etapa = $candidato->etapa;
+
+        if(!$etapa->lotes->count()){
+            return redirect()->back()->withErrors([
+                'posto_vacinacao_' . $id => "Não há mais doses disponíveis."
+            ])->withInput();
+        }
+        //Retorna um array de IDs do lotes associados a etapa escolhida
+        $array_lotes_disponiveis = $etapa->lotes->pluck('id');
+
+
+        // Pega a lista de todos os lotes da etapa escolhida para o posto escolhido
+        $lotes_disponiveis = DB::table("lote_posto_vacinacao")->where("posto_vacinacao_id", $id_posto)
+                                ->whereIn('lote_id', $array_lotes_disponiveis)->get();
+
+        $id_lote = 0;
+        // Pra cada lote que esteje no posto
+        foreach ($lotes_disponiveis as $lote) {
+
+            // Se a quantidade de candidatos à tomar a vicina daquele lote, naquele posto, que não foram reprovados
+            // for menor que a quantidade de vacinas daquele lote que foram pra aquele posto, então o candidato vai tomar
+            // daquele lote
+
+            $lote_original = Lote::find($lote->lote_id);
+            $qtdCandidato = Candidato::where("lote_id", $lote->id)->where("posto_vacinacao_id", $id_posto)->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])
+                                        ->count();
+            if(!$lote_original->dose_unica){
+                //Se o lote disponivel for de vacina com dose dupla vai parar aqui
+                //e verifica se tem duas vacinas disponiveis
+                if (($qtdCandidato + 1) < $lote->qtdVacina) {
+                    $id_lote = $lote->id;
+                    $chave_estrangeiro_lote = $lote->lote_id;
+                    $qtd = $lote->qtdVacina - $qtdCandidato;
+
+                    if ( !$lote_original->dose_unica && !($qtd >= 2) ) {
+                        return redirect()->back()->withErrors([
+                            'posto_vacinacao_' . $id => "Não há mais doses disponíveis."
+                        ])->withInput();
+                    }
+                    break;
+                }
+
+            }else{
+                //Se o lote disponivel for de vacina com dose unica vai parar aqui
+                //e verifica se tem pelo menos uma ou mais vacinas disponiveis
+                if ($qtdCandidato < $lote->qtdVacina) {
+                    $id_lote = $lote->id;
+                    $chave_estrangeiro_lote = $lote->lote_id;
+                    break;
+                }
+            }
+
+        }
+
+        if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
+            return redirect()->back()->withErrors([
+                'posto_vacinacao_' . $id => "Não há mais doses disponíveis."
+            ])->withInput();
+        }
+
+        $candidato->posto_vacinacao_id      = $id_posto;
+        $candidato->chegada                 = $datetime_chegada;
+        $candidato->saida                   = $datetime_saida;
+        $candidato->lote_id                 = $id_lote;
+        $candidato->update();
+    
+        // Se o agendamento for de primeira dose a segunda dose deve ser reajustada 
+        // para a quantidade de dias do lote escolhido
+        if ($candidato->dose == Candidato::DOSE_ENUM[0]) {
+            $lote = Lote::find($id_lote);
+            if (!$lote->dose_unica) {
+                $candidatoSegundaDose = Candidato::where([['cpf', $candidato->cpf], ['dose', Candidato::DOSE_ENUM[1]]])->first();
+                
+                $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
+                if($datetime_chegada_segunda_dose->format('l') == "Sunday"){
+                    $datetime_chegada_segunda_dose->add(new DateInterval('P1D'));
+                }
+
+                $candidatoSegundaDose->chegada              = $datetime_chegada_segunda_dose;
+                $candidatoSegundaDose->saida                =  $datetime_chegada_segunda_dose->copy()->addMinutes(10);
+                $candidatoSegundaDose->dose                 =  Candidato::DOSE_ENUM[1];
+                $candidatoSegundaDose->posto_vacinacao_id   = $id_posto;
+                
+
+                $candidatoSegundaDose->update();
+            }
+        }
+
+        
+        return redirect()->back()->with(['mensagem' => 'Reagendado com sucesso.']);
+    }
 }
