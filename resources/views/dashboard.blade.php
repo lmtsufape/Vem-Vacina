@@ -218,6 +218,7 @@
                                                         <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
                                                         <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
                                                         <option value="Ausente" >Ausente</option>
+                                                        <option value="restaurar" >Restaurar</option>
                                                     </select>
                                                 </div>
                                                 {{-- <div class="col-md-2">
