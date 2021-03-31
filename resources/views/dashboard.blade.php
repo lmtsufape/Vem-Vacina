@@ -107,30 +107,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Nome
-                                    <a href="{{ route('candidato.order', ['field' => 'nome_completo' ,'order'=> 'ASC']) }}">
-                                        <i class="fas fa-arrow-circle-down"></i>
-                                    </a>
-                                    <a href="{{ route('candidato.order', ['field' => 'nome_completo' ,'order'=> 'DESC']) }}">
-                                        <i class="fas fa-arrow-circle-up"></i>
-                                    </a>
-                                </th>
-                                <th scope="col">CPF
-                                    <a href="{{ route('candidato.order', ['field' => 'cpf' ,'order'=> 'ASC']) }}">
-                                        <i class="fas fa-arrow-circle-down"></i>
-                                    </a>
-                                    <a href="{{ route('candidato.order', ['field' => 'cpf' ,'order'=> 'DESC']) }}">
-                                        <i class="fas fa-arrow-circle-up"></i>
-                                    </a>
-                                </th>
-                                <th scope="col">Dia
-                                    <a href="{{ route('candidato.order', ['field' => 'chegada' ,'order'=> 'ASC']) }}">
-                                        <i class="fas fa-arrow-circle-down"></i>
-                                    </a>
-                                    <a href="{{ route('candidato.order', ['field' => 'chegada' ,'order'=> 'DESC']) }}">
-                                        <i class="fas fa-arrow-circle-up"></i>
-                                    </a>
-                                </th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">CPF</th>
+                                <th scope="col">Dia</th>
                                 <th scope="col">Horário</th>
                                 <th scope="col">Dose</th>
                                 <th scope="col">Visualizar</th>
