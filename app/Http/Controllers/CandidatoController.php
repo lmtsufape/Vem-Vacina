@@ -23,12 +23,21 @@ use App\Notifications\CandidatoInscritoSegundaDose;
 
 class CandidatoController extends Controller
 {
-    public function show(Request $request) {
+    public function show(Request $request, $campo = 'nome_completo') {
         $candidatos = null;
-
+        // dd($request->all());
         $query = Candidato::query();
+
+        if ($request->reprovado) {
+            $query->onlyTrashed()->where('aprovacao', Candidato::APROVACAO_ENUM[2])->where('aprovacao', "Reprovado");
+        }
+
         if ($request->nome_check && $request->nome != null) {
             $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
+        }
+
+        if ($request->ponto_check && $request->ponto != null) {
+            $query->where('posto_vacinacao_id', $request->ponto);
         }
 
         if ($request->cpf_check && $request->cpf != null) {
@@ -49,8 +58,17 @@ class CandidatoController extends Controller
             $query->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
         }
 
-        if ($request->reprovado) {
-            $query->where('aprovacao', Candidato::APROVACAO_ENUM[2]);
+
+        if ($request->ordem_check && $request->ordem != null) {
+            if($request->campo != null){
+                $query->orderBy($request->campo, $request->ordem);
+            }else{
+                $query->orderBy($campo, $request->ordem);
+            }
+        }
+
+        if ($request->campo_check && $request->campo != null) {
+            $query->orderBy($request->campo);
         }
 
         $agendamentos = $query->get();
@@ -75,6 +93,7 @@ class CandidatoController extends Controller
         return view('dashboard')->with(['candidatos' => $agendamentos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM,
+                                        'postos' => PostoVacinacao::all(),
                                         'doses' => Candidato::DOSE_ENUM]);
     }
 
@@ -408,7 +427,7 @@ class CandidatoController extends Controller
             'confirmacao' => 'required'
         ]);
 
-        $candidato = Candidato::find($id);
+        $candidato = Candidato::withTrashed()->find($id);
         $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
         $lote = Lote::find($lote[0]->lote_id);
         // dd($lote);
@@ -432,7 +451,7 @@ class CandidatoController extends Controller
         }elseif($request->confirmacao == "Reprovado"){
 
             $candidato = Candidato::find($id);
-            $candidato->aprovacao = Candidato::APROVACAO_ENUM[2];
+            $candidato->aprovacao = "Reprovado";
             $candidato->save();
             if($candidato->email != null){
                 $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
@@ -440,6 +459,20 @@ class CandidatoController extends Controller
                 Notification::send($candidato, new CandidatoReprovado($candidato, $lote ));
             }
             $candidato->delete();
+
+        }elseif($request->confirmacao == "restaurar"){
+
+            $candidato = Candidato::withTrashed()
+                                    ->where('id', $id)
+                                    ->restore();
+            $candidato = Candidato::withTrashed()->find($id);
+            $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
+            $candidato->update();
+            if($candidato->email != null){
+                $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+                $lote = Lote::find($lote[0]->lote_id);
+                Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
+            }
 
         }
 
