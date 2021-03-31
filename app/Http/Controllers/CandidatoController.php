@@ -23,7 +23,7 @@ use App\Notifications\CandidatoInscritoSegundaDose;
 
 class CandidatoController extends Controller
 {
-    public function show(Request $request, $campo = 'nome_completo') {
+    public function show(Request $request) {
         $candidatos = null;
         // dd($request->all());
         $query = Candidato::query();
@@ -63,7 +63,7 @@ class CandidatoController extends Controller
             if($request->campo != null){
                 $query->orderBy($request->campo, $request->ordem);
             }else{
-                $query->orderBy($campo, $request->ordem);
+                $query->orderBy('nome_completo', $request->ordem);
             }
         }
 
@@ -434,45 +434,54 @@ class CandidatoController extends Controller
         // dd($lote);
         if($request->confirmacao == "Ausente"){
             $candidato = Candidato::find($id);
-            $candidato->aprovacao = Candidato::APROVACAO_ENUM[2];
-            $candidato->save();
-            $candidato->delete();
+            if ($candidato != null) {
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[2];
+                $candidato->update();
+                $candidato->delete();
+
+            }
 
         }elseif($request->confirmacao == "Aprovado"){
             $candidato = Candidato::find($id);
-            $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
-            $candidato->update();
+            if ($candidato != null) {
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
+                $candidato->update();
 
-            if($candidato->email != null){
-                $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
-                $lote = Lote::find($lote[0]->lote_id);
-                Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
+                if($candidato->email != null){
+                    $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+                    $lote = Lote::find($lote[0]->lote_id);
+                    Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
+                }
             }
-            $candidato->delete();
+
         }elseif($request->confirmacao == "Reprovado"){
+            if ($candidato != null) {
+                $candidato = Candidato::find($id);
+                $candidato->aprovacao = "Reprovado";
+                $candidato->save();
+                if($candidato->email != null){
+                    $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+                    $lote = Lote::find($lote[0]->lote_id);
+                    Notification::send($candidato, new CandidatoReprovado($candidato, $lote ));
+                }
+                $candidato->delete();
 
-            $candidato = Candidato::find($id);
-            $candidato->aprovacao = "Reprovado";
-            $candidato->save();
-            if($candidato->email != null){
-                $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
-                $lote = Lote::find($lote[0]->lote_id);
-                Notification::send($candidato, new CandidatoReprovado($candidato, $lote ));
             }
-            $candidato->delete();
 
         }elseif($request->confirmacao == "restaurar"){
 
             $candidato = Candidato::withTrashed()
                                     ->where('id', $id)
                                     ->restore();
-            $candidato = Candidato::withTrashed()->find($id);
-            $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
-            $candidato->update();
-            if($candidato->email != null){
-                $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
-                $lote = Lote::find($lote[0]->lote_id);
-                Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
+            if ($candidato != null) {
+                $candidato = Candidato::withTrashed()->find($id);
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
+                $candidato->update();
+                if($candidato->email != null){
+                    $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+                    $lote = Lote::find($lote[0]->lote_id);
+                    Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
+                }
             }
 
         }
