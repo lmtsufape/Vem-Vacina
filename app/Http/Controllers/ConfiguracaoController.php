@@ -7,6 +7,7 @@ use App\Models\Candidato;
 use App\Models\Configuracao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\CandidatoAprovado;
 use Illuminate\Support\Facades\Notification;
 
 class ConfiguracaoController extends Controller
