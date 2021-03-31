@@ -27,11 +27,11 @@
                             <a href="{{ route('export.posto') }}" class="list-group-item list-group-item-action">
                                 Exportar Postos <span class="badge badge-success">{{ $qtd_postos }}</span>
                             </a>
-                            {{-- @foreach ($postos as $posto)
-                            <a href="{{ route('export.agendamentos.posto', ['id' => $posto->id]) }}" class="list-group-item list-group-item-action">
-                                Exportar agendamentos do ponto {{$posto->nome}} <span class="badge badge-success">{{ $posto->candidatos->count() }}</span>
-                            </a>
-                            @endforeach --}}
+                            @foreach ($postos as $posto)
+                                <a href="{{ route('export.agendamentos.posto', ['id' => $posto->id]) }}" class="list-group-item list-group-item-action">
+                                    Exportar agendamentos do ponto {{$posto->nome}} <span class="badge badge-success">{{ $posto->candidatos->count() }}</span>
+                                </a>
+                            @endforeach
                         @endcan
                     </div>
                 </div>

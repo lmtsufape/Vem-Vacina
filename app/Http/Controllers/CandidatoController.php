@@ -24,7 +24,6 @@ use App\Notifications\CandidatoInscritoSegundaDose;
 class CandidatoController extends Controller
 {
     public function show(Request $request) {
-        $candidatos = null;
 
         $query = Candidato::query();
 
@@ -75,7 +74,8 @@ class CandidatoController extends Controller
         return view('dashboard')->with(['candidatos' => $agendamentos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM,
-                                        'doses' => Candidato::DOSE_ENUM]);
+                                        'doses' => Candidato::DOSE_ENUM,
+                                        'request' => $request]);
     }
 
     // public function pendentes(Request $request) {

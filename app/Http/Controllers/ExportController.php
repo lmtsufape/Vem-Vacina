@@ -7,6 +7,7 @@ use App\Models\Etapa;
 use App\Models\Candidato;
 use App\Exports\LoteExport;
 use App\Exports\PostoExport;
+use App\Exports\CandidatosPostoExport;
 use Illuminate\Http\Request;
 use App\Models\PostoVacinacao;
 use App\Exports\CandidatoExport;
@@ -57,7 +58,8 @@ class ExportController extends Controller
     }
 
     public function agendamentosDoPosto($id) {
-        dd($id);
+        $posto = PostoVacinacao::find($id);
+        return Excel::download(new CandidatosPostoExport($posto), $posto->nome.'.xlsx');
     }
 
 
