@@ -4,6 +4,10 @@ namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use App\Models\PostoVacinacao;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Carbon\Carbon;
 
 class CandidatosPostoExport implements FromCollection
@@ -25,36 +29,10 @@ class CandidatosPostoExport implements FromCollection
         return $this->posto->candidatos()->where('chegada', 'like', $hoje.'%')->get();
     }
 
-    public function headings(): array
-    {
-        return [
-            '#',
-            'nome_completo',
-            'data_de_nascimento',
-            'idade',
-            'cpf',
-            'numero_cartao_sus',
-            'sexo',
-            'nome_da_mae',
-            'paciente_acamado',
-            'telefone',
-            'whatsapp',
-            'email',
-            'cep',
-            'cidade',
-            'bairro',
-            'numero_residencia',
-            'complemento_endereco',
-            'aprovacao',
-            'chegada',
-            'saida',
-        ];
-    }
-
     public function view(): View
     {
-        return view('export.candidatos', [
-            'candidatos' => Candidato::withTrashed()->get(),
+        return view('export.candidatosPosto', [
+            'candidatos' => $this->posto->candidatos()->where('chegada', 'like', $hoje.'%')->get(),
             'tipos' => Etapa::TIPO_ENUM
         ]);
     }
