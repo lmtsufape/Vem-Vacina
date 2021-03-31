@@ -509,7 +509,8 @@ class CandidatoController extends Controller
 
         return view('dashboard')->with(['candidatos' => $candidatos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
-                                        'tipos' => Etapa::TIPO_ENUM]);
+                                        'tipos' => Etapa::TIPO_ENUM,
+                                        'doses' => Candidato::DOSE_ENUM]);
 
     }
     public function ordenarNovaLista($field ,$order)
