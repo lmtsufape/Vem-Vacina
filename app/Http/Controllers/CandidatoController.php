@@ -714,10 +714,14 @@ class CandidatoController extends Controller
         $candidato->lote_id                 = $id_lote;
         $candidato->update();
     
+
+        $candidatoSegundaDose = null;
+        $lote = Lote::find($id_lote);
+
         // Se o agendamento for de primeira dose a segunda dose deve ser reajustada 
         // para a quantidade de dias do lote escolhido
         if ($candidato->dose == Candidato::DOSE_ENUM[0]) {
-            $lote = Lote::find($id_lote);
+            
             if (!$lote->dose_unica) {
                 $candidatoSegundaDose = Candidato::where([['cpf', $candidato->cpf], ['dose', Candidato::DOSE_ENUM[1]]])->first();
                 
@@ -734,6 +738,10 @@ class CandidatoController extends Controller
 
                 $candidatoSegundaDose->update();
             }
+        }
+
+        if($candidato->email != null && $candidatoSegundaDose != null){
+            Notification::send($candidato, new Reagendado($candidato, $candidatoSegundaDose));
         }
 
         
