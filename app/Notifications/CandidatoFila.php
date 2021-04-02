@@ -6,31 +6,20 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\Candidato;
-use App\Models\Lote;
 
-class Reagendado extends Notification
+class CandidatoFila extends Notification
 {
     use Queueable;
 
-    public $priDose;
-    public $segDose;
-    public $lote;
-    public $data_chegada_pri_dose;
-    public $data_chegada_seg_dose;
-
+    public $candidato;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-
-    public function __construct(Candidato $priDose, Candidato $segDose)
+    public function __construct($candidato)
     {
-        $this->priDose = $priDose;
-        $this->segDose = $segDose;
-        $this->data_chegada_pri_dose =  date('d/m/Y \à\s  H:i\h', strtotime($this->priDose->chegada));
-        $this->data_chegada_seg_dose =  date('d/m/Y \à\s  H:i\h', strtotime($this->segDose->chegada));
+        $this->candidato = $candidato;
     }
 
     /**
@@ -41,7 +30,7 @@ class Reagendado extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -54,17 +43,8 @@ class Reagendado extends Notification
     {
         return (new MailMessage)
                 ->from(env('MAIL_USERNAME'), 'Prefeitura Municipal de Garanhuns')
-                ->line("Sr(a). {$this->priDose->nome_completo},")
-                ->line("Informamos que as suas datas de vacinação foram reagendadas pela Secretaria Municipal de Saúde de Garanhuns - PE.")
-                ->line("A seguir, encontram-se o dia, horário e local de aplicação da 1ª e 2ª dose para que registre ou imprima:")
-                ->line("1ª Dose")
-                ->line("Dia: {$this->data_chegada_pri_dose}.")
-                ->line("Local: {$this->priDose->posto->nome}.")
-                ->line("Endereço: {$this->priDose->posto->endereco}.")
-                ->line("2ª Dose")
-                ->line("Dia: {$this->data_chegada_seg_dose}.")
-                ->line("Local: {$this->segDose->posto->nome}.")
-                ->line("Endereço: {$this->segDose->posto->endereco}.")
+                ->line("Sr(a). {$this->candidato->nome_completo},")
+                ->line("Informamos que a sua solicitação de agendamento para vacinação foi para a fila de espera, aguarde o contato da Secretaria Municipal de Saúde de Garanhuns - PE.")
                 ->line("Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.")
                 ->line("Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.")
                 ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!")
@@ -80,7 +60,7 @@ class Reagendado extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'message' => 'Condidato/fila de ID:'. $this->candidato->cpf. ' Aprovado'
         ];
     }
 }

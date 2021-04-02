@@ -6,6 +6,7 @@ use Throwable;
 use DateInterval;
 use Carbon\Carbon;
 use App\Models\Lote;
+use App\Models\User;
 use App\Models\Etapa;
 use Carbon\CarbonPeriod;
 use App\Models\Candidato;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\CandidatoAprovado;
+use App\Notifications\CandidatoFilaArquivo;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CandidatoInscritoSegundaDose;
 
@@ -116,7 +118,7 @@ class FilaController extends Controller
                     // daquele lote
 
                     $lote_original = Lote::find($lote->lote_id);
-                    $qtdCandidato = Candidato::where("lote_id", $lote->id)->where("posto_vacinacao_id", $id_posto)->whereIn("aprovacao", "!=", [Candidato::APROVACAO_ENUM[2], Candidato::APROVACAO_ENUM[0] ])
+                    $qtdCandidato = Candidato::where("lote_id", $lote->id)->where("posto_vacinacao_id", $id_posto)->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[0])
                                                 ->count();
                     if(!$lote_original->dose_unica){
                         //Se o lote disponivel for de vacina com dose dupla vai parar aqui
@@ -174,13 +176,13 @@ class FilaController extends Controller
 
                     $candidatoSegundaDose->save();
 
-                    if($candidatoSegundaDose->email != null){
-                        // Notification::send($candidatoSegundaDose, new CandidatoInscritoSegundaDose($candidatoSegundaDose, $lote ));
-                    }
+                }
+                if($candidato->email != null){
+                    Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
+                    sleep(4);
                 }
 
 
-                sleep(2);
                 return true;
 
             }
@@ -281,7 +283,7 @@ class FilaController extends Controller
     {
         $postos = PostoVacinacao::all();
         $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get();
-        $log = [];
+        $aprovado = null;
         // dd($candidatos);
         foreach ($candidatos as $key => $candidato) {
 
@@ -291,7 +293,8 @@ class FilaController extends Controller
                 $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato->id, $posto->id );
 
                 if ($resultado) {
-                    array_push($log, $candidato->nome_completo, "aprovado");
+                    $aprovado = true;
+                    Notification::send(User::all(), new CandidatoFilaArquivo($candidato));
                    break;
                 }else{
                     continue;
@@ -300,8 +303,11 @@ class FilaController extends Controller
 
             }
         }
-
-        return redirect()->back()->with(['mensagem' => 'Distribuição feita!', 'log' => $log]);
+        if ($aprovado) {
+            return redirect()->back()->with(['mensagem' => 'Distribuição feita!', 'class' => 'success']);
+        }else{
+            return redirect()->back()->with(['mensagem' => 'Nenhum candidato foi aprovado!', 'class' => 'danger']);
+        }
     }
 
     public function show($id)

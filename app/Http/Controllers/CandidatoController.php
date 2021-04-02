@@ -8,15 +8,17 @@ use Carbon\Carbon;
 use App\Models\Lote;
 use App\Models\Etapa;
 use App\Models\Candidato;
+use App\Models\Configuracao;
 use Illuminate\Http\Request;
 use App\Models\PostoVacinacao;
+use App\Notifications\Reagendado;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\CandidatoFila;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
-use App\Models\Configuracao;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CandidatoInscritoSegundaDose;
 
@@ -298,6 +300,7 @@ class CandidatoController extends Controller
                         if ( !$lote_original->dose_unica && !($qtd >= 2) ) {
                             $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                             $candidato->save();
+                            Notification::send($candidato, new CandidatoFila($candidato));
                             DB::commit();
                             return view('fila.comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
                                                                     'candidato' => $candidato,
@@ -324,6 +327,7 @@ class CandidatoController extends Controller
             if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
+                Notification::send($candidato, new CandidatoFila($candidato));
                 DB::commit();
                 return view('fila.comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
                                                         'candidato' => $candidato,
@@ -338,8 +342,8 @@ class CandidatoController extends Controller
             // $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
             // $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
 
-
             $candidato->save();
+            $candidatoSegundaDose = null;
 
             $lote = Lote::find($chave_estrangeiro_lote);
 
@@ -363,14 +367,10 @@ class CandidatoController extends Controller
                         }
                     }
                 }
-
-                if($candidatoSegundaDose->email != null){
-                    Notification::send($candidatoSegundaDose, new CandidatoInscritoSegundaDose($candidatoSegundaDose, $lote ));
-                }
             }
 
             if($candidato->email != null){
-                Notification::send($candidato, new CandidatoInscrito($candidato, $lote));
+                Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
             }
 
 
@@ -451,7 +451,7 @@ class CandidatoController extends Controller
                 if($candidato->email != null){
                     $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
                     $lote = Lote::find($lote[0]->lote_id);
-                    Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
+                    // Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
                 }
             }
 
@@ -463,7 +463,7 @@ class CandidatoController extends Controller
                 if($candidato->email != null){
                     $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
                     $lote = Lote::find($lote[0]->lote_id);
-                    Notification::send($candidato, new CandidatoReprovado($candidato, $lote ));
+                    // Notification::send($candidato, new CandidatoReprovado($candidato, $lote ));
                 }
                 $candidato->delete();
 
@@ -481,7 +481,7 @@ class CandidatoController extends Controller
                 if($candidato->email != null){
                     $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
                     $lote = Lote::find($lote[0]->lote_id);
-                    Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
+                    Notification::send($candidato, new CandidatoAprovado($candidato, null,$lote ));
                 }
             }
 
@@ -726,7 +726,7 @@ class CandidatoController extends Controller
 
 
         $candidatoSegundaDose = null;
-        $lote = Lote::find($id_lote);
+        $lote = Lote::find($chave_estrangeiro_lote);
 
         // Se o agendamento for de primeira dose a segunda dose deve ser reajustada
         // para a quantidade de dias do lote escolhido

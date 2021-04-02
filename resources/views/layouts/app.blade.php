@@ -47,6 +47,12 @@
                 $('.sus').mask('000 0000 0000 0000');
             });
         </script>
+        <style>
+            a.disabled {
+                pointer-events: none;
+                color: #ccc;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
