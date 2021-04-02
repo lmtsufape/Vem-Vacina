@@ -287,7 +287,7 @@ class CandidatoController extends Controller
                 // daquele lote
 
                 $lote_original = Lote::find($lote->lote_id);
-                $qtdCandidato = Candidato::where("lote_id", $lote->id)->where("posto_vacinacao_id", $id_posto)->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[0] )
+                $qtdCandidato = Candidato::where("lote_id", $lote->id)->where("posto_vacinacao_id", $id_posto)->where("aprovacao",  Candidato::APROVACAO_ENUM[1])
                                             ->count();
                 if(!$lote_original->dose_unica){
                     //Se o lote disponivel for de vacina com dose dupla vai parar aqui
