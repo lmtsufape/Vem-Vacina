@@ -128,7 +128,6 @@
                                 <th scope="col">Nome</th>
                                 <th scope="col">CPF</th>
                                 {{-- <th scope="col">Horário</th> --}}
-                                <th scope="col">Dose</th>
                                 <th scope="col">Ver</th>
                                 {{-- @can('confirmar-vaga-candidato')
                                     <th scope="col">Resultado</th>
@@ -151,10 +150,6 @@
                                 <td>{{$candidato->cpf}}</td>
                                 {{-- <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
                                 <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td> --}}
-                                <td>
-                                    {{ $candidato->dose  }}
-                                </td>
-
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
                                 </td>

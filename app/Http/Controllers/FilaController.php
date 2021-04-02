@@ -24,19 +24,22 @@ use App\Notifications\CandidatoInscritoSegundaDose;
 
 class FilaController extends Controller
 {
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         $candidatos = null;
+        // dd($request->all());
+        $query = Candidato::query()->where('aprovacao',Candidato::APROVACAO_ENUM[0]);
 
-        $query = Candidato::query()->where('aprovacao', Candidato::APROVACAO_ENUM[0]);
 
         if ($request->nome_check && $request->nome != null) {
             $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
         }
 
+
+
         if ($request->cpf_check && $request->cpf != null) {
             $query->where('cpf', $request->cpf);
         }
+
 
         if ($request->ordem_check && $request->ordem != null) {
             if($request->campo != null){
@@ -50,7 +53,11 @@ class FilaController extends Controller
             $query->orderBy($request->campo);
         }
 
-        $agendamentos = $query->get();
+        if ($request->outro) {
+            $agendamentos = $query->get();
+        } else {
+            $agendamentos = $query->paginate(500)->withQueryString();
+        }
 
         if ($request->outro) {
             $agendamentosComOutrasInfo = collect();
@@ -69,7 +76,7 @@ class FilaController extends Controller
             }
         }
 
-        return view('fila.index')->with(['candidatos' => $agendamentos,
+        return view('dashboard')->with(['candidatos' => $agendamentos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM,
                                         'postos' => PostoVacinacao::all(),
