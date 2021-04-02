@@ -124,7 +124,16 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">Filtrar</button>
+                            <div class="row">
+                                <div class="col-md-12" style="margin-bottom: 5px;">
+                                    <button type="submit" class="btn btn-primary" style="width: 100%;">Filtrar</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="{{route('dashboard')}}"><button type="button" class="btn btn-secondary" style="width: 100%;">Limpar filtros</button></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -232,7 +241,13 @@
                         </tbody>
                     </table>
                 </div>
-
+                @if ($request != null && $request->outro == false)
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {{ $candidatos->links() }}
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

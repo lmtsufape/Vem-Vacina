@@ -71,7 +71,11 @@ class CandidatoController extends Controller
             $query->orderBy($request->campo);
         }
 
-        $agendamentos = $query->get();
+        if ($request->outro) {
+            $agendamentos = $query->get();
+        } else {
+            $agendamentos = $query->paginate(500)->withQueryString();
+        }
 
         if ($request->outro) {
             $agendamentosComOutrasInfo = collect();
