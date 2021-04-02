@@ -460,8 +460,8 @@
                                                 <!--<div class="col-md-6" style="padding:3px">
                                                      <button class="btn btn-light" style="width: 100%;margin: 0px;">Cancelar</button>
                                                      </div>-->
-                                                <div class="col-md-12" style="padding:3px" id="buttonSend">
-                                                    <button class="btn btn-success" style="width: 100%;">Enviar</button>
+                                                <div class="col-md-12" style="padding:3px">
+                                                    <button class="btn btn-success" id="buttonSend" style="width: 100%;">Enviar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -529,13 +529,12 @@
         const buttonSend = document.getElementById('buttonSend');
         const formSolicitar = document.getElementById('formSolicitar');
         buttonSend.addEventListener('click', (e)=>{
-            // e.preventDefault();
             e.target.innerText = "Aguarde...";
             e.target.setAttribute("disabled", "disabled");
             formSolicitar.submit()
-            console.log(e.target)
         })
     </script>
+
 
     <script>
      function checkbox_visibilidade(div_alvo, checkbox) {
