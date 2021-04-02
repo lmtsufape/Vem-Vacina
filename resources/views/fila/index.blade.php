@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Lista de agendamentos') }}
+                    {{ __('Lista de Espera') }}
                     @php
                         $filtros =  array('Candidatos pendentes',
                                 'Candidatos aprovados',
@@ -24,9 +24,9 @@
                 </a>
             </div>
             <div class="col-md-4" style="text-align: right;">
-                <a href="{{route('solicitacao.candidato')}}">
+                <a href="{{route('fila.distribuir')}}">
                     <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Fazer agendamento
+                        Distribuir vacinas
                     </button>
                 </a>
             </div>
@@ -48,7 +48,7 @@
                                     <input type="checkbox" name="cpf_check" id="cpf_check_input" onclick="mostrarFiltro(this, 'cpf_check')" @if($request->cpf_check != null && $request->cpf_check) checked @endif>
                                     <label>Por CPF</label>
                                 </div>
-                                <div class="col-md-3">
+                                {{-- <div class="col-md-3">
                                     <input type="checkbox" name="data_check" id="data_check_input" onclick="mostrarFiltro(this, 'data_check')" @if($request->data_check != null && $request->data_check) checked @endif>
                                     <label>Por data de agendamento</label>
                                 </div>
@@ -59,15 +59,15 @@
                                 <div class="col-md-3">
                                     <input type="checkbox" name="outro" id="outro" @if($request->outro != null && $request->outro) checked @endif>
                                     <label>É acamado</label>
-                                </div>
-                                <div class="col-md-3">
+                                </div> --}}
+                                {{-- <div class="col-md-3">
                                     <input type="checkbox" name="aprovado" id="aprovado" @if($request->aprovado != null && $request->aprovado) checked @endif>
                                     <label>Aprovados</label>
                                 </div>
                                 <div class="col-md-3">
                                     <input type="checkbox" name="reprovado" id="reprovado" @if($request->reprovado != null && $request->reprovado) checked @endif>
                                     <label>Reprovados</label>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-3">
                                     <input type="checkbox" name="campo_check" id="campo_check_input" onclick="mostrarFiltro(this, 'campo_check')">
                                     <label>Campo</label>
@@ -76,10 +76,10 @@
                                     <input type="checkbox" name="ordem_check" id="ordem_check_input" onclick="mostrarFiltro(this, 'ordem_check')">
                                     <label>Ordem</label>
                                 </div>
-                                <div class="col-md-3">
+                                {{-- <div class="col-md-3">
                                     <input type="checkbox" name="ponto_check" id="ponto_check_input" onclick="mostrarFiltro(this, 'ponto_check')">
                                     <label>Ponto</label>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="row">
                                 <div id="nome_check" class="col-md-3" style="@if($request->nome_check != null && $request->nome_check) display: block; @else display: none; @endif">
@@ -144,19 +144,15 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">CPF</th>
-                                <th scope="col">Dia</th>
-                                <th scope="col">Horário</th>
+                                {{-- <th scope="col">Horário</th> --}}
                                 <th scope="col">Dose</th>
-                                <th scope="col">Ponto</th>
                                 <th scope="col">Ver</th>
-                                @can('confirmar-vaga-candidato')
+                                {{-- @can('confirmar-vaga-candidato')
                                     <th scope="col">Resultado</th>
-                                @endcan
-                                @can('vacinado-candidato')
-                                    <th scope="col" class="text-center">Confirmar vacinação</th>
-                                @endcan
+                                @endcan --}}
+
                                 @can('whatsapp-candidato')
-                                    <th scope="col" class="text-center">Link</th>
+                                    <th scope="col" >Link</th>
                                 @endcan
                             </tr>
                         </thead>
@@ -170,20 +166,16 @@
                                       </span>
                                 </td>
                                 <td>{{$candidato->cpf}}</td>
-                                <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
-                                <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td>
+                                {{-- <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
+                                <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td> --}}
                                 <td>
                                     {{ $candidato->dose  }}
                                 </td>
-                                <td>
-                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
-                                        {{$candidato->posto->nome}}
-                                      </span>
-                                </td>
+
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
                                         Vacinado
                                     @else
@@ -200,22 +192,13 @@
                                                         <option value="restaurar" >Restaurar</option>
                                                     </select>
                                                 </div>
-                                                {{-- <div class="col-md-2">
-
-                                                        <button class="btn btn-success"><i class="far fa-check-circle"></i></button>
-
-                                                </div> --}}
                                             </div>
                                         </form>
                                         @endcan
                                     @endif
-                                </td>
+                                </td> --}}
 
-                                <td style="text-align: center;" class="pl-4">
-                                    @can('vacinado-candidato')
-                                        <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif><i class="fas fa-syringe"></i></button>
-                                    @endcan
-                                </td>
+
                                 <td>
                                     @can('whatsapp-candidato')
                                         @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
@@ -231,7 +214,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $candidatos->links() }}
                 </div>
 
             </div>
@@ -495,30 +477,7 @@
             </div>
         </div>
     <!-- Fim modal visualizar agendamento -->
-    <!-- Modal confirmar vacinação -->
-        <div class="modal fade" id="vacinar_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="vacinar_candidato_{{$candidato->id}}_label" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="vacinar_candidato_{{$candidato->id}}_label">Confirmar vacinação de {{$candidato->nome_completo}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                <form id="vacinado_{{$candidato->id}}" action="{{route('candidato.vacinado', ['id' => $candidato->id])}}" method="POST">
-                        @csrf
-                        Deseja confirmar que esse candidato foi vacinado?
-                </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="vacinado_{{$candidato->id}}">Salvar</button>
-                </div>
-            </div>
-            </div>
-        </div>
-    <!-- Fim modal confirmar vacinação -->
+
     @endforeach
 </x-app-layout>
 @if(old('edit_agendamento_id') != null)
@@ -604,7 +563,7 @@
                 }
             },
             success: function(data){
-                console.log(data);
+                // console.log(data);
                 var htmlDatas = "";
                 var htmlHorarios ="";
                 if (data != null) {

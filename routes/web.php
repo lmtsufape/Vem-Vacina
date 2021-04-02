@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Livewire\StoreLote;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CandidatoController;
+use App\Http\Controllers\FilaController;
 use App\Http\Controllers\LoteController;
-use App\Http\Controllers\PostoVacinacaoController;
 use App\Http\Controllers\EtapaController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\ConfiguracaoController;
-use App\Http\Livewire\StoreLote;
+use App\Http\Controllers\PostoVacinacaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +86,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/posto/dias-disponiveis', [PostoVacinacaoController::class, 'diasPorPosto'])->name('dias.posto.ajax');
     Route::post('/agentamento/{id}/reagendar', [CandidatoController::class, 'reagendar'])->name('agendamento.posto.update');
+
+    Route::get('/fila/index', [FilaController::class, 'index'])->name('fila.index');
+    Route::post('/fila/{id}/agendar', [FilaController::class, 'reagendar'])->name('fila.agendar');
+    Route::get('/fila/distribuir', [FilaController::class, 'distribuirVacina'])->name('fila.distribuir');
 });
 
 

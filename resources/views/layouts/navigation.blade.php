@@ -37,9 +37,9 @@
                     <x-nav-link :href="route('config.index')" :active="request()->routeIs('config.*')">
                         {{ __('Configurações') }}
                     </x-nav-link>
-                    {{-- <x-nav-link :href="route('candidato.pendentes')" :active="request()->routeIs('candidato.*')">
-                        {{ __('Nova Lista') }}
-                    </x-nav-link> --}}
+                    <x-nav-link :href="route('fila.index')" :active="request()->routeIs('fila.*')">
+                        {{ __('Fila de Espera') }}
+                    </x-nav-link>
 
                 </div>
             </div>

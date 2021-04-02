@@ -41,7 +41,7 @@
                         <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">Por meio desta ferramenta será efetuado o cadastro e agendamento da vacinação para o público-alvo. Idosos acamados devem realizar esta indicação no ato de cadastro, para aplicação da vacina em domicílio. Caso não haja mais vacinas disponíveis para sua faixa etária, você deve realizar seu cadastro na fila de espera para agendamento, no link a seguir: <br><a href="{{$config->link_do_form_fila_de_espera}}" target="_blanck">{{$config->link_do_form_fila_de_espera}}</a> </div>
                         <div class="col-md-12 style_titulo_campo" style="margin-bottom: 10px;">Informações pessoais</div>
                         <div class="col-md-12">
-                            <form method="POST" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
+                            <form method="POST" id="formSolicitar" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
                                 @if ($errors->any())
@@ -460,7 +460,7 @@
                                                 <!--<div class="col-md-6" style="padding:3px">
                                                      <button class="btn btn-light" style="width: 100%;margin: 0px;">Cancelar</button>
                                                      </div>-->
-                                                <div class="col-md-12" style="padding:3px">
+                                                <div class="col-md-12" style="padding:3px" id="buttonSend">
                                                     <button class="btn btn-success" style="width: 100%;">Enviar</button>
                                                 </div>
                                             </div>
@@ -524,6 +524,18 @@
             });
         </script>
     @endif
+
+    <script>
+        const buttonSend = document.getElementById('buttonSend');
+        const formSolicitar = document.getElementById('formSolicitar');
+        buttonSend.addEventListener('click', (e)=>{
+            // e.preventDefault();
+            e.target.innerText = "Aguarde...";
+            e.target.setAttribute("disabled", "disabled");
+            formSolicitar.submit()
+            console.log(e.target)
+        })
+    </script>
 
     <script>
      function checkbox_visibilidade(div_alvo, checkbox) {
