@@ -282,7 +282,7 @@ class FilaController extends Controller
     public function distribuirVacina()
     {
         $postos = PostoVacinacao::all();
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get();
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->oldest()->get();
         $aprovado = null;
         // dd($candidatos);
         foreach ($candidatos as $key => $candidato) {
