@@ -379,31 +379,14 @@
                         </div>
                         <div id="agendado_para_{{$candidato->id}}" style="display: block;">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label for="posto_{{$candidato->id}}">Ponto</label>
-                                    <input id="posto_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{$candidato->posto->nome}}@endif">
-                                </div>
+
                                 <div class="col-md-6">
                                     <label for="dose_{{$candidato->id}}">Dose</label>
                                     <input id="dose_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->dose}}">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="data_{{$candidato->id}}">Data</label>
-                                    <input id="data_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('d/m/Y',strtotime($candidato->chegada))}}@endif">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="chegada_{{$candidato->id}}">Horário de chegada</label>
-                                    <input id="chegada_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('H:i',strtotime($candidato->chegada))}}@endif">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="saida_{{$candidato->id}}">Horário de saida</label>
-                                    <input id="saida_{{$candidato->id}}" type="text" class="form-control" disabled value="{{date('H:i',strtotime($candidato->saida))}}">
-                                </div>
-                            </div>
+
+
                             <br>
                             <div class="row">
                                 <div class="col-md-6">

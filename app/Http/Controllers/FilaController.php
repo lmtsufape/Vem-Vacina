@@ -76,7 +76,7 @@ class FilaController extends Controller
             }
         }
 
-        return view('dashboard')->with(['candidatos' => $agendamentos,
+        return view('fila.index')->with(['candidatos' => $agendamentos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM,
                                         'postos' => PostoVacinacao::all(),
