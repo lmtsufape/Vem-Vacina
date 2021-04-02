@@ -265,9 +265,13 @@ class CandidatoController extends Controller
             $etapa = Etapa::where('id',$request->input('público'))->first();
 
             if(!$etapa->lotes->count()){
-                return redirect()->back()->withErrors([
-                    "posto_vacinacao" => "Não há mais doses disponíveis. Favor realize o seu cadastro na fila de espera pela página principal."
-                ])->withInput();
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
+                $candidato->save();
+                Notification::send($candidato, new CandidatoFila($candidato));
+                DB::commit();
+                return view('fila.comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+                                                        'candidato' => $candidato,
+                                                        'aprovacao_enum' => Candidato::APROVACAO_ENUM]);
             }
             //Retorna um array de IDs do lotes associados a etapa escolhida
             $array_lotes_disponiveis = $etapa->lotes->pluck('id');
