@@ -269,8 +269,10 @@ class CandidatoController extends Controller
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
                 DB::commit();
+                $agendamentos = [];
+                array_push($agendamentos, $candidato);
                 return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
-                                            'agendamentos' => $candidato,
+                                            'agendamentos' => $agendamentos,
                                             'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
             }
             //Retorna um array de IDs do lotes associados a etapa escolhida
@@ -306,8 +308,10 @@ class CandidatoController extends Controller
                             $candidato->save();
                             Notification::send($candidato, new CandidatoFila($candidato));
                             DB::commit();
+                            $agendamentos = [];
+                            array_push($agendamentos, $candidato);
                             return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
-                                            'agendamentos' => $candidato,
+                                            'agendamentos' => $agendamentos,
                                             'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
                             // return redirect()->back()->withErrors([
                             //     "posto_vacinacao" => "Não há mais doses disponíveis. Favor realize o seu cadastro na fila de espera pela página principal."
@@ -333,8 +337,10 @@ class CandidatoController extends Controller
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
                 DB::commit();
+                $agendamentos = [];
+                array_push($agendamentos, $candidato);
                 return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
-                                            'agendamentos' => $candidato,
+                                            'agendamentos' => $agendamentos,
                                             'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
             }
 

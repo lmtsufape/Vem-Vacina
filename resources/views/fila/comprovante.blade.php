@@ -10,8 +10,166 @@
                 <div class="row justify-content-center">
                     <!-- covid-19 programa de vacinacao -->
                     <div class="col-md-9 style_card_apresentacao">
-                        <h3>Sr. {{ $candidato->nome_completo }}</h3>
-                        <h3>Você foi para a Fila de Espera, aguarde a chegada de novas vacinas e fique atento à sua aprovação.</h3>
+                        @if ($agendamentos != null && count($agendamentos) > 0)
+                            <div class="container" style="padding-top: 10px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row" style="text-align: center;">
+                                            <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
+                                                <img src="{{asset('/img/logo_vem_vacina.png')}}" alt="Orientação" width="300px">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12" >
+                                        <div class="row">
+                                            <div class="col-md-12 style_titulo_campo" style="font-size: 32px;">{{$status}}</div>
+                                            <div class="col-md-12"><hr class="style_linha_campo"></div>
+                                            <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">
+                                                <p>
+                                                    Sr(a) {{$agendamentos[0]->nome_completo}},
+                                                </p>
+                                                {{-- {{dd($agendamentos[0]->aprovacao)}} --}}
+                                                @if($agendamentos[0]->aprovacao == $aprovacao_enum[0] && $agendamentos[0]->chegada == null )
+                                                    <p>
+                                                        Informamos que a sua solicitação de agendamento para vacinação foi recebida com sucesso e se encontra na <strong>FILA DE ESPERA</strong>.
+                                                    </p>
+
+                                                @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
+                                                    <p>
+                                                        Informamos que a sua solicitação de agendamento para vacinação foi <strong>APROVADA</strong> pela Secretaria Municipal de Saúde de Garanhuns - PE.
+                                                    </p>
+                                                    <p>
+                                                        A seguir, encontram-se o dia, horário e local de aplicação da primeira e segunda dose para que registre ou imprima:
+                                                    </p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="style_titulo_input" style="font-size: 32px;">Sr(a). <span class="style_titulo_campo" style="font-size: 32px;">{{$agendamentos[0]->nome_completo}}</span>, anote as informações para não esquecer!</span>
+                                    </div>
+                                </div> --}}
+                                @if(count($agendamentos) > 0 && $agendamentos[0]->chegada != null)
+                                    <div class="justify-content-center destaque-pri-dose">
+                                        <div class="row">
+                                            <div class="col-md-12">1ª Dose</div>
+                                            {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
+                                            <div class="col-md-12"><hr class="style_linha_dose"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Local<br>
+                                                {{$agendamentos[0]->posto->nome}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Data<br>
+                                                {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Hora<br>
+                                                {{date('H:i',strtotime($agendamentos[0]->chegada))}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if(count($agendamentos) > 1 && $agendamentos[1]->chegada != null)
+                                    <div class="justify-content-center destaque-seg-dose">
+                                        <div class="row">
+                                            <div class="col-md-12">2ª Dose</div>
+                                            {{-- <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div> --}}
+                                            <div class="col-md-12"><hr class="style_linha_dose"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Local<br>
+                                                {{$agendamentos[1]->posto->nome}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Data<br>
+                                                {{date('d/m/Y',strtotime($agendamentos[1]->chegada))}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Hora<br>
+                                                {{date('H:i',strtotime($agendamentos[1]->chegada))}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
+                                <br>
+                                    <div class="row" style="text-align: justify;">
+                                        <div class="col-md-12">A verificação da confirmação, ou não, de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo "Consultar agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.</div>
+                                    </div>
+                                @endif
+                                <div class="row" style="text-align: center;">
+                                    <div class="col-md-12">
+                                        <span class="style_titulo_campo" style="font-size: 32px;">AVISO</span>
+                                    </div>
+                                </div>
+                                @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
+                                    <div class="row" style="text-align: justify;">
+                                        <div class="col-md-12">Além disso, fica atento a seu e-mail, whatsapp ou telefone, para a confirmação do agendamento por parte da Secretaria de Saúde. Ou caso prefira, acesse novamente a página principal do sistema, e clique em "Consultar agendamento"</div>
+                                    </div>
+                                    <br>
+                                    <div class="row" style="text-align: center;">
+                                        <div class="col-md-12">Nós não iremos, em momento algum, solicitar dados de cartão de crédito, senhas bancárias ou quaisquer confirmações por SMS. Cuidado com golpes!</div>
+                                    </div>
+                                @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
+                                    <div class="row" style="text-align: justify;">
+                                        <div class="col-md-12">Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.</div>
+                                    </div>
+                                    <br>
+                                    <div class="row" style="text-align: justify;">
+                                        <div class="col-md-12">Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.</div>
+                                    </div>
+                                @endif
+                                <br>
+                                <div class="row" style="text-align: justify;">
+                                    <div class="col-md-12">Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!</div>
+                                </div>
+                                <br>
+                                <div class="row" style="text-align: justify;">
+                                    <div class="col-md-12">Secretaria Municipal de Saúde (Garanhuns - PE)</div>
+                                </div>
+                                <hr class="style-linha-divisora-red">
+                                <div class="row">
+                                    <div class="col-md-12 style_titulo_campo"><span style="font-size: 28px;">Outras informações</span></div>
+                                </div>
+                                <br>
+                                <div class="row" style="text-align: justify;">
+                                    <div class="col-md-12">
+                                        <p>
+                                            Para outras informações ou dúvidas não sanadas nos canais acima, tais como: dificuldades ou problemas técnicos para uso no sistema, esclarecimento de dúvidas quanto a faixa etária, favor entrar em contato pelo e-mail, telefone ou whatsapp disponibilizados:
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="style_titulo_input">E-mail:</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        agendamentovacinacovidgus@gmail.com
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="style_titulo_input">Telefones / Whatsapp:</span>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 32px;">
+                                    <div class="col-md-12">
+                                        (87) 3762-1252<br>
+                                        (87) 9.8835-4998 (Whatsapp)
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
