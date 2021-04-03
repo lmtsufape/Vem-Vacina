@@ -34,9 +34,7 @@
                                                     <p>
                                                         Informamos que a sua solicitação de agendamento para vacinação foi recebida com sucesso e se encontra na <strong>FILA DE ESPERA</strong>.
                                                     </p>
-                                                    <p>
-                                                        Caso sua solicitação seja aprovada, o dia, horário e local de aplicação da primeira e segunda dose são os seguintes:
-                                                    </p>
+
                                                 @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
                                                     <p>
                                                         Informamos que a sua solicitação de agendamento para vacinação foi <strong>APROVADA</strong> pela Secretaria Municipal de Saúde de Garanhuns - PE.
