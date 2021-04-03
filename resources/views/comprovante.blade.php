@@ -30,16 +30,16 @@
                                                     Sr(a) {{$agendamentos[0]->nome_completo}},
                                                 </p>
                                                 {{-- {{dd($agendamentos[0]->aprovacao)}} --}}
-                                                @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
+                                                @if($agendamentos[0]->aprovacao == $aprovacao_enum[0] && $agendamentos[0]->chegada == null )
                                                     <p>
-                                                        Informamos que a sua solicitação de agendamento para vacinação foi recebida com sucesso e se encontra em avaliação pela Secretaria Municipal de Saúde de Garanhuns - PE.
+                                                        Informamos que a sua solicitação de agendamento para vacinação foi recebida com sucesso e se encontra na <strong>FILA DE ESPERA</strong>.
                                                     </p>
                                                     <p>
                                                         Caso sua solicitação seja aprovada, o dia, horário e local de aplicação da primeira e segunda dose são os seguintes:
                                                     </p>
                                                 @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
                                                     <p>
-                                                        Informamos que a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE.
+                                                        Informamos que a sua solicitação de agendamento para vacinação foi <strong>APROVADA</strong> pela Secretaria Municipal de Saúde de Garanhuns - PE.
                                                     </p>
                                                     <p>
                                                         A seguir, encontram-se o dia, horário e local de aplicação da primeira e segunda dose para que registre ou imprima:
@@ -55,34 +55,27 @@
                                     </div>
                                 </div> --}}
                                 @if(count($agendamentos) > 0)
-                                    @if($agendamentos[0]->aprovacao == $aprovacao_enum[0] && $agendamentos[0]->chegada == null )
-                                    <br>
-                                        <div class="row" style="text-align: justify;">
-                                            <div class="col-md-12">{{ $agendamentos[0]->nome_completo }} seu agendamento está na fila de espera. </div>
+                                    <div class="justify-content-center destaque-pri-dose">
+                                        <div class="row">
+                                            <div class="col-md-12">1ª Dose</div>
+                                            {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
+                                            <div class="col-md-12"><hr class="style_linha_dose"></div>
                                         </div>
-                                    @else
-                                        <div class="justify-content-center destaque-pri-dose">
-                                            <div class="row">
-                                                <div class="col-md-12">1ª Dose</div>
-                                                {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
-                                                <div class="col-md-12"><hr class="style_linha_dose"></div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Local<br>
+                                                {{$agendamentos[0]->posto->nome}}
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    Local<br>
-                                                    {{$agendamentos[0]->posto->nome}}
-                                                </div>
-                                                <div class="col-md-3">
-                                                    Data<br>
-                                                    {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
-                                                </div>
-                                                <div class="col-md-3">
-                                                    Hora<br>
-                                                    {{date('H:i',strtotime($agendamentos[0]->chegada))}}
-                                                </div>
+                                            <div class="col-md-3">
+                                                Data<br>
+                                                {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Hora<br>
+                                                {{date('H:i',strtotime($agendamentos[0]->chegada))}}
                                             </div>
                                         </div>
-                                    @endif
+                                    </div>
                                 @endif
                                 @if(count($agendamentos) > 1)
                                     <div class="justify-content-center destaque-seg-dose">
