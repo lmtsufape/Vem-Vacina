@@ -55,27 +55,34 @@
                                     </div>
                                 </div> --}}
                                 @if(count($agendamentos) > 0)
-                                    <div class="justify-content-center destaque-pri-dose">
-                                        <div class="row">
-                                            <div class="col-md-12">1ª Dose</div>
-                                            {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
-                                            <div class="col-md-12"><hr class="style_linha_dose"></div>
+                                    @if($agendamentos[0]->aprovacao == $aprovacao_enum[0] && $agendamentos[0]->chegada == null )
+                                    <br>
+                                        <div class="row" style="text-align: justify;">
+                                            <div class="col-md-12">{{ $agendamentos[0]->nome_completo }} seu agendamento está na fila de espera. </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                Local<br>
-                                                {{$agendamentos[0]->posto->nome}}
+                                    @else
+                                        <div class="justify-content-center destaque-pri-dose">
+                                            <div class="row">
+                                                <div class="col-md-12">1ª Dose</div>
+                                                {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
+                                                <div class="col-md-12"><hr class="style_linha_dose"></div>
                                             </div>
-                                            <div class="col-md-3">
-                                                Data<br>
-                                                {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
-                                            </div>
-                                            <div class="col-md-3">
-                                                Hora<br>
-                                                {{date('H:i',strtotime($agendamentos[0]->chegada))}}
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    Local<br>
+                                                    {{$agendamentos[0]->posto->nome}}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    Data<br>
+                                                    {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    Hora<br>
+                                                    {{date('H:i',strtotime($agendamentos[0]->chegada))}}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 @endif
                                 @if(count($agendamentos) > 1)
                                     <div class="justify-content-center destaque-seg-dose">
