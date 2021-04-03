@@ -269,9 +269,9 @@ class CandidatoController extends Controller
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
                 DB::commit();
-                return view('fila.comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
-                                                        'candidato' => $candidato,
-                                                        'aprovacao_enum' => Candidato::APROVACAO_ENUM]);
+                return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+                                            'agendamentos' => $candidato,
+                                            'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
             }
             //Retorna um array de IDs do lotes associados a etapa escolhida
             $array_lotes_disponiveis = $etapa->lotes->pluck('id');
@@ -306,9 +306,9 @@ class CandidatoController extends Controller
                             $candidato->save();
                             Notification::send($candidato, new CandidatoFila($candidato));
                             DB::commit();
-                            return view('fila.comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
-                                                                    'candidato' => $candidato,
-                                                                    'aprovacao_enum' => Candidato::APROVACAO_ENUM]);
+                            return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+                                            'agendamentos' => $candidato,
+                                            'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
                             // return redirect()->back()->withErrors([
                             //     "posto_vacinacao" => "Não há mais doses disponíveis. Favor realize o seu cadastro na fila de espera pela página principal."
                             // ])->withInput();
@@ -333,9 +333,9 @@ class CandidatoController extends Controller
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
                 DB::commit();
-                return view('fila.comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
-                                                        'candidato' => $candidato,
-                                                        'aprovacao_enum' => Candidato::APROVACAO_ENUM]);
+                return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+                                            'agendamentos' => $candidato,
+                                            'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
             }
 
             $candidato->chegada                 = $datetime_chegada;
