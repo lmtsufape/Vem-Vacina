@@ -54,7 +54,7 @@
                                         <span class="style_titulo_input" style="font-size: 32px;">Sr(a). <span class="style_titulo_campo" style="font-size: 32px;">{{$agendamentos[0]->nome_completo}}</span>, anote as informações para não esquecer!</span>
                                     </div>
                                 </div> --}}
-                                @if(count($agendamentos) > 0)
+                                @if(count($agendamentos) > 0 && $agendamentos[0]->chegada != null)
                                     <div class="justify-content-center destaque-pri-dose">
                                         <div class="row">
                                             <div class="col-md-12">1ª Dose</div>
@@ -77,7 +77,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                @if(count($agendamentos) > 1)
+                                @if(count($agendamentos) > 1 && $agendamentos[1]->chegada != null)
                                     <div class="justify-content-center destaque-seg-dose">
                                         <div class="row">
                                             <div class="col-md-12">2ª Dose</div>
