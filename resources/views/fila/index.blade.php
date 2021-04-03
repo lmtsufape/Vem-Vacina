@@ -127,12 +127,8 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">CPF</th>
-                                {{-- <th scope="col">Horário</th> --}}
+                                <th scope="col">Público</th>
                                 <th scope="col">Ver</th>
-                                {{-- @can('confirmar-vaga-candidato')
-                                    <th scope="col">Resultado</th>
-                                @endcan --}}
-
                                 @can('whatsapp-candidato')
                                     <th scope="col" >Link</th>
                                 @endcan
@@ -148,6 +144,7 @@
                                       </span>
                                 </td>
                                 <td>{{$candidato->cpf}}</td>
+                                <td>{{$candidato->etapa->texto_home}}</td>
                                 {{-- <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
                                 <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td> --}}
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
