@@ -528,7 +528,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="vacinado_{{$candidato->id}}">Salvar</button>
+                    <button type="submit" class="btn btn-primary" form="vacinado_{{$candidato->id}}" onclick="desabilitar(this, 'vacinado_'+{{$candidato->id}})">Salvar</button>
                 </div>
             </div>
             </div>
@@ -687,5 +687,11 @@
             document.getElementById("editar_agendado_para_"+id).style.display = "none";
             document.getElementById("agendado_para_"+id).style.display = "block";
         }
+    }
+
+    function desabilitar(btn, idForm) {
+        btn.disabled = true;
+        var form = document.getElementById(idForm); 
+        form.submit();
     }
 </script>
