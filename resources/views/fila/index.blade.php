@@ -20,7 +20,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="container">
-                <form method="GET" action="{{route('dashboard')}}">
+                <form method="GET" action="{{route('fila.index')}}">
                     <div class="row">
                         <div class="col-sm-10">
                             <div class="row">
