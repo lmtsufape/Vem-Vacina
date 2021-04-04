@@ -53,7 +53,7 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
                 return null;
             }
         }
-        if(!Candidato::where('cpf', $row['informe_seu_cpf'])->count()){
+        if(Candidato::where('cpf', $row['informe_seu_cpf'])->count()){
             return null;
         }
 

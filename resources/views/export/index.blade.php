@@ -37,6 +37,20 @@
                 </div>
             </div>
         </div>
+        <br>
+        <hr>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="{{ route('candidato.import.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="file">
+                    <button type="submit" class="btn btn-primary mx-2">
+                        Importar Fila
+                    </button>
+                </form>
+            </div>
+        </div>
 
     </x-slot>
 </x-app-layout>
