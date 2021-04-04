@@ -141,7 +141,7 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
 
                 $docFormatado = substr($doc, 0, 3) . '.' .
                                 substr($doc, 3, 3) . '.' .
-                                substr($doc, 6, 3) . '.' .
+                                substr($doc, 6, 3) . '-' .
                                 substr($doc, 9, 2);
             } else {
                 $docFormatado = substr($doc, 0, 2) . '.' .
