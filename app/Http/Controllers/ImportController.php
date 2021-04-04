@@ -31,11 +31,11 @@ class ImportController extends Controller
         }
         fclose($file_handle);
         // dd($line_of_text);
-        $candidatos = collect();
 
         $hoje = Carbon::today();
         foreach($line_of_text as $i => $line) {
-            if ($i != 0) {
+            $existe = Candidato::where('cpf', $line[4])->first();
+            if ($i != 0 && $existe == null) {
                 $candidato = new Candidato;
                 
                 $candidato->nome_completo = $line[2];
@@ -58,21 +58,23 @@ class ImportController extends Controller
                 $candidato->idade = $idade;
 
                 $etapa = Etapa::where([['tipo', Etapa::TIPO_ENUM[0]], ['inicio_intervalo', '<=', $idade], ['fim_intervalo', '>=', $idade]])->first();
-                if ($line[15] == "Sim") {
-                    if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
-                        $candidato->outrasInfo()->attach($etapa->outrasInfo[0]->id);
-                    }
-                }
+                
                 if ($etapa == null) {
                     return redirect()->back()->withErrors([
                         "agendamentos" => $line[2] . " com CPF " . $line[4] . " não se encaixa em nenhum público cadastrado."
                     ])->withInput();
                 }
                 $candidato->etapa_id = $etapa->id;
-                $candidatos->push($candidato);
+                $candidato->save();
+
+                if ($line[15] == "Sim") {
+                    if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+                        $candidato->outrasInfo()->attach($etapa->outrasInfo[0]->id);
+                    }
+                }
+                $candidato->update();
             }
         }
-
         // try {
         //     Excel::import(new CandidatoImport, $file);
         // } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
