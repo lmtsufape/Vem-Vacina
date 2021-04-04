@@ -39,20 +39,21 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
         }else{
             return null;
         }
+        $etapa = Etapa::find(2); //5
 
-        if (!$this->validar_telefone($row['telefone_para_contato'])) {
-            return null;
-        }
+        // if (!$this->validar_telefone($row['telefone_para_contato'])) {
+        //     return null;
+        // }
 
         // if (!$this->validar_cpf($row['informe_seu_cpf'])) {
         //     return null;
         // }
 
-        if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
-            if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
-                return null;
-            }
-        }
+        // if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
+        //     if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+        //         return null;
+        //     }
+        // }
         if(Candidato::where('cpf', $row['informe_seu_cpf'])->count()){
             return null;
         }
@@ -88,10 +89,7 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
 
         return $hoje->diffInYears($data_nascimento);
     }
-    // public function headingRow(): int
-    // {
-    //     return 2;
-    // }
+
 
     public function onError(\Throwable $e)
     {
