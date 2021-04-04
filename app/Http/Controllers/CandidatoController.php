@@ -144,7 +144,7 @@ class CandidatoController extends Controller
     }
 
     public function enviar_solicitacao(Request $request) {
-
+        // dd($request->all());
         $request->validate([
             "voltou"                => "nullable",
             "público"               => "required",

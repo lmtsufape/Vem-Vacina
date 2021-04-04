@@ -9,6 +9,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\ConfiguracaoController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PostoVacinacaoController;
 
 /*
@@ -58,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/agendamentos/fila",          [CandidatoController::class, 'fila'])->name('candidato.fila.espera');
     Route::get("/agendamentos/reprovados",          [CandidatoController::class, 'reprovados'])->name('candidato.reprovados');
     Route::get("/agendamentos", [CandidatoController::class, 'filtroAjax'])->name('agendamentos.filtro.ajax');
+
+    Route::post("/agendamentos/import", [ImportController::class, 'store'])->name('candidato.import.store');
 
     Route::resource('/postos', PostoVacinacaoController::class);
     Route::resource('/lotes', LoteController::class);
