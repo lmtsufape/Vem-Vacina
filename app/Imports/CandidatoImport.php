@@ -31,7 +31,7 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
         $controller = new Controller();
         // dd($row);
         $idade = $this->idade($row['data_de_nascimento']);
-
+        $row['informe_seu_cpf'] = $this->formatar_cpf_cnpj($row['informe_seu_cpf']);
         if ($row['grupo_prioritario'] == 'Idosos de 70 a 74 anos') {
             $etapa = Etapa::find(1); //4
         }elseif ($row['grupo_prioritario'] == 'Idosos de 65 a 69 anos') {
@@ -44,20 +44,23 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
             return null;
         }
 
-        if (!$this->validar_cpf($row['informe_seu_cpf'])) {
-            return null;
-        }
+        // if (!$this->validar_cpf($row['informe_seu_cpf'])) {
+        //     return null;
+        // }
 
         if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
             if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
                 return null;
             }
         }
+        if(!Candidato::where('cpf', $row['informe_seu_cpf'])->count()){
+            return null;
+        }
 
         $candidato = new Candidato([
             'nome_completo' => $row['nome_completo'],
             'data_de_nascimento' =>$row['data_de_nascimento'],
-            'cpf' => $this->formatar_cpf_cnpj($row['informe_seu_cpf']) ,
+            'cpf' => $row['informe_seu_cpf'] ,
             'numero_cartao_sus' => $row['numero_do_cartao_do_sus'],
             'sexo' => $row['sexo'],
             'idade' => $idade,
@@ -76,11 +79,7 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
             'etapa_id' => $etapa->id,
 
         ]);
-        if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
-            if (  $row['o_idoso_e_acamado'] == 'Sim' ) {
-                $candidato->outrasInfo()->attach(1);
-            }
-        }
+
         return $candidato;
     }
 
