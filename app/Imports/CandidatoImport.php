@@ -57,7 +57,7 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
         $candidato = new Candidato([
             'nome_completo' => $row['nome_completo'],
             'data_de_nascimento' =>$row['data_de_nascimento'],
-            'cpf' => $row['informe_seu_cpf'],
+            'cpf' => $this->formatar_cpf_cnpj($row['informe_seu_cpf']) ,
             'numero_cartao_sus' => $row['numero_do_cartao_do_sus'],
             'sexo' => $row['sexo'],
             'idade' => $idade,
@@ -128,6 +128,34 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
             }
         }
         return true;
+    }
+
+    public function formatar_cpf_cnpj($doc) {
+
+        $doc = preg_replace("/[^0-9]/", "", $doc);
+        $qtd = strlen($doc);
+
+        if($qtd >= 11) {
+
+            if($qtd === 11 ) {
+
+                $docFormatado = substr($doc, 0, 3) . '.' .
+                                substr($doc, 3, 3) . '.' .
+                                substr($doc, 6, 3) . '.' .
+                                substr($doc, 9, 2);
+            } else {
+                $docFormatado = substr($doc, 0, 2) . '.' .
+                                substr($doc, 2, 3) . '.' .
+                                substr($doc, 5, 3) . '/' .
+                                substr($doc, 8, 4) . '-' .
+                                substr($doc, -2);
+            }
+
+            return $docFormatado;
+
+        } else {
+            return 'Documento invalido';
+        }
     }
 
 
