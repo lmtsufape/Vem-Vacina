@@ -57,7 +57,10 @@
                         <div class="col-md-12">
                             <form action="{{ route('candidato.import.store') }}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <input type="file" name="file">
+                                <input type="file" name="agendamentos">
+                                @error('agendamentos')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 <button type="submit" class="btn btn-primary mx-2">
                                     Importar Fila
                                 </button>
