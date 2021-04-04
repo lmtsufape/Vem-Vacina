@@ -37,6 +37,37 @@
                 </div>
             </div>
         </div>
+        <hr>
+        <div class="grid grid-cols-6 gap-4">
+            <div class="col-span-5">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Importar dados') }}
+                </h2>
+            </div>
+        </div>
+        <div class="py-12">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+                <div class="container">
+                    @if (session('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="{{ route('candidato.import.store') }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" name="file">
+                                <button type="submit" class="btn btn-primary mx-2">
+                                    Importar Fila
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
 
     </x-slot>
 </x-app-layout>

@@ -524,7 +524,7 @@
             });
         </script>
     @endif
-    
+
     <script>
         const buttonSend = document.getElementById('buttonSend');
         const formSolicitar = document.getElementById('formSolicitar');
@@ -534,6 +534,7 @@
             formSolicitar.submit()
         })
     </script>
+
 
     <script>
      function checkbox_visibilidade(div_alvo, checkbox) {

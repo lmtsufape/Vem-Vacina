@@ -14,7 +14,7 @@ class Candidato extends Model
 
 
     public const SEXO_ENUM = ["Masculino", "Feminino", "Não informar"];
-    public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado", "Ausente"];
+    public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
     public const DOSE_ENUM = ["1ª Dose", '2ª Dose', "Dose única"];
 
 

@@ -3,33 +3,17 @@
         <div class="row">
             <div class="col-md-8">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Lista de agendamentos') }}
-                    @php
-                        $filtros =  array('Candidatos pendentes',
-                                'Candidatos aprovados',
-                                'Candidatos reprovados',
-                                'Candidatos vacinados',
-                                'Agendamentos do dia')
-                    @endphp
-                    @isset($filtro)
-                        @foreach ($filtros as $key => $item)
-                            @if ( $filtro == $loop->iteration)
-                                {{ " - " .$item }}
-                            @endif
-                        @endforeach
-                    @endisset
+                    {{ __('Lista de Espera') }}
+
                 </h2>
-                <a href="{{ route('dashboard') }}">
-                    <small>Atualizar página <i class="fas fa-redo"></i> </small>
+
+            </div>
+            <div class="col-md-4" id="Distribuir" class="col-md-4" style="text-align: right;">
+                <a  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" href="{{route('fila.distribuir')}}">
+                        Distribuir agendamentos
                 </a>
             </div>
-            <div class="col-md-4" style="text-align: right;">
-                <a href="{{route('solicitacao.candidato')}}">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Fazer agendamento
-                    </button>
-                </a>
-            </div>
+
         </div>
     </x-slot>
 
@@ -48,7 +32,7 @@
                                     <input type="checkbox" name="cpf_check" id="cpf_check_input" onclick="mostrarFiltro(this, 'cpf_check')" @if($request->cpf_check != null && $request->cpf_check) checked @endif>
                                     <label>Por CPF</label>
                                 </div>
-                                <div class="col-md-3">
+                                {{-- <div class="col-md-3">
                                     <input type="checkbox" name="data_check" id="data_check_input" onclick="mostrarFiltro(this, 'data_check')" @if($request->data_check != null && $request->data_check) checked @endif>
                                     <label>Por data de agendamento</label>
                                 </div>
@@ -59,15 +43,15 @@
                                 <div class="col-md-3">
                                     <input type="checkbox" name="outro" id="outro" @if($request->outro != null && $request->outro) checked @endif>
                                     <label>É acamado</label>
-                                </div>
-                                <div class="col-md-3">
+                                </div> --}}
+                                {{-- <div class="col-md-3">
                                     <input type="checkbox" name="aprovado" id="aprovado" @if($request->aprovado != null && $request->aprovado) checked @endif>
                                     <label>Aprovados</label>
                                 </div>
                                 <div class="col-md-3">
                                     <input type="checkbox" name="reprovado" id="reprovado" @if($request->reprovado != null && $request->reprovado) checked @endif>
                                     <label>Reprovados</label>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-3">
                                     <input type="checkbox" name="campo_check" id="campo_check_input" onclick="mostrarFiltro(this, 'campo_check')">
                                     <label>Campo</label>
@@ -76,10 +60,10 @@
                                     <input type="checkbox" name="ordem_check" id="ordem_check_input" onclick="mostrarFiltro(this, 'ordem_check')">
                                     <label>Ordem</label>
                                 </div>
-                                <div class="col-md-3">
+                                {{-- <div class="col-md-3">
                                     <input type="checkbox" name="ponto_check" id="ponto_check_input" onclick="mostrarFiltro(this, 'ponto_check')">
                                     <label>Ponto</label>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="row">
                                 <div id="nome_check" class="col-md-3" style="@if($request->nome_check != null && $request->nome_check) display: block; @else display: none; @endif">
@@ -124,23 +108,14 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <div class="row">
-                                <div class="col-md-12" style="margin-bottom: 5px;">
-                                    <button type="submit" class="btn btn-primary" style="width: 100%;">Filtrar</button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <a href="{{route('dashboard')}}"><button type="button" class="btn btn-secondary" style="width: 100%;">Limpar filtros</button></a>
-                                </div>
-                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Filtrar</button>
                         </div>
                     </div>
                 </form>
                 <div class="row">
                     @if(session('mensagem'))
                     <div class="col-md-12">
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-{{session('class')}}" role="alert">
                             <p>{{session('mensagem')}}</p>
                         </div>
                     </div>
@@ -153,19 +128,11 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">CPF</th>
-                                <th scope="col">Dia</th>
-                                <th scope="col">Horário</th>
-                                <th scope="col">Dose</th>
-                                <th scope="col">Ponto</th>
+                                <th scope="col">Idade</th>
+                                <th scope="col">Público</th>
                                 <th scope="col">Ver</th>
-                                @can('confirmar-vaga-candidato')
-                                    <th scope="col">Resultado</th>
-                                @endcan
-                                @can('vacinado-candidato')
-                                    <th scope="col" class="text-center">Confirmar vacinação</th>
-                                @endcan
                                 @can('whatsapp-candidato')
-                                    <th scope="col" class="text-center">Link</th>
+                                    <th scope="col" >Link</th>
                                 @endcan
                             </tr>
                         </thead>
@@ -179,20 +146,14 @@
                                       </span>
                                 </td>
                                 <td>{{$candidato->cpf}}</td>
-                                <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
-                                <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td>
-                                <td>
-                                    {{ $candidato->dose  }}
-                                </td>
-                                <td>
-                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
-                                        {{$candidato->posto->nome}}
-                                      </span>
-                                </td>
+                                <td>{{$candidato->idade}}</td>
+                                <td>{{$candidato->etapa->texto_home}}</td>
+                                {{-- <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
+                                <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td> --}}
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
                                         Vacinado
                                     @else
@@ -209,22 +170,13 @@
                                                         <option value="restaurar" >Restaurar</option>
                                                     </select>
                                                 </div>
-                                                {{-- <div class="col-md-2">
-
-                                                        <button class="btn btn-success"><i class="far fa-check-circle"></i></button>
-
-                                                </div> --}}
                                             </div>
                                         </form>
                                         @endcan
                                     @endif
-                                </td>
+                                </td> --}}
 
-                                <td style="text-align: center;" class="pl-4">
-                                    @can('vacinado-candidato')
-                                        <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif><i class="fas fa-syringe"></i></button>
-                                    @endcan
-                                </td>
+
                                 <td>
                                     @can('whatsapp-candidato')
                                         @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
@@ -242,13 +194,7 @@
                     </table>
                     {{ $candidatos->links() }}
                 </div>
-                @if ($request != null && $request->outro == false)
-                    <div class="row">
-                        <div class="col-sm-12">
-                            {{ $candidatos->links() }}
-                        </div>
-                    </div>
-                @endif
+
             </div>
         </div>
     </div>
@@ -434,31 +380,14 @@
                         </div>
                         <div id="agendado_para_{{$candidato->id}}" style="display: block;">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label for="posto_{{$candidato->id}}">Ponto</label>
-                                    <input id="posto_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{$candidato->posto->nome}}@endif">
-                                </div>
+
                                 <div class="col-md-6">
                                     <label for="dose_{{$candidato->id}}">Dose</label>
                                     <input id="dose_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->dose}}">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="data_{{$candidato->id}}">Data</label>
-                                    <input id="data_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('d/m/Y',strtotime($candidato->chegada))}}@endif">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="chegada_{{$candidato->id}}">Horário de chegada</label>
-                                    <input id="chegada_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('H:i',strtotime($candidato->chegada))}}@endif">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="saida_{{$candidato->id}}">Horário de saida</label>
-                                    <input id="saida_{{$candidato->id}}" type="text" class="form-control" disabled value="{{date('H:i',strtotime($candidato->saida))}}">
-                                </div>
-                            </div>
+
+
                             <br>
                             <div class="row">
                                 <div class="col-md-6">
@@ -510,30 +439,7 @@
             </div>
         </div>
     <!-- Fim modal visualizar agendamento -->
-    <!-- Modal confirmar vacinação -->
-        <div class="modal fade" id="vacinar_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="vacinar_candidato_{{$candidato->id}}_label" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="vacinar_candidato_{{$candidato->id}}_label">Confirmar vacinação de {{$candidato->nome_completo}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                <form id="vacinado_{{$candidato->id}}" action="{{route('candidato.vacinado', ['id' => $candidato->id])}}" method="POST">
-                        @csrf
-                        Deseja confirmar que esse candidato foi vacinado?
-                </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="vacinado_{{$candidato->id}}" onclick="desabilitar(this, 'vacinado_'+{{$candidato->id}})">Salvar</button>
-                </div>
-            </div>
-            </div>
-        </div>
-    <!-- Fim modal confirmar vacinação -->
+
     @endforeach
 </x-app-layout>
 @if(old('edit_agendamento_id') != null)
@@ -544,6 +450,16 @@
         })
     </script>
 @endif
+<script>
+    const buttonDistribuir = document.querySelector("#Distribuir > a")
+    buttonDistribuir.addEventListener('click', (e)=>{
+        // console.log(e.target)
+        e.target.setAttribute("class", "disabled");
+        e.target.innerText = "Aguarde...";
+
+    });
+</script>
+
 <script>
     function myFunction(event) {
         console.log(event);
@@ -619,7 +535,7 @@
                 }
             },
             success: function(data){
-                console.log(data);
+                // console.log(data);
                 var htmlDatas = "";
                 var htmlHorarios ="";
                 if (data != null) {
@@ -687,11 +603,5 @@
             document.getElementById("editar_agendado_para_"+id).style.display = "none";
             document.getElementById("agendado_para_"+id).style.display = "block";
         }
-    }
-
-    function desabilitar(btn, idForm) {
-        btn.disabled = true;
-        var form = document.getElementById(idForm); 
-        form.submit();
     }
 </script>

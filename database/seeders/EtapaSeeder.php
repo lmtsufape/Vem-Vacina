@@ -41,5 +41,19 @@ class EtapaSeeder extends Seeder
             'total_pessoas_vacinadas_pri_dose' => 0,
             'total_pessoas_vacinadas_seg_dose' => 0,
         ]);
+
+        DB::table('etapas')->insert([
+            'inicio_intervalo' => 65,
+            'fim_intervalo'    => 69,
+            'texto'            => "Pessoa idosa(65 à 69 anos)",
+            'tipo'             => Etapa::TIPO_ENUM[0],
+            'texto_home'       => "pessoas idosas(65 à 69 anos)",
+            'exibir_na_home'   => true,
+            'exibir_no_form'   => true,
+            'atual'            => true,
+            'total_pessoas_vacinadas_pri_dose' => 0,
+            'total_pessoas_vacinadas_seg_dose' => 0,
+            'texto_outras_informacoes' => 'Informe se o idoso é acamado ou possui dificuldade de locomoção'
+        ]);
     }
 }
