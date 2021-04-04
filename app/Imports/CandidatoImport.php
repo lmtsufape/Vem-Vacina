@@ -31,28 +31,26 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
         $controller = new Controller();
         $bodytag = str_replace("/", "-", $row['data_de_nascimento']);
         $pieces = explode("-", $bodytag);
+        // dd( $pieces);
         $bodytag = $pieces[2].'-'.$pieces[1].'-'.$pieces[0];
-
         $row['data_de_nascimento'] = $bodytag;
+        // dd(checkdate($pieces[1], $pieces[0], $pieces[2]));
 
-        if (!checkdate($pieces[2], $pieces[1], $pieces[0])) {
-            return null;
-        }
-
-        if (!isset($row['data_de_nascimento'])) {
+        if (!checkdate($pieces[1], $pieces[2], $pieces[0])) {
             return null;
         }
 
         $idade = $this->idade($row['data_de_nascimento']);
         $row['informe_seu_cpf'] = $this->formatar_cpf_cnpj($row['informe_seu_cpf']);
         if ($row['grupo_prioritario'] == 'Idosos de 70 a 74 anos') {
-            $etapa = Etapa::find(4); //4
+            $etapa = Etapa::find(1); //4
         }elseif ($row['grupo_prioritario'] == 'Idosos de 65 a 69 anos') {
-            $etapa = Etapa::find(5); //5
+            $etapa = Etapa::find(3); //5
+
         }else{
             return null;
         }
-
+        $row['cep'] = str_replace("-", "", $row['cep']);
         // if (!$this->validar_telefone($row['telefone_para_contato'])) {
         //     return null;
         // }
@@ -61,26 +59,26 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
             return null;
         }
 
-        // if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
-        //     if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
-        //         return null;
-        //     }
-        // }
+        if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
+            if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                return null;
+            }
+        }
+        // var_dump($this->idade($row['data_de_nascimento']));
         if(Candidato::where('cpf', $row['informe_seu_cpf'])->count()){
             return null;
         }
-
         $candidato = new Candidato([
             'nome_completo' => $row['nome_completo'],
             'data_de_nascimento' =>$row['data_de_nascimento'],
             'cpf' => $row['informe_seu_cpf'] ,
             'numero_cartao_sus' => $row['numero_do_cartao_do_sus'],
             'sexo' => $row['sexo'],
-            'idade' => $idade,
+            'idade' => $this->idade($row['data_de_nascimento']),
             'nome_da_mae' => $row['nome_completo_da_mae'],
             'telefone' => $row['telefone_para_contato'],
             'whatsapp' => $row['whatsapp'],
-            'email' => $row['e_mail'],
+            // 'email' => $row['e_mail'],
             'cep' => $row['cep'] == "" ? NULL : $row['cep'],
             'cidade' => "Garanhuns",
             'bairro' => $row['bairro'],
@@ -92,7 +90,6 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
             'etapa_id' => $etapa->id,
 
         ]);
-
         return $candidato;
     }
 
