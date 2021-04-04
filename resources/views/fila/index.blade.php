@@ -128,6 +128,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">CPF</th>
+                                <th scope="col">Idade</th>
                                 <th scope="col">Público</th>
                                 <th scope="col">Ver</th>
                                 @can('whatsapp-candidato')
@@ -145,6 +146,7 @@
                                       </span>
                                 </td>
                                 <td>{{$candidato->cpf}}</td>
+                                <td>{{$candidato->idade}}</td>
                                 <td>{{$candidato->etapa->texto_home}}</td>
                                 {{-- <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
                                 <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td> --}}
@@ -190,6 +192,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $candidatos->links() }}
                 </div>
 
             </div>
