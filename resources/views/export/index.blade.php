@@ -37,7 +37,6 @@
                 </div>
             </div>
         </div>
-        <br>
         <hr>
         <div class="grid grid-cols-6 gap-4">
             <div class="col-span-5">
@@ -68,7 +67,7 @@
                 </div>
             </div>
         </div>
-
+        <br>
 
     </x-slot>
 </x-app-layout>

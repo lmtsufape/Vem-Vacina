@@ -29,28 +29,37 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
     {
 
         $controller = new Controller();
-        // dd($row);
+        $bodytag = str_replace("/", "-", $row['data_de_nascimento']);
+        $pieces = explode("-", $bodytag);
+        $bodytag = $pieces[2].'-'.$pieces[1].'-'.$pieces[0];
+
+        $row['data_de_nascimento'] = $bodytag;
+
+        if (!checkdate($pieces[2], $pieces[1], $pieces[0])) {
+            return null;
+        }
+
         if (!isset($row['data_de_nascimento'])) {
             return null;
         }
+
         $idade = $this->idade($row['data_de_nascimento']);
         $row['informe_seu_cpf'] = $this->formatar_cpf_cnpj($row['informe_seu_cpf']);
         if ($row['grupo_prioritario'] == 'Idosos de 70 a 74 anos') {
-            $etapa = Etapa::find(1); //4
+            $etapa = Etapa::find(4); //4
         }elseif ($row['grupo_prioritario'] == 'Idosos de 65 a 69 anos') {
-            $etapa = Etapa::find(2); //5
+            $etapa = Etapa::find(5); //5
         }else{
             return null;
         }
-        $etapa = Etapa::find(2); //5
 
         // if (!$this->validar_telefone($row['telefone_para_contato'])) {
         //     return null;
         // }
 
-        // if (!$this->validar_cpf($row['informe_seu_cpf'])) {
-        //     return null;
-        // }
+        if (!$this->validar_cpf($row['informe_seu_cpf'])) {
+            return null;
+        }
 
         // if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
         //     if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
