@@ -31,7 +31,7 @@
                     @endcan
                     @can('ver-export')
                     <x-nav-link :href="route('export.index')" :active="request()->routeIs('export.*')">
-                        {{ __('Exportar') }}
+                        {{ __('Exportar/Importar') }}
                     </x-nav-link>
                     @endcan
                     <x-nav-link :href="route('config.index')" :active="request()->routeIs('config.*')">

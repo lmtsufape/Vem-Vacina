@@ -39,7 +39,13 @@
         </div>
         <br>
         <hr>
-        <br>
+        <div class="grid grid-cols-6 gap-4">
+            <div class="col-span-5">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Exportar dados') }}
+                </h2>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <form action="{{ route('candidato.import.store') }}" method="post" enctype="multipart/form-data">
