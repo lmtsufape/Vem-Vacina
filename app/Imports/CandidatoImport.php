@@ -29,7 +29,7 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
     {
 
         $controller = new Controller();
-        // dd($row);
+        dd($row);
         $idade = $this->idade($row['data_de_nascimento']);
         $row['informe_seu_cpf'] = $this->formatar_cpf_cnpj($row['informe_seu_cpf']);
         if ($row['grupo_prioritario'] == 'Idosos de 70 a 74 anos') {
