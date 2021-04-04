@@ -31,6 +31,6 @@ class ImportController extends Controller
 
 
 
-        return redirect()->route('fila.index')->with(['mensagem' => 'Importação feita com sucesso!']);
+        return redirect()->route('fila.index')->with(['mensagem' => 'Importação feita com sucesso!', 'class'=>'success']);
     }
 }
