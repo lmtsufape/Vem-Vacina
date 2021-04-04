@@ -88,6 +88,10 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
 
         return $hoje->diffInYears($data_nascimento);
     }
+    public function headingRow(): int
+    {
+        return 2;
+    }
 
     public function onError(\Throwable $e)
     {
