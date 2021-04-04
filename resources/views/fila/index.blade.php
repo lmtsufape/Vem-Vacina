@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Lista de Espera') }}
 
                 </h2>
 
             </div>
-            <div class="col-md-3" id="Distribuir" class="col-md-4" style="text-align: right;">
+            <div class="col-md-4" id="Distribuir" class="col-md-4" style="text-align: right;">
                 <a  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" href="{{route('fila.distribuir')}}">
                         Distribuir agendamentos
                 </a>
