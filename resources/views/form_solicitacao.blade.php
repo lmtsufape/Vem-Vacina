@@ -763,7 +763,7 @@
                 }
             },
             success: function(data){
-                // console.log(data);
+                console.log(data);
                 if (data != null) {
                     var option = '<option selected disabled>-- Selecione o posto --</option>';
                     if (data.length > 0) {
