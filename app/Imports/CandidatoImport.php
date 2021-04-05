@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
-class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
+class CandidatoImport implements ToModel, WithHeadingRow //, SkipsOnError
 {
 
     use Importable;
@@ -30,15 +30,14 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
 
         $controller = new Controller();
         $bodytag = str_replace("/", "-", $row['data_de_nascimento']);
-        $pieces = explode("-", $bodytag);
-        // dd( $pieces);
-        $bodytag = $pieces[2].'-'.$pieces[1].'-'.$pieces[0];
+        // $pieces = explode("-", $bodytag);
+        // $bodytag = $pieces[2].'-'.$pieces[1].'-'.$pieces[0];
         $row['data_de_nascimento'] = $bodytag;
         // dd(checkdate($pieces[1], $pieces[0], $pieces[2]));
 
-        if (!checkdate($pieces[1], $pieces[2], $pieces[0])) {
-            return null;
-        }
+        // if (!checkdate($pieces[1], $pieces[2], $pieces[0])) {
+            //     return null;
+            // }
 
         $idade = $this->idade($row['data_de_nascimento']);
         $row['informe_seu_cpf'] = $this->formatar_cpf_cnpj($row['informe_seu_cpf']);
@@ -51,13 +50,14 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
             return null;
         }
         $row['cep'] = str_replace("-", "", $row['cep']);
+        // dd( $row);
         // if (!$this->validar_telefone($row['telefone_para_contato'])) {
         //     return null;
         // }
 
-        if (!$this->validar_cpf($row['informe_seu_cpf'])) {
-            return null;
-        }
+        // if (!$this->validar_cpf($row['informe_seu_cpf'])) {
+        //     return null;
+        // }
 
         if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
             if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
@@ -65,9 +65,9 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
             }
         }
         // var_dump($this->idade($row['data_de_nascimento']));
-        if(Candidato::where('cpf', $row['informe_seu_cpf'])->count()){
-            return null;
-        }
+        // if(Candidato::where('cpf', $row['informe_seu_cpf'])->count()){
+        //     return null;
+        // }
         $candidato = new Candidato([
             'nome_completo' => $row['nome_completo'],
             'data_de_nascimento' =>$row['data_de_nascimento'],
@@ -78,7 +78,7 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
             'nome_da_mae' => $row['nome_completo_da_mae'],
             'telefone' => $row['telefone_para_contato'],
             'whatsapp' => $row['whatsapp'],
-            // 'email' => $row['e_mail'],
+            'email' => $row['e_mail'],
             'cep' => $row['cep'] == "" ? NULL : $row['cep'],
             'cidade' => "Garanhuns",
             'bairro' => $row['bairro'],
@@ -100,10 +100,10 @@ class CandidatoImport implements ToModel, WithHeadingRow, SkipsOnError
     }
 
 
-    public function onError(\Throwable $e)
-    {
-        // Handle the exception how you'd like.
-    }
+    // public function onError(\Throwable $e)
+    // {
+    //     // Handle the exception how you'd like.
+    // }
 
     protected function validar_telefone($telefone) {
         return preg_match('/^\(\d{2}\)\s?\d{5}-\d{4}$/', $telefone) > 0;

@@ -87,7 +87,7 @@ class FilaController extends Controller
     public function agendar($horarios_agrupados_por_dia, $candidato_id, $posto_id) {
         $candidato = Candidato::find($candidato_id);
 
-        var_dump($horarios_agrupados_por_dia);
+        // var_dump($horarios_agrupados_por_dia);
         foreach ($horarios_agrupados_por_dia as $key1 => $dia) {
 
             foreach ($dia as $key2 => $horario) {
@@ -295,7 +295,7 @@ class FilaController extends Controller
             foreach ($posto->lotes as $key2 => $lote) {
                 $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->pivot->id)->count();
                 $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
-                var_dump($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1);
+                // var_dump($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1);
                 if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1 ){
                     $postos->pull($key1);
 
@@ -322,7 +322,7 @@ class FilaController extends Controller
 
             }
         }
-        dd($aprovado);
+        // dd($aprovado);
         if ($aprovado) {
             return redirect()->back()->with(['mensagem' => 'Distribuição feita!', 'class' => 'success']);
         }else{

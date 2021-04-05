@@ -108,6 +108,18 @@ class CandidatoController extends Controller
     public function solicitar() {
 
         // TODO: pegar só os postos com vacinas disponiveis
+        // $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
+        // foreach ($postos_com_vacina as $key1 => $posto) {
+        //     foreach ($posto->lotes as $key2 => $lote) {
+        //         $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->pivot->id)->count();
+        //         $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
+        //         if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1 ){
+        //             $postos_com_vacina->pull($key1);
+
+        //         }
+
+        //     }
+        // }
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
         $etapasAtuais = Etapa::where('atual', true)->orderBy('texto')->get();
         $config = Configuracao::first();

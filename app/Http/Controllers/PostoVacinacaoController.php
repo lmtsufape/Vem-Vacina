@@ -340,13 +340,31 @@ class PostoVacinacaoController extends Controller
 
     public function todosOsPostos(Request $request) {
         $etapa = null;
+        $postos = PostoVacinacao::all();
+        foreach ($postos as $key1 => $posto) {
+            foreach ($posto->lotes as $key2 => $lote) {
+                $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->pivot->id)->count();
+                $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
+                if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1 ){
+                    $postos->pull($key1);
+
+                }
+            }
+        }
 
         if ($request->publico_id == 0) {
-            $postos = PostoVacinacao::where('padrao_no_formulario', true)->get();
-            return response()->json($postos);
+            $pontos = PostoVacinacao::where('padrao_no_formulario', true)->get();
+            $filtered = $pontos->filter(function ($value1, $key1) use($postos) {
+                return $postos->find($value1->id) != null;
+            });
+            return response()->json($filtered->values());
         } else {
             $etapa = Etapa::find($request->publico_id);
-            return response()->json($etapa->pontos);
+
+            $filtered = $etapa->pontos->filter(function ($value1, $key1) use($postos) {
+                return $postos->find($value1->id) != null;
+            });
+            return response()->json($filtered->values());
         }
 
 
