@@ -184,7 +184,7 @@ class FilaController extends Controller
                     $candidatoSegundaDose->save();
 
                 }
-                if($candidato->email != null && $candidato->email != ""  && $candidato->email != " "){
+                if($candidato->email != null || $candidato->email != ""  || $candidato->email != " "){
                     Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
                     sleep(4);
                 }
