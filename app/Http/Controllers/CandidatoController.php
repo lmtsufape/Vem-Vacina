@@ -779,4 +779,23 @@ class CandidatoController extends Controller
 
         return redirect()->back()->with(['mensagem' => 'Reagendado com sucesso.']);
     }
+
+    public function desfazerVacinado($id) {
+        Gate::authorize('vacinado-candidato');
+        $candidato = Candidato::find($id);
+        $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
+        $candidato->update();
+
+        $etapa = $candidato->etapa;
+        if ($etapa != null) {
+            if ($candidato->dose == Candidato::DOSE_ENUM[0]) {
+                $etapa->total_pessoas_vacinadas_pri_dose -= 1;
+            } else if ($candidato->dose == Candidato::DOSE_ENUM[1]) {
+                $etapa->total_pessoas_vacinadas_seg_dose -= 1;
+            }
+            $etapa->update();
+        }
+
+        return redirect()->back()->with(['mensagem' => 'Vacinação desfeita.']);
+    }
 }
