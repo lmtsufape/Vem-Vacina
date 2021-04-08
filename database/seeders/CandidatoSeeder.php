@@ -25,7 +25,7 @@ class CandidatoSeeder extends Seeder
                 'nome_completo' => 'candidado candidado candidado'.$i,
                 'data_de_nascimento' => Carbon::now(),
                 'cpf' => '123.123.123-25',
-                'numero_cartao_sus' => '12345678',
+                'numero_cartao_sus' => '0000000000000000',
                 'sexo' => "Masculino",
                 'nome_da_mae' => 'NomeDaMae'.$i,
                 // 'paciente_acamado' => true,
