@@ -43,9 +43,9 @@ use App\Models\Lote;
             <td>{{ $candidato->idade }}</td>
             <td>{{ $candidato->cpf }}</td>
             @php
-                $sus = str_split($candidato->numero_cartao_sus, 4);
+                $pieces = explode(" ", $candidato->numero_cartao_sus);
             @endphp
-            <td>{{ $sus[0] .".". $sus[1] .".". $sus[2] .".". $sus[3] }}</td>
+            <td>{{ implode(".", $pieces)  }}</td>
             <td>{{ $candidato->sexo }}</td>
             <td>{{ $candidato->nome_da_mae }}</td>
             <td>{{ $candidato->telefone }}</td>
