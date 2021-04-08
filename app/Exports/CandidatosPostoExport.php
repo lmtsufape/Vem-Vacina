@@ -18,7 +18,7 @@ class CandidatosPostoExport implements FromCollection
 
     protected $posto = null;
 
-    public function __construct(PostoVacinacao $posto) 
+    public function __construct(PostoVacinacao $posto)
     {
         $this->posto = $posto;
     }
@@ -29,11 +29,5 @@ class CandidatosPostoExport implements FromCollection
         return $this->posto->candidatos()->where('chegada', 'like', $hoje.'%')->get();
     }
 
-    public function view(): View
-    {
-        return view('export.candidatosPosto', [
-            'candidatos' => $this->posto->candidatos()->where('chegada', 'like', $hoje.'%')->get(),
-            'tipos' => Etapa::TIPO_ENUM
-        ]);
-    }
+
 }

@@ -39,10 +39,13 @@ use App\Models\Lote;
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $candidato->nome_completo }}</td>
-            <td>{{ $candidato->data_de_nascimento }}</td>
+            <td>{{ date('d/m/Y', strtotime($candidato->data_de_nascimento)) }}</td>
             <td>{{ $candidato->idade }}</td>
             <td>{{ $candidato->cpf }}</td>
-            <td>{{ $candidato->numero_cartao_sus }}</td>
+            @php
+                $sus = str_split($candidato->numero_cartao_sus, 4);
+            @endphp
+            <td>{{ $sus[0] .".". $sus[1] .".". $sus[2] .".". $sus[3] }}</td>
             <td>{{ $candidato->sexo }}</td>
             <td>{{ $candidato->nome_da_mae }}</td>
             <td>{{ $candidato->telefone }}</td>
@@ -54,8 +57,8 @@ use App\Models\Lote;
             <td>{{ $candidato->numero_residencia }}</td>
             <td>{{ $candidato->aprovacao }}</td>
             <td>{{ $candidato->dose }}</td>
-            <td>{{ $candidato->chegada }}</td>
-            <td>{{ $candidato->saida }}</td>
+            <td>{{ date('d/m/Y', strtotime($candidato->chegada)) }}</td>
+            <td>{{ date('d/m/Y', strtotime($candidato->saida)) }}</td>
             <td>{{ Lote::find($candidato->lote_id) ? Lote::find($candidato->lote_id)->numero_lote : "Erro" }} </td>
             <td>{{ Lote::find($candidato->lote_id) ? Lote::find($candidato->lote_id)->fabricante : "Erro" }}</td>
             <td>{{ $candidato->posto->nome }}</td>
