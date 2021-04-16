@@ -38,7 +38,10 @@
                         </div>
                         <div class="col-md-12 style_titulo_campo">Solicitar vacinação</div>
                         <div class="col-md-12"><hr class="style_linha_campo"></div>
-                        <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">Por meio desta ferramenta será efetuado o cadastro e agendamento da vacinação para o público-alvo. Idosos acamados devem realizar esta indicação no ato de cadastro, para aplicação da vacina em domicílio. Caso não haja mais vacinas disponíveis para sua faixa etária, você deve realizar seu cadastro na fila de espera para agendamento, no link a seguir: <br><a href="{{$config->link_do_form_fila_de_espera}}" target="_blanck">{{$config->link_do_form_fila_de_espera}}</a> </div>
+                        <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">
+                            {{-- Por meio desta ferramenta será efetuado o cadastro e agendamento da vacinação para o público-alvo. Idosos acamados devem realizar esta indicação no ato de cadastro, para aplicação da vacina em domicílio. Caso não haja mais vacinas disponíveis para sua faixa etária, você deve realizar seu cadastro na fila de espera para agendamento, no link a seguir: <br> --}}
+                            @if($config->botao_solicitar_agendamento) <a href="{{$config->link_do_form_fila_de_espera}}" target="_blanck">{{$config->link_do_form_fila_de_espera}}</a>@endif 
+                        </div>
                         <div class="col-md-12 style_titulo_campo" style="margin-bottom: 10px;">Informações pessoais</div>
                         <div class="col-md-12">
                             <form method="POST" id="formSolicitar" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
