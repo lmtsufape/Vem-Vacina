@@ -120,9 +120,14 @@ class CandidatoController extends Controller
 
         //     }
         // }
+
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
         $etapasAtuais = Etapa::where('atual', true)->orderBy('texto')->get();
         $config = Configuracao::first();
+
+        if ($config->botao_solicitar_agendamento && auth()->user() == null) {
+            abort(403);
+        }
 
         $bairros = [
             "Magano",
@@ -139,6 +144,8 @@ class CandidatoController extends Controller
             "Severiano Moraes Filho",
             "Manoel Chéu",
         ];
+
+        sort($bairros);
 
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
