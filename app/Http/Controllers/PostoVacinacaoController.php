@@ -341,7 +341,7 @@ class PostoVacinacaoController extends Controller
     public function todosOsPostos(Request $request) {
         $etapa = null;
         $postos = PostoVacinacao::all();
-        foreach ($postos as $key1 => $posto) {
+        /* foreach ($postos as $key1 => $posto) {
             foreach ($posto->lotes as $key2 => $lote) {
                 $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->pivot->id)->count();
                 $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
@@ -350,7 +350,7 @@ class PostoVacinacaoController extends Controller
 
                 }
             }
-        }
+        } */
 
         if ($request->publico_id == 0) {
             $pontos = PostoVacinacao::where('padrao_no_formulario', true)->get();
