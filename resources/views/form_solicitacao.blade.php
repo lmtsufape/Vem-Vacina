@@ -747,6 +747,8 @@
 
     function postoPara(input, id) {
         valor = input.checked;
+        var btnForm = document.getElementById('buttonSend');
+        btnForm.disabled = true;
         $.ajax({
             url: "{{route('postos')}}",
             method: 'get',
@@ -763,10 +765,10 @@
             statusCode: {
                 404: function() {
                     alert("Nenhum posto encontrado");
+                    btnForm.disabled = false;
                 }
             },
             success: function(data){
-                console.log(data);
                 if (data != null) {
                     var option = '<option selected disabled>-- Selecione o posto --</option>';
                     if (data.length > 0) {
@@ -777,8 +779,10 @@
 
                     document.getElementById("posto_vacinacao").innerHTML = option;
                 }
+                btnForm.disabled = false;
             }
         })
+        
     }
     </script>
 
