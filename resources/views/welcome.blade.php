@@ -60,12 +60,10 @@
                                     <div class="row">
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
                                         <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.
-                                            @if($config->botao_fila_de_espera)
-                                                <p>
-                                                    <br>
-                                                    <strong>INFORME:</strong> VACINAS PARA A ETAPA DE <strong>65 A 69 ANOS</strong> ESTÃO ESGOTADAS. ESTAMOS AGUARDANDO NOVAS REMESSAS DE DOSES. FAVOR CADASTRAR-SE NA <strong>LISTA DE ESPERA.</strong>
-                                                </p>
-                                            @endif
+                                            {{-- <p>
+                                                <br>
+                                                <strong>INFORME:</strong> O cadastro para <strong>fila de espera</strong> voltado ao público de <strong>65 a 69 anos</strong>, foi temporariamente encerrado. Todos os idosos de <strong>65 a 69 anos</strong> já cadastrados serão agendados para vacinação, de acordo com a ordem de inscrição e disponibilidade de doses. Os mesmos serão informados, através dos dados disponibilizados, sobre data, horário e local da vacinação.
+                                            </p> --}}
                                         </div>
                                         @auth
                                             <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($vacinasDisponiveis == 0) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif">@if($vacinasDisponiveis == 0)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else QUERO SOLICITAR MINHA VACINA @endif</a>
