@@ -288,6 +288,7 @@ class FilaController extends Controller
 
     public function distribuirVacina()
     {
+        set_time_limit(180);
         $postos = PostoVacinacao::all();
         $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->oldest()->get();
         $aprovado = null;
