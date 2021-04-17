@@ -288,11 +288,11 @@ class FilaController extends Controller
 
     public function distribuirVacina()
     {
-        set_time_limit(180);
+        set_time_limit(280);
         $postos = PostoVacinacao::all();
         $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->oldest()->get();
         $aprovado = null;
-        foreach ($postos as $key1 => $posto) {
+        /* foreach ($postos as $key1 => $posto) {
             foreach ($posto->lotes as $key2 => $lote) {
                 $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->pivot->id)->count();
                 $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
@@ -303,7 +303,7 @@ class FilaController extends Controller
                 }
 
             }
-        }
+        } */
 
         foreach ($candidatos as $key => $candidato) {
 
