@@ -11,24 +11,30 @@
                     <x-nav-link :href="route('index')" :active="request()->routeIs('index')">
                         {{ __('Página inicial') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Lista de agendamentos') }}
-                    </x-nav-link>
-                    @can('ver-posto')
-                        <x-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
-                            {{ __('Lista de Pontos') }}
-                        </x-nav-link>
-                    @endcan
-                    @can('ver-lote')
-                    <x-nav-link :href="route('lotes.index')" :active="request()->routeIs('lotes.*')">
-                        {{ __('Lista de Lotes') }}
-                    </x-nav-link>
-                    @endcan
                     @can('ver-etapa')
                     <x-nav-link :href="route('etapas.index')" :active="request()->routeIs('etapas.*')">
                         {{ __('Públicos') }}
                     </x-nav-link>
                     @endcan
+                    @can('ver-lote')
+                    <x-nav-link :href="route('lotes.index')" :active="request()->routeIs('lotes.*')">
+                        {{ __('Lotes') }}
+                    </x-nav-link>
+                    @endcan
+                    @can('ver-posto')
+                        <x-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
+                            {{ __('Pontos') }}
+                        </x-nav-link>
+                    @endcan
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Agendamentos') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('fila.index')" :active="request()->routeIs('fila.*')">
+                        {{ __('Fila de Espera') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('estatistica.index')" :active="request()->routeIs('estatistica.*')">
+                        {{ __('Estatísticas') }}
+                    </x-nav-link>
                     @can('ver-export')
                     <x-nav-link :href="route('export.index')" :active="request()->routeIs('export.*')">
                         {{ __('Exportar/Importar') }}
@@ -36,9 +42,6 @@
                     @endcan
                     <x-nav-link :href="route('config.index')" :active="request()->routeIs('config.*')">
                         {{ __('Configurações') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('fila.index')" :active="request()->routeIs('fila.*')">
-                        {{ __('Fila de Espera') }}
                     </x-nav-link>
 
                 </div>
@@ -92,32 +95,35 @@
             <x-responsive-nav-link :href="route('index')" :active="request()->routeIs('index')">
                 {{ __('Página inicial') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Lista de agendamentos') }}
-            </x-responsive-nav-link>
-            @can('ver-posto')
-            <x-responsive-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
-                {{ __('Lista de Pontos') }}
-            </x-responsive-nav-link>
-            @endif
-            @can('ver-lote')
-            <x-responsive-nav-link :href="route('lotes.index')" :active="request()->routeIs('lotes.*')">
-                {{ __('Lista de Lotes') }}
-            </x-responsive-nav-link>
-            @endif
             @can('ver-etapa')
             <x-responsive-nav-link :href="route('etapas.index')" :active="request()->routeIs('etapas.*')">
                 {{ __('Públicos') }}
             </x-responsive-nav-link>
             @endif
+            @can('ver-lote')
+            <x-responsive-nav-link :href="route('lotes.index')" :active="request()->routeIs('lotes.*')">
+                {{ __('Lotes') }}
+            </x-responsive-nav-link>
+            @endif
+            @can('ver-posto')
+            <x-responsive-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
+                {{ __('Pontos') }}
+            </x-responsive-nav-link>
+            @endif
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                {{ __('Agendamentos') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('fila.index')" :active="request()->routeIs('fila.*')">
+                {{ __('Fila de Espera') }}
+            </x-responsive-nav-link>
             @can('ver-export')
             <x-responsive-nav-link :href="route('export.index')" :active="request()->routeIs('export.*')">
-                {{ __('Exportar') }}
+                {{ __('Exportar/Importar') }}
             </x-responsive-nav-link>
+            @endcan
             <x-responsive-nav-link :href="route('config.index')" :active="request()->routeIs('config.*')">
                 {{ __('Configurações') }}
             </x-responsive-nav-link>
-            @endcan
         </div>
 
         <!-- Responsive Settings Options -->
