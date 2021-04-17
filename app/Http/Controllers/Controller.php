@@ -12,7 +12,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected function validar_telefone($telefone) {
-        return preg_match('/^\(\d{2}\)\s?\d{5}-\d{4}$/', $telefone) > 0;
+        return preg_match('/^\(\d{2}\)\s?\d{5}-\d{4}$/', $telefone) > 0 || preg_match('/^\(\d{2}\)\s?\d{4}-\d{4}$/', $telefone) > 0;
     }
 
     protected function validar_cpf($cpf)
