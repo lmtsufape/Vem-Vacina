@@ -305,30 +305,36 @@ class FilaController extends Controller
             }
         } */
 
-        foreach ($candidatos as $key => $candidato) {
+        try {
+            foreach ($candidatos as $key => $candidato) {
 
-            foreach ($postos as $key => $posto) {
-                $horarios_agrupados_por_dia = $this->diasPorPosto($posto->id);
+                foreach ($postos as $key => $posto) {
+                    $horarios_agrupados_por_dia = $this->diasPorPosto($posto->id);
 
-                $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato->id, $posto->id );
+                    $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato->id, $posto->id );
 
-                if ($resultado) {
-                    $aprovado = true;
-                    Notification::send(User::all(), new CandidatoFilaArquivo($candidato));
-                   break;
-                }else{
-                    continue;
+                    if ($resultado) {
+                        $aprovado = true;
+                        Notification::send(User::all(), new CandidatoFilaArquivo($candidato));
+                       break;
+                    }else{
+                        continue;
+                    }
+
+
                 }
-
-
             }
+            // dd($aprovado);
+            if ($aprovado) {
+                return redirect()->back()->with(['mensagem' => 'Distribuição feita!', 'class' => 'success']);
+            }else{
+                return redirect()->back()->with(['mensagem' => 'Nenhum candidato foi aprovado!', 'class' => 'danger']);
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with(['mensagem' => $th->getMessage(), 'class' => 'danger']);
         }
-        // dd($aprovado);
-        if ($aprovado) {
-            return redirect()->back()->with(['mensagem' => 'Distribuição feita!', 'class' => 'success']);
-        }else{
-            return redirect()->back()->with(['mensagem' => 'Nenhum candidato foi aprovado!', 'class' => 'danger']);
-        }
+
+
     }
 
     public function show($id)
