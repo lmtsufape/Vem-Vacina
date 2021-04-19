@@ -163,7 +163,7 @@ class CandidatoController extends Controller
     }
 
     public function enviar_solicitacao(Request $request) {
-        dd($request->all());
+        // dd($request->all());
         // dd(Rule::requiredIf($request->fila));
         $request->validate([
             "voltou"                => "nullable",
@@ -189,7 +189,7 @@ class CandidatoController extends Controller
             "opcao_etapa_".$request->input('público') => 'nullable',
         ]);
 
-        dd($request->all());
+        // dd($request->all());
         DB::beginTransaction();
 
         try {
