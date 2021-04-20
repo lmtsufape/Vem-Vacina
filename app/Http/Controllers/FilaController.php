@@ -300,7 +300,7 @@ class FilaController extends Controller
     {
         // set_time_limit(280);
         $postos = PostoVacinacao::all();
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->oldest()->get();
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->whereIn('etapa_id', [4, 5])->oldest()->get();
         // $postos = Etapa::find($request->publico_id)->pontos;
         // $etapa = Etapa::find($request->publico_id);
 
