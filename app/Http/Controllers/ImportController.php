@@ -104,14 +104,16 @@ class ImportController extends Controller
             $line_of_text->push(fgetcsv($file_handle, 0, ','));
         }
         fclose($file_handle);
-
+        
         foreach ($line_of_text as $i => $line) {
             if ($i != 0) {
                 $candidato = null;
-                if ($line[11] == "D1") {
-                    $candidato = Candidato::where([['cpf', $line[3]], ['dose', Candidato::DOSE_ENUM[0]]])->first();
-                } else if ($line[11] == "D2") {
-                    $candidato = Candidato::where([['cpf', $line[3]], ['dose', Candidato::DOSE_ENUM[1]]])->first();
+                if (is_array($line)) {
+                    if ($line[11] == "D1") {
+                        $candidato = Candidato::where([['cpf', $line[3]], ['dose', Candidato::DOSE_ENUM[0]]])->first();
+                    } else if ($line[11] == "D2") {
+                        $candidato = Candidato::where([['cpf', $line[3]], ['dose', Candidato::DOSE_ENUM[1]]])->first();
+                    }
                 }
 
                 if ($candidato != null) {
