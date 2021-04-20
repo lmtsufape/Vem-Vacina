@@ -92,4 +92,50 @@ class ImportController extends Controller
 
         return redirect()->route('fila.index')->with(['mensagem' => 'Importação feita com sucesso!', 'class'=>'success']);
     }
+
+    public function storeVacinados(Request $request) {
+        $validate = $request->validate([
+            'vacinados' => 'required|file',
+        ]);
+
+        $file_handle = fopen($request->vacinados, 'r');
+        $line_of_text = collect();
+        while (!feof($file_handle)) {
+            $line_of_text->push(fgetcsv($file_handle, 0, ','));
+        }
+        fclose($file_handle);
+
+        foreach ($line_of_text as $i => $line) {
+            if ($i != 0) {
+                $candidato = null;
+                if ($line[11] == "D1") {
+                    $candidato = Candidato::where([['cpf', $line[3]], ['dose', Candidato::DOSE_ENUM[0]]])->first();
+                } else if ($line[11] == "D2") {
+                    $candidato = Candidato::where([['cpf', $line[3]], ['dose', Candidato::DOSE_ENUM[1]]])->first();
+                }
+
+                if ($candidato != null) {
+                    if ($candidato->aprovacao != Candidato::APROVACAO_ENUM[3]) {
+                        $candidato->aprovacao = Candidato::APROVACAO_ENUM[3];
+                        $candidato->update();
+
+                        if ($candidato->dose == Candidato::DOSE_ENUM[0]) {
+                            $publico = $candidato->etapa;
+                            $publico->total_pessoas_vacinadas_pri_dose += 1;
+                            $publico->update();
+
+                        } else if ($candidato->dose == Candidato::DOSE_ENUM[1]) {
+                            $publico = $candidato->etapa;
+                            $publico->total_pessoas_vacinadas_seg_dose += 1;
+                            $publico->update();
+
+                        }
+
+                    }
+                } 
+            }
+        }
+
+        return redirect()->route('dashboard')->with(['mensagem' => 'Importação do vacinados feita com sucesso!', 'class'=>'success']);
+    }
 }
