@@ -10,6 +10,11 @@
             </div>
             <div class="col-md-4" id="Distribuir" class="col-md-4" style="text-align: right;">
                 <a  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" href="{{route('fila.painel',)}}">
+                       Novo Distribuir agendamentos
+                </a>
+            </div>
+            <div class="col-md-4" id="Distribuir" class="col-md-4" style="text-align: right;">
+                <a  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" href="{{route('fila.distribuir',)}}">
                         Distribuir agendamentos
                 </a>
             </div>
