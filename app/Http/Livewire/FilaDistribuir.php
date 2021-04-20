@@ -33,6 +33,7 @@ class FilaDistribuir extends Component
 
     public function distribuir()
     {
+        set_time_limit(3600);
         // dd($this->etapa_id, $this->ponto_id);
         $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->get();
         $posto = PostoVacinacao::find($this->ponto_id);
