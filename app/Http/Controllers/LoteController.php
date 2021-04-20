@@ -325,6 +325,7 @@ class LoteController extends Controller
             $lote_original->save();
             if($qtdCandidato == 0){
                 $posto->lotes()->detach($lote_original);
+                $posto->refresh();
             }
         }else{
             return redirect()->back()

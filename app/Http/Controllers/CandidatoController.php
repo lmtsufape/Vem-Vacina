@@ -21,7 +21,7 @@ use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CandidatoInscritoSegundaDose;
-
+use Illuminate\Validation\Rule;
 
 class CandidatoController extends Controller
 {
@@ -164,6 +164,7 @@ class CandidatoController extends Controller
 
     public function enviar_solicitacao(Request $request) {
         // dd($request->all());
+        // dd(Rule::requiredIf($request->fila));
         $request->validate([
             "voltou"                => "nullable",
             "público"               => "required",
@@ -182,14 +183,13 @@ class CandidatoController extends Controller
             "rua"                   => "required|regex:/[a-zA-Z0-9\s]+/|min:5", // Na cohab 2, as pessoas não sabem os nomes das ruas, só os numeros, então tem gente que vai por "Rua 2"
             "número_residencial"    => "required|regex:/[a-zA-Z0-9\s]+/",
             "complemento_endereco"  => "nullable",
-            "posto_vacinacao"       => "required",
-            "dia_vacinacao"         => "required",
-            "horario_vacinacao"     => "required",
+            "posto_vacinacao"       => Rule::requiredIf(!$request->has('fila')),
+            "dia_vacinacao"         => Rule::requiredIf(!$request->has('fila')),
+            "horario_vacinacao"     => Rule::requiredIf(!$request->has('fila')),
             "opcao_etapa_".$request->input('público') => 'nullable',
         ]);
 
-        $dados = $request->all();
-
+        // dd($request->all());
         DB::beginTransaction();
 
         try {
@@ -266,6 +266,19 @@ class CandidatoController extends Controller
                     "telefone" => "Número de telefone inválido"
                 ])->withInput();
             }
+
+            if($request->has('fila')){
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
+                $candidato->save();
+                Notification::send($candidato, new CandidatoFila($candidato));
+                DB::commit();
+                $agendamentos = [];
+                array_push($agendamentos, $candidato);
+                return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+                                            'agendamentos' => $agendamentos,
+                                            'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
+            }
+
 
             $dia_vacinacao = $request->dia_vacinacao;
             $horario_vacinacao = $request->horario_vacinacao;

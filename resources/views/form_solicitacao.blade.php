@@ -40,7 +40,7 @@
                         <div class="col-md-12"><hr class="style_linha_campo"></div>
                         <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">
                             {{-- Por meio desta ferramenta será efetuado o cadastro e agendamento da vacinação para o público-alvo. Idosos acamados devem realizar esta indicação no ato de cadastro, para aplicação da vacina em domicílio. Caso não haja mais vacinas disponíveis para sua faixa etária, você deve realizar seu cadastro na fila de espera para agendamento, no link a seguir: <br> --}}
-                            @if($config->botao_fila_de_espera) <a href="{{$config->link_do_form_fila_de_espera}}" target="_blanck">{{$config->link_do_form_fila_de_espera}}</a>@endif 
+                            @if($config->botao_fila_de_espera) <a href="{{$config->link_do_form_fila_de_espera}}" target="_blanck">{{$config->link_do_form_fila_de_espera}}</a>@endif
                         </div>
                         <div class="col-md-12 style_titulo_campo" style="margin-bottom: 10px;">Informações pessoais</div>
                         <div class="col-md-12">
@@ -56,6 +56,9 @@
                                         </ul>
                                     </div>
                                 @endif
+                                <div class="alert alert-warning" style="display: none" id="alerta_vacinas">
+                                    Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera
+                                </div>
                                 @if (old('público') != null)
                                     @foreach ($publicos as $publico)
                                         @auth
@@ -420,41 +423,40 @@
                                         @enderror
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Local da vacinação</div>
-                                    <div style="font-size: 15px; margin-bottom: 15px;">(Escolha o local, dia e horário que você quer ser vacinado)</div>
-                                </div>
-
-                                <!-- informações do atendimento -->
-                                <!-- um select que vai ser selecionado a posto de atendimento -->
-                                <!-- depois que for selecionado, vai ser baixado o html com a lista dos dias e horarios de possiveis atendimentos -->
-                                <!-- quando o usuario escolher, e enviar, a vaga da lista já pode ter sido tomada -->
-                                <!-- então o controller deve avisar isso ao usuario e pedir pra escolher outro horario dos novos disposiveis -->
-
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O PONTO DE VACINAÇÃO MAIS PRÓXIMO DE SUA CASA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
-                                        <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
-                                            <option selected disabled>-- Selecione o ponto --</option>
-                                            @foreach($postos as $posto)
-                                                <option value="{{$posto->id}}">{{$posto->nome}}</option>
-                                            @endforeach
-                                        </select>
-
-                                        @error('posto_vacinacao')
-                                        <div id="validationServer05Feedback" class="invalid-feedback">
-                                            <strong>{{$message}}</strong>
-                                        </div>
-                                        @enderror
+                                <div id="div_local">
+                                    <div class="form-group">
+                                        <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Local da vacinação</div>
+                                        <div style="font-size: 15px; margin-bottom: 15px;">(Escolha o local, dia e horário que você quer ser vacinado)</div>
                                     </div>
-                                    <div class="form-group col-md-6" id="seletor_horario" style="padding-top: 24px;"></div>
+
+                                    <!-- informações do atendimento -->
+                                    <!-- um select que vai ser selecionado a posto de atendimento -->
+                                    <!-- depois que for selecionado, vai ser baixado o html com a lista dos dias e horarios de possiveis atendimentos -->
+                                    <!-- quando o usuario escolher, e enviar, a vaga da lista já pode ter sido tomada -->
+                                    <!-- então o controller deve avisar isso ao usuario e pedir pra escolher outro horario dos novos disposiveis -->
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O PONTO DE VACINAÇÃO MAIS PRÓXIMO DE SUA CASA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
+                                            <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
+                                                <option selected disabled>-- Selecione o ponto --</option>
+                                                @foreach($postos as $posto)
+                                                    <option value="{{$posto->id}}">{{$posto->nome}}</option>
+                                                @endforeach
+                                            </select>
+
+                                            @error('posto_vacinacao')
+                                            <div id="validationServer05Feedback" class="invalid-feedback">
+                                                <strong>{{$message}}</strong>
+                                            </div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-md-6" id="seletor_horario" style="padding-top: 24px;"></div>
+                                    </div>
                                 </div>
-
-
                                 <div><hr></div>
 
-
+                                <input type="hidden" name="">
                                 <div class="col-md-12" style="margin-bottom: 30px;">
                                     <div class="row">
                                         <div class="col-md-6"></div>
@@ -476,6 +478,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- rodapé -->
@@ -519,7 +522,7 @@
     </div>
 
     <!--x rodapé x-->
-    @if (old('posto_vacinacao') != null && old('público') != null)
+    @if ( old('público') != null)
         <script>
             $(document).ready(function() {
                 var radio = document.getElementById('publico_{{old('público')}}');
@@ -656,7 +659,7 @@
                 var inputs = document.getElementsByName('público');
                 for (var i = 0; i < inputs.length; i++) {
                     // console.log(this);
-                    // console.log(this.value);
+                    //console.log(this.value);
                     if (document.getElementById("divPublico_"+inputs[i].value)) {
                         var div = document.getElementById("divPublico_"+inputs[i].value);
                         var select = document.getElementById("publico_opcao_"+inputs[i].value);
@@ -692,7 +695,7 @@
          let div_seletor_horararios = document.getElementById("seletor_horario");
          div_seletor_horararios.innerHTML = "Buscando horários disponíveis...";
          let url = window.location.toString().replace("solicitar", "horarios/" + id_posto);
-         /* console.log(url); */
+         console.log(url);
 
          // Mágia de programação funcional
          fetch(url).then((dados) => {
@@ -749,6 +752,7 @@
         valor = input.checked;
         var btnForm = document.getElementById('buttonSend');
         btnForm.disabled = true;
+        console.log("etapa:"+id)
         $.ajax({
             url: "{{route('postos')}}",
             method: 'get',
@@ -768,8 +772,24 @@
                     btnForm.disabled = false;
                 }
             },
+
             success: function(data){
-                if (data != null) {
+                console.log(data)
+                if(data.length <= 0){
+                    const buttonSend = document.getElementById('buttonSend');
+                    buttonSend.innerText = "Enviar para fila de Espera"
+                    document.getElementById("div_local").style.display = "none"
+                    const input = '<input type="hidden" name="fila" value="true">';
+                    $("#formSolicitar").append(input)
+                    document.getElementById("alerta_vacinas").style.display = "block"
+                    // alert('Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera')
+                }else{
+                    document.getElementById("alerta_vacinas").style.display = "none"
+                    document.getElementById("div_local").style.display = "block"
+                    buttonSend.innerText = "Enviar"
+                }
+                if (data != null ) {
+
                     var option = '<option selected disabled>-- Selecione o posto --</option>';
                     if (data.length > 0) {
                         $.each(data, function(i, obj) {
@@ -779,10 +799,11 @@
 
                     document.getElementById("posto_vacinacao").innerHTML = option;
                 }
+
                 btnForm.disabled = false;
             }
         })
-        
+
     }
     </script>
 
