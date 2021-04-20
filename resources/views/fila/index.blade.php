@@ -540,7 +540,7 @@
                 }
             },
             success: function(data){
-                // console.log(data);
+                console.log(data);
                 var htmlDatas = "";
                 var htmlHorarios ="";
                 if (data != null) {
