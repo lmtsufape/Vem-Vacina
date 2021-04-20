@@ -393,10 +393,7 @@ class PostoVacinacaoController extends Controller
         }
         if ($request->publico_id == 0) {
             $pontos = PostoVacinacao::where('padrao_no_formulario', true)->get();
-            $filtered = $pontos->filter(function ($value1, $key1) use($postos) {
-                return $postos->find($value1->id) != null;
-            });
-            return response()->json($filtered->values());
+            return response()->json($postos);
         } else {
             $postos = array_values($postos->toArray());
             return response()->json($postos);
