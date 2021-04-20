@@ -14,7 +14,7 @@ class WelcomeController extends Controller
         $quantPessoasCadastradas = 0;
         $quantPessoasPriDose = 0;
         $quantPessoasSegDose = 0;
-        $vacinasDisponiveisNosPontos = 0;
+        $vacinasDisponiveisNosPontos = 1;
         $config = Configuracao::first();
 
         $publicos = Etapa::orderBy('texto')->get();
@@ -24,11 +24,11 @@ class WelcomeController extends Controller
         }
 
         $pontos = PostoVacinacao::all();
-        foreach ($pontos as $posto) {
-            foreach ($posto->lotes as $key => $lote) {
-                $vacinasDisponiveisNosPontos += $lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count();
-            }
-        }
+        // foreach ($pontos as $posto) {
+        //     foreach ($posto->lotes as $key => $lote) {
+        //         $vacinasDisponiveisNosPontos += $lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count();
+        //     }
+        // }
 
         $quantPessoasCadastradas = count(Candidato::all());
 
