@@ -298,7 +298,7 @@ class FilaController extends Controller
 
     public function distribuirVacina()
     {
-        // set_time_limit(280);
+        set_time_limit(380);
         $postos = PostoVacinacao::all();
         $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->whereIn('etapa_id', [4, 5])->oldest()->get();
         // $postos = Etapa::find($request->publico_id)->pontos;
