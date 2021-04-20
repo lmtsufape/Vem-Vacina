@@ -340,32 +340,73 @@ class PostoVacinacaoController extends Controller
 
     public function todosOsPostos(Request $request) {
         $etapa = null;
-        $postos = PostoVacinacao::all();
-        /* foreach ($postos as $key1 => $posto) {
-            foreach ($posto->lotes as $key2 => $lote) {
-                $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->pivot->id)->count();
-                $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
-                if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1 ){
+        // $postos = PostoVacinacao::all();
+
+        $postos = Etapa::find($request->publico_id)->pontos;
+
+        // DB::table('lote_etapas')->where('etapa_id', $request->publico_id)->get();
+        // $postos = DB::table('lote_etapas')->join('lote_posto_vacinacao', 'lote_etapas.lote_id', '=', 'lote_posto_vacinacao.lote_id')->select('lote_etapas.*')->get();
+        $etapa = Etapa::find($request->publico_id);
+
+        try {
+            foreach ($postos as $key1 => $posto) {
+                // foreach ($etapa->lotes as $key2 => $lote) {
+                //     if(!DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->count()){
+                //         $postos->pull($key2);
+                //         break;
+                //     }
+                // }
+                if(!$etapa->lotes->count()){
                     $postos->pull($key1);
+                    break;
+                }
+                foreach ($etapa->lotes as $key2 => $lote) {
+
+                        // if (!DB::table('lote_etapas')->where('etapa_id', $request->publico_id)->where('lote_id', $lote->id)->count()) {
+                        //     return response()->json("teste ");
+                        //     $postos->pull($key1);
+                        //     break;
+                        // }
+
+                        DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first();
+                        $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->id)->count();
+                        if(DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first() == null){
+                            $postos->pull($key1);
+                            continue;
+
+                        }
+                        $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
+                        if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1){
+                            $postos->pull($key1);
+                            // return response()->json("teste");
+                            continue;
+
+                        }
 
                 }
+
             }
-        } */
-
-        if ($request->publico_id == 0) {
-            $pontos = PostoVacinacao::where('padrao_no_formulario', true)->get();
-            $filtered = $pontos->filter(function ($value1, $key1) use($postos) {
-                return $postos->find($value1->id) != null;
-            });
-            return response()->json($filtered->values());
-        } else {
-            $etapa = Etapa::find($request->publico_id);
-
-            $filtered = $etapa->pontos->filter(function ($value1, $key1) use($postos) {
-                return $postos->find($value1->id) != null;
-            });
-            return response()->json($filtered->values());
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage());
         }
+
+        $postos = array_values($postos->toArray());
+        return response()->json($postos);
+
+        // if ($request->publico_id == 0) {
+        //     $pontos = PostoVacinacao::where('padrao_no_formulario', true)->get();
+        //     $filtered = $pontos->filter(function ($value1, $key1) use($postos) {
+        //         return $postos->find($value1->id) != null;
+        //     });
+        //     return response()->json($filtered->values());
+        // } else {
+        //     $etapa = Etapa::find($request->publico_id);
+        //     // return response()->json($etapa->pontos);
+        //     $filtered = $etapa->pontos->filter(function ($value1, $key1) use($postos) {
+        //         return $postos->find($value1->id) != null;
+        //     });
+        //     return response()->json($filtered->values());
+        // }
 
 
     }
