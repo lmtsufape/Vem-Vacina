@@ -219,7 +219,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="inputNome" class="style_titulo_input">NOME COMPLETO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{old('nome_completo')}}" maxlength="65">
+                                        <input type="text" class="form-control style_input apenasLetras @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{old('nome_completo')}}" maxlength="65">
 
                                         @error('nome_completo')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -280,7 +280,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="inputNomeMae" class="style_titulo_input">NOME COMPLETO DA MÃE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input @error('nome_da_mãe') is-invalid @enderror" id="inputNomeMae" placeholder="Digite o nome completo da mãe" name="nome_da_mãe" value="{{old('nome_da_mãe')}}" maxlength="65">
+                                        <input type="text" class="form-control style_input apenasLetras @error('nome_da_mãe') is-invalid @enderror" id="inputNomeMae" placeholder="Digite o nome completo da mãe" name="nome_da_mãe" value="{{old('nome_da_mãe')}}" maxlength="65">
 
                                         @error('nome_da_mãe')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
