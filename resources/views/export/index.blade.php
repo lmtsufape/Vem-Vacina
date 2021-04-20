@@ -54,19 +54,62 @@
                         </div>
                     @endif
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>Importar fila de espera</h5>
+                                </div>
+                            </div>
                             <form action="{{ route('candidato.import.store') }}" method="post" enctype="multipart/form-data">
-                                @csrf
-                                <input type="file" name="agendamentos">
-                                @error('agendamentos')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                                <button type="submit" class="btn btn-primary mx-2">
-                                    Importar Fila
-                                </button>
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        @csrf
+                                        <input type="file" name="agendamentos">
+                                        @error('agendamentos')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary">
+                                            Importar Fila
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
-                    </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5>Importar lista de vacinados</h5> 
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="{{asset('planilha_modelo_vacinados.csv')}}">Planilha modelo</a>
+                                </div>
+                            </div>
+                            <form action="{{ route('candidato.import.store.vacinados') }}" method="post" enctype="multipart/form-data">
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        @csrf
+                                        <input type="file" name="vacinados">
+                                        @error('vacinados')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary">
+                                            Importar Vacinados
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div> 
                 </div>
             </div>
         </div>

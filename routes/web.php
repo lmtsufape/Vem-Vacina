@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('config.index');
     Route::get('/configuracoes/salvar', [ConfiguracaoController::class, 'update'])->name('config.update');
     Route::post('/configuracoes/aprovar', [ConfiguracaoController::class, 'aprovarAgendamentos'])->name('config.agendados.aprovados');
+    Route::post('/importar/vacinados', [ImportController::class, 'storeVacinados'])->name('candidato.import.store.vacinados');
 
     Route::get('/posto/dias-disponiveis', [PostoVacinacaoController::class, 'diasPorPosto'])->name('dias.posto.ajax');
     Route::post('/agentamento/{id}/reagendar', [CandidatoController::class, 'reagendar'])->name('agendamento.posto.update');
