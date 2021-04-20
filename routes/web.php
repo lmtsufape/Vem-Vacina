@@ -95,7 +95,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/fila/index', [FilaController::class, 'index'])->name('fila.index');
     Route::post('/fila/{id}/agendar', [FilaController::class, 'reagendar'])->name('fila.agendar');
-    Route::get('/fila/distribuir', [FilaController::class, 'distribuirJob'])->name('fila.distribuir');
+    Route::get('/fila/distribuir', [FilaController::class, 'distribuirVacina'])->name('fila.distribuir');
+    // Route::get('/fila/distribuir', [FilaController::class, 'distribuirJob'])->name('fila.distribuir');
 
     Route::get('/estatisticas', [EstatisticaController::class, 'index'])->name('estatistica.index');
 });
