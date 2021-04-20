@@ -1,91 +1,59 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Livewire;
 
-use Throwable;
 use DateInterval;
 use Carbon\Carbon;
 use App\Models\Lote;
 use App\Models\User;
 use App\Models\Etapa;
+use Livewire\Component;
 use Carbon\CarbonPeriod;
 use App\Models\Candidato;
-use App\Jobs\DistribuirFila;
-use Illuminate\Http\Request;
 use App\Models\PostoVacinacao;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoFilaArquivo;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\CandidatoInscritoSegundaDose;
 
-
-
-class FilaController extends Controller
+class FilaDistribuir extends Component
 {
-    public function index(Request $request) {
-        // dd($request->all());
-        $query = Candidato::query()->where('aprovacao',Candidato::APROVACAO_ENUM[0]);
+    public $pontos;
+    public $etapas;
+    public $tipos;
+    public $etapa_id;
+    public $ponto_id;
 
-
-        if ($request->nome_check && $request->nome != null) {
-            $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
-        }
-
-
-
-        if ($request->cpf_check && $request->cpf != null) {
-            $query->where('cpf', $request->cpf);
-        }
-
-
-        if ($request->ordem_check && $request->ordem != null) {
-            if($request->campo != null){
-                $query->orderBy($request->campo, $request->ordem);
-            }else{
-                $query->orderBy('nome_completo', $request->ordem);
-            }
-        }
-
-        if ($request->campo_check && $request->campo != null) {
-            $query->orderBy($request->campo);
-        }
-
-        if ($request->outro) {
-            $agendamentos = $query->get();
-        } else {
-            $agendamentos = $query->paginate(500)->withQueryString();
-        }
-
-        if ($request->outro) {
-            $agendamentosComOutrasInfo = collect();
-
-            foreach ($agendamentos as $agendamento) {
-                $outros = $agendamento->outrasInfo;
-                if($outros != null && count($outros) > 0) {
-                    $agendamentosComOutrasInfo->push($agendamento);
-                }
-            }
-
-            if ($agendamentosComOutrasInfo->count() > 0) {
-                $agendamentos = $agendamentosComOutrasInfo;
-            } else {
-                $agendamentos = collect();
-            }
-        }
-
-        return view('fila.index')->with(['candidatos' => $agendamentos,
-                                        'candidato_enum' => Candidato::APROVACAO_ENUM,
-                                        'tipos' => Etapa::TIPO_ENUM,
-                                        'postos' => PostoVacinacao::all(),
-                                        'doses' => Candidato::DOSE_ENUM,
-                                        'request' => $request]);
+    public function mount()
+    {
+        $this->pontos = PostoVacinacao::all();
+        $this->etapas = Etapa::all();
+        $this->tipos = Etapa::TIPO_ENUM;
     }
 
-    public function agendar($horarios_agrupados_por_dia, $candidato_id, $posto_id) {
-        $candidato = Candidato::find($candidato_id);
+    public function distribuir()
+    {
+        // dd($this->etapa_id, $this->ponto_id);
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->get();
+        $posto = PostoVacinacao::find($this->ponto_id);
+        foreach ($candidatos as $key => $candidato) {
+                $horarios_agrupados_por_dia = $this->diasPorPosto($this->ponto_id);
+
+                $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato, $posto );
+
+                if ($resultado) {
+                    $aprovado = true;
+                    Notification::send(User::all(), new CandidatoFilaArquivo($candidato));
+                    continue;
+                }else{
+                    continue;
+                }
+        }
+        session()->flash('message', 'Distribuição feita.');
+    }
+
+    public function agendar($horarios_agrupados_por_dia, $candidato, $posto) {
+
 
         // var_dump($horarios_agrupados_por_dia);
         foreach ($horarios_agrupados_por_dia as $key1 => $dia) {
@@ -94,7 +62,7 @@ class FilaController extends Controller
 
                 $dia_vacinacao          = date('d/m/Y', strtotime($horario));
                 $horario_vacinacao      = date('H:i', strtotime($horario));
-                $id_posto               = $posto_id;
+                $id_posto               = $posto->id;
                 $datetime_chegada       = Carbon::createFromFormat("d/m/Y H:i", $dia_vacinacao . " " . $horario_vacinacao);
                 $datetime_saida         = $datetime_chegada->copy()->addMinutes(10);
                 // dd( $datetime_chegada );
@@ -186,7 +154,6 @@ class FilaController extends Controller
                 }
                 if($candidato->email != null || $candidato->email != ""  || $candidato->email != " "){
                     Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
-                    sleep(1);
                 }
 
 
@@ -286,108 +253,8 @@ class FilaController extends Controller
         return null;
     }
 
-    public function distribuirJob()
+    public function render()
     {
-
-        \Log::info("message");
-        $this->dispatch(new DistribuirFila());
-        return redirect()->back()->with(['mensagem' => 'Distribuição está sendo feita, verique o worker
-        !', 'class' => 'success']);
-    }
-
-    public function distribuirVacina()
-    {
-        set_time_limit(3600);
-        $postos = PostoVacinacao::all();
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->whereIn('etapa_id', [4, 5])->oldest()->get();
-        // $postos = Etapa::find($request->publico_id)->pontos;
-        // $etapa = Etapa::find($request->publico_id);
-
-        // foreach ($postos as $key1 => $posto) {
-
-        //     if(!$etapa->lotes->count()){
-        //         $postos->pull($key1);
-        //         break;
-        //     }
-        //     foreach ($etapa->lotes as $key2 => $lote) {
-        //         DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first();
-        //         $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->id)->count();
-        //         if(DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first() == null){
-        //             $postos->pull($key1);
-        //             continue;
-
-        //         }
-        //         $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
-        //         if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1){
-        //             $postos->pull($key1);
-
-        //             continue;
-
-        //         }
-
-        //     }
-
-        // }
-
-
-        // $postos = array_values($postos->toArray());
-
-
-        foreach ($candidatos as $key => $candidato) {
-
-            foreach ($postos as $key => $posto) {
-                $horarios_agrupados_por_dia = $this->diasPorPosto($posto->id);
-
-                $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato->id, $posto->id );
-
-                if ($resultado) {
-                    $aprovado = true;
-                    Notification::send(User::all(), new CandidatoFilaArquivo($candidato));
-                   break;
-                }else{
-                    continue;
-                }
-
-
-            }
-        }
-        try {
-            // dd($aprovado);
-            if ($aprovado) {
-                return redirect()->back()->with(['mensagem' => 'Distribuição feita!', 'class' => 'success']);
-            }else{
-                return redirect()->back()->with(['mensagem' => 'Nenhum candidato foi aprovado!', 'class' => 'danger']);
-            }
-        } catch (\Throwable $th) {
-            return redirect()->back()->with(['mensagem' => $th->getMessage(), 'class' => 'danger']);
-        }
-
-
-    }
-
-    public function painel()
-    {
-
-        return view('fila.fila_distribuir');
-    }
-
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        return view('livewire.fila-distribuir');
     }
 }
