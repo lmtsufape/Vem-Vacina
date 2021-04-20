@@ -522,7 +522,7 @@
     </div>
 
     <!--x rodapé x-->
-    @if (old('posto_vacinacao') != null && old('público') != null)
+    @if ( old('público') != null)
         <script>
             $(document).ready(function() {
                 var radio = document.getElementById('publico_{{old('público')}}');
@@ -782,11 +782,11 @@
                     const input = '<input type="hidden" name="fila" value="true">';
                     $("#formSolicitar").append(input)
                     document.getElementById("alerta_vacinas").style.display = "block"
-                    alerta_vacinas
                     // alert('Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera')
                 }else{
                     document.getElementById("alerta_vacinas").style.display = "none"
                     document.getElementById("div_local").style.display = "block"
+                    buttonSend.innerText = "Enviar"
                 }
                 if (data != null ) {
 

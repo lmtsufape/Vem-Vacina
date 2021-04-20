@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             OpcoesEtapaSeeder::class,
             OutrasInfoEtapaSeeder::class,
             ConfiguracaoSeeder::class,
-            CandidatoSeeder::class,
+            // CandidatoSeeder::class,
         ]);
 
         DB::table('users')->insert([
