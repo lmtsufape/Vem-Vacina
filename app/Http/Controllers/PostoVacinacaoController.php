@@ -340,8 +340,6 @@ class PostoVacinacaoController extends Controller
 
     public function todosOsPostos(Request $request) {
         $etapa = null;
-        // $postos = PostoVacinacao::all();
-
         $postos = Etapa::find($request->publico_id)->pontos;
 
         // DB::table('lote_etapas')->where('etapa_id', $request->publico_id)->get();
@@ -384,29 +382,38 @@ class PostoVacinacaoController extends Controller
                         }
 
                 }
+                foreach ($posto->lotes as $key2 => $lote) {
+
+                    $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->pivot->id)->count();
+                    $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
+
+                    if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1){
+                        $postos->pull($key1);
+                        // return response()->json("teste");
+                        continue;
+
+                    }
+
+                }
 
             }
         } catch (\Throwable $th) {
             return response()->json($th->getMessage());
         }
 
-        $postos = array_values($postos->toArray());
-        return response()->json($postos);
 
-        // if ($request->publico_id == 0) {
-        //     $pontos = PostoVacinacao::where('padrao_no_formulario', true)->get();
-        //     $filtered = $pontos->filter(function ($value1, $key1) use($postos) {
-        //         return $postos->find($value1->id) != null;
-        //     });
-        //     return response()->json($filtered->values());
-        // } else {
-        //     $etapa = Etapa::find($request->publico_id);
-        //     // return response()->json($etapa->pontos);
-        //     $filtered = $etapa->pontos->filter(function ($value1, $key1) use($postos) {
-        //         return $postos->find($value1->id) != null;
-        //     });
-        //     return response()->json($filtered->values());
-        // }
+
+
+        if ($request->publico_id == 0) {
+            $pontos = PostoVacinacao::where('padrao_no_formulario', true)->get();
+            $filtered = $pontos->filter(function ($value1, $key1) use($postos) {
+                return $postos->find($value1->id) != null;
+            });
+            return response()->json($filtered->values());
+        } else {
+            $postos = array_values($postos->toArray());
+            return response()->json($postos);
+        }
 
 
     }

@@ -775,20 +775,24 @@
 
             success: function(data){
                 console.log(data)
-                if(data.length <= 0){
+                console.log(typeof data)
+                if(data.length <= 0 && data != null){
                     const buttonSend = document.getElementById('buttonSend');
                     buttonSend.innerText = "Enviar para fila de Espera"
                     document.getElementById("div_local").style.display = "none"
-                    const input = '<input type="hidden" name="fila" value="true">';
+                    const input = '<input id="input_fila" type="hidden" name="fila" value="true">';
                     $("#formSolicitar").append(input)
                     document.getElementById("alerta_vacinas").style.display = "block"
                     // alert('Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera')
                 }else{
                     document.getElementById("alerta_vacinas").style.display = "none"
-                    document.getElementById("div_local").style.display = "block"
+                    if(document.getElementById("input_fila") != null){
+                        document.getElementById("input_fila").remove();
+                    }
                     buttonSend.innerText = "Enviar"
+                    document.getElementById("div_local").style.display = "block"
                 }
-                if (data != null ) {
+                if (data != null && typeof data != 'string') {
 
                     var option = '<option selected disabled>-- Selecione o posto --</option>';
                     if (data.length > 0) {
