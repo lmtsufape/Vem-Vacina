@@ -352,16 +352,16 @@ class FilaController extends Controller
 
             }
         }
-        // try {
-        //     // dd($aprovado);
-        //     if ($aprovado) {
-        //         return redirect()->back()->with(['mensagem' => 'Distribuição feita!', 'class' => 'success']);
-        //     }else{
-        //         return redirect()->back()->with(['mensagem' => 'Nenhum candidato foi aprovado!', 'class' => 'danger']);
-        //     }
-        // } catch (\Throwable $th) {
-        //     return redirect()->back()->with(['mensagem' => $th->getMessage(), 'class' => 'danger']);
-        // }
+        try {
+            // dd($aprovado);
+            if ($aprovado) {
+                return redirect()->back()->with(['mensagem' => 'Distribuição feita!', 'class' => 'success']);
+            }else{
+                return redirect()->back()->with(['mensagem' => 'Nenhum candidato foi aprovado!', 'class' => 'danger']);
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with(['mensagem' => $th->getMessage(), 'class' => 'danger']);
+        }
 
 
     }
