@@ -786,6 +786,7 @@
                     // alert('Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera')
                 }else{
                     document.getElementById("alerta_vacinas").style.display = "none"
+                    document.getElementById("div_local").style.display = "block"
                 }
                 if (data != null ) {
 
