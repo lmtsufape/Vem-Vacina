@@ -525,6 +525,7 @@
     }
 
     function selecionar_posto(posto_selecionado, id) {
+        console.log('selecionar_posto');
         document.getElementById('seletor_data_'+id).innerHTML = "";
         document.getElementById('seletor_horario_'+id).innerHTML = "";
         $.ajax({
@@ -552,6 +553,7 @@
                     htmlDatas += `</select>`;
 
                     $.each(data, function(i, obj) {
+                        console.log('DIA DA VACINAÇÃO');
                         htmlHorarios += `<div class="seletor_horario_dia_div_${id}"  id="seletor_horario_dia_${i}_${id}" style="display:none;">
                                     <div class="row horario_vacina_div">
                                         <div class="form-group col-md-12" style="width: 100%;">
