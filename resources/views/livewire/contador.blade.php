@@ -1,4 +1,4 @@
-<div wire:poll.10000ms="contador">
+<div wire:poll.60000ms="contador">
     <div class="row">
         <div class="col-sm-12">
             <table class="table">
