@@ -57,7 +57,7 @@
                                     </div>
                                 @endif
                                 <div class="alert alert-warning" style="display: none" id="alerta_vacinas">
-                                    Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera
+                                    Não há mais doses disponíveis para esta faixa etária ou público, ao finalizar o cadastro você será encaminhado para a fila de espera e deve aguardar a confirmação de agendamento para vacinação.
                                 </div>
                                 @if (old('público') != null)
                                     @foreach ($publicos as $publico)
@@ -814,4 +814,3 @@
 
 </x-guest-layout>
 
-                                                                                                       
