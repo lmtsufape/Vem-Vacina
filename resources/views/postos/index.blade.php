@@ -79,6 +79,7 @@
                                           <thead>
                                             <tr>
                                               <th scope="col">Nº do lote</th>
+                                              <th scope="col">Faixa</th>
                                               <th scope="col">Fabricante</th>
                                               <th scope="col">Dose única</th>
                                               <th scope="col">Tempo para a segunda dose</th>
@@ -90,6 +91,15 @@
                                             @foreach ($posto->lotes as $key => $lote)
                                             <tr>
                                               <th scope="row">{{$lote->numero_lote}}</th>
+                                              @foreach ($lote->etapas as $key => $etapa)
+
+                                                @if ($etapa->tipo == $tipos[0])
+                                                    <td> {{ 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo}}</td>
+                                                @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
+                                                    <td> {{$etapa->texto}} </td>
+                                                @endif
+
+                                              @endforeach
                                               <td>{{$lote->fabricante }}</td>
                                               <td>{{$lote->dose_unica ? 'Sim' : 'Não'}}</td>
                                               <td>{{$lote->dose_unica ? " - " : 'Entre '.$lote->inicio_periodo." à  ". $lote->fim_periodo." dias" }} </td>

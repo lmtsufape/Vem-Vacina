@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call([
-            // LoteSeeder::class,
+            LoteSeeder::class,
             PostoVacinacaoSeeder::class,
             EtapaSeeder::class,
             OpcoesEtapaSeeder::class,
