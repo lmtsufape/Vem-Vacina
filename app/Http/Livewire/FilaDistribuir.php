@@ -23,12 +23,14 @@ class FilaDistribuir extends Component
     public $tipos;
     public $etapa_id;
     public $ponto_id;
+    public $qtdFila;
 
     public function mount()
     {
         $this->pontos = PostoVacinacao::all();
         $this->etapas = Etapa::all();
         $this->tipos = Etapa::TIPO_ENUM;
+        $this->qtdFila = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->count();
     }
 
     public function distribuir()
@@ -37,20 +39,41 @@ class FilaDistribuir extends Component
         // dd($this->etapa_id, $this->ponto_id);
         $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->get();
         $posto = PostoVacinacao::find($this->ponto_id);
-        foreach ($candidatos as $key => $candidato) {
-                $horarios_agrupados_por_dia = $this->diasPorPosto($this->ponto_id);
-
-                $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato, $posto );
-
-                if ($resultado) {
-                    $aprovado = true;
-                    Notification::send(User::all(), new CandidatoFilaArquivo($candidato));
-                    continue;
-                }else{
-                    continue;
-                }
+        $horarios_agrupados_por_dia = $this->diasPorPosto($posto);
+        if (!$horarios_agrupados_por_dia || !count($horarios_agrupados_por_dia) ) {
+            session()->flash('message', 'Acabaram os horários.');
+            return;
         }
-        session()->flash('message', 'Distribuição feita.');
+        try {
+            $aprovado = false;
+            foreach ($candidatos as $key => $candidato) {
+
+                    $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato, $posto );
+
+                    if ($resultado) {
+                        $aprovado = true;
+                        Notification::send(User::all(), new CandidatoFilaArquivo($candidato));
+                        continue;
+                    }else{
+                        continue;
+                    }
+            }
+            if ($aprovado) {
+                # code...
+                session()->flash('message', 'Distribuição feita.');
+                return;
+            }else{
+                session()->flash('message', 'Ninguém foi distribuído.');
+                return;
+
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            session()->flash('message',  $th->getMessage());
+            return;
+        }
+
     }
 
     public function agendar($horarios_agrupados_por_dia, $candidato, $posto) {
@@ -75,7 +98,7 @@ class FilaDistribuir extends Component
                 $etapa = $candidato->etapa;
 
                 if(!$etapa->lotes->count()){
-                    continue;
+                    break 2;
                 }
                 //Retorna um array de IDs do lotes associados a etapa escolhida
                 $array_lotes_disponiveis = $etapa->lotes->pluck('id');
@@ -168,15 +191,15 @@ class FilaDistribuir extends Component
 
     }
 
-    public function diasPorPosto($posto_id) {
-        if ($posto_id != null) {
+    public function diasPorPosto($posto) {
+        if ($posto != null) {
             // Cria uma lista de possiveis horarios do proximo dia quando o posto abre
             // até a proxima semana, removendo os final de semanas
 
             $todos_os_horarios_por_dia = [];
             $todos_os_horarios = [];
 
-            $posto = PostoVacinacao::find($posto_id);
+            // $posto = PostoVacinacao::find($posto_id);
 
             // Pega os proximos 7 dias
             for($i = 0; $i < 7; $i++) {
@@ -215,7 +238,7 @@ class FilaDistribuir extends Component
             }
 
             // Pega os candidatos do posto selecionado cuja data de vacinação é de amanhã pra frente, os que já passaram não importam
-            $candidatos = Candidato::where("posto_vacinacao_id", $posto_id)->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->get();
+            $candidatos = Candidato::where("posto_vacinacao_id", $posto->id)->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->get();
 
             $horarios_disponiveis = [];
 
