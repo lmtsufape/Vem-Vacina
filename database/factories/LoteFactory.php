@@ -21,11 +21,11 @@ class LoteFactory extends Factory
      * @return array
      */
     public function definition()
-    {   $bool = [true, false];
+    {   $bool = [false, false];
         return [
             'numero_lote' => $this->faker->regexify('[A-Z]{5}[0-4]{3}'),
             'fabricante' => $this->faker->numerify('fab-####'),
-            'numero_vacinas' => $this->faker->numberBetween(50, 10000),
+            'numero_vacinas' => $this->faker->numberBetween(10, 50),
             'dose_unica' => $bool[$this->faker->numberBetween(0, 1)] ,
             'inicio_periodo' => $this->faker->numberBetween(2, 90),
             'fim_periodo' => $this->faker->numberBetween(2, 90),

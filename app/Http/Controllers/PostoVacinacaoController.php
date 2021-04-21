@@ -107,10 +107,10 @@ class PostoVacinacaoController extends Controller
     {
         Gate::authorize('ver-posto');
         $lotes = DB::table("lote_posto_vacinacao")->get();
-
+        $tipos = Etapa::TIPO_ENUM;
         $postos = PostoVacinacao::orderBy('nome')->paginate(10);
 
-        return view('postos.index', compact('postos', 'lotes'));
+        return view('postos.index', compact('postos', 'lotes','tipos'));
     }
 
     /**
@@ -342,7 +342,24 @@ class PostoVacinacaoController extends Controller
     public function todosOsPostos(Request $request) {
         $etapa = null;
         $postos = Etapa::find($request->publico_id)->pontos;
-        $etapa = Etapa::where('id',$request->publico_id)->first();
+        $postos_disponiveis = collect([]);
+        // $etapa = Etapa::where('id',$request->publico_id)->first();
+        foreach ($postos as $key => $posto) {
+            $lote_bool = false;
+            foreach($posto->lotes as $key1 => $lote){
+                if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($request->publico_id)){
+                    $lote_bool = true;
+                    break;
+                }
+            }
+            if($lote_bool == true){
+                $postos_disponiveis->push($posto);
+                continue;
+            }
+        }
+
+
+        //*******************************
         // foreach ($postos as $key => $posto) {
 
         //     if(!$etapa->lotes->count()){
@@ -402,7 +419,8 @@ class PostoVacinacaoController extends Controller
         //         $postos->pull($key);
         //     }
         // }
-        //public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
+        //*******************************
+        // public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
         // foreach ($postos as $key1 => $posto) {
         //     foreach ($posto->lotes as $key => $lote) {
         //         $qtdC = Candidato::where("lote_id", $lote->id)->where("posto_vacinacao_id", $posto->id)->where("aprovacao",  Candidato::APROVACAO_ENUM[1])
@@ -415,51 +433,53 @@ class PostoVacinacaoController extends Controller
         //     }
         //     if(!$posto->lotes->count()){
         //         $postos->pull($key1);
-        //         break;
+        //         continue;
         //     }
         // }
 
+        //******************************* */
+        // $etapa = Etapa::find($request->publico_id);
 
-        $etapa = Etapa::find($request->publico_id);
+        // try {
+        //     foreach ($postos as $key1 => $posto) {
 
-        try {
-            foreach ($postos as $key1 => $posto) {
+        //         if(!$etapa->lotes->count()){
+        //             $postos->pull($key1);
+        //             continue;
+        //         }
+        //         foreach ($etapa->lotes as $key2 => $lote) {
+        //             DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first();
+        //             $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->id)->count();
+        //             if(DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first() == null){
+        //                 $postos->pull($key1);
+        //                 continue;
 
-                if(!$etapa->lotes->count()){
-                    $postos->pull($key1);
-                    break;
-                }
-                foreach ($etapa->lotes as $key2 => $lote) {
-                    DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first();
-                    $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->id)->count();
-                    if(DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first() == null){
-                        $postos->pull($key1);
-                        continue;
+        //             }
+        //             $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
+        //             if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1){
+        //                 $postos->pull($key1);
+        //                 // return response()->json("teste");
+        //                 continue;
+        //             }
 
-                    }
-                    $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
-                    if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1){
-                        $postos->pull($key1);
-                        // return response()->json("teste");
-                        continue;
-                    }
+        //         }
+        //         foreach ($posto->lotes as $key2 => $lote) {
+        //             $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->pivot->id)->count();
+        //             $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
 
-                }
-                foreach ($posto->lotes as $key2 => $lote) {
-                    $qtdCandidato = DB::table('candidatos')->where("posto_vacinacao_id",$posto->id)->where('lote_id', $lote->pivot->id)->count();
-                    $qtdVacina = DB::table('lote_posto_vacinacao')->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id)->first()->qtdVacina;
+        //             if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1){
+        //                 $postos->pull($key1);
+        //                 // return response()->json("teste");
+        //                 continue;
 
-                    if($qtdCandidato == $qtdVacina || $qtdVacina == $qtdCandidato + 1){
-                        $postos->pull($key1);
-                        // return response()->json("teste");
-                        continue;
+        //             }
+        //         }
+        //     }
+        // } catch (\Throwable $th) {
+        //     return response()->json($th->getMessage());
+        // }
+        //******************************* */
 
-                    }
-                }
-            }
-        } catch (\Throwable $th) {
-            return response()->json($th->getMessage());
-        }
         if ($request->publico_id == 0) {
             $pontos = PostoVacinacao::where('padrao_no_formulario', true)->get();
             $filtered = $pontos->filter(function ($value1, $key1) use($postos) {
@@ -467,8 +487,8 @@ class PostoVacinacaoController extends Controller
             });
             return response()->json($filtered->values());
         } else {
-            $postos = array_values($postos->toArray());
-            return response()->json($postos);
+            $postos_disponiveis = array_values($postos_disponiveis->toArray());
+            return response()->json($postos_disponiveis);
         }
 
 
