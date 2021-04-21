@@ -1,6 +1,8 @@
 <div class="py-12">
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
         <div class="container">
+
+            <livewire:contador/>
             <div>
                 @if (session()->has('message'))
                     <div class="alert alert-success">
@@ -19,7 +21,7 @@
                                 <option  value="{{ $ponto->id }}" wire:key="{{ $key }}">{{ $ponto->nome }}</option>
                             @endforeach
                         </select>
-                        @error('fabricante') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        @error('ponto_id')<div class="alert alert-danger">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
                         <label for="numero_vacinas">Etapas</label>
@@ -35,7 +37,7 @@
                             </tr>
                             @endforeach
                         </select>
-                        @error('numero_vacinas') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        @error('etapa_id')<div class="alert alert-danger">{{ $message }}</div> @enderror
                     </div>
                 </div>
                 <br>
@@ -43,9 +45,7 @@
                     <p>Processando distribuição...</p>
 
                 </div>
-                <div wire:poll.60000ms>
-                    Current time: {{ $qtdFila }}
-                </div>
+
 
 
                 <br>

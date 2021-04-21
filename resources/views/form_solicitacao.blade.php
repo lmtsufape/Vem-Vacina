@@ -695,7 +695,7 @@
          let div_seletor_horararios = document.getElementById("seletor_horario");
          div_seletor_horararios.innerHTML = "Buscando horários disponíveis...";
          let url = window.location.toString().replace("solicitar", "horarios/" + id_posto);
-         console.log(url);
+        //  console.log(url);
 
          // Mágia de programação funcional
          fetch(url).then((dados) => {
@@ -774,8 +774,8 @@
             },
 
             success: function(data){
-                console.log(data)
-                console.log(typeof data)
+                // console.log(data)
+                // console.log(typeof data)
                 if(data.length <= 0 && data != null){
                     const buttonSend = document.getElementById('buttonSend');
                     buttonSend.innerText = "Enviar para fila de Espera"
