@@ -38,15 +38,18 @@
                         @error('numero_vacinas') <div class="alert alert-danger">{{ $message }}</div> @enderror
                     </div>
                 </div>
-                <div wire:loading>
-                    Processando distribuição...
+                <br>
+                <div wire:loading.delay>
+                    <p>Processando distribuição...</p>
+
+                </div>
+                <div wire:poll.60000ms>
+                    Current time: {{ $qtdFila }}
                 </div>
 
 
-                <hr>
-
                 <br>
-                <div class="row">
+                <div class="row" wire:loading.remove.delay>
                     <div class="col-md-3">
                         <button class="btn btn-success">Distribuir</button>
                     </div>
