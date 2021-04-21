@@ -347,6 +347,7 @@ class PostoVacinacaoController extends Controller
 
             if(!$etapa->lotes->count()){
                 $postos->pull($key);
+                continue;
             }
             //Retorna um array de IDs do lotes associados a etapa escolhida
             $array_lotes_disponiveis = $etapa->lotes->pluck('id');
@@ -382,7 +383,7 @@ class PostoVacinacaoController extends Controller
                             //     "posto_vacinacao" => "Não há mais doses disponíveis. Favor realize o seu cadastro na fila de espera pela página principal."
                             // ])->withInput();
                         }
-                        break;
+                        continue;
                     }
 
                 }else{
@@ -391,7 +392,7 @@ class PostoVacinacaoController extends Controller
                     if ($qtdCandidato < $lote->qtdVacina) {
                         $id_lote = $lote->id;
                         $chave_estrangeiro_lote = $lote->lote_id;
-                        break;
+                        continue;
                     }
                 }
 
