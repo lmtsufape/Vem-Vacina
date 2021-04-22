@@ -141,3 +141,166 @@
 }
 
 /* X tela - comprovante X */
+
+/* tela - home */
+.style_card_apresentacao{
+    margin:1rem;border-radius: 12px; box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+                    -webkit-box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+                    -moz-box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+}
+.style_card_apresentacao_subtitulo{
+    margin-top: 10px;color: #707070; font-size: 14x;line-height: 19px; 
+}
+.style_card_apresentacao_grupos_a_serem_vacinados{
+    font-weight: 700; font-family: Arial, Helvetica, sans-serif; font-size: 22px; line-height: 26px; color: #FF545A;margin-top: 30px;
+}
+.style_card_apresentacao_idade{
+    text-align: center; font-weight: 700; font-family: Arial, Helvetica, sans-serif; font-size: 55px; line-height: 40px; letter-spacing: -3px; color: #FF545A;margin-top: 30px;
+}
+.style_card_apresentacao_a_anos{
+    color:#01487E; font-size: 35px;
+}
+.style_card_apresentacao_solicitar_vacina{
+    font-weight: 700; font-family: Arial, Helvetica, sans-serif; font-size: 24px; line-height: 26px; color: #01487E;margin-top: 30px;margin-bottom: 10px;
+}
+.style_card_apresentacao_solicitar_vacina_subtitulo{
+    color: #707070; font-size: 15px;line-height: 19px;
+}
+.style_card_apresentacao_botao{
+    width: 100%;margin-left: 15px;margin-right: 15px; margin-top: 10px;box-shadow: 0px 7px 23px -5px rgba(0,0,0,0.38);
+                                        -webkit-box-shadow: 0px 7px 23px -5px rgba(0,0,0,0.38);
+                                        -moz-box-shadow: 0px 7px 23px -5px rgba(0,0,0,0.38);
+}
+
+.card_menor{
+    margin-top:1rem; border-radius: 12px; box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+    -webkit-box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+    -moz-box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+}
+
+.card_menor2{
+    margin-top:1rem; border-radius: 12px; box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+    -webkit-box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+    -moz-box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52); width: 412px;
+}
+.card_menor3{
+    margin-top:1rem; border-radius: 12px; box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+    -webkit-box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+    -moz-box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52); width: 860px;
+}
+
+.style_card_medio{
+    margin:1rem;border-radius: 12px; box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+                    -webkit-box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);
+                    -moz-box-shadow: 2px 2px 29px -2px rgba(0,0,0,0.52);;
+}
+.style_card_divisao{
+    border-left: 1px solid;border-color: #CCE6FB;
+}
+.style_card_divisao_horizontal{
+    border-bottom: 0px solid;;
+}
+.style_card_medio_titulo{
+    margin-left: -15px; margin-right: -15px; background-color:#FF545A; color: #fff;font-size: 19px; font-weight: 600; border-top-left-radius: 12px;border-top-right-radius: 12px;
+}
+.style_card_medio_conteudo{
+    text-align: center; font-weight: 600; font-family: Arial, Helvetica, sans-serif; font-size: 34px; line-height: 26px; color: #01487E;margin-top: 20px;
+}
+.style_card_medio_legenda{
+    text-align:center;color:#01487E; font-weight:600; margin-top: 20px;margin-bottom: 30px;
+}
+.style_card_menor{
+    padding: 15px;width: 295px;
+}
+.card_media2{
+    padding-left: 15px; padding-right: 15px;padding-bottom: 15px;
+}
+.style_card_menor_titulo{
+    background-color:#FF545A; color: #fff;font-size: 19px; font-weight: 600; border-top-left-radius: 12px;border-top-right-radius: 12px;text-align: center;
+}
+.style_card_menor_conteudo{
+    text-align: center; font-weight: 600; font-family: Arial, Helvetica, sans-serif; font-size: 50px; line-height: 26px; color: #01487E;margin-top: 20px;
+}
+.style_card_menor_legenda{
+    text-align:center;color:#01487E; font-weight:600; margin-top: 25px;margin-bottom: 20px;
+}
+.tabela_grupos_a_serem_vacinados_desktop{
+    display:block;
+}
+.tabela_grupos_a_serem_vacinados_mobile{
+    display: none;
+}
+
+@media screen and (max-width: 1199px) and (min-width: 992px){
+    .style_card_menor{
+        padding: 15px;width: 250px;
+    }
+    .card_menor2{
+        width: 345px;
+    }
+    .card_menor3{
+        width: 719px;
+    }
+}
+@media screen and (max-width: 991px) and (min-width: 768px){
+    .style_card_menor{
+        padding: 15px;width: 190px;
+    }
+    .card_menor2{
+        width: 260px;
+    }
+    .style_card_menor_conteudo{
+        text-align: center; font-weight: 600; font-family: Arial, Helvetica, sans-serif; font-size: 30px; line-height: 26px; color: #01487E;margin-top: 20px;
+    }
+    .card_menor3{
+        width: 550px;
+    }
+}
+@media screen and (max-width: 768px) and (min-width: 0px){
+    .style_card_menor{
+        padding: 15px;width: 100%;
+    }
+    .style_card_divisao{
+        border-left: 0px solid;;
+    }
+    .style_card_divisao_horizontal{
+        border-bottom: 1px solid; border-color: #CCE6FB;
+    }
+    .card_menor2{
+        width: 100%;
+    }
+    .card_media2{
+        width: 100%;
+    }
+    .card_menor3{
+        width: 100%;
+    }
+}
+@media screen and (max-width:495px) and (min-width:0px) {
+    .tabela_grupos_a_serem_vacinados_desktop{
+        display:none;
+    }
+    .tabela_grupos_a_serem_vacinados_mobile{
+        display: block;
+    }
+}
+/* X tela - home X */
+
+/*  tela - cadastro  */
+.style_titulo_input{
+    color:#204788; font-weight: 600;font-family: Arial, Helvetica, sans-serif;
+}
+.style_subtitulo_input{
+    color: #AFAFAF; font-weight: normal;
+}
+.style_input{
+    background-color: #f1f3f4;border: 0 none;
+}
+.style_titulo_campo{
+    font-size: 22px;font-weight: 600; font-family: Arial, Helvetica, sans-serif;color: #FC5B40; margin-bottom: -15px;
+}
+.style_linha_campo{
+    color: #FC5B40; border-bottom: 10px solid; margin-bottom: 5px;
+}
+
+/* X tela - cadastro X */
