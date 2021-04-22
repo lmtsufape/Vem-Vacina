@@ -60,6 +60,12 @@ class CandidatoController extends Controller
             $query->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
         }
 
+        if ($request->publico_check) {
+            if ($request->publico != null) {
+                $query->where('etapa_id', $request->publico);
+            }
+        }
+
 
         if ($request->ordem_check && $request->ordem != null) {
             if($request->campo != null){
@@ -101,6 +107,7 @@ class CandidatoController extends Controller
                                         'tipos' => Etapa::TIPO_ENUM,
                                         'postos' => PostoVacinacao::all(),
                                         'doses' => Candidato::DOSE_ENUM,
+                                        'publicos' => Etapa::orderBy('texto_home')->get(),
                                         'request' => $request]);
     }
 

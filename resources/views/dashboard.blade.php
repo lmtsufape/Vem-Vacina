@@ -69,16 +69,20 @@
                                     <label>Reprovados</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="campo_check" id="campo_check_input" onclick="mostrarFiltro(this, 'campo_check')">
+                                    <input type="checkbox" name="campo_check" id="campo_check_input" @if($request->campo_check != null && $request->campo_check) checked @endif onclick="mostrarFiltro(this, 'campo_check')">
                                     <label>Campo</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="ordem_check" id="ordem_check_input" onclick="mostrarFiltro(this, 'ordem_check')">
+                                    <input type="checkbox" name="ordem_check" id="ordem_check_input" @if($request->ordem_check != null && $request->ordem_check) checked @endif onclick="mostrarFiltro(this, 'ordem_check')">
                                     <label>Ordem</label>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="ponto_check" id="ponto_check_input" onclick="mostrarFiltro(this, 'ponto_check')">
+                                    <input type="checkbox" name="ponto_check" id="ponto_check_input" @if($request->ponto_check != null && $request->ponto_check) checked @endif onclick="mostrarFiltro(this, 'ponto_check')">
                                     <label>Ponto</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="checkbox" name="publico_check" id="publico_check_input" @if($request->publico_check != null && $request->publico_check) checked @endif onclick="mostrarFiltro(this, 'publico_check')">
+                                    <label>Público</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -95,29 +99,37 @@
                                     <select id="dose" name="dose" class="form-control">
                                         <option value="">-- Dose --</option>
                                         <option @if($request->dose == $doses[0]) selected @endif value="{{$doses[0]}}">1ª dose</option>
-                                        <option @if($request->data == $doses[1]) selected @endif value="{{$doses[1]}}">2ª dose</option>
+                                        <option @if($request->dose == $doses[1]) selected @endif value="{{$doses[1]}}">2ª dose</option>
                                     </select>
                                 </div>
-                                <div id="campo_check" class="col-md-3" style="display: none;">
+                                <div id="campo_check" class="col-md-3" @if($request->campo_check != null && $request->campo_check) style="display: block;" @else style="display: none;" @endif >
                                     <select id="campo" name="campo" class="form-control">
                                         <option value="">-- campo --</option>
-                                        <option value="cpf">cpf</option>
-                                        <option value="nome_completo">nome</option>
-                                        <option value="chegada">dia</option>
+                                        <option @if($request->campo == "cpf") selected @endif value="cpf">cpf</option>
+                                        <option @if($request->campo == "nome_completo") selected @endif value="nome_completo">nome</option>
+                                        <option @if($request->campo == "chegada") selected @endif value="chegada">dia</option>
                                     </select>
                                 </div>
-                                <div id="ordem_check" class="col-md-3" style="display: none;">
+                                <div id="ordem_check" class="col-md-3" @if($request->ordem_check != null && $request->ordem_check) style="display: block;" @else style="display:none;" @endif>
                                     <select id="ordem" name="ordem" class="form-control">
                                         <option value="">-- ordem --</option>
-                                        <option value="asc">Crescente</option>
-                                        <option value="desc">Descrescente</option>
+                                        <option @if($request->ordem == "asc") selected @endif value="asc">Crescente</option>
+                                        <option @if($request->ordem == "desc") selected @endif value="desc">Descrescente</option>
                                     </select>
                                 </div>
-                                <div id="ponto_check" class="col-md-3" style="display: none;">
+                                <div id="ponto_check" class="col-md-3" @if($request->ponto_check != null && $request->ponto_check) style="display: block;" @else style="display:none;" @endif>
                                     <select id="ponto" name="ponto" class="form-control">
                                         <option value="">-- ponto --</option>
                                         @foreach ($postos as $posto)
-                                            <option value="{{ $posto->id }}">{{ $posto->nome }}</option>
+                                            <option @if($request->ponto == $posto->id) selected @endif value="{{ $posto->id }}">{{ $posto->nome }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div id="publico_check" class="col-md-3" @if($request->publico_check != null && $request->publico_check) style="display: block;" @else style="display:none;" @endif>
+                                    <select id="publico" name="publico" class="form-control">
+                                        <option value="">-- Público --</option>
+                                        @foreach ($publicos as $publico)
+                                            <option @if($request->publico == $publico->id) selected @endif value="{{ $publico->id }}">{{ $publico->texto_home }}</option>
                                         @endforeach
                                     </select>
                                 </div>
