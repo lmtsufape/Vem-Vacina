@@ -193,7 +193,8 @@ class CandidatoController extends Controller
         DB::beginTransaction();
 
         try {
-            if (Candidato::where([['cpf', $request->cpf], ['aprovacao', Candidato::APROVACAO_ENUM[0]]])->get()->count() > 0) {
+            if (Candidato::where('cpf',$request->cpf)->where('aprovacao',Candidato::APROVACAO_ENUM[0])->orWhere('aprovacao', Candidato::APROVACAO_ENUM[1])
+            ->count() > 0) {
                 return redirect()->back()->withErrors([
                     "cpf" => "Existe um agendamento pendente para esse CPF."
                 ])->withInput();
@@ -478,10 +479,8 @@ class CandidatoController extends Controller
         if($request->confirmacao == "Ausente"){
             $candidato = Candidato::find($id);
             if ($candidato != null) {
-                $candidato->aprovacao = Candidato::APROVACAO_ENUM[2];
-                $candidato->update();
-                $candidato->delete();
-
+                Candidato::where('cpf',$candidato->cpf)->update(['aprovacao' => "Reprovado"]);
+                Candidato::where('cpf',$candidato->cpf)->delete();
             }
 
         }elseif($request->confirmacao == "Aprovado"){
@@ -490,40 +489,36 @@ class CandidatoController extends Controller
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
                 $candidato->update();
 
-                if($candidato->email != null){
-                    $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
-                    $lote = Lote::find($lote[0]->lote_id);
-                    // Notification::send($candidato, new CandidatoAprovado($candidato, null));
-                }
+                // if($candidato->email != null){
+                //     $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+                //     $lote = Lote::find($lote[0]->lote_id);
+                //     // Notification::send($candidato, new CandidatoAprovado($candidato, null));
+                // }
             }
 
         }elseif($request->confirmacao == "Reprovado"){
             if ($candidato != null) {
-                $candidato = Candidato::find($id);
-                $candidato->aprovacao = "Reprovado";
-                $candidato->save();
+                Candidato::where('cpf',$candidato->cpf)
+                        ->update(['aprovacao' => "Reprovado"]);
+
                 if($candidato->email != null){
                     Notification::send($candidato, new CandidatoReprovado($candidato));
                 }
-                $candidato->delete();
+                Candidato::where('cpf',$candidato->cpf)->delete();
+
 
             }
 
         }elseif($request->confirmacao == "restaurar"){
 
-            // $candidato = Candidato::withTrashed()
-            //                         ->where('id', $id)
-            //                         ->restore();
-            // if ($candidato != null) {
-            //     $candidato = Candidato::withTrashed()->find($id);
-            //     $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
-            //     $candidato->update();
-            //     if($candidato->email != null){
-            //         $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
-            //         $lote = Lote::find($lote[0]->lote_id);
-            //         Notification::send($candidato, new CandidatoAprovado($candidato, null,$lote ));
-            //     }
-            // }
+            $candidato = Candidato::withTrashed()
+                                    ->where('id', $id)
+                                    ->restore();
+            if ($candidato != null) {
+                $candidato = Candidato::withTrashed()->find($id);
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
+                $candidato->update();
+            }
 
         }
 

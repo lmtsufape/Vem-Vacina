@@ -774,7 +774,7 @@
             },
 
             success: function(data){
-                // console.log(data)
+                console.log(data)
                 // console.log(typeof data)
                 if(data.length <= 0 && data != null){
                     const buttonSend = document.getElementById('buttonSend');
