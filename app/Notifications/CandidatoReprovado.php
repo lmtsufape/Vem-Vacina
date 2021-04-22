@@ -14,17 +14,15 @@ class CandidatoReprovado extends Notification
     use Queueable;
 
     public $candidato;
-    public $lote;
-    public $texto_dose ;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Candidato $candidato, Lote $lote)
+    public function __construct(Candidato $candidato)
     {
         $this->candidato = $candidato;
-        $this->lote = $lote;
+
     }
 
     /**

@@ -472,8 +472,8 @@ class CandidatoController extends Controller
         ]);
 
         $candidato = Candidato::withTrashed()->find($id);
-        $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
-        $lote = Lote::find($lote[0]->lote_id);
+        // $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
+        // $lote = Lote::find($lote[0]->lote_id);
         // dd($lote);
         if($request->confirmacao == "Ausente"){
             $candidato = Candidato::find($id);
@@ -493,7 +493,7 @@ class CandidatoController extends Controller
                 if($candidato->email != null){
                     $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
                     $lote = Lote::find($lote[0]->lote_id);
-                    // Notification::send($candidato, new CandidatoAprovado($candidato, $lote ));
+                    // Notification::send($candidato, new CandidatoAprovado($candidato, null));
                 }
             }
 
@@ -503,9 +503,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao = "Reprovado";
                 $candidato->save();
                 if($candidato->email != null){
-                    $lote = DB::table("lote_posto_vacinacao")->where('id', $candidato->lote_id)->get();
-                    $lote = Lote::find($lote[0]->lote_id);
-                    // Notification::send($candidato, new CandidatoReprovado($candidato, $lote ));
+                    Notification::send($candidato, new CandidatoReprovado($candidato));
                 }
                 $candidato->delete();
 

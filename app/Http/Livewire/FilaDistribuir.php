@@ -25,16 +25,30 @@ class FilaDistribuir extends Component
     public $ponto_id;
     public $qtdFila;
 
+    protected $rules = [
+        'etapa_id' => 'required',
+        'ponto_id' => 'required',
+    ];
+    protected $messages = [
+        'etapa_id.required' => 'Selecione um público.',
+        'ponto_id.required' => 'Selecione um ponto.',
+    ];
+
+
+
+
     public function mount()
     {
         $this->pontos = PostoVacinacao::all();
         $this->etapas = Etapa::all();
         $this->tipos = Etapa::TIPO_ENUM;
-        $this->qtdFila = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->count();
+
     }
 
     public function distribuir()
     {
+        $this->validate();
+
         set_time_limit(3600);
         // dd($this->etapa_id, $this->ponto_id);
         $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->get();
