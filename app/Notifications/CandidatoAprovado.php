@@ -26,11 +26,10 @@ class CandidatoAprovado extends Notification
      *
      * @return void
      */
-    public function __construct(Candidato $candidato1, $candidato2,Lote $lote)
+    public function __construct(Candidato $candidato1, $candidato2)
     {
         $this->candidato1 = $candidato1;
         $this->candidato2 = $candidato2;
-        $this->lote = $lote;
         $this->data_chegada1 =  date('d/m/Y \à\s  H:i\h', strtotime($this->candidato1->chegada));
         if ($this->candidato2) {
             $this->data_chegada2 =  date('d/m/Y \à\s  H:i\h', strtotime($this->candidato2->chegada));

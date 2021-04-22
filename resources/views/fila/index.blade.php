@@ -136,6 +136,7 @@
                                 <th scope="col">Idade</th>
                                 <th scope="col">Público</th>
                                 <th scope="col">Ver</th>
+                                <th scope="col">Resultado</th>
                                 @can('whatsapp-candidato')
                                     <th scope="col" >Link</th>
                                 @endcan
@@ -158,7 +159,7 @@
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
                                 </td>
-                                {{-- <td>
+                                <td>
                                     @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
                                         Vacinado
                                     @else
@@ -169,17 +170,15 @@
                                                 <div class="col-md-12 px-0">
                                                     <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
                                                         <option value="" selected disabled>selecione</option>
-                                                        <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
                                                         <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
                                                         <option value="Ausente" >Ausente</option>
-                                                        <option value="restaurar" >Restaurar</option>
                                                     </select>
                                                 </div>
                                             </div>
                                         </form>
                                         @endcan
                                     @endif
-                                </td> --}}
+                                </td>
 
 
                                 <td>
