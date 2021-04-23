@@ -28,7 +28,7 @@
                                 <td>
                                     {{$publico->texto_home}}
                                 </td>
-                                <td><a href="{{route('dashboard')}}?aprovado=on&publico_check=on&publico={{$publico->id}}">{{intval(count($publico->candidatos()->where('aprovacao', "==", $aprovacao[1])->get())/2)}}</a></td>
+                                <td><a href="{{route('dashboard')}}?aprovado=on&publico_check=on&publico={{$publico->id}}">{{intval(count($publico->candidatos()->where('aprovacao', $aprovacao[1])->get())/2)}}</a></td>
                                 <td><a href="{{route('fila.index')}}?publico_check=on&publico={{$publico->id}}">{{count($publico->candidatos()->where('aprovacao', $aprovacao[0])->get())}}</a></td>
                                 <td><a href="{{route('dashboard')}}?dose_check=on&dose=1ª Dose&publico_check=on&publico={{$publico->id}}">{{$publico->total_pessoas_vacinadas_pri_dose}}</a></td>
                                 <td><a href="{{route('dashboard')}}?dose_check=on&dose=2ª Dose&publico_check=on&publico={{$publico->id}}">{{$publico->total_pessoas_vacinadas_seg_dose}}</a></td>
