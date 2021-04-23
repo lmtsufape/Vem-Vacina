@@ -770,6 +770,9 @@
                 404: function() {
                     alert("Nenhum posto encontrado");
                     btnForm.disabled = false;
+                },
+                500: function() {
+                    btnForm.disabled = false;
                 }
             },
 
