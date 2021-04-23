@@ -198,7 +198,7 @@
                                 </td>
                                 <td>
                                     <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
-                                        {{$candidato->posto->nome}}
+                                        {{$candidato->posto->nome ?? "Indefinido"}}
                                       </span>
                                 </td>
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
@@ -218,7 +218,7 @@
                                                         <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
                                                         <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
                                                         <option value="Ausente" >Ausente</option>
-                                                        <option value="restaurar" >Restaurar</option>
+                                                        {{-- <option value="restaurar" >Restaurar</option> --}}
                                                     </select>
                                                 </div>
                                                 {{-- <div class="col-md-2">
@@ -235,7 +235,7 @@
                                 <td style="text-align: center;" class="pl-4">
                                     @can('vacinado-candidato')
                                         <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif><i class="fas fa-syringe"></i></button>
-                                        @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) 
+                                        @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
                                             <button class="btn btn-danger" data-toggle="modal" data-target="#cancelar_vacinado_candidato_{{$candidato->id}}"><i class="far fa-times-circle"></i></button>
                                         @endif
                                     @endcan
@@ -731,7 +731,7 @@
 
     function desabilitar(btn, idForm) {
         btn.disabled = true;
-        var form = document.getElementById(idForm); 
+        var form = document.getElementById(idForm);
         form.submit();
     }
 </script>
