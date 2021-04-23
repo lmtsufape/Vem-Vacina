@@ -819,3 +819,4 @@ class CandidatoController extends Controller
         return redirect()->back()->with(['mensagem' => 'Vacinação desfeita.']);
     }
 }
+                                                                                                                                              
