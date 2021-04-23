@@ -109,8 +109,10 @@ class FilaDistribuir extends Component
                 if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
                     continue;
                 }
-                if (Candidato::where('cpf',$candidato->cpf)->count() > 0) {
-                    continue 2;
+                if (Candidato::where('cpf',$candidato->cpf)->where('aprovacao', Candidato::APROVACAO_ENUM[1])
+                ->count() > 0) {
+                    //\Log::info("cpf");
+                    break 2;
                 }
 
                 $etapa = $candidato->etapa;
