@@ -200,7 +200,7 @@ class CandidatoController extends Controller
         DB::beginTransaction();
 
         try {
-            if (Candidato::where('cpf',$request->cpf)->where('aprovacao',Candidato::APROVACAO_ENUM[0])->orWhere('aprovacao', Candidato::APROVACAO_ENUM[1])
+            if (Candidato::where('cpf',$request->cpf)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
             ->count() > 0) {
                 return redirect()->back()->withErrors([
                     "cpf" => "Existe um agendamento pendente para esse CPF."
@@ -486,8 +486,10 @@ class CandidatoController extends Controller
         if($request->confirmacao == "Ausente"){
             $candidato = Candidato::find($id);
             if ($candidato != null) {
-                Candidato::where('cpf',$candidato->cpf)->update(['aprovacao' => "Reprovado"]);
-                Candidato::where('cpf',$candidato->cpf)->delete();
+                Candidato::where('id',$id)->update(['aprovacao' => "Reprovado"]);
+                Candidato::where('id',$id)->delete();
+                // Candidato::where('cpf',$candidato->cpf)->update(['aprovacao' => "Reprovado"]);
+                // Candidato::where('cpf',$candidato->cpf)->delete();
             }
 
         }elseif($request->confirmacao == "Aprovado"){
@@ -819,4 +821,3 @@ class CandidatoController extends Controller
         return redirect()->back()->with(['mensagem' => 'Vacinação desfeita.']);
     }
 }
-                                                                                                                                              
