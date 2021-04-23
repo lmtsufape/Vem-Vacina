@@ -24,6 +24,10 @@ class ImportController extends Controller
             'agendamentos' => 'required|file',
         ]);
 
+        if($request->agendamentos->getClientOriginalExtension() != "csv") {
+            return redirect()->back()->withErrors(['agendamentos' => 'O campo agendamentos deve conter um arquivo do tipo: csv.']);
+        }
+
         $file_handle = fopen($request->agendamentos, 'r');
         $line_of_text = collect();
         while (!feof($file_handle)) {
@@ -97,6 +101,10 @@ class ImportController extends Controller
         $validate = $request->validate([
             'vacinados' => 'required|file',
         ]);
+
+        if($request->vacinados->getClientOriginalExtension() != "csv") {
+            return redirect()->back()->withErrors(['vacinados' => 'O campo vacinados deve conter um arquivo do tipo: csv.']);
+        }
 
         $file_handle = fopen($request->vacinados, 'r');
         $line_of_text = collect();
