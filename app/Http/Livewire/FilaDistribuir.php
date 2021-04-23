@@ -110,7 +110,7 @@ class FilaDistribuir extends Component
                     continue;
                 }
                 if (Candidato::where('cpf',$candidato->cpf)->where('aprovacao',Candidato::APROVACAO_ENUM[0])->orWhere('aprovacao', Candidato::APROVACAO_ENUM[1])->count() > 0) {
-                    continue;
+                    break 2;
                 }
                 $etapa = $candidato->etapa;
 
