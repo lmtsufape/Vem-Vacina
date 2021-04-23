@@ -345,11 +345,12 @@ class PostoVacinacaoController extends Controller
         $postos_disponiveis = collect([]);
         // $etapa = Etapa::where('id',$request->publico_id)->first();
         set_time_limit(60);
+        //$count = count($this->diasPorPostoDois($posto));
         try {
             foreach ($postos as $key => $posto) {
                 $lote_bool = false;
                 foreach($posto->lotes as $key1 => $lote){
-                    if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($request->publico_id) && count($this->diasPorPostoDois($posto)) != 0){
+                    if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($request->publico_id)){
                         $lote_bool = true;
                         break;
                     }
