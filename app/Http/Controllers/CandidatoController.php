@@ -43,7 +43,7 @@ class CandidatoController extends Controller
         }
 
         if ($request->cpf_check && $request->cpf != null) {
-            $query->where('cpf', $request->cpf);
+            $query->where('cpf', 'ilike', '%'.$request->cpf.'%');
         }
 
         if ($request->data_check && $request->data != null) {
@@ -66,6 +66,11 @@ class CandidatoController extends Controller
             }
         }
 
+        if ($request->sus_check) {
+            if ($request->sus) {
+                $query->where('numero_cartao_sus', 'ilike', '%'.$request->sus.'%');
+            }
+        }
 
         if ($request->ordem_check && $request->ordem != null) {
             if($request->campo != null){

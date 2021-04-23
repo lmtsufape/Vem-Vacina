@@ -49,6 +49,10 @@
                                     <label>Por CPF</label>
                                 </div>
                                 <div class="col-md-3">
+                                    <input type="checkbox" name="sus_check" id="sus_check_input" onclick="mostrarFiltro(this, 'sus_check')" @if($request->sus_check != null && $request->sus_check) checked @endif>
+                                    <label>Por cartão SUS</label>
+                                </div>
+                                <div class="col-md-3">
                                     <input type="checkbox" name="data_check" id="data_check_input" onclick="mostrarFiltro(this, 'data_check')" @if($request->data_check != null && $request->data_check) checked @endif>
                                     <label>Por data de agendamento</label>
                                 </div>
@@ -91,6 +95,9 @@
                                 </div>
                                 <div id="cpf_check" class="col-md-3" style="@if($request->cpf_check != null && $request->cpf_check) display: block; @else display: none; @endif">
                                     <input type="text" class="form-control cpf" name="cpf" id="cpf" placeholder="Digite o CPF"  @if($request->cpf != null) value="{{$request->cpf}}" @endif>
+                                </div>
+                                <div id="sus_check" class="col-md-3" style="@if($request->sus_check != null && $request->sus_check) display: block; @else display: none; @endif">
+                                    <input type="text" class="form-control sus" name="sus" id="sus" placeholder="Digite o SUS"  @if($request->sus != null) value="{{$request->sus}}" @endif>
                                 </div>
                                 <div id="data_check" class="col-md-3" style="@if($request->data_check != null && $request->data_check) display: block; @else display: none; @endif">
                                     <input type="date" class="form-control" name="data" id="data" @if($request->data != null) value="{{$request->data}}" @endif>
