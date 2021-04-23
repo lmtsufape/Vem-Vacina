@@ -40,7 +40,7 @@ class CandidatoFactory extends Factory
             'logradouro' => $this->faker->word(),
             'numero_residencia' => $this->faker->numberBetween(50, 100),
             'complemento_endereco' => $this->faker->word(),
-            'aprovacao' => Candidato::APROVACAO_ENUM[0],
+            'aprovacao' => Candidato::APROVACAO_ENUM[$this->faker->numberBetween(0, 3)],
             'dose' => Candidato::DOSE_ENUM[$this->faker->numberBetween(0, 1)],
             'chegada' => $this->faker->dateTimeBetween('-2 week', '-1 week'),
             'saida' => $this->faker->dateTimeBetween('-2 week', '-1 week'),
