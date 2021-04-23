@@ -60,6 +60,10 @@ class CandidatoController extends Controller
             $query->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
         }
 
+        if ($request->duplicado) {
+            $query->where('cpf', Candidato::APROVACAO_ENUM[0]);
+        }
+
         if ($request->publico_check) {
             if ($request->publico != null) {
                 $query->where('etapa_id', $request->publico);
