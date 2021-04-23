@@ -344,6 +344,7 @@ class PostoVacinacaoController extends Controller
         $postos = Etapa::find($request->publico_id)->pontos;
         $postos_disponiveis = collect([]);
         // $etapa = Etapa::where('id',$request->publico_id)->first();
+        set_time_limit(60);
         try {
             foreach ($postos as $key => $posto) {
                 $lote_bool = false;
