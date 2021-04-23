@@ -34,12 +34,15 @@ class FilaController extends Controller
             $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
         }
 
-
-
         if ($request->cpf_check && $request->cpf != null) {
             $query->where('cpf', $request->cpf);
         }
 
+        if ($request->publico_check) {
+            if ($request->publico != null) {
+                $query->where('etapa_id', $request->publico);
+            }
+        }
 
         if ($request->ordem_check && $request->ordem != null) {
             if($request->campo != null){
@@ -81,6 +84,7 @@ class FilaController extends Controller
                                         'tipos' => Etapa::TIPO_ENUM,
                                         'postos' => PostoVacinacao::all(),
                                         'doses' => Candidato::DOSE_ENUM,
+                                        'publicos' => Etapa::orderBy('texto_home')->get(),
                                         'request' => $request]);
     }
 
