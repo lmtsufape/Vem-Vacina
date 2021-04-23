@@ -454,6 +454,10 @@
                                         <div class="form-group col-md-6" id="seletor_horario" style="padding-top: 24px;"></div>
                                     </div>
                                 </div>
+                                <div id="loading" class="spinner-border" role="status" style="display: none;">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+
                                 <div><hr></div>
 
                                 <input type="hidden" name="">
@@ -751,6 +755,10 @@
     function postoPara(input, id) {
         valor = input.checked;
         var btnForm = document.getElementById('buttonSend');
+        var divLocal = document.getElementById("div_local");
+        var loading = document.getElementById("loading");
+        divLocal.style.display = "none"
+        loading.style.display = "block"
         btnForm.disabled = true;
         console.log("etapa:"+id)
         $.ajax({
@@ -779,10 +787,11 @@
                 if(data.length <= 0 && data != null){
                     const buttonSend = document.getElementById('buttonSend');
                     buttonSend.innerText = "Enviar para fila de Espera"
-                    document.getElementById("div_local").style.display = "none"
+                    divLocal.style.display = "none"
                     const input = '<input id="input_fila" type="hidden" name="fila" value="true">';
                     $("#formSolicitar").append(input)
                     document.getElementById("alerta_vacinas").style.display = "block"
+                    loading.style.display = "none"
                     // alert('Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera')
                 }else{
                     document.getElementById("alerta_vacinas").style.display = "none"
@@ -791,6 +800,7 @@
                     }
                     buttonSend.innerText = "Enviar"
                     document.getElementById("div_local").style.display = "block"
+                    loading.style.display = "none"
                 }
                 if (data != null && typeof data != 'string') {
 
