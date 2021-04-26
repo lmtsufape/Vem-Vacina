@@ -23,14 +23,14 @@
                             <div class="col-md-6" style="margin-bottom: 32px;">
                                 <div class="row">
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina">CONSULTAR AGENDAMENTO</div>
-                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.</div>
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify; padding-bottom: 19px;">Clique para saber se o seu agendamento já foi aprovado ou encontra-se na fila de espera.</div>
                                     <a type="button" class="btn btn-primary style_card_apresentacao_botao" style="color: white;"data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR</a>
                                 </div>
                             </div>
                             <div class="col-md-6" style="margin-bottom: 32px;">
                                 <div class="row">
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
-                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.</div>
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
                                     @auth
                                         <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white;">QUERO SOLICITAR MINHA VACINA </a>
                                     @else
@@ -90,9 +90,7 @@
                     </div>
                     @if($config->botao_fila_de_espera) 
                         <p>
-                            Perdeu a sua vacinação? clique em "SOLICITAR AGENDAMENTO NA LISTA DE ESPERA" Lorem Ipsum é 
-                            simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o 
-                            século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou...
+                            Perdeu a sua vacinação? Clique em "SOLICITAR AGENDAMENTO NA LISTA DE ESPERA" para realizar o cadastro e ser agendado quando mais doses estiverem disponíveis.
                         </p>
                         <div class="row" style="margin-bottom: 15px;margin-right: 2.5px;">
                             <div class="col-md-6"></div>
