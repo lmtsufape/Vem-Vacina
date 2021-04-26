@@ -6,272 +6,347 @@
                 <img src="{{asset('/img/cabecalho_2.png')}}" alt="Orientação" width="100%">
             </div>
         </div>
-            <div class="container" style="margin-bottom: 1rem;;">
-                <div class="row justify-content-center">
-                    <!-- covid-19 programa de vacinacao -->
-                    <div class="col-md-9 style_card_apresentacao">
+        <div class="container" style="margin-bottom: 1rem;;">
+            <div class="row justify-content-center">
+                <!-- covid-19 programa de vacinacao -->
+                <div class="col-md-9 style_card_apresentacao">
+                    <div class="container" style="padding-top: 10px;;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row" style="text-align: center;">
+                                    <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
+                                        <img src="{{asset('/img/logo_vem_vacina.png')}}" alt="Orientação" width="40%">
+                                    </div>
+                                    <div class="col-md-12 style_card_apresentacao_subtitulo">A plataforma “Vem Vacina Garanhuns” é a ferramenta oficial da Secretaria de Saúde de Garanhuns, desenvolvida em parceria com a Universidade Federal do Agreste de Pernambuco, para cadastro e agendamento da vacinação contra a Covid-19.</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="margin-bottom: 32px;">
+                                <div class="row">
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina">CONSULTAR AGENDAMENTO</div>
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify; padding-bottom: 19px;">Clique para saber se o seu agendamento já foi aprovado ou encontra-se na fila de espera.</div>
+                                    <a type="button" class="btn btn-primary style_card_apresentacao_botao" style="color: white;"data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="margin-bottom: 32px;">
+                                <div class="row">
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
+                                    @auth
+                                        <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white;">QUERO SOLICITAR MINHA VACINA </a>
+                                    @else
+                                        <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else QUERO SOLICITAR MINHA VACINA @endif</a>
+                                    @endauth
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- grupos a serem vacinados nesta etapa -->
+                <div class="col-md-9 style_card_medio">
+                    <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">GRUPOS A SEREM VACINADOS NESTA ETAPA:</div>
+                    
+                    <!-- tamanho desktop -->
+                    <div class="tabela_grupos_a_serem_vacinados_desktop" style="position: relative; height: 255px; overflow: auto; margin-bottom: 20px;">
+                        <table class="table">
+                            <thead style="text-align: center; color: #204788;">
+                                <tr>
+                                    <th scope="col">PÚBLICO ALVO</th>
+                                    <th scope="col">PESSOAS CADASTRADAS</th>
+                                    <th scope="col">PESSOAS VACINADAS</th>
+                                    <th scope="col">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center; color: #204788; font-weight: bold;">
+                                @foreach ($publicos as $publico)
+                                    @if ($publico->exibir_na_home) 
+                                        @php
+                                            $quant_aprovada = intval(count($publico->candidatos()->where('aprovacao', '!=', $aprovacao_enum[0])->get())/2);
+                                            $quant_espera = count($publico->candidatos()->where('aprovacao', $aprovacao_enum[0])->get());
+                                        @endphp
+                                        @if($publico->atual)
+                                            <tr style="background-color: #E7FFF2;">
+                                                <td>{{$publico->texto_home}}</td>
+                                                <td>{{$quant_aprovada + $quant_espera}}</td>
+                                                <td>{{$publico->total_pessoas_vacinadas_pri_dose + $publico->total_pessoas_vacinadas_seg_dose}}</td>
+                                                <td>ATUAL</td>
+                                            </tr>
+                                        @else
+                                            <tr style="background-color: #FFE7E7;">
+                                                <td>{{$publico->texto_home}}</td>
+                                                <td>{{$quant_aprovada + $quant_espera}}</td>
+                                                <td>{{$publico->total_pessoas_vacinadas_pri_dose + $publico->total_pessoas_vacinadas_seg_dose}}</td>
+                                                <td style="color: #E35E60; font-weight: bold;">ENCERRADO</td>
+                                            </tr>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @if($config->botao_fila_de_espera) 
+                        <p>
+                            Perdeu a sua vacinação? Clique em "SOLICITAR AGENDAMENTO NA LISTA DE ESPERA" para realizar o cadastro e ser agendado quando mais doses estiverem disponíveis.
+                        </p>
+                        <div class="row" style="margin-bottom: 15px;margin-right: 2.5px;">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <a type="button" class="btn style_card_apresentacao_botao" style="color: white; background-color: #F7AB4D;" href="{{$config->link_do_form_fila_de_espera}}">SOLICITAR AGENDAMENTO NA LISTA DE ESPERA</a>
+                            </div>
+                        </div>                        
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- pessoas vacinadas -->
+                <div class="style_card_menor">
+                    <div class="card_menor">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">PESSOAS VACINADAS</div>
                         <div class="container" style="padding-top: 10px;;">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="row" style="text-align: center;">
-                                        <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
-                                            <img src="{{asset('/img/logo_vem_vacina.png')}}" alt="Orientação" width="300px">
-                                        </div>
-                                        <div class="col-md-12 style_card_apresentacao_subtitulo">A plataforma “Vem Vacina Garanhuns” é a ferramenta oficial da Secretaria de Saúde de Garanhuns, desenvolvida em parceria com a Universidade Federal do Agreste de Pernambuco, para cadastro e agendamento da vacinação contra a Covid-19.</div>
+                                    <div class="row">
+                                        <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasPriDose + $quantPessoasSegDose}}</div>
+                                        <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- primeira dose -->
+                <div class="style_card_menor">
+                    <div class="card_menor">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">1º DOSE</div>
+                        <div class="container" style="padding-top: 10px;;">
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="row">
-                                        @if ($etapas != null)
-                                            <div class="col-md-12 style_card_apresentacao_grupos_a_serem_vacinados" >GRUPOS A SEREM VACINADOS NESTA ETAPA:</div>
-                                            <div class="col-md-12 style_card_apresentacao_idade">
-                                                @php
-                                                    $primeiro = 0;
-                                                @endphp
-                                                @foreach ($etapas as $i => $etapa)
-                                                    @if ($etapa->exibir_na_home)
-                                                        @if ($etapa->tipo == $tipos[0])
-                                                            @if ($primeiro != 0) <hr> @endif
-                                                            {{$etapa->inicio_intervalo}}
-                                                            <span class="style_card_apresentacao_a_anos">
-                                                                a
-                                                            </span>{{$etapa->fim_intervalo}}
-                                                            <span class="style_card_apresentacao_a_anos">
-                                                                anos
-                                                            </span>
-                                                        @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
-                                                            @if ($primeiro != 0) <hr> @endif
-                                                            <span class="style_card_apresentacao_a_anos" style="position: relative; bottom: 10px;">
-                                                                {{$etapa->texto_home}}
-                                                            </span>
-                                                        @endif
-                                                        @php
-                                                            $primeiro++;
-                                                        @endphp
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        @else
-                                            <div class="col-md-12 style_card_apresentacao_grupos_a_serem_vacinados" >ETAPA ATUAL NÃO DEFINIDA</div>
-                                        @endif
+                                        <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasPriDose}}</div>
+                                        <div class="col-md-12 style_card_menor_legenda">TOTAL DE PESSOAS VACINADAS</div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" style="margin-bottom: 32px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- segunda dose -->
+                <div class="style_card_menor">
+                    <div class="card_menor">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">2º DOSE</div>
+                        <div class="container" style="padding-top: 10px;;">
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
-                                        <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">O município segue em conformidade com as recomendações do Ministério da Saúde e Secretaria Estadual de Saúde (SES), para definição dos públicos prioritários.
-                                            {{-- <p>
-                                                <br>
-                                                <strong>INFORME:</strong> O cadastro para <strong>fila de espera</strong> voltado ao público de <strong>65 a 69 anos</strong>, foi temporariamente encerrado. Todos os idosos de <strong>65 a 69 anos</strong> já cadastrados serão agendados para vacinação, de acordo com a ordem de inscrição e disponibilidade de doses. Os mesmos serão informados, através dos dados disponibilizados, sobre data, horário e local da vacinação.
-                                            </p> --}}
-                                        </div>
-                                        @auth
-                                            <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($vacinasDisponiveis == 0) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif">@if($vacinasDisponiveis == 0)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else QUERO SOLICITAR MINHA VACINA @endif</a>
-                                        @else
-                                            <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($vacinasDisponiveis == 0 || $config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($vacinasDisponiveis == 0 || $config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else QUERO SOLICITAR MINHA VACINA @endif</a>
-                                        @endauth
-                                        @if($config->botao_fila_de_espera)
-                                            <a href="{{$config->link_do_form_fila_de_espera}}" class="btn btn-danger style_card_apresentacao_botao" style="color:white;" target=”_blank”>SOLICITAR AGENDAMENTO NA LISTA DE ESPERA</a>
-                                        @endif
-                                        <a href="#" class="btn btn-primary style_card_apresentacao_botao" style="color:white;" data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR AGENDAMENTO</a>
-                                        {{-- <div class="col-md-12"  style="text-align: center;line-height: 19px;font-size: 15px;margin-top: 1rem;"><a href="#"  style="color: #000000;">Consultar agendamento.</a></div> --}}
+                                        <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasSegDose}}</div>
+                                        <div class="col-md-12 style_card_menor_legenda">TOTAL DE PESSOAS VACINADAS</div>
                                     </div>
-                                 </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- pessoas cadastradas -->
+                <div class="style_card_menor">
+                    <div class="card_menor">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">PESSOAS CADASTRADAS</div>
+                        <div class="container" style="padding-top: 10px;;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasCadastradas}}</div>
+                                        <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- estoque de vacinas -->
+                <div class="style_card_menor">
+                    <div class="card_menor">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">ESTOQUE DE VACINAS</div>
+                        <div class="container" style="padding-top: 10px;;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 style_card_menor_conteudo">{{$vacinasDisponiveis}}</div>
+                                        <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- imunizacao -->
+                <div class="style_card_menor">
+                    <div class="card_menor">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">IMUNIZAÇÃO *</div>
+                        <div class="container" style="padding-top: 10px;;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 style_card_menor_conteudo">{{number_format($porcentagemVacinada, '2', ',', ' ')}}%</div>
+                                        <div class="col-md-12 style_card_menor_legenda">POPULAÇÃO VACINADA (%)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 10px;">
+                        {{-- <a style="color: #01487E; font-weight: bold;">Clique aqui para saber mais</a> --}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- pessoas vacinadas -->
+                <div class="card_media2">
+                    <div class="card_menor2">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">GARANHUNS/PE</div>
+                        <div class="container" style="padding-top: 10px;;">
+                            <div style="margin-left:-15px;margin-right:-15px">
+                                <a href="https://www.google.com/maps/place/Garanhuns+-+PE/@-8.9365336,-36.6418746,11z/data=!3m1!4b1!4m5!3m4!1s0x7070ce9b301ca65:0x8e6141e4b9b7632d!8m2!3d-8.8828551!4d-36.4969127"  target='_blank' style="font-size:12px;color:#909090">
+                                    <div class="col-md-12" style="margin-top:5px;">
+                                        <img src="{{asset('img/mapa_garanhuns.png')}}" alt="LMTS" width="100%">
+                                    </div>
+                                    <div class="col-md-12" style="text-align:center;">
+                                        Clique na imagem para acessar o Google Maps
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" style="margin-top:10px; margin-bottom: -20px;">
+                                    <p style="font-weight: 700; color: #01487E;">POPULAÇÃO: <span style="font-weight: 500; color: #FF545A;">140.570 hab *</span></p>
+                                </div>
+                                <div class="col-md-12">
+                                    <p style="font-weight: 700;color: #01487E;">Nº TOTAL DE VACINADOS: <span style="font-weight: 500;color: #FF545A;">{{$quantPessoasPriDose + $quantPessoasSegDose}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;"><a style="color: #01487E; font-weight: 500;"><samp style="color: #FF545A;">*</samp> Fonte: estatística IBGE/2020</a></div>
+                </div>
+                
+                <!-- os 5 bairros mais vacinados -->
+                <div class="card_media2">
+                    <div class="card_menor2">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">OS 5 BAIRROS MAIS VACINADOS</div>
+                        <div class="container" style="padding-top: 10px; padding-bottom: 5px;">
+                            <div style="position: relative;
+                            height: 255px;
+                            overflow: auto;">
+                                <table class="table ">
+                                    <thead>
+                                    <tr style=" color: #204788; font-weight: bold;">
+                                        <th scope="col">#</th>
+                                        <th scope="col">BAIRRO</th>
+                                        <th scope="col" style="text-align: center;">VACINADOS</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody style=" color: #204788;">
+                                        @php
+                                            $posicao = 1;
+                                        @endphp
+                                        @foreach ($quantVacinadosPorBairro as $i => $bairroVacinados)
+                                            @if($posicao < 6)
+                                                <tr>
+                                                    <th scope="row" style="color: #FF545A;">{{$posicao++}}º</th>
+                                                    <td>{{$bairroVacinados['bairro']}}</td>
+                                                    <td style="text-align: center;">{{$bairroVacinados['quantidade']}}</td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="container">
-                <!-- grupos a serem vacinados nesta etapa -->
-                @if ($etapas != null && count($etapas) > 0)
-                    @foreach ($etapas as $etapa)
-                        @if ($etapa->exibir_na_home)
-                            <div class="row justify-content-center">
-                                <div class="col-md-9 style_card_medio">
-                                    @if ($etapa->tipo == $tipos[0])
-                                        <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">
-                                            GRUPOS A SEREM VACINADOS NESTA ETAPA:
-                                        </div>
-                                        <div class="container" style="padding-top: 10px;">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="row style_card_divisao_horizontal" >
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{$etapa->inicio_intervalo}} a {{$etapa->fim_intervalo}} anos</div>
-                                                        <div class="col-md-12 style_card_medio_legenda">FAIXA ETÁRIA</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{intval(count($etapa->candidatos)/2)}}</div>
-                                                        <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTA FAIXA ETÁRIA</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="row style_card_divisao" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{ intval( $etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose )  }}</div>
-                                                        <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @elseif ($etapa->tipo == $tipos[1])
-                                        <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">
-                                            GRUPOS A SEREM VACINADOS NESTA ETAPA:
-                                        </div>
-                                        <div class="container" style="padding-top: 10px;">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="row style_card_divisao_horizontal" >
-                                                        <div class="col-md-12 style_card_medio_conteudo">
-                                                            @if ($etapa->texto_home != null)
-                                                                {{$etapa->texto_home}}
-                                                            @else
-                                                                {{$etapa->texto}}
-                                                            @endif
-                                                        </div>
-                                                        <div class="col-md-12 style_card_medio_legenda">PÚBLICO ALVO</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{intval(count($etapa->candidatos)/2)}}</div>
-                                                        <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTE PÚBLICO</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="row style_card_divisao" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{ intval($etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose) }}</div>
-                                                        <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS NESTE PÚBLICO</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @elseif ($etapa->tipo == $tipos[2])
-                                        <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">
-                                            GRUPOS A SEREM VACINADOS NESTA ETAPA:
-                                        </div>
-                                        <div class="container" style="padding-top: 10px;">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="row style_card_divisao_horizontal" >
-                                                        <div class="col-md-12 style_card_medio_conteudo">
-                                                            @if ($etapa->texto_home != null)
-                                                                {{$etapa->texto_home}}
-                                                            @else
-                                                                {{$etapa->texto}}
-                                                            @endif
-                                                        </div>
-                                                        <div class="col-md-12 style_card_medio_legenda">PÚBLICO ALVO</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{intval(count($etapa->candidatos)/2)}}</div>
-                                                        <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTE PÚBLICO</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="row style_card_divisao" style="height: 90%;">
-                                                        <div class="col-md-12 style_card_medio_conteudo">{{ intval($etapa->total_pessoas_vacinadas_pri_dose + $etapa->total_pessoas_vacinadas_seg_dose) }}</div>
-                                                        <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS NESTE PÚBLICO</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @endif
-                    @endforeach
-                @else
-                    <div class="row justify-content-center">
-                        <div class="col-md-9 style_card_medio">
-                            <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">
-                                ETAPA ATUAL NÃO DEFINIDA
-                            </div>
-                            <div class="container" style="padding-top: 10px;">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="row style_card_divisao_horizontal" >
-                                            <div class="col-md-12 style_card_medio_conteudo">ETAPA ATUAL NÃO DEFINIDA</div>
-                                            <div class="col-md-12 style_card_medio_legenda">FAIXA ETÁRIA</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="row style_card_divisao style_card_divisao_horizontal" style="height: 90%;">
-                                            <div class="col-md-12 style_card_medio_conteudo">ETAPA ATUAL NÃO DEFINIDA</div>
-                                            <div class="col-md-12 style_card_medio_legenda">PESSOAS CADASTRADAS NESTA FAIXA ETÁRIA</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="row style_card_divisao" style="height: 90%;">
-                                            <div class="col-md-12 style_card_medio_conteudo">ETAPA ATUAL NÃO DEFINIDA</div>
-                                            <div class="col-md-12 style_card_medio_legenda">TOTAL DE PESSOAS VACINADAS</div>
-                                        </div>
-                                    </div>
-                                </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- vacinados por idade -->
+                <div class="card_media2">
+                    <div class="card_menor2">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">VACINADOS POR IDADE (%)</div>
+                        <div class="container" style="padding-top: 10px;;">
+                            <div style="position: relative;
+                            height: 255px;
+                            overflow: auto;">
+                                <table class="table ">
+                                    <thead style="text-align: center;">
+                                    <tr style=" color: #204788; font-weight: bold;">
+                                        <th scope="col">IDADE</th>
+                                        <th scope="col" style="text-align: center;">VACINADOS (%)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody style=" color: #204788; text-align: center;">
+                                        @foreach ($quantVacinadosPorIdade as $vacinadosDaIdade)
+                                            <tr>
+                                                <td>{{$vacinadosDaIdade['idade']}}</td>
+                                                <td style="text-align: center;">{{number_format($vacinadosDaIdade['porcentagem'], '2', ',', ' ')}}%</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                @endif
-            </div>
-
-            <div class="container" style="margin-bottom: 2rem;">
-                <div class="row justify-content-center">
-                    <!-- pessoas cadastradas -->
-                    <div class="style_card_menor">
-                        <div class="card_menor">
-                            <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">PESSOAS CADASTRADAS</div>
-                            <div class="container" style="padding-top: 10px;;">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-12 style_card_menor_conteudo">{{intval($quantPessoasCadastradas/2)}}</div>
-                                            <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- primeira dose -->
-                    <div class="style_card_menor">
-                        <div class="card_menor">
-                            <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">1º DOSE</div>
-                            <div class="container" style="padding-top: 10px;;">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-12 style_card_menor_conteudo">{{ intval($quantPessoasPriDose) }}</div>
-                                            <div class="col-md-12 style_card_menor_legenda">TOTAL DE PESSOAS VACINADAS</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- segunda dose -->
-                    <div class="style_card_menor">
-                        <div class="card_menor">
-                            <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">2º DOSE</div>
-                            <div class="container" style="padding-top: 10px;;">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-12 style_card_menor_conteudo">{{ intval($quantPessoasSegDose) }}</div>
-                                            <div class="col-md-12 style_card_menor_legenda">TOTAL DE PESSOAS VACINADAS</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
+                
+                <!-- doses aplicadas por sexo -->
+                <div class="card_media2">
+                    <div class="card_menor2">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">DOSES APLICADAS POR SEXO</div>
+                        <div class="container" style="padding-top: 10px; padding-bottom: 5px;">
+                            <div style="position: relative;
+                            height: 249px;
+                            overflow: auto;">
 
+                            <!-- grafico -->
+                            <div style="margin-top: 1rem;">
+                                <canvas id="graficoSexo"></canvas>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <!-- Imunizados (Nº de pessoas x dia) -->
+                <div class="card_media2">
+                    <div class="card_menor3">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">IMUNIZADOS (Nº DE PESSOAS X DIA)</div>
+                        <div class="container" style="padding-top: 10px; padding-bottom: 5px;">
+                            <div style="position: relative;
+                            margin-bottom: 2rem;
+                            overflow: auto;">
+
+                            <!-- grafico -->
+                            <canvas id="graficoImunizados"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
+            </div>
+        </div>
+
+        <div class="container" style="text-align: center; margin-top:2rem; margin-bottom: 4rem;">
+            <p style="color: #204788; font-weight: bold;">Última atualização dos dados: {{date('d/m/Y - h\hm', strtotime(now()))}}</p>
+        </div>
 
         <!-- rodapé -->
         <div style="background-color:#313561; display: flex; flex-wrap: wrap;">
@@ -314,6 +389,7 @@
         </div>
 
         <!--x rodapé x-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
     </body>
     <!-- Modal checar agendamento -->
     <div class="modal fade" id="modalChecarAgendamento" tabindex="-1" aria-labelledby="modalChecarAgendamentoLabel" aria-hidden="true">
@@ -387,4 +463,53 @@
             });
         </script>
     @endif
+    <script>
+        // let graficoImunizados = document.getElementById("graficoImunizados").getContext("2d");
+
+        // let chart = new Chart(graficoImunizados, {
+        //         type:"line",
+        //         data:{
+        //         labels:['22/03', '23/03', '24/03', '25/03', '26/03', '27/03', '28/03', '29/03', '30/03', '31/03', '01/04'],
+                    
+        //         datasets:[{
+        //             label:"Imunizados",
+        //             data:[175, 150, 125, 100, 50, 25, 0, 25, 75, 110, 55], 
+        //             backgroundColor:'#C9EAFF',
+        //             borderColor:'#1492E6',
+        //         }]
+        //     }
+        // });
+
+        let graficoSexo = document.getElementById("graficoSexo").getContext("2d");
+
+        let chart2 = new Chart(graficoSexo, {
+                @if(count($vacinadosPorSexo) > 2) 
+                    type: 'doughnut',
+                    data:{
+                    labels:['{{$vacinadosPorSexo[0]['sexo']}}', '{{$vacinadosPorSexo[1]['sexo']}}', '{{$vacinadosPorSexo[2]['sexo']}}'],
+                    
+                    datasets:[{
+                        label:"Sexo",
+                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}', '{{$vacinadosPorSexo[2]['quantidade']}}'], 
+                        backgroundColor:['#F5C900','#F50057', '#2396F3'],
+                    }]
+                @elseif(count($vacinadosPorSexo) > 1)
+                    type: 'doughnut',
+                    data:{
+                    labels:['{{$vacinadosPorSexo[0]['sexo']}}', '{{$vacinadosPorSexo[1]['sexo']}}'],
+                    
+                    datasets:[{
+                        label:"Sexo",
+                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}'], 
+                        backgroundColor:['#F50057', '#2396F3'],
+                    }]
+                @endif
+                
+            }, options:{
+                animation:{
+                    animateScale: true
+                }
+            }
+        });
+    </script>
 </x-guest-layout>

@@ -145,23 +145,8 @@ class CandidatoController extends Controller
             abort(403);
         }
 
-        $bairros = [
-            "Magano",
-            "Dom Hélder Câmara",
-            "Dom Thiago Postma",
-            "São José",
-            "Santo Antônio",
-            "Aloísio Pinto",
-            "Boa Vista",
-            "Francisco Figueira",
-            "Heliópolis",
-            "José Maria Dourado",
-            "Novo Heliópolis",
-            "Severiano Moraes Filho",
-            "Manoel Chéu",
-        ];
-
-        sort($bairros);
+        $bairrosOrdenados = Candidato::bairros;
+        sort($bairrosOrdenados);
 
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
@@ -169,7 +154,7 @@ class CandidatoController extends Controller
             "doses" => Candidato::DOSE_ENUM,
             "publicos" => $etapasAtuais,
             "tipos"    => Etapa::TIPO_ENUM,
-            "bairros" => $bairros,
+            "bairros" => $bairrosOrdenados,
             "config"    => $config,
         ]);
 
