@@ -64,7 +64,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post("/agendamentos/import", [ImportController::class, 'store'])->name('candidato.import.store');
 
-    Route::resource('/postos', PostoVacinacaoController::class);
+    Route::resource('/postos',PostoVacinacaoController::class );
+    Route::get('/pontos/new', [PostoVacinacaoController::class, 'index_novo'])->name('postos.index.new');
     Route::resource('/lotes', LoteController::class);
     Route::get('/lotes/distribuir/{lote}', [ LoteController::class, 'distribuir'])->name('lotes.distribuir');
     Route::post('/lotes/calcular', [ LoteController::class, 'calcular'])->name('lotes.calcular');

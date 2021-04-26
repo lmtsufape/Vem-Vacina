@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreLoteRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\DistribuicaoRequest;
+use App\Models\LotePostoVacinacao;
 
 class LoteController extends Controller
 {
@@ -168,7 +169,7 @@ class LoteController extends Controller
         }
 
         $this->isChecked($request, 'dose_unica');
-;
+
         if(!$request->dose_unica && $request->numero_vacinas % 2 != 0) {
             return redirect()->back()->withErrors([
                 "numero_vacinas" => "Número tem que ser par."
@@ -229,9 +230,17 @@ class LoteController extends Controller
     {
         Gate::authorize('distribuir-lote');
         $lote = Lote::findOrFail($id);
+        if ($lote->etapas->count() == 0) {
+            return redirect()->back()
+                    ->withErrors([
+                        "message" => "Lote sem público associado."
+                    ]);
+        }
+        $lotes_pivot = LotePostoVacinacao::all();
         // $postos = PostoVacinacao::orderBy('vacinas_disponiveis')->get();
         $postos = PostoVacinacao::all();
-        return view('lotes.distribuicao', compact('lote', 'postos'));
+        $candidatos = Candidato::all();
+        return view('lotes.distribuicao', compact('lote', 'postos', 'lotes_pivot', 'candidatos'));
     }
 
     public function calcular(Request $request)
@@ -282,7 +291,9 @@ class LoteController extends Controller
     public function alterarQuantidadeVacina(Request $request)
     {
         Gate::authorize('distribuir-lote');
-        $lote_original   = Lote::findOrFail($request->lote_id);
+
+        try {
+        $lote_original   = Lote::findOrFail($request->lote_original_id);
         $posto  = PostoVacinacao::find($request->posto_id);
 
         $rules = [
@@ -298,34 +309,30 @@ class LoteController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-        // dd( $posto->candidatos()->where('lote_id', $lote->id)->count());
-        $lotes_relacao = DB::table("lote_posto_vacinacao")->where("posto_vacinacao_id", $posto->id)->get();
-        // dd($lotes_relacao);
-        foreach ($lotes_relacao as $key => $lote) {
-            $qtdCandidato =  Candidato::where('posto_vacinacao_id', $posto->id)->where('lote_id', $lote->id)->where("aprovacao", Candidato::APROVACAO_ENUM[1])->count();
-            $qtdVacinaParaEsseLote = DB::table("lote_posto_vacinacao")->where("posto_vacinacao_id", $posto->id)->where('lote_id', $lote->id )->get();
-            // dd( $request->quantidade > ($lote->qtdVacina - $qtdCandidato));
-            if($lote->lote_id == $request->lote_id &&  $request->quantidade > ($lote->qtdVacina - $qtdCandidato) ){
+
+        $lotes_pivot = LotePostoVacinacao::where("posto_vacinacao_id", $posto->id)->where('id', $request->lote_id)->first();
+        $qtdCandidato = Candidato::where('posto_vacinacao_id', $posto->id )->where('lote_id', $request->lote_id)->count();
+        if(($lotes_pivot->qtdVacina - $qtdCandidato) > 0 && ($lotes_pivot->qtdVacina - $qtdCandidato) >= $request->quantidade){
+            // dd(($lotes_pivot->qtdVacina - $qtdCandidato) == $request->quantidade);
+            if (($lotes_pivot->qtdVacina - $qtdCandidato) > $request->quantidade) {
+                $lotes_pivot->qtdVacina -= $request->quantidade;
+                $lote_original->numero_vacinas += $request->quantidade;
+                $lote_original->save();
+                $lotes_pivot->save();
+            }elseif(($lotes_pivot->qtdVacina - $qtdCandidato) == $request->quantidade){
+                $lotes_pivot->qtdVacina -= $request->quantidade;
+                $lote_original->numero_vacinas += $request->quantidade;
+                $lote_original->save();
+                $lotes_pivot->save();
+                if(Candidato::where('posto_vacinacao_id', $posto->id )->count() == 0){
+                    $posto->lotes()->detach($lote_original);
+                    $posto->refresh();
+                }
+            }else{
                 return redirect()->back()
                             ->withErrors([
                                 "quantidade" => "Quantidade a devolver deve ser menor que a quantidade de vacinas disponíveis."
                             ])->withInput();
-            }
-        }
-        $qtdCandidato = Candidato::where('posto_vacinacao_id', $posto->id)->where('lote_id', $request->lote_id)->where("aprovacao", Candidato::APROVACAO_ENUM[1])->count();
-        $qtdVacinaParaEsseLote = DB::table("lote_posto_vacinacao")->where("posto_vacinacao_id", $posto->id)->where('lote_id', $request->lote_id )->get();
-        // dd($qtdVacinaParaEsseLote[0]->qtdVacina - $qtdCandidato);
-        if (($qtdVacinaParaEsseLote[0]->qtdVacina - $qtdCandidato) > $request->quantidade) {
-            $posto->subVacinaEmLote($request->lote_id, $request->quantidade) ;
-            $lote_original->numero_vacinas += $request->quantidade;
-            $lote_original->save();
-        }elseif(($qtdVacinaParaEsseLote[0]->qtdVacina - $qtdCandidato) == $request->quantidade){
-            $posto->subVacinaEmLote($request->lote_id, $request->quantidade) ;
-            $lote_original->numero_vacinas += $request->quantidade;
-            $lote_original->save();
-            if($qtdCandidato == 0){
-                $posto->lotes()->detach($lote_original);
-                $posto->refresh();
             }
         }else{
             return redirect()->back()
@@ -333,7 +340,13 @@ class LoteController extends Controller
                             "quantidade" => "Quantidade a devolver deve ser menor que a quantidade de vacinas disponíveis."
                         ])->withInput();
         }
-        return back()->with(['message' => "Devolução realizada com sucesso!"]);
+
+
+        return back()->with(['message' => "Devolução realizada com sucesso!"])->withInput();
+        } catch (\Throwable $th) {
+            return back()->with(['message' => $th->getMessage()]);
+        }
+
     }
 
     private function isChecked($request ,$field)
