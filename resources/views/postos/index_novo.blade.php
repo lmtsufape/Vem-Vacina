@@ -112,7 +112,7 @@
                                                  $lote_pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote_pivot->id)->count()}}
 
                                                 </td>
-                                                <td><i class="fas fa-calculator"  data-toggle="tooltip" data-placement="top" title="{{ $lote_pivot->qtdVacina ." - ". $candidatos->where('posto_vacinacao_id', $posto->id )->where('lote_id', $lote_pivot->id)->count()." = ".  $lote_pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote_pivot->id)->count() }}"></i></td>
+                                                <td><i class="fas fa-calculator"  data-toggle="tooltip" data-placement="top" title="{{ $lote_pivot->qtdVacina ." - ". $candidatos->where('posto_vacinacao_id', $posto->id )->where('lote_id', $lote_pivot->id)->count()." = ". ( $lote_pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote_pivot->id)->count()) }}"></i></td>
                                                 <td>
                                                   <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
                                                       @csrf
