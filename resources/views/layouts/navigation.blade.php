@@ -26,6 +26,11 @@
                             {{ __('Pontos') }}
                         </x-nav-link>
                     @endcan
+                    @can('ver-posto')
+                        <x-nav-link :href="route('postos.index.new')" :active="request()->routeIs('postos.*')">
+                            {{ __('Pontos novo') }}
+                        </x-nav-link>
+                    @endcan
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Agendamentos') }}
                     </x-nav-link>

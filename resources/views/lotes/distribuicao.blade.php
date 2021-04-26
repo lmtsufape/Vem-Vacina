@@ -54,6 +54,14 @@
                                             <span class="input-group-text">{{ $posto->getVacinasDisponivel($lote->id, $posto->id ) ? $posto->getVacinasDisponivel($lote->id, $posto->id) : 0 }}</span>
                                             <span class="input-group-text">+</span>
                                         </div>
+                                        <div class="input-group-prepend">
+                                            @php
+                                                $lote_pivot = $lotes_pivot->where('lote_id', $lote->id)->where('posto_vacinacao_id', $posto->id)->first();
+                                                $qtdCandidato = $candidatos->where('posto_vacinacao_id', $posto->id)->where('lote_id', $lote_pivot->id)->count();
+                                            @endphp
+                                            <span class="input-group-text">{{ $lote_pivot->qtdVacina - $qtdCandidato }}</span>
+                                            <span class="input-group-text">+</span>
+                                        </div>
                                         @if($sobras >= 0)
                                             <input type="number" class="form-control " min="0" name="posto[{{ $posto->id }}]" value="{{ intdiv ( $lote->numero_vacinas , $postos->count()) + 1 }}" >
                                         @else
