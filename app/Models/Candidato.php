@@ -76,7 +76,13 @@ class Candidato extends Model
 
     public function getMessagemWhatsapp() {
         $mensagem = "";
-        if ($this->aprovacao == $this::APROVACAO_ENUM[1]) {
+        if ($this->aprovacao == $this::APROVACAO_ENUM[0]) {
+            $mensagem = "Sr(a). ".$this->nome_completo.",\n";
+            $mensagem = $mensagem."Informamos que a sua solicitação de agendamento para vacinação foi para a fila de espera, aguarde o contato da Secretaria Municipal de Saúde de Garanhuns - PE.\n";
+            $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.\n";
+            $mensagem = $mensagem."Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.\n";
+            $mensagem = $mensagem."Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!";
+        } else if ($this->aprovacao == $this::APROVACAO_ENUM[1]) {
             $mensagem = "Sr(a). ".$this->nome_completo.",\n";
             $mensagem = $mensagem."Informamos que a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE.\n";
             $mensagem = $mensagem."A seguir, encontram-se o dia, horário e local de aplicação da ".$this->dose.":\n";
