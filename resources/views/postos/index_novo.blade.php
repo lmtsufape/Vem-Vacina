@@ -108,10 +108,7 @@
                                                 <th scope="row">{{$lote_pivot->lote->fabricante}}</th>
                                                 <td>{{$lote_pivot->lote->dose_unica ? 'Sim' : 'Não'}}</td>
                                                 <td>{{$lote_pivot->lote->dose_unica ? " - " : 'Entre '.$lote_pivot->lote->inicio_periodo." à  ". $lote_pivot->lote->fim_periodo." dias" }} </td>
-                                                <td>{{
-                                                 $lote_pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote_pivot->id)->count()}}
-
-                                                </td>
+                                                <td>{{($lote_pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote_pivot->id)->count())}}</td>
                                                 <td><i class="fas fa-calculator"  data-toggle="tooltip" data-placement="top" title="{{ $lote_pivot->qtdVacina ." - ". $candidatos->where('posto_vacinacao_id', $posto->id )->where('lote_id', $lote_pivot->id)->count()." = ". ( $lote_pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote_pivot->id)->count()) }}"></i></td>
                                                 <td>
                                                   <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
