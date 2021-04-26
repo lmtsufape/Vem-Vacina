@@ -491,7 +491,7 @@
                     datasets:[{
                         label:"Sexo",
                         data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}', '{{$vacinadosPorSexo[2]['quantidade']}}'], 
-                        backgroundColor:['#F5C900','#F50057', '#2396F3'],
+                        backgroundColor:['#2396F3', '#F5C900','#F50057'],
                     }]
                 @elseif(count($vacinadosPorSexo) > 1)
                     type: 'doughnut',

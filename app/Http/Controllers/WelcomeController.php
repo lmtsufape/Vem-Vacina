@@ -95,6 +95,6 @@ class WelcomeController extends Controller
                 $vacinadosPorSexo->push(['sexo' => $sexo[0]->sexo, 'quantidade' => count($sexo)]);
             }
         }
-        return $vacinadosPorSexo;
+        return $vacinadosPorSexo->sortBy('sexo');
     }
 }
