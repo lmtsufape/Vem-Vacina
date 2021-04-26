@@ -56,8 +56,11 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <h5>Importar fila de espera</h5>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="{{asset('planilha_modelo_fila_espera.csv')}}">Planilha modelo</a>
                                 </div>
                             </div>
                             <form action="{{ route('candidato.import.store') }}" method="post" enctype="multipart/form-data">
