@@ -86,7 +86,7 @@ class Candidato extends Model
             $mensagem = "Sr(a). ".$this->nome_completo.",\n";
             $mensagem = $mensagem."Informamos que a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE.\n";
             $mensagem = $mensagem."A seguir, encontram-se o dia, horário e local de aplicação da ".$this->dose.":\n";
-            $mensagem = $mensagem."Dia: ".$this->chegada.".\n";
+            $mensagem = $mensagem."Dia: ".date('d/m/Y \à\s  H:i\h', strtotime($this->chegada)).".\n";
             $mensagem = $mensagem."Local: ".$this->posto->nome.".\n";
             $mensagem = $mensagem."Endereço: ".$this->posto->endereco.".\n";
             $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.\n";
