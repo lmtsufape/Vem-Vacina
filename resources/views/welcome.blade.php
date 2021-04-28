@@ -100,6 +100,88 @@
                         </div>                        
                     @endif
                 </div>
+                <!-- Pergunta e resposta -->
+                <div class="card_media2" style="margin-top: 1rem;">
+                    <div class="card_menor3">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">PERGUNTAS FREQUENTES</div>
+                        <div class="container" style="padding-top: 15px; padding-bottom: 14px;">
+                            <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
+                                <div class="container">
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                      <div class="panel panel-default">
+                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                          <h3 class="panel-title">
+                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse0" aria-expanded="true" aria-controls="collapse0">
+                                                Quando serão vacinadas as pessoas com comorbidades?
+                                            </a>
+                                          </h3>
+                                        </div>
+                                        <div id="collapse0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+                                          <div class="panel-body px-3 mb-4">
+                                            <p style="text-align: justify">
+                                                Olá, estamos seguindo o Plano Nacional de Imunização (PNI), do Ministério da Saúde, que indica quais grupos devem ser priorizados. De acordo com o PNI, entre os próximos grupos contemplados estão as pessoas de 18 a 59 anos com comorbidades, assim que mais doses forem recebidas.
+                                                Acompanhe todas as atualizações por meio das nossas redes sociais! Agradecemos o seu contato.
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="panel panel-default">
+                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading1" style="border-radius: 8px;">
+                                          <h3 class="panel-title">
+                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                                Fiz meu cadastro na fila de espera e ainda não tive retorno.
+                                            </a>
+                                          </h3>
+                                        </div>
+                                        <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+                                          <div class="panel-body px-3 mb-4">
+                                            <p style="text-align: justify">
+                                                Olá! A equipe da Secretaria de Saúde está diariamente entrando em contato com as pessoas cadastradas na fila de espera para confirmação dos agendamentos; informando data, local e horário para vacinação.
+                                            </p>
+                                            <p style="text-align: justify">
+                                                Esta população está sendo convocada de acordo com a ordem de inscrição e disponibilizada de doses. Você também pode verificar o status do agendamento, para saber quando ele for aprovado, informando número do CPF e data de nascimento, por meio da plataforma <a href="#">vemvacinagaranhuns.site</a>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                      {{-- <div class="panel panel-default">
+                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading2" style="border-radius: 8px;">
+                                          <h3 class="panel-title">
+                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapse2">
+                                                Qual é a comida que liga e desliga?
+                                            </a>
+                                          </h3>
+                                        </div>
+                                        <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
+                                          <div class="panel-body px-3 mb-4">
+                                            <p>O Strog-ON-OFF</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="panel panel-default">
+                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading3" style="border-radius: 8px;">
+                                          <h3 class="panel-title">
+                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                                                O que o tomate foi fazer no banco?
+                                            </a>
+                                          </h3>
+                                        </div>
+                                        <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
+                                          <div class="panel-body px-3 mb-4">
+                                            <p>Tirar extrato</p>
+                                          </div>
+                                        </div>
+                                      </div>--}}
+                                    </div> 
+                                
+                                </div>
+                              </section>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -201,7 +283,7 @@
                         </div>
                     </div>
                     <div style="text-align: center; margin-top: 10px;">
-                        {{-- <a style="color: #01487E; font-weight: bold;">Clique aqui para saber mais</a> --}}
+                        <a style="color: #01487E; font-weight: bold; cursor: pointer" data-toggle="modal" data-target="#imunizacao">Clique aqui para saber mais</a>
                     </div>
                 </div>
             </div>
@@ -391,12 +473,43 @@
         <!--x rodapé x-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
     </body>
+
+    <!-- Modal -->
+    <div class="modal fade" id="imunizacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 12px;">
+            <div class="modal-header" style="background-color: #FF545A; color: #fff; border-top-left-radius: 12px; border-top-right-radius: 12px; ">
+            <h5 class="modal-title" id="exampleModalLabel">IMUNIZAÇÃO</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <div class="container" style="padding-top: 10px;;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12 style_card_menor_conteudo" style="font-size: 70px;">{{number_format($porcentagemVacinada, '2', ',', ' ')}}%</div>
+                                <div class="col-md-12 style_card_menor_legenda">POPULAÇÃO VACINADA</div>
+                                <div class="col-md-12 style_card_menor_legenda" style="text-align: justify; margin-top: -0.3rem;">O percentual é calculado por uma regra de três simples, utilizando o número da população total estimada pelo IBGE/2020, cruzado com a informação das pessoas vacinadas cadastradas no vem vacina.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal" style="padding-left: 5rem; padding-right: 5rem;">Fechar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
     <!-- Modal checar agendamento -->
     <div class="modal fade" id="modalChecarAgendamento" tabindex="-1" aria-labelledby="modalChecarAgendamentoLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="modalChecarAgendamentoLabel"><div class="col-md-12 style_titulo_campo">Consultar agendamento</div></h5>
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 12px;">
+            <div class="modal-header" style="background-color: #FF545A; color: #fff; border-top-left-radius: 12px; border-top-right-radius: 12px; ">
+                <h5 class="modal-title" id="modalChecarAgendamentoLabel">CONSULTAR AGENDAMENTO</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
