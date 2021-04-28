@@ -138,7 +138,9 @@
                                           <div class="panel-body px-3 mb-4">
                                             <p style="text-align: justify">
                                                 Olá! A equipe da Secretaria de Saúde está diariamente entrando em contato com as pessoas cadastradas na fila de espera para confirmação dos agendamentos; informando data, local e horário para vacinação.
-                                                Esta população está sendo convocada de acordo com a ordem de inscrição e disponibilizada de doses. Você também pode verificar o status do agendamento, para saber quando ele for aprovado, informando número do CPF e data de nascimento, por meio da plataforma vemvacinagaranhuns.site
+                                            </p>
+                                            <p style="text-align: justify">
+                                                Esta população está sendo convocada de acordo com a ordem de inscrição e disponibilizada de doses. Você também pode verificar o status do agendamento, para saber quando ele for aprovado, informando número do CPF e data de nascimento, por meio da plataforma <a href="#">vemvacinagaranhuns.site</a>
                                             </p>
                                           </div>
                                         </div>
