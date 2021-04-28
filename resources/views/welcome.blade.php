@@ -259,7 +259,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_menor_conteudo">{{$vacinasDisponiveis}}</div>
+                                        <div class="col-md-12 style_card_menor_conteudo">@if($vacinasDisponiveis <= 0)0 @else{{$vacinasDisponiveis}}@endif</div>
                                         <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
                                     </div>
                                 </div>
