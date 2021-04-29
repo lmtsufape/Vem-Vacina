@@ -50,10 +50,10 @@
                             <div class="col-md-12">
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
-                                        <div class="input-group-prepend">
+                                        {{-- <div class="input-group-prepend">
                                             <span class="input-group-text">{{ $posto->getVacinasDisponivel($lote->id, $posto->id ) ? $posto->getVacinasDisponivel($lote->id, $posto->id) : 0 }}</span>
                                             <span class="input-group-text">+</span>
-                                        </div>
+                                        </div> --}}
                                         <div class="input-group-prepend">
                                             @php
                                                 $lote_pivot = $lotes_pivot->where('lote_id', $lote->id)->where('posto_vacinacao_id', $posto->id)->first();
