@@ -49,7 +49,7 @@
             <div class="row justify-content-center">
                 <div class="card_media2" style="margin-top: 1rem;">
                     <div class="card_menor3">
-                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">Pessoas com comorbidades: Anexo</div>
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">FORMULARIO PARA VACINAÇÃO CONTRA A COVID-19/2021 GRUPO DE 18 A 59 ANOS COM COMORBIDADES</div>
                         <div class="container" style="padding-top: 15px; padding-bottom: 14px;">
                             <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
                                 <div class="container">
@@ -67,7 +67,7 @@
                                             <p style="text-align: justify">
                                                 A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.
                                             </p>
-                                            <a href="{{route('solicitacao.candidato')}}" class="btn btn-success " style="color:white;">Baixar Anexo </a>
+                                            <a href="{{route('baixar.anexo', ['name'=> 'anexo1.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Anexo </a>
                                           </div>
                                         </div>
                                       </div>

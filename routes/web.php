@@ -40,6 +40,7 @@ Route::get("/cep/{cep}", function($cep) {
     return response()->json($results);
 });
 Route::get("/candidato/comprovante", [CandidatoController::class, 'comprovante'])->name('candidato.comprovante');
+Route::get("/anexo/{name}", [WelcomeController::class, 'baixarAnexo'])->name('baixar.anexo');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard',  [CandidatoController::class, 'show'])->name('dashboard');
