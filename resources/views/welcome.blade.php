@@ -49,7 +49,7 @@
             <div class="row justify-content-center">
                 <div class="card_media2" style="margin-top: 1rem;">
                     <div class="card_menor3">
-                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">Pessoas com comorbidades: Anexo</div>
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px;">ANEXOS</div>
                         <div class="container" style="padding-top: 15px; padding-bottom: 14px;">
                             <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
                                 <div class="container">
@@ -66,7 +66,8 @@
                                           <div class="panel-body px-3 mb-4">
                                             <p style="text-align: justify">
                                                 Olá, estamos seguindo o Plano Nacional de Imunização (PNI), do Ministério da Saúde, que indica quais grupos devem ser priorizados. De acordo com o PNI, entre os próximos grupos contemplados estão as pessoas de 18 a 59 anos com comorbidades, assim que mais doses forem recebidas.
-                                                Acompanhe todas as atualizações por meio das nossas redes sociais! Agradecemos o seu contato.
+                                                A pessoa que declarar comorbidade deve apresentar o anexo seguinte no ato da vacinação: <br>
+                                                <a href="{{asset('ANEXO FORMULARIO VACINAÇÃO COMORBIDADES_NOTA TECNICA COMORBIDADES.pdf')}}" target="_blanck">Anexo I</a>
                                             </p>
                                           </div>
                                         </div>
