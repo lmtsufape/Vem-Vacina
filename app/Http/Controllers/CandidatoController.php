@@ -248,6 +248,14 @@ class CandidatoController extends Controller
                 }
                 $candidato->etapa_resultado = $request->input("publico_opcao_" . $request->input('público'));
             }
+            
+            if ($etapa->outras_opcoes_obrigatorio != null && $etapa->outras_opcoes_obrigatorio) {
+                if (!($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0)) {
+                    return redirect()->back()->withErrors([
+                        "outras_infor_obg_" . $request->input('público') => "Você deve marcar pelo menos uma informação para esse público."
+                    ])->withInput();
+                }
+            }
 
             $candidato->etapa_id = $etapa->id;
             //TODO: mover pro service provider

@@ -216,9 +216,13 @@
                 </div>
                 <br>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <input type="checkbox" name="outras_informações" onclick="exibirOutrasInfo(this)" @if(old('outras_informações') != null || (old('outras_informações') == null && $publico->outrasInfo != null && count($publico->outrasInfo) > 0)) checked @endif>
                         <label for="">Adicionar outras informações ao público</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="checkbox" name="outras_informações_obrigatorias" @if(old('outras_informações_obrigatorias') != null || (old('outras_informações_obrigatorias') == null && $publico->outras_opcoes_obrigatorio != null && $publico->outras_opcoes_obrigatorio)) checked @endif>
+                        <label for="">Deixar outras informações obrigatórias</label>
                     </div>
                 </div>
                 <br>
