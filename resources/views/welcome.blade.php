@@ -44,12 +44,33 @@
             </div>
         </div>
 
+        <div class="container" style="margin-bottom: 1rem;;">
+            <div class="row justify-content-center">
+                <!-- covid-19 programa de vacinacao -->
+                <div class="col-md-9 style_card_apresentacao">
+                    <div class="container" style="margin-bottom: 1rem;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row" style="text-align: center;">
+                                    <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
+                                        <img src="{{asset('/img/alert.png')}}" alt="Orientação" width="20%">
+                                    </div>
+                                    <div class="col-md-12 style_card_apresentacao_subtitulo">A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
             <div class="row justify-content-center">
                 <!-- grupos a serem vacinados nesta etapa -->
                 <div class="col-md-9 style_card_medio">
                     <div class="card-header style_card_medio_titulo" style="border-top-left-radius: 12px;border-top-right-radius: 12px;">GRUPOS A SEREM VACINADOS NESTA ETAPA:</div>
-                    
+
                     <!-- tamanho desktop -->
                     <div class="tabela_grupos_a_serem_vacinados_desktop" style="position: relative; height: 255px; overflow: auto; margin-bottom: 20px;">
                         <table class="table">
@@ -63,7 +84,7 @@
                             </thead>
                             <tbody style="text-align: center; color: #204788; font-weight: bold;">
                                 @foreach ($publicos as $publico)
-                                    @if ($publico->exibir_na_home) 
+                                    @if ($publico->exibir_na_home)
                                         @php
                                             $quant_aprovada = intval(count($publico->candidatos()->where('aprovacao', '!=', $aprovacao_enum[0])->get())/2);
                                             $quant_espera = count($publico->candidatos()->where('aprovacao', $aprovacao_enum[0])->get());
@@ -88,7 +109,7 @@
                             </tbody>
                         </table>
                     </div>
-                    @if($config->botao_fila_de_espera) 
+                    @if($config->botao_fila_de_espera)
                         <p>
                             Perdeu a sua vacinação? Clique em "SOLICITAR AGENDAMENTO NA LISTA DE ESPERA" para realizar o cadastro e ser agendado quando mais doses estiverem disponíveis.
                         </p>
@@ -97,7 +118,7 @@
                             <div class="col-md-6">
                                 <a type="button" class="btn style_card_apresentacao_botao" style="color: white; background-color: #F7AB4D;" href="{{$config->link_do_form_fila_de_espera}}">SOLICITAR AGENDAMENTO NA LISTA DE ESPERA</a>
                             </div>
-                        </div>                        
+                        </div>
                     @endif
                 </div>
                 <!-- Pergunta e resposta -->
@@ -125,7 +146,7 @@
                                           </div>
                                         </div>
                                       </div>
-                                      
+
                                       <div class="panel panel-default">
                                         <div class="panel-heading p-3 mb-3" role="tab" id="heading1" style="border-radius: 8px;">
                                           <h3 class="panel-title">
@@ -145,7 +166,7 @@
                                           </div>
                                         </div>
                                       </div>
-                                      
+
                                       {{-- <div class="panel panel-default">
                                         <div class="panel-heading p-3 mb-3" role="tab" id="heading2" style="border-radius: 8px;">
                                           <h3 class="panel-title">
@@ -160,7 +181,7 @@
                                           </div>
                                         </div>
                                       </div>
-                                      
+
                                       <div class="panel panel-default">
                                         <div class="panel-heading p-3 mb-3" role="tab" id="heading3" style="border-radius: 8px;">
                                           <h3 class="panel-title">
@@ -175,8 +196,8 @@
                                           </div>
                                         </div>
                                       </div>--}}
-                                    </div> 
-                                
+                                    </div>
+
                                 </div>
                               </section>
                         </div>
@@ -289,7 +310,7 @@
             </div>
         </div>
 
-        
+
         <div class="container">
             <div class="row justify-content-center">
                 <!-- pessoas vacinadas -->
@@ -319,7 +340,7 @@
                     </div>
                     <div style="margin-top: 10px;"><a style="color: #01487E; font-weight: 500;"><samp style="color: #FF545A;">*</samp> Fonte: estatística IBGE/2020</a></div>
                 </div>
-                
+
                 <!-- os 5 bairros mais vacinados -->
                 <div class="card_media2">
                     <div class="card_menor2">
@@ -388,7 +409,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- doses aplicadas por sexo -->
                 <div class="card_media2">
                     <div class="card_menor2">
@@ -583,10 +604,10 @@
         //         type:"line",
         //         data:{
         //         labels:['22/03', '23/03', '24/03', '25/03', '26/03', '27/03', '28/03', '29/03', '30/03', '31/03', '01/04'],
-                    
+
         //         datasets:[{
         //             label:"Imunizados",
-        //             data:[175, 150, 125, 100, 50, 25, 0, 25, 75, 110, 55], 
+        //             data:[175, 150, 125, 100, 50, 25, 0, 25, 75, 110, 55],
         //             backgroundColor:'#C9EAFF',
         //             borderColor:'#1492E6',
         //         }]
@@ -596,28 +617,28 @@
         let graficoSexo = document.getElementById("graficoSexo").getContext("2d");
 
         let chart2 = new Chart(graficoSexo, {
-                @if(count($vacinadosPorSexo) > 2) 
+                @if(count($vacinadosPorSexo) > 2)
                     type: 'doughnut',
                     data:{
                     labels:['{{$vacinadosPorSexo[0]['sexo']}}', '{{$vacinadosPorSexo[1]['sexo']}}', '{{$vacinadosPorSexo[2]['sexo']}}'],
-                    
+
                     datasets:[{
                         label:"Sexo",
-                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}', '{{$vacinadosPorSexo[2]['quantidade']}}'], 
+                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}', '{{$vacinadosPorSexo[2]['quantidade']}}'],
                         backgroundColor:['#2396F3', '#F5C900','#F50057'],
                     }]
                 @elseif(count($vacinadosPorSexo) > 1)
                     type: 'doughnut',
                     data:{
                     labels:['{{$vacinadosPorSexo[0]['sexo']}}', '{{$vacinadosPorSexo[1]['sexo']}}'],
-                    
+
                     datasets:[{
                         label:"Sexo",
-                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}'], 
+                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}'],
                         backgroundColor:['#F50057', '#2396F3'],
                     }]
                 @endif
-                
+
             }, options:{
                 animation:{
                     animateScale: true
