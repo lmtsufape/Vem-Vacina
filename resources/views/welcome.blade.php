@@ -65,9 +65,9 @@
                                         <div id="collapse0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
                                           <div class="panel-body px-3 mb-4">
                                             <p style="text-align: justify">
-                                                Olá, estamos seguindo o Plano Nacional de Imunização (PNI), do Ministério da Saúde, que indica quais grupos devem ser priorizados. De acordo com o PNI, entre os próximos grupos contemplados estão as pessoas de 18 a 59 anos com comorbidades, assim que mais doses forem recebidas.
-                                                Acompanhe todas as atualizações por meio das nossas redes sociais! Agradecemos o seu contato.
+                                                A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.
                                             </p>
+                                            <a href="{{route('solicitacao.candidato')}}" class="btn btn-success " style="color:white;">Baixar Anexo </a>
                                           </div>
                                         </div>
                                       </div>
