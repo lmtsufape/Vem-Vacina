@@ -88,6 +88,38 @@
                             </tbody>
                         </table>
                     </div>
+                    <!-- tamanho mobile -->
+                    <div class="tabela_grupos_a_serem_vacinados_mobile" style="position: relative; height: 255px; overflow: auto;">
+                        <table class="table">
+                            <thead style="text-align: center; color: #204788;">
+                                <tr>
+                                    <th scope="col">PÚBLICO ALVO</th>
+                                    <th scope="col">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center; color: #204788; font-weight: bold;">
+                                @foreach ($publicos as $publico)
+                                    @if ($publico->exibir_na_home) 
+                                        @php
+                                            $quant_aprovada = intval(count($publico->candidatos()->where('aprovacao', '!=', $aprovacao_enum[0])->get())/2);
+                                            $quant_espera = count($publico->candidatos()->where('aprovacao', $aprovacao_enum[0])->get());
+                                        @endphp
+                                        @if($publico->atual)
+                                            <tr style="background-color: #E7FFF2;">
+                                                <td>{{$publico->texto_home}}</td>
+                                                <td>ATUAL</td>
+                                            </tr>
+                                        @else
+                                            <tr style="background-color: #FFE7E7;">
+                                                <td>{{$publico->texto_home}}</td>
+                                                <td style="color: #E35E60; font-weight: bold;">ENCERRADO</td>
+                                            </tr>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     @if($config->botao_fila_de_espera) 
                         <p>
                             Perdeu a sua vacinação? Clique em "SOLICITAR AGENDAMENTO NA LISTA DE ESPERA" para realizar o cadastro e ser agendado quando mais doses estiverem disponíveis.
