@@ -49,7 +49,7 @@
             <div class="row justify-content-center">
                 <div class="card_media2" style="margin-top: 1rem;">
                     <div class="card_menor3">
-                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">Pessoas com comorbidades: Anexo</div>
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">FORMULARIO PARA VACINAÇÃO CONTRA A COVID-19/2021 GRUPO DE 18 A 59 ANOS COM COMORBIDADES</div>
                         <div class="container" style="padding-top: 15px; padding-bottom: 14px;">
                             <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
                                 <div class="container">
