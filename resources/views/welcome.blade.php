@@ -44,26 +44,43 @@
             </div>
         </div>
 
-        <div class="container" style="margin-bottom: 1rem;;">
+        <!--pessoas com comorbidadesa -->
+        <div class="container">
             <div class="row justify-content-center">
-                <!-- covid-19 programa de vacinacao -->
-                <div class="col-md-9 style_card_apresentacao">
-                    <div class="container" style="margin-bottom: 1rem;">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row" style="text-align: center;">
-                                    <div class="col-md-12" style="margin-top: 20px;margin-bottom: 10px;">
-                                        <img src="{{asset('/img/alert.png')}}" alt="Orientação" width="20%">
+                <div class="card_media2" style="margin-top: 1rem;">
+                    <div class="card_menor3">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">Pessoas com comorbidades: Anexo</div>
+                        <div class="container" style="padding-top: 15px; padding-bottom: 14px;">
+                            <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
+                                <div class="container">
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                      <div class="panel panel-default">
+                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                          <h3 class="panel-title">
+                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse0" aria-expanded="true" aria-controls="collapse0">
+                                                Pessoas com comorbidades
+                                            </a>
+                                          </h3>
+                                        </div>
+                                        <div id="collapse0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+                                          <div class="panel-body px-3 mb-4">
+                                            <p style="text-align: justify">
+                                                Olá, estamos seguindo o Plano Nacional de Imunização (PNI), do Ministério da Saúde, que indica quais grupos devem ser priorizados. De acordo com o PNI, entre os próximos grupos contemplados estão as pessoas de 18 a 59 anos com comorbidades, assim que mais doses forem recebidas.
+                                                Acompanhe todas as atualizações por meio das nossas redes sociais! Agradecemos o seu contato.
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div class="col-md-12 style_card_apresentacao_subtitulo">A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.</div>
-                                </div>
-                            </div>
 
+                                </div>
+                              </section>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div class="container">
             <div class="row justify-content-center">
@@ -101,6 +118,38 @@
                                                 <td>{{$publico->texto_home}}</td>
                                                 <td>{{$quant_aprovada + $quant_espera}}</td>
                                                 <td>{{$publico->total_pessoas_vacinadas_pri_dose + $publico->total_pessoas_vacinadas_seg_dose}}</td>
+                                                <td style="color: #E35E60; font-weight: bold;">ENCERRADO</td>
+                                            </tr>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- tamanho mobile -->
+                    <div class="tabela_grupos_a_serem_vacinados_mobile" style="position: relative; height: 255px; overflow: auto;">
+                        <table class="table">
+                            <thead style="text-align: center; color: #204788;">
+                                <tr>
+                                    <th scope="col">PÚBLICO ALVO</th>
+                                    <th scope="col">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center; color: #204788; font-weight: bold;">
+                                @foreach ($publicos as $publico)
+                                    @if ($publico->exibir_na_home)
+                                        @php
+                                            $quant_aprovada = intval(count($publico->candidatos()->where('aprovacao', '!=', $aprovacao_enum[0])->get())/2);
+                                            $quant_espera = count($publico->candidatos()->where('aprovacao', $aprovacao_enum[0])->get());
+                                        @endphp
+                                        @if($publico->atual)
+                                            <tr style="background-color: #E7FFF2;">
+                                                <td>{{$publico->texto_home}}</td>
+                                                <td>ATUAL</td>
+                                            </tr>
+                                        @else
+                                            <tr style="background-color: #FFE7E7;">
+                                                <td>{{$publico->texto_home}}</td>
                                                 <td style="color: #E35E60; font-weight: bold;">ENCERRADO</td>
                                             </tr>
                                         @endif
