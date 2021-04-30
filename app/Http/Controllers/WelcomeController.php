@@ -38,7 +38,7 @@ class WelcomeController extends Controller
                                       'porcentagemVacinada'     => $this->porcentagemVacinada($candidatosVacinados),
                                       'quantVacinadosPorBairro' => $this->quantVacinadosPorBairro($candidatosVacinados),
                                       'quantVacinadosPorIdade'  => $this->quantVacinadosPorIdade($candidatosVacinados),
-                                      'vacinadosPorSexo'        => $this->vacinadosPorSexo($candidatosVacinados),   
+                                      'vacinadosPorSexo'        => $this->vacinadosPorSexo($candidatosVacinados),
                                       'config'                  => $config,]);
     }
 
@@ -60,11 +60,11 @@ class WelcomeController extends Controller
 
     public function quantVacinadosPorBairro($candidatosVacinados) {
         $bairrosMaisVacinados = collect();
-        
+
         foreach ($candidatosVacinados->groupBy('bairro') as $bairro) {
             if (!($bairrosMaisVacinados->contains('bairro', $bairro[0]->bairro))) {
                 $bairrosMaisVacinados->push(['bairro' => $bairro[0]->bairro, 'quantidade' => count($bairro)]);
-            } 
+            }
         }
 
         return $bairrosMaisVacinados->sortByDesc('quantidade');
@@ -73,7 +73,7 @@ class WelcomeController extends Controller
     public function quantVacinadosPorIdade($candidatosVacinados) {
         $vacinadosPorIdade = collect();
         $candidatos = Candidato::all();
-        
+
         foreach ($candidatosVacinados->groupBy('idade') as $idade) {
             $quantidade = count($candidatos->groupBy('idade')->get($idade[0]->idade));
             if (!($vacinadosPorIdade->contains('idade', $idade[0]->idade))) {
@@ -82,19 +82,26 @@ class WelcomeController extends Controller
                 } else {
                     $vacinadosPorIdade->push(['idade' => $idade[0]->idade, 'porcentagem' => 0]);
                 }
-            } 
+            }
         }
         return $vacinadosPorIdade->sortBy('idade');
     }
 
     public function vacinadosPorSexo($candidatosVacinados) {
         $vacinadosPorSexo = collect();
-        
+
         foreach ($candidatosVacinados->groupBy('sexo') as $sexo) {
             if (!($vacinadosPorSexo->contains('sexo', $sexo[0]->sexo))) {
                 $vacinadosPorSexo->push(['sexo' => $sexo[0]->sexo, 'quantidade' => count($sexo)]);
             }
         }
         return $vacinadosPorSexo->sortBy('sexo');
+    }
+
+    public function baixarAnexo($name)
+    {
+        $file = public_path()."/anexo/".$name;
+        $headers = array('Content-Type: application/pdf',);
+        return Response::download($file, 'anexo_comordidade.pdf',$headers);
     }
 }
