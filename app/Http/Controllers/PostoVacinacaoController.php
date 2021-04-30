@@ -398,6 +398,7 @@ class PostoVacinacaoController extends Controller
     }
 
     public function diasPorPosto(Request $request) {
+        set_time_limit(360);
         if ($request->posto_id != null) {
             // Cria uma lista de possiveis horarios do proximo dia quando o posto abre
             // até a proxima semana, removendo os final de semanas
