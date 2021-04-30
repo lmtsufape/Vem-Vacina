@@ -67,8 +67,9 @@ class EtapaController extends Controller
             'texto_das_outras_informações' => 'nullable',
             'outrasInfo'          => 'required_if:outras_informações,on',
             'outrasInfo.*'        => 'required_if:outras_informações,on',
+            'outras_informações_obrigatorias' => 'nullable',
         ]);
-        
+
         $etapa = new Etapa();
         $etapa->tipo = $request->tipo;
         $etapa->texto = $request->texto_do_agendamento;
@@ -125,6 +126,8 @@ class EtapaController extends Controller
             }
         }
         
+        $etapa->outras_opcoes_obrigatorio = $request->outras_informações_obrigatorias == "on";
+
         if ($request->outras_informações != null) {
             $etapa->texto_outras_informacoes = $request->texto_das_outras_informações;
 
@@ -140,7 +143,7 @@ class EtapaController extends Controller
             $etapa->update();
         }
 
-        return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa adicionada com sucesso!']);
+        return redirect( route('etapas.index') )->with(['mensagem' => 'Público adicionada com sucesso!']);
     }
 
     /**
@@ -395,10 +398,10 @@ class EtapaController extends Controller
             }
         }
 
-
+        $etapa->outras_opcoes_obrigatorio = $request->outras_informações_obrigatorias == "on";
         $etapa->update();
 
-        return redirect( route('etapas.index') )->with(['mensagem' => 'Etapa salva com sucesso!']);
+        return redirect( route('etapas.index') )->with(['mensagem' => 'Público salva com sucesso!']);
     }
 
     /**

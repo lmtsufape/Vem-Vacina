@@ -325,7 +325,7 @@
                                 </div>
                                 @foreach ($publicos as $publico)
                                     @if ($publico->outrasInfo != null && count($publico->outrasInfo) > 0)
-                                        <div id="divOutrasInformacoes_{{$publico->id}}" @if(old('opcao_etapa_'.$publico->id) != null) style="display: block;" @else style="display: none;" @endif>
+                                        <div id="divOutrasInformacoes_{{$publico->id}}" @if(old('público') == $publico->id) style="display: block;" @else style="display: none;" @endif>
                                             <div class="form-group">
                                                 <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
                                                 <div style="font-size: 15px; margin-bottom: 15px;">@if($publico->texto_outras_informacoes!=null)({{$publico->texto_outras_informacoes}})@endif</div>
@@ -337,6 +337,14 @@
                                                     <label class="form-check-label style_titulo_input" for="defaultCheck0">{{mb_strtoupper($outra->campo)}}</label>
                                                 </div>
                                             @endforeach
+
+                                            @error('outras_infor_obg_'.$publico->id)
+                                                <div class="form-group">
+                                                    <div id="validationServer05Feedback" class="invalid-feedback" style="display: block;">
+                                                        <strong>{{$message}}</strong>
+                                                    </div>
+                                                </div>
+                                            @enderror
                                         </div>
                                     @endif
                                 @endforeach
