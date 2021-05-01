@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        {{-- <!--pessoas com comorbidadesa -->
+        <!--pessoas com comorbidadesa -->
         <div class="container">
             <div class="row justify-content-center">
                 <div class="card_media2" style="margin-top: 1rem;">
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
 
 
         <div class="container">
