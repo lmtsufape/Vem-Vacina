@@ -18,7 +18,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="container">
               @if (session('message'))
                   <div class="alert alert-success">
@@ -34,7 +34,7 @@
                       </ul>
                   </div>
               @endif
-              <div class="container">
+              <div class="table-responsive">
                   <table class="table table-condensed"  id="myTable">
                       <thead>
                           <tr>
@@ -99,14 +99,19 @@
                                                   @foreach ($lote_pivot->lote->etapas as $key1 => $etapa)
 
                                                   @if ($etapa->tipo == $tipos[0])
-                                                       {{ $lote_pivot->lote->etapas->count() > 1 ? 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo ."/" : 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo  }}
+                                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{ $lote_pivot->lote->etapas->count() > 1 ? 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo ."/" : 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo  }}" style="max-width: 150px;">
+                                                        {{ $lote_pivot->lote->etapas->count() > 1 ? 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo ."/" : 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo  }}
+                                                    </span>
+
                                                   @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
-                                                       {{$etapa->texto."-"}}
+                                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$etapa->texto."-"}}" style="max-width: 150px;">
+                                                        {{$etapa->texto."-"}}
+                                                    </span>
                                                   @endif
                                                   @endforeach
                                                 </td>
                                                 <th scope="row">
-                                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$lote_pivot->lote->fabricante}}" style="max-width: 150px;">
+                                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$lote_pivot->lote->fabricante}}" style="max-width: 100px;">
                                                         {{$lote_pivot->lote->fabricante}}
                                                     </span>
                                                 </th>
@@ -114,7 +119,7 @@
                                                 <td>{{$lote_pivot->lote->dose_unica ? " - " : 'Entre '.$lote_pivot->lote->inicio_periodo." à  ". $lote_pivot->lote->fim_periodo." dias" }} </td>
                                                 <td>{{($lote_pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote_pivot->id)->count())}}</td>
                                                 <td><i class="fas fa-calculator"  data-toggle="tooltip" data-placement="top" title="{{ $lote_pivot->qtdVacina ." - ". $candidatos->where('posto_vacinacao_id', $posto->id )->where('lote_id', $lote_pivot->id)->count()." = ". ( $lote_pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote_pivot->id)->count()) }}"></i></td>
-                                                <td colspan="2">
+                                                <td scope="row">
                                                   <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
                                                       @csrf
                                                       <input type="hidden" name="posto_id" value="{{ $posto->id }}">
