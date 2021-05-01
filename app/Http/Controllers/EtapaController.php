@@ -53,8 +53,8 @@ class EtapaController extends Controller
             'tipo'                => 'required',
             'texto_do_agendamento'=> 'required|max:60',
             'texto_da_home'       => 'required|max:60',
-            'inicio_faixa_etária' => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|min:0|max:110',
-            'fim_faixa_etária'    => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|min:'.$request->inicio_faixa_etaria.'|max:150',
+            'inicio_faixa_etária' => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|required_if:tipo,'.Etapa::TIPO_ENUM[2].'|min:0|max:110',
+            'fim_faixa_etária'    => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|required_if:tipo,'.Etapa::TIPO_ENUM[2].'|min:'.$request->inicio_faixa_etaria.'|max:150',
             'opcoes'              => 'required_if:tipo,'.Etapa::TIPO_ENUM[2],
             'opcoes.*'            => 'required_if:tipo,'.Etapa::TIPO_ENUM[2].'|max:150',
             'exibir_na_home'      => 'nullable',
@@ -112,6 +112,9 @@ class EtapaController extends Controller
             $etapa->fim_intervalo = $request->input("fim_faixa_etária");
             $etapa->update();
         } else if ($request->tipo == Etapa::TIPO_ENUM[2]) {
+            $etapa->inicio_intervalo = $request->input("inicio_faixa_etária");
+            $etapa->fim_intervalo = $request->input("fim_faixa_etária");
+            $etapa->update();
             foreach ($request->opcoes as $op) {
                 $opcaoEtapa = new OpcoesEtapa();
                 $opcaoEtapa->opcao = $op;
@@ -187,8 +190,8 @@ class EtapaController extends Controller
             'tipo'                => 'required',
             'texto_do_agendamento'=> 'required|max:60',
             'texto_da_home'       => 'required|max:60',
-            'inicio_faixa_etária' => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|min:0|max:110',
-            'fim_faixa_etária'    => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|min:'.$request->inicio_faixa_etaria.'|max:150',
+            'inicio_faixa_etária' => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|required_if:tipo,'.Etapa::TIPO_ENUM[2].'|min:0|max:110',
+            'fim_faixa_etária'    => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|required_if:tipo,'.Etapa::TIPO_ENUM[2].'|min:'.$request->inicio_faixa_etaria.'|max:150',
             'opcoes'              => 'required_if:tipo,'.Etapa::TIPO_ENUM[2],
             'opcoes.*'            => 'required_if:tipo,'.Etapa::TIPO_ENUM[2].'|max:150',
             'exibir_na_home'      => 'nullable',
@@ -328,6 +331,10 @@ class EtapaController extends Controller
                 $etapa->inicio_intervalo = $request->input("inicio_faixa_etária");
                 $etapa->fim_intervalo = $request->input("fim_faixa_etária");
             } else if ($request->tipo == Etapa::TIPO_ENUM[2]) {
+
+                $etapa->inicio_intervalo = $request->input("inicio_faixa_etária");
+                $etapa->fim_intervalo = $request->input("fim_faixa_etária");
+
                 $requestOpcoes = collect($request->input('op_ids'));
                 $opcaoEtapa = $etapa->opcoes;
                 // Opções excluidas

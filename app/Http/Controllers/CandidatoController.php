@@ -241,6 +241,12 @@ class CandidatoController extends Controller
                     ])->withInput();
                 }
             } else if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+                if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                    return redirect()->back()->withErrors([
+                        "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                    ])->withInput();
+                }
+                
                 if ($request->input("publico_opcao_" . $request->input('público')) == null) {
                     return redirect()->back()->withErrors([
                         "publico_opcao_" . $request->input('público') => "Esse campo é obrigatório para público marcado."

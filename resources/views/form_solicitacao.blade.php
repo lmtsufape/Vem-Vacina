@@ -86,7 +86,7 @@
                                                     <div id="divPublico_{{$publico->id}}" @if (old('público') == $publico->id) style="display: block;" @else style="display: none;" @endif>
                                                         <div class="row">
                                                             <div class="col-md-12">
-                                                                <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}(caso {{mb_strtolower($publico->texto)}})</label>
+                                                                <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}</label>
                                                                 <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
                                                                     <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                     @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
@@ -124,7 +124,7 @@
                                                         <div id="divPublico_{{$publico->id}}" @if (old('público') == $publico->id) style="display: block;" @else style="display: none;" @endif>
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}(caso {{mb_strtolower($publico->texto)}})</label>
+                                                                    <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}</label>
                                                                     <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
                                                                         <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                         @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
