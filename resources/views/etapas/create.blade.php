@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <br>
-                <div id="divIdade" @if(old('tipo') == $tipos[0]) style="display: block;" @else style="display: none;" @endif>
+                <div id="divIdade" @if(old('tipo') == $tipos[0] || old('tipo') == $tipos[2]) style="display: block;" @else style="display: none;" @endif>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inicio_faixa_etaria">Inicio da faixa etaria</label>
@@ -302,7 +302,7 @@
                 excluirOpcoes();
             } else if (valor == "Texto livre com campo extra selecionável") {
                 // alert(valor);
-                document.getElementById('divIdade').style.display = "none";
+                document.getElementById('divIdade').style.display = "block";
                 document.getElementById('divOpcoes').style.display = "block";
                 document.getElementById('inicio_faixa_etaria').value = "";
                 document.getElementById('fim_faixa_etaria').value = "";

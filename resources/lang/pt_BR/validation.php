@@ -157,6 +157,12 @@ return [
         'posto_vacinacao_*' => [
             'required' => 'Selecione o posto do reagendamento',
         ],
+        'inicio_faixa_etária' => [
+            'required_if' => 'Campo obrigatório para o tipo de público selecionado.'
+        ],
+        'fim_faixa_etária' => [
+            'required_if' => 'Campo obrigatório para o tipo de público selecionado.'
+        ],
     ],
     
 
