@@ -23,7 +23,7 @@ class PostoVacinacaoController extends Controller
 
         $todos_os_horarios_por_dia = [];
         $todos_os_horarios = [];
-
+        set_time_limit(360);
         $posto = PostoVacinacao::find($posto_id);
 
         // Pega os proximos 7 dias
