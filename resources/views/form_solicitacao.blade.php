@@ -42,6 +42,12 @@
                             {{-- Por meio desta ferramenta será efetuado o cadastro e agendamento da vacinação para o público-alvo. Idosos acamados devem realizar esta indicação no ato de cadastro, para aplicação da vacina em domicílio. Caso não haja mais vacinas disponíveis para sua faixa etária, você deve realizar seu cadastro na fila de espera para agendamento, no link a seguir: <br> --}}
                             @if($config->botao_fila_de_espera) <a href="{{$config->link_do_form_fila_de_espera}}" target="_blanck">{{$config->link_do_form_fila_de_espera}}</a>@endif
                         </div>
+                        <div class="col-md-12 style_titulo_campo" data-toggle="tooltip" data-placement="top" title="A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional." style="margin-bottom: 10px;">
+                            Pessoas com comorbidades precisam baixar o anexo.
+                            <br>
+                            <a href="{{route('baixar.anexo', ['name'=> 'anexo1.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Anexo </a>
+                        </div>
+                        <div class="col-md-12"><hr class="style_linha_campo"></div>
                         <div class="col-md-12 style_titulo_campo" style="margin-bottom: 10px;">Informações pessoais</div>
                         <div class="col-md-12">
                             <form method="POST" id="formSolicitar" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
