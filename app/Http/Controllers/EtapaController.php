@@ -51,8 +51,8 @@ class EtapaController extends Controller
         // dd($request);
         $validated = $request->validate([
             'tipo'                => 'required',
-            'texto_do_agendamento'=> 'required|max:60',
-            'texto_da_home'       => 'required|max:60',
+            'texto_do_agendamento'=> 'required|max:100',
+            'texto_da_home'       => 'required|max:100',
             'inicio_faixa_etária' => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|required_if:tipo,'.Etapa::TIPO_ENUM[2].'|min:0|max:110',
             'fim_faixa_etária'    => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|required_if:tipo,'.Etapa::TIPO_ENUM[2].'|min:'.$request->inicio_faixa_etaria.'|max:150',
             'opcoes'              => 'required_if:tipo,'.Etapa::TIPO_ENUM[2],
@@ -188,8 +188,8 @@ class EtapaController extends Controller
 
         $validated = $request->validate([
             'tipo'                => 'required',
-            'texto_do_agendamento'=> 'required|max:60',
-            'texto_da_home'       => 'required|max:60',
+            'texto_do_agendamento'=> 'required|max:100',
+            'texto_da_home'       => 'required|max:100',
             'inicio_faixa_etária' => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|required_if:tipo,'.Etapa::TIPO_ENUM[2].'|min:0|max:110',
             'fim_faixa_etária'    => 'required_if:tipo,'.Etapa::TIPO_ENUM[0].'|required_if:tipo,'.Etapa::TIPO_ENUM[2].'|min:'.$request->inicio_faixa_etaria.'|max:150',
             'opcoes'              => 'required_if:tipo,'.Etapa::TIPO_ENUM[2],
