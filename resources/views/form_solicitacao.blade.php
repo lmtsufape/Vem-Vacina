@@ -45,7 +45,7 @@
                         <div class="col-md-12 style_titulo_campo" data-toggle="tooltip" data-placement="top" title="A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional." style="margin-bottom: 10px;">
                             Pessoas com comorbidades precisam baixar o anexo.
                             <br>
-                            <a href="{{route('baixar.anexo', ['name'=> 'anexo1.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Anexo </a>
+                            <a href="{{route('baixar.anexo', ['name'=> 'anexo1.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar anexo </a>
                         </div>
                         <div class="col-md-12"><hr class="style_linha_campo"></div>
                         <div class="col-md-12 style_titulo_campo" style="margin-bottom: 10px;">Informações pessoais</div>
