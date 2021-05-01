@@ -59,11 +59,7 @@
                                     <div class="col-md-9">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{$etapa->id}}" aria-expanded="true" aria-controls="collapseOne">
-                                                @if ($etapa->tipo == $tipos[0]) 
-                                                    De {{$etapa->inicio_intervalo}} às {{$etapa->fim_intervalo}}
-                                                @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2]) 
-                                                    {{$etapa->texto}}
-                                                @endif
+                                                {{$etapa->texto}}
                                             </button>
                                         </h2>
                                     </div>
