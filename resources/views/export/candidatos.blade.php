@@ -26,7 +26,8 @@ use App\Models\Lote;
         <th>numero_lote</th>
         <th>fabricante</th>
         <th>posto_vacinacao_id</th>
-        <th>etapa_id</th>
+        <th>etapa_id/Texto exibido na home</th>
+        <th>campo selecionado</th>
         <th>Informações(acamado)</th>
         <th>criado</th>
         <th>atualizado</th>
@@ -61,8 +62,8 @@ use App\Models\Lote;
             <td>{{ date('d/m/Y', strtotime($candidato->saida)) }}</td>
             <td>{{ Lote::find($candidato->lote_id) ? Lote::find($candidato->lote_id)->numero_lote : "Erro" }} </td>
             <td>{{ Lote::find($candidato->lote_id) ? Lote::find($candidato->lote_id)->fabricante : "Erro" }}</td>
-            <td>{{ $candidato->posto->nome }}</td>
-            @if ($candidato->etapa->tipo == $tipos[0])
+            <td>{{ $candidato->posto->nome ?? "posto" }}</td>
+            {{-- @if ($candidato->etapa->tipo == $tipos[0])
                 <td> {{ 'De '.$candidato->etapa->inicio_intervalo." às ".$candidato->etapa->fim_intervalo}}</td>
             @elseif($candidato->etapa->tipo == $tipos[1] || $candidato->etapa->tipo == $tipos[2])
                 <td> {{$candidato->etapa->texto}} </td>
@@ -71,7 +72,18 @@ use App\Models\Lote;
                 @foreach ($candidato->outrasInfo as $item)
                     {{ $item->campo . '/'}}
                 @endforeach
-            </td>
+            </td> --}}
+            @if ($candidato->etapa->tipo == $tipos[0] || $candidato->etapa->tipo == $tipos[1] )
+                <td>{{$candidato->etapa->texto}}</td>
+                <td> </td>
+            @elseif($candidato->etapa->tipo == $tipos[2])
+                <td>{{$candidato->etapa->texto}}</td>
+                <td>
+                @if(App\Models\OpcoesEtapa::find($candidato->etapa_resultado) != null)
+                    {{App\Models\OpcoesEtapa::find($candidato->etapa_resultado)->opcao}}
+                @endif
+                </td>
+            @endif
             <td>{{ $candidato->created_at }}</td>
             <td>{{ $candidato->updated_at }}</td>
             <td>{{ $candidato->deleted_at }}</td>
