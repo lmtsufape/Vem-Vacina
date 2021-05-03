@@ -104,4 +104,8 @@ class WelcomeController extends Controller
         $headers = array('Content-Type: application/pdf',);
         return Response::download($file, 'anexo_comordidade.pdf',$headers);
     }
+
+    public function sobre() {
+        return view('sobre');
+    }
 }
