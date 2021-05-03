@@ -49,7 +49,7 @@
             <div class="row justify-content-center">
                 <div class="card_media2" style="margin-top: 1rem;">
                     <div class="card_menor3">
-                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">FORMULARIO PARA VACINAÇÃO CONTRA A COVID-19/2021 GRUPO DE 18 A 59 ANOS COM COMORBIDADES</div>
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">INFORMAÇÕES E FORMULÁRIO PARA VACINAÇÃO CONTRA A COVID-19/2021 GRUPO DE 18 A 59 ANOS COM COMORBIDADES</div>
                         <div class="container" style="padding-top: 15px; padding-bottom: 14px;">
                             <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
                                 <div class="container">
@@ -68,6 +68,23 @@
                                                 A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.
                                             </p>
                                             <a href="{{route('baixar.anexo', ['name'=> 'anexo1.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar anexo </a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="panel panel-default">
+                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                          <h3 class="panel-title">
+                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos1" aria-expanded="true" aria-controls="anexos1">
+                                                Nota técnica SIDI 11/2021
+                                            </a>
+                                          </h3>
+                                        </div>
+                                        <div id="anexos1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+                                          <div class="panel-body px-3 mb-4">
+                                            <p style="text-align: justify">
+                                                Trata das orientações da estratégia de vacinação dos grupos de pessoas com comorbidades, pessoas com deficiência permanente, gestantes e puérperas na Campanha Nacional de Vacinação contra a COVID-19, 2021.
+                                            </p>
+                                            <a href="{{route('baixar.anexo', ['name'=> 'nota.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Nota Técnica </a>
                                           </div>
                                         </div>
                                       </div>
