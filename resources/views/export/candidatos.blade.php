@@ -82,7 +82,7 @@ use App\Models\Lote;
             @endif
             <td>
                 @foreach ($candidato->outrasInfo as $item)
-                    {{ $item->campo . '/'}}
+                    {{ $item->campo . 'Sim' . '/'}}
                 @endforeach
             </td>
             <td>{{ $candidato->created_at }}</td>
