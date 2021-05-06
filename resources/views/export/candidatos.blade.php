@@ -68,11 +68,7 @@ use App\Models\Lote;
             @elseif($candidato->etapa->tipo == $tipos[1] || $candidato->etapa->tipo == $tipos[2])
                 <td> {{$candidato->etapa->texto}} </td>
             @endif
-            <td>
-                @foreach ($candidato->outrasInfo as $item)
-                    {{ $item->campo . '/'}}
-                @endforeach
-            </td> --}}
+             --}}
             @if ($candidato->etapa->tipo == $tipos[0] || $candidato->etapa->tipo == $tipos[1] )
                 <td>{{$candidato->etapa->texto}}</td>
                 <td> </td>
@@ -84,6 +80,11 @@ use App\Models\Lote;
                 @endif
                 </td>
             @endif
+            <td>
+                @foreach ($candidato->outrasInfo as $item)
+                    {{ $item->campo . '/'}}
+                @endforeach
+            </td>
             <td>{{ $candidato->created_at }}</td>
             <td>{{ $candidato->updated_at }}</td>
             <td>{{ $candidato->deleted_at }}</td>
