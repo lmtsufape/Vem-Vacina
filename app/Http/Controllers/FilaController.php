@@ -59,7 +59,7 @@ class FilaController extends Controller
         if ($request->outro) {
             $agendamentos = $query->get();
         } else {
-            $agendamentos = $query->paginate(500)->withQueryString();
+            $agendamentos = $query->paginate(100)->withQueryString();
         }
 
         if ($request->outro) {

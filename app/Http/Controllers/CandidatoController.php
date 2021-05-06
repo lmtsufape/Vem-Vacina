@@ -91,7 +91,7 @@ class CandidatoController extends Controller
         if ($request->outro) {
             $agendamentos = $query->get();
         } else {
-            $agendamentos = $query->paginate(500)->withQueryString();
+            $agendamentos = $query->paginate(100)->withQueryString();
         }
 
         if ($request->outro) {
@@ -246,7 +246,7 @@ class CandidatoController extends Controller
                         "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
                     ])->withInput();
                 }
-                
+
                 if ($request->input("publico_opcao_" . $request->input('público')) == null) {
                     return redirect()->back()->withErrors([
                         "publico_opcao_" . $request->input('público') => "Esse campo é obrigatório para público marcado."
@@ -254,7 +254,7 @@ class CandidatoController extends Controller
                 }
                 $candidato->etapa_resultado = $request->input("publico_opcao_" . $request->input('público'));
             }
-            
+
             if ($etapa->outras_opcoes_obrigatorio != null && $etapa->outras_opcoes_obrigatorio) {
                 if (!($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0)) {
                     return redirect()->back()->withErrors([
@@ -515,13 +515,13 @@ class CandidatoController extends Controller
 
         }elseif($request->confirmacao == "Reprovado"){
             if ($candidato != null) {
-                Candidato::where('cpf',$candidato->cpf)
+                Candidato::where('cpf',$candidato->cpf)->where('nome_completo',$candidato->nome_completo)
                         ->update(['aprovacao' => "Reprovado"]);
 
                 if($candidato->email != null){
                     Notification::send($candidato, new CandidatoReprovado($candidato));
                 }
-                Candidato::where('cpf',$candidato->cpf)->delete();
+                Candidato::where('cpf',$candidato->cpf)->where('nome_completo',$candidato->nome_completo)->delete();
 
 
             }
