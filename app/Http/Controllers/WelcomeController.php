@@ -35,7 +35,7 @@ class WelcomeController extends Controller
                                       'quantPessoasSegDose'     => $quantPessoasSegDose,
                                       'aprovacao_enum'          => Candidato::APROVACAO_ENUM,
                                       'vacinasDisponiveis'      => $this->quantVacinasDisponiveis($pontos),
-                                      'porcentagemVacinada'     => $this->porcentagemVacinada($candidatosVacinados),
+                                      'porcentagemVacinada'     => $this->porcentagemVacinada($quantPessoasPriDose),
                                       'quantVacinadosPorBairro' => $this->quantVacinadosPorBairro($candidatosVacinados),
                                       'quantVacinadosPorIdade'  => $this->quantVacinadosPorIdade($candidatosVacinados),
                                       'vacinadosPorSexo'        => $this->vacinadosPorSexo($candidatosVacinados),
@@ -53,9 +53,9 @@ class WelcomeController extends Controller
         return $vacinasDisponiveisNosPontos;
     }
 
-    public function porcentagemVacinada($candidatosVacinados) {
-        $quantidade = count($candidatosVacinados);
-        return ($quantidade * 100) / 140570;
+    public function porcentagemVacinada($quantia) {
+        // $quantidade = count($candidatosVacinados);
+        return ($quantia * 100) / 140570;
     }
 
     public function quantVacinadosPorBairro($candidatosVacinados) {
@@ -103,5 +103,9 @@ class WelcomeController extends Controller
         $file = public_path()."/anexo/".$name;
         $headers = array('Content-Type: application/pdf',);
         return Response::download($file, 'anexo_comordidade.pdf',$headers);
+    }
+
+    public function sobre() {
+        return view('sobre');
     }
 }
