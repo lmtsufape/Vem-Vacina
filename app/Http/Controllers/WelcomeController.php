@@ -34,7 +34,7 @@ class WelcomeController extends Controller
                                       'quantPessoasPriDose'     => $quantPessoasPriDose,
                                       'quantPessoasSegDose'     => $quantPessoasSegDose,
                                       'aprovacao_enum'          => Candidato::APROVACAO_ENUM,
-                                      'vacinasDisponiveis'      => $this->quantVacinasDisponiveis($pontos),
+                                    //   'vacinasDisponiveis'      => $this->quantVacinasDisponiveis($pontos),
                                       'porcentagemVacinada'     => $this->porcentagemVacinada($quantPessoasPriDose),
                                       'quantVacinadosPorBairro' => $this->quantVacinadosPorBairro($candidatosVacinados),
                                       'quantVacinadosPorIdade'  => $this->quantVacinadosPorIdade($candidatosVacinados),
