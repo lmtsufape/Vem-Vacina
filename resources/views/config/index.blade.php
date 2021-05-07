@@ -22,14 +22,11 @@
         @endif
         <form action="{{route('config.update')}}" method="GET">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <input type="checkbox" name="botao_solicitar_agendamento" id="botao_solicitar_agendamento" @if($config->botao_solicitar_agendamento) checked @endif>
                     <label for="botao_solicitar_agendamento">Desativar botão solicitar agendamento</label>
                 </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <input type="checkbox" name="botao_lista_de_espera" id="botao_lista_de_espera" @if($config->botao_fila_de_espera) checked @endif>
                     <label for="botao_lista_de_espera">Ativar botão solicitar agendamento em lista de espera</label>
                 </div>
@@ -45,6 +42,10 @@
                             <strong>{{$message}}</strong>
                         </div>
                     @enderror
+                </div>
+                <div class="col-md-4">
+                    <label for="">Número de vacinas recebidas</label>
+                    <input type="number" min="0" max="1000000" name="numero_vacinas" class="form-control" value="@if($config->vacinas_recebidas == null)0 @else{{$config->vacinas_recebidas}}@endif">
                 </div>
             </div>
             <br>

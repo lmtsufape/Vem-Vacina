@@ -23,6 +23,7 @@ class ConfiguracaoController extends Controller
             'botao_solicitar_agendamento' => 'nullable',
             'botao_lista_de_espera'       => 'nullable',
             'link_do_botao_solicitar_agendamento' => 'required_if:botao_lista_de_espera,on',
+            'numero_vacinas'              => 'nullable',
         ]);
 
         $config = Configuracao::first();
@@ -35,10 +36,16 @@ class ConfiguracaoController extends Controller
             $config->link_do_form_fila_de_espera = "Vazio";
         }
 
+        if ($request->numero_vacinas != null) {
+            $config->vacinas_recebidas = $request->numero_vacinas;
+        } else {
+            $config->vacinas_recebidas = 0;
+        }
+
 
         $config->update();
 
-        return redirect()->back()->with(['mensagem' => 'Configurações salvar']);
+        return redirect()->back()->with(['mensagem' => 'Configurações salvas']);
     }
 
     public function aprovarAgendamentos()

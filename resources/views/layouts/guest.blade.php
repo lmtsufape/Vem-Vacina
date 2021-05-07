@@ -54,21 +54,28 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 2px 10px 53px -6px rgba(0,0,0,0.16);
             -webkit-box-shadow: 2px 10px 53px -6px rgba(0,0,0,0.16);
             -moz-box-shadow: 2px 10px 53px -6px rgba(0,0,0,0.16);">
-                @auth
-                    <div class="container">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                  
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('dashboard')}}">Área de controle</a>
-                                </li>
-                            </ul>
-                        </div>
+                
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+            
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            @auth
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('dashboard')}}">Área de controle</a>
+                            </li>
+                            @endauth
+                            {{-- <li class="nav-item">
+                                <a class="nav-link" href="{{route('index')}}">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('sobre')}}">Sobre</a>
+                            </li> --}}
+                        </ul>
                     </div>
-                @endauth
+                </div>
             </nav>
             {{ $slot }}
         </div>
