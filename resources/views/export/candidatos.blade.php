@@ -81,9 +81,13 @@ use App\Models\Lote;
                 </td>
             @endif
             <td>
-                @foreach ($candidato->outrasInfo as $item)
-                    {{ $item->campo . '/'}}
-                @endforeach
+                @if ($candidato->outrasInfo != null && count($candidato->outrasInfo) > 0)
+                    @foreach ($candidato->etapa->outrasInfo as $outraInfo)
+                        @if($candidato->outrasInfo->contains('id', $outraInfo->id))
+                        {{  $outraInfo->campo . "SIM " }}
+                        @endif
+                    @endforeach
+                @endif
             </td>
             <td>{{ $candidato->created_at }}</td>
             <td>{{ $candidato->updated_at }}</td>

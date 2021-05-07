@@ -29,11 +29,7 @@
                             <option selected>Selecione...</option>
                             @foreach ($etapas as $key => $etapa)
                             <tr>
-                                @if ($etapa->tipo == $tipos[0])
-                                    <option  value="{{ $etapa->id }}" wire:key="{{ $key }}" >{{ 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo}}</option>
-                                @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
-                                    <option value="{{ $etapa->id }}" >{{$etapa->texto}}</option>
-                                @endif
+                                <option  value="{{ $etapa->id }}" wire:key="{{ $key }}" >{{$etapa->texto}}</option>
                             </tr>
                             @endforeach
                         </select>
