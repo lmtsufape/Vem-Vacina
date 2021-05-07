@@ -67,12 +67,12 @@
                                 <a class="nav-link" href="{{route('dashboard')}}">Área de controle</a>
                             </li>
                             @endauth
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{route('index')}}">Inicio</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('sobre')}}">Sobre</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </div>
