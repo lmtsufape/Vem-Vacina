@@ -69,7 +69,7 @@ class CandidatoAprovado extends Notification
                                 ->line("Dia: {$this->data_chegada2}.")
                                 ->line("Local: {$this->candidato2->posto->nome}.")
                                 ->line("Endereço: {$this->candidato2->posto->endereco}.")
-                                ->line("Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.")
+                                ->line("Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência. Para os agendamentos de pessoas com comorbidades é necessária a apresentação do formulário que atesta a comorbidade, previamente preenchido por um profissional de saúde (exceto pessoas com Síndrome de Down).")
                                 ->line("Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.")
                                 ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!")
                                 ->action('Acessar site', url('/'));
@@ -82,7 +82,7 @@ class CandidatoAprovado extends Notification
                                 ->line("Dia: {$this->data_chegada1}.")
                                 ->line("Local: {$this->candidato1->posto->nome}.")
                                 ->line("Endereço: {$this->candidato1->posto->endereco}.")
-                                ->line("Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.")
+                                ->line("Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência. Para os agendamentos de pessoas com comorbidades é necessária a apresentação do formulário que atesta a comorbidade, previamente preenchido por um profissional de saúde (exceto pessoas com Síndrome de Down).")
                                 ->line("Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.")
                                 ->line("Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!")
                                 ->action('Acessar site', url('/'));

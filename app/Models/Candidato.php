@@ -79,7 +79,7 @@ class Candidato extends Model
         if ($this->aprovacao == $this::APROVACAO_ENUM[0]) {
             $mensagem = "Sr(a). ".$this->nome_completo.",\n";
             $mensagem = $mensagem."Informamos que a sua solicitação de agendamento para vacinação foi para a fila de espera, aguarde o contato da Secretaria Municipal de Saúde de Garanhuns - PE.\n";
-            $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.\n";
+            $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência. Para os agendamentos de pessoas com comorbidades é necessária a apresentação do formulário que atesta a comorbidade, previamente preenchido por um profissional de saúde (exceto pessoas com Síndrome de Down).\n";
             $mensagem = $mensagem."Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.\n";
             $mensagem = $mensagem."Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!";
         } else if ($this->aprovacao == $this::APROVACAO_ENUM[1]) {
@@ -89,13 +89,13 @@ class Candidato extends Model
             $mensagem = $mensagem."Dia: ".date('d/m/Y \à\s  H:i\h', strtotime($this->chegada)).".\n";
             $mensagem = $mensagem."Local: ".$this->posto->nome.".\n";
             $mensagem = $mensagem."Endereço: ".$this->posto->endereco.".\n";
-            $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.\n";
+            $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência. Para os agendamentos de pessoas com comorbidades é necessária a apresentação do formulário que atesta a comorbidade, previamente preenchido por um profissional de saúde (exceto pessoas com Síndrome de Down).\n";
             $mensagem = $mensagem."Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.\n";
             $mensagem = $mensagem."Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!";
         } else if ($this->aprovacao == $this::APROVACAO_ENUM[2]) {
             $mensagem = "Seu agendamento foi reprovado.";
         }
-        
+
         return urlencode($mensagem);
     }
 
