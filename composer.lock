@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a769e61dc6b0ba99c5a8064f15474407",
+    "content-hash": "7b19f66bbc0bdf50c4c9acd3683fd1de",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1567,16 +1567,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "19a9673b833cc37770439097b381d86cd125bfe8"
+                "reference": "2651c497f005de305c7ba3f232cbd87b8c00ee8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/19a9673b833cc37770439097b381d86cd125bfe8",
-                "reference": "19a9673b833cc37770439097b381d86cd125bfe8",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/2651c497f005de305c7ba3f232cbd87b8c00ee8c",
+                "reference": "2651c497f005de305c7ba3f232cbd87b8c00ee8c",
                 "shasum": ""
             },
             "require": {
@@ -1664,7 +1664,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-01T19:00:49+00:00"
+            "time": "2021-05-08T16:08:00+00:00"
         },
         {
             "name": "league/flysystem",
@@ -6149,6 +6149,48 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
+        },
+        {
+            "name": "workspace/laravel-minify-html",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mano290/laravel-minify-html.git",
+                "reference": "76510a2c7a45011357e16e6b78aa4a0c709f7188"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mano290/laravel-minify-html/zipball/76510a2c7a45011357e16e6b78aa4a0c709f7188",
+                "reference": "76510a2c7a45011357e16e6b78aa4a0c709f7188",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Workspace\\LaravelMinifyHtml\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ataides Rodrigues",
+                    "email": "mano_ataides@hotmail.com"
+                }
+            ],
+            "description": "Compress output Laravel HTML",
+            "keywords": [
+                "blade",
+                "laravel",
+                "minify html"
+            ],
+            "support": {
+                "issues": "https://github.com/mano290/laravel-minify-html/issues",
+                "source": "https://github.com/mano290/laravel-minify-html/tree/v1.0.0"
+            },
+            "time": "2018-08-05T01:32:26+00:00"
         }
     ],
     "packages-dev": [
@@ -6288,16 +6330,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.8.4",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "87fb348dab0ae1a7c206c3e902a5a44ba541742f"
+                "reference": "e7db3b601ce742568b92648818ef903904d20164"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/87fb348dab0ae1a7c206c3e902a5a44ba541742f",
-                "reference": "87fb348dab0ae1a7c206c3e902a5a44ba541742f",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/e7db3b601ce742568b92648818ef903904d20164",
+                "reference": "e7db3b601ce742568b92648818ef903904d20164",
                 "shasum": ""
             },
             "require": {
@@ -6361,7 +6403,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-04-29T13:55:26+00:00"
+            "time": "2021-05-05T06:45:12+00:00"
         },
         {
             "name": "facade/ignition-contracts",
