@@ -456,7 +456,7 @@
 <script>
     const buttonDistribuir = document.querySelector("#Distribuir > a")
     buttonDistribuir.addEventListener('click', (e)=>{
-        // console.log(e.target)
+        /* console.log(e.target) */
         e.target.setAttribute("class", "disabled");
         e.target.innerText = "Aguarde...";
 
@@ -504,16 +504,16 @@
             },
             success: function(data){
                 console.log(data);
-                // var html = "";
-                // if (data != null) {
-                //     if (data.length > 0) {
-                //         $.each(data, function(i, obj) {
-                //             html += ``
-                //         })
-                //     }
-                // }
-                // document.getElementById('agendamentos').innerHTML = "";
-                // $('#agendamentos').append(html);
+                /* var html = "";
+                if (data != null) {
+                    if (data.length > 0) {
+                        $.each(data, function(i, obj) {
+                            html += ``
+                        })
+                    }
+                }
+                document.getElementById('agendamentos').innerHTML = "";
+                $('#agendamentos').append(html); */
             },
             error:function(data){
                 console.log('erro')

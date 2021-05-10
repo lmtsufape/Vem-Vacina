@@ -664,21 +664,21 @@
         </script>
     @endif
     <script>
-        // let graficoImunizados = document.getElementById("graficoImunizados").getContext("2d");
+        /* let graficoImunizados = document.getElementById("graficoImunizados").getContext("2d");
 
-        // let chart = new Chart(graficoImunizados, {
-        //         type:"line",
-        //         data:{
-        //         labels:['22/03', '23/03', '24/03', '25/03', '26/03', '27/03', '28/03', '29/03', '30/03', '31/03', '01/04'],
+        let chart = new Chart(graficoImunizados, {
+                type:"line",
+                data:{
+                labels:['22/03', '23/03', '24/03', '25/03', '26/03', '27/03', '28/03', '29/03', '30/03', '31/03', '01/04'],
 
-        //         datasets:[{
-        //             label:"Imunizados",
-        //             data:[175, 150, 125, 100, 50, 25, 0, 25, 75, 110, 55],
-        //             backgroundColor:'#C9EAFF',
-        //             borderColor:'#1492E6',
-        //         }]
-        //     }
-        // });
+                datasets:[{
+                    label:"Imunizados",
+                    data:[175, 150, 125, 100, 50, 25, 0, 25, 75, 110, 55],
+                    backgroundColor:'#C9EAFF',
+                    borderColor:'#1492E6',
+                }]
+            }
+        }); */
 
         let graficoSexo = document.getElementById("graficoSexo").getContext("2d");
 

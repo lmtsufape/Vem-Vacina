@@ -568,7 +568,7 @@
             <!-- Modal cancelar vacina -->
         @endif
     @endforeach 
-
+</x-app-layout>
 @if(old('edit_agendamento_id') != null)
     <script>
         $(document).ready(function() {
@@ -618,16 +618,16 @@
             },
             success: function(data){
                 console.log(data);
-                // var html = "";
-                // if (data != null) {
-                //     if (data.length > 0) {
-                //         $.each(data, function(i, obj) {
-                //             html += ``
-                //         })
-                //     }
-                // }
-                // document.getElementById('agendamentos').innerHTML = "";
-                // $('#agendamentos').append(html);
+                /* var html = "";
+                if (data != null) {
+                    if (data.length > 0) {
+                        $.each(data, function(i, obj) {
+                            html += ``
+                        })
+                    }
+                }
+                document.getElementById('agendamentos').innerHTML = "";
+                $('#agendamentos').append(html); */
             },
             error:function(data){
                 console.log('erro')
@@ -728,4 +728,3 @@
         form.submit();
     }
 </script>
-</x-app-layout>
