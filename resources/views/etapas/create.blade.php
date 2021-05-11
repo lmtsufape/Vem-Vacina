@@ -294,14 +294,14 @@
                 document.getElementById('divOpcoes').style.display = "none";
                 excluirOpcoes();
             } else if (valor == "Texto livre") {
-                // alert(valor);
+                /* alert(valor); */
                 document.getElementById('divIdade').style.display = "none";
                 document.getElementById('divOpcoes').style.display = "none";
                 document.getElementById('inicio_faixa_etaria').value = "";
                 document.getElementById('fim_faixa_etaria').value = "";
                 excluirOpcoes();
             } else if (valor == "Texto livre com campo extra selecionável") {
-                // alert(valor);
+                /* alert(valor); */
                 document.getElementById('divIdade').style.display = "block";
                 document.getElementById('divOpcoes').style.display = "block";
                 document.getElementById('inicio_faixa_etaria').value = "";

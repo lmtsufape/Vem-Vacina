@@ -1,6 +1,4 @@
-<nav x-data="{ open: false }" class="navbar-light bg-light" style="rgba(0,0,0,0.16);
--webkit-box-shadow: 2px 10px 53px -6px rgba(0,0,0,0.16);
--moz-box-shadow: 2px 10px 53px -6px rgba(0,0,0,0.16);">
+<nav x-data="{ open: false }" class="navbar-light bg-light nav-navigation">
     @auth
         <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -450,20 +450,18 @@
         $(document).ready(function() {
             $('#visualizar_candidato_{{old('edit_agendamento_id')}}').modal('show');
             $('#btn_edit_{{old('edit_agendamento_id')}}').click();
-        })
+        });
     </script>
 @endif
 <script>
-    const buttonDistribuir = document.querySelector("#Distribuir > a")
+    const buttonDistribuir = document.querySelector("#Distribuir > a");
     buttonDistribuir.addEventListener('click', (e)=>{
-        // console.log(e.target)
+        /* console.log(e.target) */
         e.target.setAttribute("class", "disabled");
         e.target.innerText = "Aguarde...";
 
     });
-</script>
 
-<script>
     function myFunction(event) {
         console.log(event);
 
@@ -477,50 +475,6 @@
         }
     }
 
-    function filtrar() {
-        $.ajax({
-            url: "{{route('agendamentos.filtro.ajax')}}",
-            method: 'GET',
-            type: 'GET',
-            data: {
-                nome_check: document.getElementById('nome_check_input').checked,
-                cpf_check: document.getElementById('cpf_check_input').checked,
-                data_check: document.getElementById('data_check_input').checked,
-                dose_check: document.getElementById('dose_check_input').checked,
-                outro: document.getElementById('outro').checked,
-                aprovado: document.getElementById('aprovado').checked,
-                reprovado: document.getElementById('reprovado').checked,
-                nome: document.getElementById('nome').value,
-                cpf: document.getElementById('cpf').value,
-                data: document.getElementById('data').value,
-                dose: document.getElementById('dose').value,
-                field: document.getElementById('field').value,
-                order: document.getElementById('order').value,
-            },
-            statusCode: {
-                404: function() {
-                    alert("Nenhum posto encontrado");
-                }
-            },
-            success: function(data){
-                console.log(data);
-                // var html = "";
-                // if (data != null) {
-                //     if (data.length > 0) {
-                //         $.each(data, function(i, obj) {
-                //             html += ``
-                //         })
-                //     }
-                // }
-                // document.getElementById('agendamentos').innerHTML = "";
-                // $('#agendamentos').append(html);
-            },
-            error:function(data){
-                console.log('erro')
-                alert('Erro'.data);
-            },
-        })
-    }
 
     function selecionar_posto(posto_selecionado, id) {
         console.log('selecionar_posto');
@@ -547,7 +501,7 @@
                             <select id="dia_vacinacao_${id}" class="form-control style_input" name="dia_vacinacao_${id}" required onchange="selecionar_dia_vacinacao(this, ${id})"><option selected disabled>-- Selecione o dia --</option>`;
                     $.each(data, function(i, obj) {
                         htmlDatas += `<option value="${i}">${i}</option>`;
-                    })
+                    });
                     htmlDatas += `</select>`;
 
                     $.each(data, function(i, obj) {
@@ -561,19 +515,19 @@
                         $.each(obj, function(c, obj_include) {
                             var data_horario = (new Date(obj_include)).toString();
                             htmlHorarios += `<option value="${data_horario.substring(16,21).split(':').join(':')}">${data_horario.substring(16,21).split(':').join(':')}</option>`;
-                        })
+                        });
 
                         htmlHorarios += `</select>
                                         </div>
                                     </div>
                                 </div>`;
-                    })
+                    });
                 }
-                $('#seletor_data_'+id).append(htmlDatas)
+                $('#seletor_data_'+id).append(htmlDatas);
                 $('#seletor_horario_'+id).append(htmlHorarios);
             },
             error:function(data){
-                console.log('erro')
+                console.log('erro');
                 alert('Erro'.data);
             },
         })
@@ -609,4 +563,51 @@
             document.getElementById("agendado_para_"+id).style.display = "block";
         }
     }
+
+    /*function filtrar() {
+        $.ajax({
+            url: "{{route('agendamentos.filtro.ajax')}}",
+            method: 'GET',
+            type: 'GET',
+            data: {
+                nome_check: document.getElementById('nome_check_input').checked,
+                cpf_check: document.getElementById('cpf_check_input').checked,
+                data_check: document.getElementById('data_check_input').checked,
+                dose_check: document.getElementById('dose_check_input').checked,
+                outro: document.getElementById('outro').checked,
+                aprovado: document.getElementById('aprovado').checked,
+                reprovado: document.getElementById('reprovado').checked,
+                nome: document.getElementById('nome').value,
+                cpf: document.getElementById('cpf').value,
+                data: document.getElementById('data').value,
+                dose: document.getElementById('dose').value,
+                field: document.getElementById('field').value,
+                order: document.getElementById('order').value,
+            },
+            statusCode: {
+                404: function() {
+                    alert("Nenhum posto encontrado");
+                }
+            },
+            success: function(data){
+                console.log(data);
+                 var html = "";
+                if (data != null) {
+                    if (data.length > 0) {
+                        $.each(data, function(i, obj) {
+                            html += ``
+                        })
+                    }
+                }
+                document.getElementById('agendamentos').innerHTML = "";
+                $('#agendamentos').append(html); 
+            },
+            error:function(data){
+                console.log('erro');
+                alert('Erro'.data);
+            },
+        })
+    }*/
+
+    
 </script>

@@ -581,7 +581,7 @@
          let key = "";
          if (theEvent.type === 'paste') {
          } else {
-             // Handle key press
+             /* Handle key press */
              key = theEvent.keyCode || theEvent.which;
              key = String.fromCharCode(key);
          }
@@ -592,23 +592,23 @@
              return;
          }
 
-         // enquanto não tiver suficiente, deixa preencher
+         /* enquanto não tiver suficiente, deixa preencher */
          if(input.value.length < 7) {
              theEvent.returnValue = true;
              return;
          }
 
-         // caso já esteja preenchido, não adiciona mais numeros
+         /* caso já esteja preenchido, não adiciona mais numeros */
          if(input.value.length === 8) {
              theEvent.returnValue = false;
              return;
          }
 
-         // colocou o ultimo valor do cep
+         /* colocou o ultimo valor do cep */
          theEvent.returnValue = true;
 
 
-         // pega o valor do cep
+         /* pega o valor do cep */
          let cep = input.value + key;
 
          requisitar_preenchimento_cep(cep);
@@ -632,11 +632,11 @@
          }).then((json) => {
 
              if(json.resultado != 1) {
-                 // todo: erro
+                 /* todo: erro */
                  return;
              }
 
-            //  document.getElementById("inputCidade").value = json.cidade;
+            /*  document.getElementById("inputCidade").value = json.cidade; */
              /* document.getElementById("inputBairro").value = json.bairro; */
              document.getElementById("inputrua").value = json.tipo_logradouro + " " + json.logradouro;
 
@@ -657,27 +657,27 @@
         postoPara(input);
      }
 
-    //  function funcaoMostrarOpcoes(input, id) {
-    //     var div = document.getElementById("divPublico_"+id);
-    //     var select = document.getElementById("publico_opcao_"+id);
-    //     // alert(div);
-    //     if(div.style.display == "none" && div != null){
-    //         div.style.display = "block";
-    //         select.value = "";
-    //     }else{
-    //         div.style.display = "none";
-    //         select.value = "";
-    //     }
-    //     postoPara(input, id);
-    //  }
+    /* function funcaoMostrarOpcoes(input, id) {
+        var div = document.getElementById("divPublico_"+id);
+        var select = document.getElementById("publico_opcao_"+id);
+        alert(div);
+        if(div.style.display == "none" && div != null){
+            div.style.display = "block";
+            select.value = "";
+        }else{
+            div.style.display = "none";
+            select.value = "";
+        }
+        postoPara(input, id);
+     } */
 
     $(document).ready(function() {
         $('input:radio[name=público]').change(
             function() {
                 var inputs = document.getElementsByName('público');
                 for (var i = 0; i < inputs.length; i++) {
-                    // console.log(this);
-                    //console.log(this.value);
+                    /* console.log(this);
+                    console.log(this.value); */
                     if (document.getElementById("divPublico_"+inputs[i].value)) {
                         var div = document.getElementById("divPublico_"+inputs[i].value);
                         var select = document.getElementById("publico_opcao_"+inputs[i].value);
@@ -715,7 +715,7 @@
          let url = window.location.toString().replace("solicitar", "horarios/" + id_posto);
          console.log(url);
 
-         // Mágia de programação funcional
+         /* Mágia de programação funcional */
          fetch(url).then((dados) => {
              if(dados.status != 200) {
                  div_seletor_horararios.innerHTML = "Ocorreu um erro, tente novamente mais tarde";
@@ -771,10 +771,10 @@
         var btnForm = document.getElementById('buttonSend');
         var divLocal = document.getElementById("div_local");
         var loading = document.getElementById("loading");
-        divLocal.style.display = "none"
-        loading.style.display = "block"
+        divLocal.style.display = "none";
+        loading.style.display = "block";
         btnForm.disabled = true;
-        console.log("etapa:"+id)
+        console.log("etapa:"+id);
         $.ajax({
             url: "{{route('postos')}}",
             method: 'get',
@@ -799,25 +799,25 @@
             },
 
             success: function(data){
-                console.log(data)
-                // console.log(typeof data)
+                console.log(data);
+                /* console.log(typeof data) */
                 if(data.length <= 0 && data != null){
                     const buttonSend = document.getElementById('buttonSend');
-                    buttonSend.innerText = "Enviar para fila de Espera"
-                    divLocal.style.display = "none"
+                    buttonSend.innerText = "Enviar para fila de Espera";
+                    divLocal.style.display = "none";
                     const input = '<input id="input_fila" type="hidden" name="fila" value="true">';
-                    $("#formSolicitar").append(input)
-                    document.getElementById("alerta_vacinas").style.display = "block"
-                    loading.style.display = "none"
-                    // alert('Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera')
+                    $("#formSolicitar").append(input);
+                    document.getElementById("alerta_vacinas").style.display = "block";
+                    loading.style.display = "none";
+                    /* alert('Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera') */
                 }else{
-                    document.getElementById("alerta_vacinas").style.display = "none"
+                    document.getElementById("alerta_vacinas").style.display = "none";
                     if(document.getElementById("input_fila") != null){
                         document.getElementById("input_fila").remove();
                     }
-                    buttonSend.innerText = "Enviar"
-                    document.getElementById("div_local").style.display = "block"
-                    loading.style.display = "none"
+                    buttonSend.innerText = "Enviar";
+                    document.getElementById("div_local").style.display = "block";
+                    loading.style.display = "none";
                 }
                 if (data != null && typeof data != 'string') {
 

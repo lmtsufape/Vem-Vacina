@@ -57,7 +57,7 @@
                                         <div class="input-group-prepend">
                                             @php
                                                 $lote_pivot = $lotes_pivot->where('lote_id', $lote->id)->where('posto_vacinacao_id', $posto->id)->first();
-                                                // dd($lote_pivot);
+                                                /* dd($lote_pivot); */
                                                 if($lote_pivot){
                                                     $qtdCandidato = $candidatos->where('posto_vacinacao_id', $posto->id)->where('lote_id', $lote_pivot->id)->count();
                                                 }
