@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b19f66bbc0bdf50c4c9acd3683fd1de",
+    "content-hash": "a769e61dc6b0ba99c5a8064f15474407",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1192,16 +1192,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.40.0",
+            "version": "v8.41.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "a654897ad7f97aea9d7ef292803939798c4a02a4"
+                "reference": "05417155d886df8710e55c84e12622b52d83c47c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/a654897ad7f97aea9d7ef292803939798c4a02a4",
-                "reference": "a654897ad7f97aea9d7ef292803939798c4a02a4",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/05417155d886df8710e55c84e12622b52d83c47c",
+                "reference": "05417155d886df8710e55c84e12622b52d83c47c",
                 "shasum": ""
             },
             "require": {
@@ -1309,7 +1309,7 @@
                 "phpunit/phpunit": "Required to use assertions and run tests (^8.5.8|^9.3.3).",
                 "predis/predis": "Required to use the predis connector (^1.1.2).",
                 "psr/http-message": "Required to allow Storage::put to accept a StreamInterface (^1.0).",
-                "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0|^5.0).",
+                "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0|^5.0|^6.0).",
                 "symfony/cache": "Required to PSR-6 cache bridge (^5.1.4).",
                 "symfony/filesystem": "Required to enable support for relative symbolic links (^5.1.4).",
                 "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^2.0).",
@@ -1356,7 +1356,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-04-28T14:38:56+00:00"
+            "time": "2021-05-11T14:00:02+00:00"
         },
         {
             "name": "laravel/nexmo-notification-channel",
@@ -6149,48 +6149,6 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
-        },
-        {
-            "name": "workspace/laravel-minify-html",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mano290/laravel-minify-html.git",
-                "reference": "76510a2c7a45011357e16e6b78aa4a0c709f7188"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mano290/laravel-minify-html/zipball/76510a2c7a45011357e16e6b78aa4a0c709f7188",
-                "reference": "76510a2c7a45011357e16e6b78aa4a0c709f7188",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Workspace\\LaravelMinifyHtml\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ataides Rodrigues",
-                    "email": "mano_ataides@hotmail.com"
-                }
-            ],
-            "description": "Compress output Laravel HTML",
-            "keywords": [
-                "blade",
-                "laravel",
-                "minify html"
-            ],
-            "support": {
-                "issues": "https://github.com/mano290/laravel-minify-html/issues",
-                "source": "https://github.com/mano290/laravel-minify-html/tree/v1.0.0"
-            },
-            "time": "2018-08-05T01:32:26+00:00"
         }
     ],
     "packages-dev": [
@@ -6647,21 +6605,22 @@
         },
         {
             "name": "laravel/breeze",
-            "version": "v1.1.6",
+            "version": "v1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/breeze.git",
-                "reference": "222889eecf49bb02ea91e2122c9ab9f8379c0c45"
+                "reference": "28c674a79e1eb04ef02e9673ceb87b0d44479554"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/breeze/zipball/222889eecf49bb02ea91e2122c9ab9f8379c0c45",
-                "reference": "222889eecf49bb02ea91e2122c9ab9f8379c0c45",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/28c674a79e1eb04ef02e9673ceb87b0d44479554",
+                "reference": "28c674a79e1eb04ef02e9673ceb87b0d44479554",
                 "shasum": ""
             },
             "require": {
-                "illuminate/filesystem": "^8.0",
-                "illuminate/support": "^8.0",
+                "illuminate/filesystem": "^8.40",
+                "illuminate/support": "^8.40",
+                "illuminate/validation": "^8.40",
                 "php": "^7.3|^8.0"
             },
             "type": "library",
@@ -6699,7 +6658,7 @@
                 "issues": "https://github.com/laravel/breeze/issues",
                 "source": "https://github.com/laravel/breeze"
             },
-            "time": "2021-04-27T17:35:17+00:00"
+            "time": "2021-05-11T20:34:17+00:00"
         },
         {
             "name": "laravel/sail",
