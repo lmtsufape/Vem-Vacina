@@ -128,7 +128,9 @@
                                                                     <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
                                                                         <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                         @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
-                                                                            <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
+                                                                            @if($opcao->opcao != "Gestantes e puérperas")
+                                                                                <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
+                                                                            @endif
                                                                         @endforeach
                                                                     </select>
                                                                     @error('publico_opcao_'.$publico->id)
@@ -208,7 +210,9 @@
                                                                 <select class="form-control" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
                                                                     <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                     @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
-                                                                        <option value="{{$opcao->id}}">{{$opcao->opcao}}</option>
+                                                                        @if($opcao->opcao != "Gestantes e puérperas")
+                                                                            <option value="{{$opcao->id}}">{{$opcao->opcao}}</option>
+                                                                        @endif
                                                                     @endforeach
                                                                 </select>
                                                                 {{-- <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small> --}}
