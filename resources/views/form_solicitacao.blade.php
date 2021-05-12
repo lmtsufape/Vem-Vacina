@@ -128,7 +128,7 @@
                                                                     <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
                                                                         <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                         @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
-                                                                            @if($opcao->opcao != "Gestantes e puérperas")
+                                                                            @if($opcao->opcao != "Gestantes e puérperas" && $opcao->opcao != "Imunossuprimidos" && $publico->inicio_intervalo != 18)
                                                                                 <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
                                                                             @endif
                                                                         @endforeach
@@ -210,7 +210,7 @@
                                                                 <select class="form-control" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
                                                                     <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                     @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
-                                                                        @if($opcao->opcao != "Gestantes e puérperas")
+                                                                        @if($opcao->opcao != "Gestantes e puérperas" && $opcao->opcao != "Imunossuprimidos" && $publico->inicio_intervalo != 18)
                                                                             <option value="{{$opcao->id}}">{{$opcao->opcao}}</option>
                                                                         @endif
                                                                     @endforeach
