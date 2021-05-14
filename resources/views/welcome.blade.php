@@ -57,12 +57,29 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
                                           <h3 class="panel-title">
+                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos2" aria-expanded="true" aria-controls="anexos2">
+                                                Termo de Ciência e Consentimento Vacinação contra a Covid-19
+                                            </a>
+                                          </h3>
+                                        </div>
+                                        <div id="anexos2" class="panel-collapse collapse  show" role="tabpanel" aria-labelledby="heading0">
+                                          <div class="panel-body px-3 mb-4">
+                                            <p style="text-align: justify">
+                                                Trata das orientações da estratégia de vacinação dos grupos de pessoas com comorbidades, pessoas com deficiência permanente, gestantes e puérperas na Campanha Nacional de Vacinação contra a COVID-19, 2021.
+                                            </p>
+                                            <a href="{{route('baixar.anexo', ['name'=> 'Termo de Ciência e Consentimento Vacinação contra a Covid - GESTANTE.docx'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Termo </a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="panel panel-default">
+                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                          <h3 class="panel-title">
                                             <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos0" aria-expanded="true" aria-controls="anexos0">
                                                 Pessoas com comorbidades
                                             </a>
                                           </h3>
                                         </div>
-                                        <div id="anexos0" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
+                                        <div id="anexos0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
                                           <div class="panel-body px-3 mb-4">
                                             <p style="text-align: justify">
                                                 A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.
@@ -88,6 +105,7 @@
                                           </div>
                                         </div>
                                       </div>
+
                                     </div>
 
                                 </div>
