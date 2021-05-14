@@ -128,7 +128,13 @@
                                                                     <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
                                                                         <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                         @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
+                                                                        @if($publico->inicio_intervalo == 18)
+                                                                            @if ($opcao->opcao != "Gestantes e puérperas" && $opcao->opcao != "Imunossuprimidos")
+                                                                                <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
+                                                                            @endif
+                                                                        @else
                                                                             <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
+                                                                        @endif
                                                                         @endforeach
                                                                     </select>
                                                                     @error('publico_opcao_'.$publico->id)
@@ -208,7 +214,13 @@
                                                                 <select class="form-control" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
                                                                     <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                     @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
-                                                                        <option value="{{$opcao->id}}">{{$opcao->opcao}}</option>
+                                                                        @if($publico->inicio_intervalo == 18)
+                                                                            @if ($opcao->opcao != "Gestantes e puérperas" && $opcao->opcao != "Imunossuprimidos")
+                                                                                <option value="{{$opcao->id}}">{{$opcao->opcao}}</option>
+                                                                            @endif
+                                                                        @else
+                                                                            <option value="{{$opcao->id}}">{{$opcao->opcao}}</option>
+                                                                        @endif
                                                                     @endforeach
                                                                 </select>
                                                                 {{-- <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small> --}}
@@ -660,7 +672,7 @@
     /* function funcaoMostrarOpcoes(input, id) {
         var div = document.getElementById("divPublico_"+id);
         var select = document.getElementById("publico_opcao_"+id);
-        // alert(div);
+        alert(div);
         if(div.style.display == "none" && div != null){
             div.style.display = "block";
             select.value = "";
@@ -771,10 +783,10 @@
         var btnForm = document.getElementById('buttonSend');
         var divLocal = document.getElementById("div_local");
         var loading = document.getElementById("loading");
-        divLocal.style.display = "none"
-        loading.style.display = "block"
+        divLocal.style.display = "none";
+        loading.style.display = "block";
         btnForm.disabled = true;
-        console.log("etapa:"+id)
+        console.log("etapa:"+id);
         $.ajax({
             url: "{{route('postos')}}",
             method: 'get',
@@ -799,25 +811,25 @@
             },
 
             success: function(data){
-                console.log(data)
+                console.log(data);
                 /* console.log(typeof data) */
                 if(data.length <= 0 && data != null){
                     const buttonSend = document.getElementById('buttonSend');
-                    buttonSend.innerText = "Enviar para fila de Espera"
-                    divLocal.style.display = "none"
+                    buttonSend.innerText = "Enviar para fila de Espera";
+                    divLocal.style.display = "none";
                     const input = '<input id="input_fila" type="hidden" name="fila" value="true">';
-                    $("#formSolicitar").append(input)
-                    document.getElementById("alerta_vacinas").style.display = "block"
-                    loading.style.display = "none"
+                    $("#formSolicitar").append(input);
+                    document.getElementById("alerta_vacinas").style.display = "block";
+                    loading.style.display = "none";
                     /* alert('Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera') */
                 }else{
-                    document.getElementById("alerta_vacinas").style.display = "none"
+                    document.getElementById("alerta_vacinas").style.display = "none";
                     if(document.getElementById("input_fila") != null){
                         document.getElementById("input_fila").remove();
                     }
-                    buttonSend.innerText = "Enviar"
-                    document.getElementById("div_local").style.display = "block"
-                    loading.style.display = "none"
+                    buttonSend.innerText = "Enviar";
+                    document.getElementById("div_local").style.display = "block";
+                    loading.style.display = "none";
                 }
                 if (data != null && typeof data != 'string') {
 

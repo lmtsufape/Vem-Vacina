@@ -51,9 +51,7 @@
     <body>
         <div class="font-sans text-gray-900 antialiased">
             <!-- menu -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 2px 10px 53px -6px rgba(0,0,0,0.16);
-            -webkit-box-shadow: 2px 10px 53px -6px rgba(0,0,0,0.16);
-            -moz-box-shadow: 2px 10px 53px -6px rgba(0,0,0,0.16);">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-app-vemvacina">
                 
                 <div class="container">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
