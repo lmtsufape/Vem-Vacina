@@ -456,7 +456,7 @@ class CandidatoController extends Controller
 
         if(!Candidato::where('cpf', $candidato->cpf)->count()){
             return redirect()->back()->withErrors([
-                "message" => "Houve algum erro, seu agendamento não,entre em contato com a administração do site.",
+                "message" => "Houve algum erro, seu agendamento não, entre em contato com a administração do site.",
             ])->withInput();
         }
 
@@ -708,77 +708,16 @@ class CandidatoController extends Controller
             return redirect()->back()->withErrors([
                 'posto_vacinacao_' . $id => "Alguém conseguiu preencher o formulário mais rápido, escolha outro horario por favor."
             ])->withInput();
-        }
-
-        $etapa = $candidato->etapa;
-
-        if(!$etapa->lotes->count()){
-            return redirect()->back()->withErrors([
-                'posto_vacinacao_' . $id => "Não há mais doses disponíveis."
-            ])->withInput();
-        }
-        //Retorna um array de IDs do lotes associados a etapa escolhida
-        $array_lotes_disponiveis = $etapa->lotes->pluck('id');
-
-
-        // Pega a lista de todos os lotes da etapa escolhida para o posto escolhido
-        $lotes_disponiveis = DB::table("lote_posto_vacinacao")->where("posto_vacinacao_id", $id_posto)
-                                ->whereIn('lote_id', $array_lotes_disponiveis)->get();
-
-        $id_lote = 0;
-        // Pra cada lote que esteje no posto
-        foreach ($lotes_disponiveis as $lote) {
-
-            // Se a quantidade de candidatos à tomar a vicina daquele lote, naquele posto, que não foram reprovados
-            // for menor que a quantidade de vacinas daquele lote que foram pra aquele posto, então o candidato vai tomar
-            // daquele lote
-
-            $lote_original = Lote::find($lote->lote_id);
-            $qtdCandidato = Candidato::where("lote_id", $lote->id)->where("posto_vacinacao_id", $id_posto)->where("aprovacao", "!=", Candidato::APROVACAO_ENUM[2])
-                                        ->count();
-            if(!$lote_original->dose_unica){
-                //Se o lote disponivel for de vacina com dose dupla vai parar aqui
-                //e verifica se tem duas vacinas disponiveis
-                if (($qtdCandidato + 1) < $lote->qtdVacina) {
-                    $id_lote = $lote->id;
-                    $chave_estrangeiro_lote = $lote->lote_id;
-                    $qtd = $lote->qtdVacina - $qtdCandidato;
-
-                    if ( !$lote_original->dose_unica && !($qtd >= 2) ) {
-                        return redirect()->back()->withErrors([
-                            'posto_vacinacao_' . $id => "Não há mais doses disponíveis."
-                        ])->withInput();
-                    }
-                    break;
-                }
-
-            }else{
-                //Se o lote disponivel for de vacina com dose unica vai parar aqui
-                //e verifica se tem pelo menos uma ou mais vacinas disponiveis
-                if ($qtdCandidato < $lote->qtdVacina) {
-                    $id_lote = $lote->id;
-                    $chave_estrangeiro_lote = $lote->lote_id;
-                    break;
-                }
-            }
-
-        }
-
-        if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
-            return redirect()->back()->withErrors([
-                'posto_vacinacao_' . $id => "Não há mais doses disponíveis."
-            ])->withInput();
-        }
+        }  
 
         $candidato->posto_vacinacao_id      = $id_posto;
         $candidato->chegada                 = $datetime_chegada;
         $candidato->saida                   = $datetime_saida;
-        $candidato->lote_id                 = $id_lote;
         $candidato->update();
 
 
         $candidatoSegundaDose = null;
-        $lote = Lote::find($chave_estrangeiro_lote);
+        $lote = Lote::find($candidato->lote_id);
 
         // Se o agendamento for de primeira dose a segunda dose deve ser reajustada
         // para a quantidade de dias do lote escolhido
@@ -792,13 +731,15 @@ class CandidatoController extends Controller
                     $datetime_chegada_segunda_dose->add(new DateInterval('P1D'));
                 }
 
-                $candidatoSegundaDose->chegada              = $datetime_chegada_segunda_dose;
-                $candidatoSegundaDose->saida                =  $datetime_chegada_segunda_dose->copy()->addMinutes(10);
-                $candidatoSegundaDose->dose                 =  Candidato::DOSE_ENUM[1];
-                $candidatoSegundaDose->posto_vacinacao_id   = $id_posto;
+                if ($candidatoSegundaDose != null) {
+                    $candidatoSegundaDose->chegada              =  $datetime_chegada_segunda_dose;
+                    $candidatoSegundaDose->saida                =  $datetime_chegada_segunda_dose->copy()->addMinutes(10);
+                    $candidatoSegundaDose->dose                 =  Candidato::DOSE_ENUM[1];
+                    $candidatoSegundaDose->posto_vacinacao_id   = $id_posto;
 
-
-                $candidatoSegundaDose->update();
+                    $candidatoSegundaDose->update();
+                }
+                
             }
         }
 

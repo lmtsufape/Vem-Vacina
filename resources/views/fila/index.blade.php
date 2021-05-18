@@ -392,13 +392,13 @@
 
 
                             <br>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-6">
                                 </div>
                                 <div class="col-md-6">
                                     <button id="btn_edit_{{$candidato->id}}" type="button" class="btn btn-primary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, true)">Reagendar</button>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div id="editar_agendado_para_{{$candidato->id}}" style="display: none;">

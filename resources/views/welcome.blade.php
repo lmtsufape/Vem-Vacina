@@ -49,11 +49,28 @@
             <div class="row justify-content-center">
                 <div class="card_media2" style="margin-top: 1rem;">
                     <div class="card_menor3">
-                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">INFORMAÇÕES E FORMULÁRIO PARA VACINAÇÃO CONTRA A COVID-19/2021 GRUPO DE 18 A 59 ANOS COM COMORBIDADES</div>
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">INFORMAÇÕES E FORMULÁRIOS PARA VACINAÇÃO CONTRA A COVID-19</div>
                         <div class="container" style="padding-top: 15px; padding-bottom: 14px;">
                             <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
                                 <div class="container">
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                      <div class="panel panel-default">
+                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                          <h3 class="panel-title">
+                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos2" aria-expanded="true" aria-controls="anexos2">
+                                                Formulário com informações para gestantes e puérperas para vacinação contra a covid-19
+                                            </a>
+                                          </h3>
+                                        </div>
+                                        <div id="anexos2" class="panel-collapse collapse  show" role="tabpanel" aria-labelledby="heading0">
+                                          <div class="panel-body px-3 mb-4">
+                                            <p style="text-align: justify">
+                                                Através deste documento, a gestante ou puérpera poderá ter acesso as informações necessárias sobre a vacinação. No mesmo deverão ser preenchidos os dados de identificação, além da autorização para que a vacina seja administrada.
+                                            </p>
+                                            <a href="{{route('baixar.anexo', ['name'=> 'Termo de Ciência e Consentimento Vacinação contra a Covid - GESTANTE.docx'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Formulário </a>
+                                          </div>
+                                        </div>
+                                      </div>
                                       <div class="panel panel-default">
                                         <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
                                           <h3 class="panel-title">
@@ -62,7 +79,7 @@
                                             </a>
                                           </h3>
                                         </div>
-                                        <div id="anexos0" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
+                                        <div id="anexos0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
                                           <div class="panel-body px-3 mb-4">
                                             <p style="text-align: justify">
                                                 A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.
@@ -88,6 +105,7 @@
                                           </div>
                                         </div>
                                       </div>
+
                                     </div>
 
                                 </div>
