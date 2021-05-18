@@ -639,8 +639,7 @@
                 $('#seletor_horario_'+id).append(htmlHorarios);
             },
             error:function(data){
-                console.log('erro');
-                alert('Erro'.data);
+                alert('Houve algum erro, entre em contato com a administração do site.');
             },
         })
     }
