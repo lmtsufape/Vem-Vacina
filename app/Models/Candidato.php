@@ -104,7 +104,7 @@ class Candidato extends Model
     }
 
     public function lote() {
-        return $this->belongsTo(Lote::class, 'lote_id');
+        return $this->belongsTo(LotePostoVacinacao::class, 'lote_id');
     }
 
 
