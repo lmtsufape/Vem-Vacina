@@ -84,9 +84,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('exportar/candidato/', [ExportController::class, 'exportCandidato'])->name('export.candidato');
     Route::get('exportar/lote', [ExportController::class, 'exportLote'])->name('export.lote');
     Route::get('exportar/postos', [ExportController::class, 'exportPosto'])->name('export.posto');
-    Route::get('exportar/postos/candidato/{id}', [ExportController::class, 'exportPostoCandidato'])->name('export.exportPostoCandidato');
-    Route::get('exportar/index', [ExportController::class, 'index'])->name('export.index');
+    Route::get('exportar/postos/candidato', [ExportController::class, 'exportPostoCandidato'])->name('export.exportPostoCandidato');
+    Route::get('exportar/index', [ExportController::class, 'exportPostoCandidato'])->name('export.index');
     Route::get('exportar/listaCandidato', [ExportController::class, 'listarCandidato'])->name('export.candidatos');
+    Route::get('exportar/gerar', [ExportController::class, 'gerar'])->name('export.gerar');
     Route::get('/exportar/agendamentos/posto/{id}', [ExportController::class,'agendamentosDoPosto'])->name('export.agendamentos.posto');
     Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('config.index');
     Route::get('/configuracoes/salvar', [ConfiguracaoController::class, 'update'])->name('config.update');

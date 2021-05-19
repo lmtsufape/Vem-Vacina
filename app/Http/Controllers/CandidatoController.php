@@ -767,6 +767,4 @@ class CandidatoController extends Controller
             $etapa->update();
         }
 
-        return redirect()->back()->with(['mensagem' => 'Vacinação desfeita.']);
-    }
-}
+        return redirect()->back()->with(['mensagem' => 'Vacinação desf
