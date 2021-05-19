@@ -23,7 +23,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $candidato->nome_completo }}</td>
-                                <td>{{ $candidato->lote->numero_lote ?? "Indefinido" }}</td>
+                                <td>{{ $candidato->lote->lote->numero_lote ?? "Indefinido" }}</td>
                                 {{-- <td>{{ $candidato->lote->fabricante }}</td>
                                 <td>{{ $candidato->lote->numero_vacinas }}</td>
                                 <td>{{ $candidato->lote->dose_unica }}</td> --}}
