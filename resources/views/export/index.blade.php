@@ -29,7 +29,7 @@
                             </a>
                             @foreach ($postos as $posto)
                             <a href="{{ route('export.exportPostoCandidato', ['id' => $posto->id]) }}" class="list-group-item list-group-item-action">
-                                Exportar agendamentos do ponto {{$posto->nome}} <span class="badge badge-success">{{ $posto->candidatos->where('chegada', 'like', $hoje.'%')->where('chegada', 'like', $tomorrow.'%')->count() }}</span>
+                                Exportar agendamentos do ponto {{$posto->nome}} <span class="badge badge-success">{{ $posto->candidatos->whereBetween('chegada', [$hoje, $tomorrow])->count() }}</span>
                             </a>
                             @endforeach
                         @endcan
