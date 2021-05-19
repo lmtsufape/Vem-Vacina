@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Lote;
 use App\Models\Etapa;
 use App\Models\Candidato;
 use App\Exports\LoteExport;
 use App\Exports\PostoExport;
-use App\Exports\CandidatosPostoExport;
 use Illuminate\Http\Request;
 use App\Models\PostoVacinacao;
 use App\Exports\CandidatoExport;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PostoCandidatoExport;
+use App\Exports\CandidatosPostoExport;
 
 class ExportController extends Controller
 {
@@ -29,7 +30,9 @@ class ExportController extends Controller
         $lotes = Lote::all()->count();
         $postos = PostoVacinacao::all();
         $qtd_postos = $postos->count();
-        return view('export.index', compact('candidatos', 'lotes', 'qtd_postos', 'postos'));
+        $hoje = Carbon::now()->format("Y-m-d");
+        $tomorrow = Carbon::now()->addDay()->format("Y-m-d");
+        return view('export.index', compact('candidatos', 'lotes', 'qtd_postos', 'postos', 'hoje', 'tomorrow'));
     }
 
     public function exportCandidato()

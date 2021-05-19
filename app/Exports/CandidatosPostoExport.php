@@ -26,7 +26,8 @@ class CandidatosPostoExport implements FromCollection
     public function collection()
     {
         $hoje = Carbon::now()->format("Y-m-d");
-        return $this->posto->candidatos()->where('chegada', 'like', $hoje.'%')->get();
+        $tomorrow = Carbon::now()->addDay()->format("Y-m-d");
+        return $this->posto->candidatos()->where('chegada', 'like', $hoje.'%')->where('chegada', 'like', $tomorrow.'%')->get();
     }
 
 
