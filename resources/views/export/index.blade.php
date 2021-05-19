@@ -140,6 +140,7 @@
                     <div class="row">
                         <div class="col-md-12 mt-2" style="margin-bottom: 5px;">
                             <form id="form" action="{{ route('export.gerar') }}" method="post">
+                                @csrf
                                 <input type="hidden" name="candidatos" value="{{ $candidatos }}">
                                 <button type="submit" class="btn btn-success" style="width: 100%;">Baixar  {{ $candidatos->count() }}</button>
                             </form>
@@ -152,6 +153,7 @@
                             </h2>
                             @foreach ($postos as $posto)
                             <form id="form" action="{{ route('export.gerar') }}" method="post">
+                                @csrf
                                 <input type="hidden" name="candidatos" value="{{ $posto->candidatos->whereBetween('chegada', [$hoje, $tomorrow]) }}">
                                 <button type="submit" class="btn btn-info mt-2" style="width: 100%;">{{ $posto->nome }}  {{ $posto->candidatos->whereBetween('chegada', [$hoje, $tomorrow])->count() }}</button>
                             </form>
