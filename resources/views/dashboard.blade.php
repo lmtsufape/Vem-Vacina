@@ -471,7 +471,9 @@
                                     <div class="col-md-6">
                                     </div>
                                     <div class="col-md-6">
-                                        <button id="btn_edit_{{$candidato->id}}" type="button" class="btn btn-primary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, true)">Reagendar</button>
+                                        @if ($candidato->dose == $doses[0])
+                                            <button id="btn_edit_{{$candidato->id}}" type="button" class="btn btn-primary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, true)">Reagendar</button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
