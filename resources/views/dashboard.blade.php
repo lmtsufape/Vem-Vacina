@@ -471,7 +471,9 @@
                                     <div class="col-md-6">
                                     </div>
                                     <div class="col-md-6">
-                                        <button id="btn_edit_{{$candidato->id}}" type="button" class="btn btn-primary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, true)">Reagendar</button>
+                                        @if ($candidato->dose == $doses[0])
+                                            <button id="btn_edit_{{$candidato->id}}" type="button" class="btn btn-primary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, true)">Reagendar</button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -483,7 +485,7 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="posto_vacinacao" class="style_titulo_input">PONTO DE VACINAÇÃO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
-                                            <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao_'.$candidato->id) is-invalid @enderror" name="posto_vacinacao_{{$candidato->id}}" required onchange="selecionar_posto(this, {{$candidato->id}})">
+                                            <select id="posto_vacinacao_{{$candidato->id}}" class="form-control style_input @error('posto_vacinacao_'.$candidato->id) is-invalid @enderror" name="posto_vacinacao_{{$candidato->id}}" required onchange="selecionar_posto(this, {{$candidato->id}})">
                                                 <option selected disabled>-- Selecione o ponto --</option>
                                                 @foreach($postos as $posto)
                                                     <option value="{{$posto->id}}">{{$posto->nome}}</option>
