@@ -1,5 +1,6 @@
 @php
 use App\Models\Lote;
+use App\Models\LotePostoVacinacao;
 @endphp
 <table>
     <thead>
@@ -60,8 +61,11 @@ use App\Models\Lote;
             <td>{{ $candidato->dose }}</td>
             <td>{{ date('d/m/Y', strtotime($candidato->chegada)) }}</td>
             <td>{{ date('d/m/Y', strtotime($candidato->saida)) }}</td>
-            <td>{{ Lote::find($candidato->lote_id) ? Lote::find($candidato->lote_id)->numero_lote : "Erro" }} </td>
-            <td>{{ Lote::find($candidato->lote_id) ? Lote::find($candidato->lote_id)->fabricante : "Erro" }}</td>
+            @php
+                $lote = LotePostoVacinacao::find($candidato->lote_id)->lote;
+            @endphp
+            <td>{{  $lote ? $lote->numero_lote : "Erro"  }} </td>
+            <td>{{  $lote ? $lote->fabricante : "Erro"  }}</td>
             <td>{{ $candidato->posto->nome ?? "posto" }}</td>
             {{-- @if ($candidato->etapa->tipo == $tipos[0])
                 <td> {{ 'De '.$candidato->etapa->inicio_intervalo." às ".$candidato->etapa->fim_intervalo}}</td>

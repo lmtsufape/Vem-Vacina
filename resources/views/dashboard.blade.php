@@ -298,26 +298,29 @@
                                 @endif
                             </div>
                             <br>
-                            @if ($candidato->lote != null)
+                            @php
+                                $lote = App\Models\LotePostoVacinacao::find($candidato->lote_id)->lote;
+                            @endphp
+                            @if ($lote != null)
                                 <div class="row">
                                     <h4>Lote</h4>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="nome_{{$candidato->id}}">fabricante</label>
-                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->fabricante ?? "Indefinido"}}">
+                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$lote->fabricante ?? "Indefinido"}}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="nome_{{$candidato->id}}">Nº do lote</label>
-                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->numero_lote ?? "Indefinido"}}">
+                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$lote->numero_lote ?? "Indefinido"}}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="nome_{{$candidato->id}}">Dose única</label>
-                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ? "Sim" : "Não"}}">
+                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$lote->dose_unica ? "Sim" : "Não"}}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="nome_{{$candidato->id}}">Tempo para segunda dose</label>
-                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ?  " - " : $candidato->lote->inicio_periodo ." dias"  }}">
+                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$lote->dose_unica ?  " - " : $lote->inicio_periodo ." dias"  }}">
                                     </div>
                                 </div>
                             @endif
