@@ -29,7 +29,7 @@
                             </a>
                             @foreach ($postos as $posto)
                             <a href="{{ route('export.exportPostoCandidato', ['id' => $posto->id]) }}" class="list-group-item list-group-item-action">
-                                Exportar agendamentos do ponto {{$posto->nome}} <span class="badge badge-success">{{ $posto->candidatos->count() }}</span>
+                                Exportar agendamentos do ponto {{$posto->nome}} <span class="badge badge-success">{{ $posto->candidatos->where('chegada', 'like', $hoje.'%')->where('chegada', 'like', $tomorrow.'%')->count() }}</span>
                             </a>
                             @endforeach
                         @endcan
@@ -86,7 +86,7 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <h5>Importar lista de vacinados</h5> 
+                                    <h5>Importar lista de vacinados</h5>
                                 </div>
                                 <div class="col-md-4">
                                     <a href="{{asset('planilha_modelo_vacinados.csv')}}">Planilha modelo</a>
@@ -112,7 +112,7 @@
                                 </div>
                             </form>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
