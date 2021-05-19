@@ -13,18 +13,16 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class PostoCandidatoExport implements ShouldAutoSize,WithHeadings, FromView
 {
-    public $posto_id;
-    public $posto;
 
-    public function __construct($posto_id)
+    public $posto;
+    public $candidatos;
+
+    public function __construct($candidatos)
     {
-        $this->posto_id = $posto_id;
+
+        $this->candidatos = $candidatos;
     }
-    public function collection()
-    {
-        $posto = PostoVacinacao::where('nome', $this->posto_id)->first();
-        return $posto->candidatos;
-    }
+
 
     public function headings(): array
     {
@@ -54,11 +52,9 @@ class PostoCandidatoExport implements ShouldAutoSize,WithHeadings, FromView
 
     public function view(): View
     {
-        $hoje = Carbon::now()->format("Y-m-d");
-        $tomorrow = Carbon::now()->addDay()->format("Y-m-d");
-        $this->posto = PostoVacinacao::with('candidatos')->where('id', $this->posto_id)->first();
+
         return view('export.candidatos', [
-            'candidatos' => $this->posto->candidatos->whereBetween('chegada', [$hoje, $tomorrow]),
+            'candidatos' => $this->candidatos,
             'tipos' => Etapa::TIPO_ENUM
         ]);
     }
