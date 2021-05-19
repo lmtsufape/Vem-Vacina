@@ -708,7 +708,7 @@ class CandidatoController extends Controller
             return redirect()->back()->withErrors([
                 'posto_vacinacao_' . $id => "Alguém conseguiu preencher o formulário mais rápido, escolha outro horario por favor."
             ])->withInput();
-        }  
+        }
 
         $candidato->posto_vacinacao_id      = $id_posto;
         $candidato->chegada                 = $datetime_chegada;
@@ -739,7 +739,7 @@ class CandidatoController extends Controller
 
                     $candidatoSegundaDose->update();
                 }
-                
+
             }
         }
 
@@ -767,4 +767,6 @@ class CandidatoController extends Controller
             $etapa->update();
         }
 
-        return redirect()->back()->with(['mensagem' => 'Vacinação desf
+        return redirect()->back()->with(["mensagem" => "Vacinação desfeita."]);
+    }
+}
