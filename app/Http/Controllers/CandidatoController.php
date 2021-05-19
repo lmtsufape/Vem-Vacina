@@ -22,6 +22,7 @@ use App\Notifications\CandidatoReprovado;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CandidatoInscritoSegundaDose;
 use Illuminate\Validation\Rule;
+use App\Models\LotePostoVacinacao;
 
 class CandidatoController extends Controller
 {
@@ -717,12 +718,13 @@ class CandidatoController extends Controller
 
 
         $candidatoSegundaDose = null;
-        $lote = $candidato->lote;
+        $lote = LotePostoVacinacao::find($candidato->lote->id)->lote;
+
         // Se o agendamento for de primeira dose a segunda dose deve ser reajustada
         // para a quantidade de dias do lote escolhido
         if ($candidato->dose == Candidato::DOSE_ENUM[0]) {
 
-            if (!$lote->dose_unica) {
+            if ($lote != null && !$lote->dose_unica) {
                 $candidatoSegundaDose = Candidato::where([['cpf', $candidato->cpf], ['dose', Candidato::DOSE_ENUM[1]]])->first();
 
                 $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
