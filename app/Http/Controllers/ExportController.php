@@ -157,7 +157,7 @@ class ExportController extends Controller
     {
         // dd( array_column(json_decode($request->candidatos), 'id')  );
         $ids = array_column(json_decode($request->candidatos), 'id');
-        $candidatos = Candidato::whereIn('id', $ids)->get();
+        $candidatos = Candidato::whereIn('id', $ids)->take(400)->get();
         return Excel::download(new PostoCandidatoExport( $candidatos), 'postosCandidato.xlsx');
     }
     public function listarCandidato()
