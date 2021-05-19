@@ -718,7 +718,7 @@ class CandidatoController extends Controller
 
 
         $candidatoSegundaDose = null;
-        $lote = LotePostoVacinacao::find($candidato->lote->id)->lote;
+        $lote = LotePostoVacinacao::find($candidato->lote_id)->lote;
 
         // Se o agendamento for de primeira dose a segunda dose deve ser reajustada
         // para a quantidade de dias do lote escolhido
