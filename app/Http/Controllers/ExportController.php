@@ -119,9 +119,9 @@ class ExportController extends Controller
         }
 
         if ($request->outro) {
-            $agendamentos = $query->get();
+            $agendamentos = $query->take(400)->get();
         } else {
-            $agendamentos = $query->get();
+            $agendamentos = $query->take(400)->get();
         }
 
         if ($request->outro) {
@@ -157,6 +157,7 @@ class ExportController extends Controller
     {
         // dd( array_column(json_decode($request->candidatos), 'id')  );
         $ids = array_column(json_decode($request->candidatos), 'id');
+        // $candidatos = Candidato::whereIn('id', $ids)->take(400)->get();
         $candidatos = Candidato::whereIn('id', $ids)->take(400)->get();
         return Excel::download(new PostoCandidatoExport( $candidatos), 'postosCandidato.xlsx');
     }
