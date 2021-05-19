@@ -146,7 +146,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="list-group">
+                    {{-- <div class="list-group">
                         @can('baixar-export')
                             <h2 class="font-semibold text-xl text-gray-800 leading-tight mt-2 mb-2">
                                 {{ __('Exportar pontos(Agendamentos de hoje e amanhã)') }}
@@ -160,7 +160,7 @@
 
                             @endforeach
                         @endcan
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
