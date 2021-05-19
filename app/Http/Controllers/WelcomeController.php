@@ -11,34 +11,34 @@ use App\Models\Configuracao;
 class WelcomeController extends Controller
 {
     public function index() {
-        $quantPessoasCadastradas = 0;
-        $quantPessoasPriDose = 0;
-        $quantPessoasSegDose = 0;
+        // $quantPessoasCadastradas = 0;
+        // $quantPessoasPriDose = 0;
+        // $quantPessoasSegDose = 0;
         $config = Configuracao::first();
 
-        $publicos = Etapa::orderBy('texto')->get();
-        $pontos = PostoVacinacao::all();
+        // $publicos = Etapa::orderBy('texto')->get();
+        // $pontos = PostoVacinacao::all();
 
-        foreach ($publicos as $publico) {
-            $quantPessoasPriDose += $publico->total_pessoas_vacinadas_pri_dose;
-            $quantPessoasSegDose += $publico->total_pessoas_vacinadas_seg_dose;
-        }
+        // foreach ($publicos as $publico) {
+        //     $quantPessoasPriDose += $publico->total_pessoas_vacinadas_pri_dose;
+        //     $quantPessoasSegDose += $publico->total_pessoas_vacinadas_seg_dose;
+        // }
 
-        $candidatosVacinados = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
+        // $candidatosVacinados = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
 
-        $quantPessoasCadastradas = intval(count(Candidato::where('aprovacao', '!=', Candidato::APROVACAO_ENUM[0])->get())/2) + count(Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get());
+        // $quantPessoasCadastradas = intval(count(Candidato::where('aprovacao', '!=', Candidato::APROVACAO_ENUM[0])->get())/2) + count(Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get());
 
 
-        return view('welcome')->with(['publicos'                => $publicos,
-                                      'quantPessoasCadastradas' => $quantPessoasCadastradas,
-                                      'quantPessoasPriDose'     => $quantPessoasPriDose,
-                                      'quantPessoasSegDose'     => $quantPessoasSegDose,
-                                      'aprovacao_enum'          => Candidato::APROVACAO_ENUM,
+        return view('welcome')->with([//'publicos'                => $publicos,
+                                    //   'quantPessoasCadastradas' => $quantPessoasCadastradas,
+                                    //   'quantPessoasPriDose'     => $quantPessoasPriDose,
+                                    //   'quantPessoasSegDose'     => $quantPessoasSegDose,
+                                    //   'aprovacao_enum'          => Candidato::APROVACAO_ENUM,
                                     //   'vacinasDisponiveis'      => $this->quantVacinasDisponiveis($pontos),
-                                      'porcentagemVacinada'     => $this->porcentagemVacinada($quantPessoasPriDose),
-                                      'quantVacinadosPorBairro' => $this->quantVacinadosPorBairro($candidatosVacinados),
-                                      'quantVacinadosPorIdade'  => $this->quantVacinadosPorIdade($candidatosVacinados),
-                                      'vacinadosPorSexo'        => $this->vacinadosPorSexo($candidatosVacinados),
+                                    //   'porcentagemVacinada'     => $this->porcentagemVacinada($quantPessoasPriDose),
+                                    //   'quantVacinadosPorBairro' => $this->quantVacinadosPorBairro($candidatosVacinados),
+                                    //   'quantVacinadosPorIdade'  => $this->quantVacinadosPorIdade($candidatosVacinados),
+                                    //   'vacinadosPorSexo'        => $this->vacinadosPorSexo($candidatosVacinados),
                                       'config'                  => $config,]);
     }
 
