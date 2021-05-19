@@ -58,7 +58,7 @@ class PostoCandidatoExport implements ShouldAutoSize,WithHeadings, FromView
         $tomorrow = Carbon::now()->addDay()->format("Y-m-d");
         $this->posto = PostoVacinacao::with('candidatos')->where('id', $this->posto_id)->first();
         return view('export.candidatos', [
-            'candidatos' => $this->posto->candidatos->where('chegada', 'like', $hoje.'%')->where('chegada', 'like', $tomorrow.'%'),
+            'candidatos' => $this->posto->candidatos->whereBetween('chegada', [$hoje, $tomorrow]),
             'tipos' => Etapa::TIPO_ENUM
         ]);
     }
