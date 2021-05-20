@@ -111,6 +111,22 @@ class CandidatoController extends Controller
                 $agendamentos = collect();
             }
         }
+        // $postos = PostoVacinacao::all();
+        // $postos_disponiveis = collect([]);
+        // foreach ($postos as $key => $posto) {
+        //     $lote_bool = false;
+        //     foreach($posto->lotes as $key1 => $lote){
+        //         if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($request->publico_id)){
+        //             $lote_bool = true;
+        //             break;
+        //         }
+        //     }
+
+        //     if($lote_bool == true){
+        //         $postos_disponiveis->push($posto);
+        //         continue;
+        //     }
+        // }
 
         return view('dashboard')->with(['candidatos' => $agendamentos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
@@ -192,7 +208,7 @@ class CandidatoController extends Controller
         ]);
 
         // dd($request->all());
-        DB::beginTransaction();
+        // DB::beginTransaction();
 
         try {
             if (Candidato::where('cpf',$request->cpf)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
@@ -288,7 +304,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
-                DB::commit();
+                // DB::commit();
                 $agendamentos = [];
                 array_push($agendamentos, $candidato);
                 return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
@@ -317,7 +333,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
-                DB::commit();
+                // DB::commit();
                 $agendamentos = [];
                 array_push($agendamentos, $candidato);
                 return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
@@ -356,7 +372,7 @@ class CandidatoController extends Controller
                             $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                             $candidato->save();
                             Notification::send($candidato, new CandidatoFila($candidato));
-                            DB::commit();
+                            // DB::commit();
                             $agendamentos = [];
                             array_push($agendamentos, $candidato);
                             return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
@@ -385,7 +401,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
-                DB::commit();
+                // DB::commit();
                 $agendamentos = [];
                 array_push($agendamentos, $candidato);
                 return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
@@ -441,10 +457,10 @@ class CandidatoController extends Controller
                 }
             }
 
-            DB::commit();
+            // DB::commit();
 
         } catch (\Throwable $e) {
-            DB::rollback();
+            // DB::rollback();
             if(env('APP_DEBUG')){
                 return redirect()->back()->withErrors([
                     "message" => $e->getMessage(),
@@ -704,7 +720,7 @@ class CandidatoController extends Controller
         $datetime_saida         = $datetime_chegada->copy()->addMinutes(10);
 
         $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime_chegada)->where("posto_vacinacao_id", $id_posto)->get();
-        DB::beginTransaction();
+        // DB::beginTransaction();
 
         try {
         if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
@@ -810,9 +826,9 @@ class CandidatoController extends Controller
 
             }
         }
-        DB::commit();
+        // DB::commit();
         } catch (\Throwable $e) {
-            DB::rollback();
+            // DB::rollback();
             if(env('APP_DEBUG')){
                 return redirect()->back()->withErrors([
                     "message" => $e->getMessage(),
