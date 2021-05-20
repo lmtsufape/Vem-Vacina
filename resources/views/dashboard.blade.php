@@ -435,7 +435,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label for="complemento_{{$candidato->id}}">Complemento</label>
-                                    <textarea id="complemento_{{$candidato->id}}" type="text" class="form-control" disabled rows="3">{{$candidato->numero_residencia}}</textarea>
+                                    <textarea id="complemento_{{$candidato->id}}" type="text" class="form-control" disabled rows="3">{{$candidato->complemento_endereco ?? " "}}</textarea>
                                 </div>
                             </div>
                             <br>
