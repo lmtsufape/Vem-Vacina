@@ -53,8 +53,8 @@
             <td>{{ $candidato->dose }}</td>
             <td>{{ $candidato->chegada }}</td>
             <td>{{ $candidato->saida }}</td>
-            <td>{{ Lote::find($candidato->lote_id) ? Lote::find($candidato->lote_id)->numero_lote : "Erro" }} </td>
-            <td>{{ Lote::find($candidato->lote_id) ? Lote::find($candidato->lote_id)->fabricante : "Erro" }}</td>
+            <td>{{ $candidato->lote->lote ? $candidato->lote->lote->numero_lote : "Erro" }} </td>
+            <td>{{ $candidato->lote->lote ? $candidato->lote->lote->fabricante : "Erro" }}</td>
             <td>{{ $candidato->posto->nome }}</td>
             @if ($candidato->etapa->tipo == $tipos[0])
                 <td> {{ 'De '.$candidato->etapa->inicio_intervalo." às ".$candidato->etapa->fim_intervalo}}</td>
