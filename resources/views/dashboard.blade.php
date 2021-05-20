@@ -308,19 +308,19 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="fabricante_{{$candidato->id}}">fabricante</label>
-                                        <input id="fabricante_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->fabricante ?? "Indefinido"}}">
+                                        <input id="fabricante_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$lote->fabricante ?? "Indefinido"}}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="lote_{{$candidato->id}}">Nº do lote</label>
-                                        <input id="lote_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->numero_lote ?? "Indefinido"}}">
+                                        <input id="lote_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$lote->numero_lote ?? "Indefinido"}}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="dose_unica_{{$candidato->id}}">Dose única</label>
-                                        <input id="dose_unica_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ? "Sim" : "Não"}}">
+                                        <input id="dose_unica_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$lote->dose_unica ? "Sim" : "Não"}}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="tempo_{{$candidato->id}}">Tempo para segunda dose</label>
-                                        <input id="tempo_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ?  " - " : $candidato->lote->inicio_periodo ." dias"  }}">
+                                        <input id="tempo_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$lote->dose_unica ?  " - " : $lote->inicio_periodo ." dias"  }}">
                                     </div>
                                 </div>
                             @endif
