@@ -488,7 +488,7 @@
                                             <label for="posto_vacinacao_{{$candidato->id}}" class="style_titulo_input">PONTO DE VACINAÇÃO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
                                             <select id="posto_vacinacao_{{$candidato->id}}" class="form-control style_input @error('posto_vacinacao_'.$candidato->id) is-invalid @enderror" name="posto_vacinacao_{{$candidato->id}}" required onchange="selecionar_posto(this, {{$candidato->id}})">
                                                 <option selected disabled>-- Selecione o ponto --</option>
-                                                @foreach($postos as $posto)
+                                                @foreach($candidato->etapa->pontos as $posto)
                                                     <option value="{{$posto->id}}">{{$posto->nome}}</option>
                                                 @endforeach
                                             </select>
