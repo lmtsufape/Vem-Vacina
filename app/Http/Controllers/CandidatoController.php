@@ -689,7 +689,7 @@ class CandidatoController extends Controller
 
     public function reagendar(Request $request, $id) {
         $candidato = Candidato::find($id);
-
+        
         $validated = $request->validate([
             'edit_agendamento_id'       => 'required',
             'posto_vacinacao_' . $id    => 'required',

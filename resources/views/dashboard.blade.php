@@ -304,20 +304,20 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="nome_{{$candidato->id}}">fabricante</label>
-                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->fabricante ?? "Indefinido"}}">
+                                        <label for="fabricante_{{$candidato->id}}">fabricante</label>
+                                        <input id="fabricante_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->fabricante ?? "Indefinido"}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="nome_{{$candidato->id}}">Nº do lote</label>
-                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->numero_lote ?? "Indefinido"}}">
+                                        <label for="lote_{{$candidato->id}}">Nº do lote</label>
+                                        <input id="lote_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->numero_lote ?? "Indefinido"}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="nome_{{$candidato->id}}">Dose única</label>
-                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ? "Sim" : "Não"}}">
+                                        <label for="dose_unica_{{$candidato->id}}">Dose única</label>
+                                        <input id="dose_unica_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ? "Sim" : "Não"}}">
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="nome_{{$candidato->id}}">Tempo para segunda dose</label>
-                                        <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ?  " - " : $candidato->lote->inicio_periodo ." dias"  }}">
+                                        <label for="tempo_{{$candidato->id}}">Tempo para segunda dose</label>
+                                        <input id="tempo_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ?  " - " : $candidato->lote->inicio_periodo ." dias"  }}">
                                     </div>
                                 </div>
                             @endif
@@ -648,19 +648,18 @@
 
     function selecionar_dia_vacinacao(select_dia, id) {
         var divHorarios = document.getElementById('seletor_horario_'+id);
+        var divHoras = document.getElementById("seletor_horario_dia_"+select_dia.value+"_"+id);
+
         for (var i = 0; i < divHorarios.children.length; i++) {
-            var divHoras = document.getElementById("seletor_horario_dia_"+select_dia.value+"_"+id);
-            var inputHoras = document.getElementById("select_horario_input_"+select_dia.value+"_"+id);
+            var inputHoras = divHorarios.children[i].children[0].children[0].children[1];
             if (divHoras == divHorarios.children[i]) {
-                divHoras.style.display = "block";
-                inputHoras.setAttribute('name', "hora_"+id);
-                inputHoras.name = "horario_vacinacao_"+id;
-                inputHoras.id = "horario_vacinacao_"+id;
+                divHorarios.children[i].style.display = "";
+                inputHoras.setAttribute('name', "horario_vacinacao_"+id);
                 inputHoras.required = true;
             } else {
-                divHorarios.children[i].style="display:none";
-                inputHoras.options.selectedIndex = 0;
-                inputHoras.name = "";
+                divHorarios.children[i].style.display ="none";
+                inputHoras.selectedIndex = 0;
+                inputHoras.setAttribute('name', "");
                 inputHoras.required = false;
             }
         }
