@@ -240,29 +240,7 @@
                             @endif
                         </div>
                         <br>
-                        @if ($candidato->lote != null)
-                            <div class="row">
-                                <h4>Lote</h4>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="nome_{{$candidato->id}}">fabricante</label>
-                                    <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->fabricante ?? "Indefinido"}}">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nome_{{$candidato->id}}">Nº do lote</label>
-                                    <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->numero_lote ?? "Indefinido"}}">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nome_{{$candidato->id}}">Dose única</label>
-                                    <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ? "Sim" : "Não"}}">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nome_{{$candidato->id}}">Tempo para segunda dose</label>
-                                    <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->lote->dose_unica ?  " - " : $candidato->lote->inicio_periodo ." dias"  }}">
-                                </div>
-                            </div>
-                        @endif
+
                         <br>
                         <div class="row">
                             <h4>Informações pessoais</h4>
@@ -600,7 +578,7 @@
                     }
                 }
                 document.getElementById('agendamentos').innerHTML = "";
-                $('#agendamentos').append(html); 
+                $('#agendamentos').append(html);
             },
             error:function(data){
                 console.log('erro');
@@ -609,6 +587,5 @@
         })
     }*/
 
-    
+
 </script>
-                               
