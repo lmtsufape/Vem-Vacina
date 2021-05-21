@@ -67,7 +67,9 @@ class PostoVacinacaoController extends Controller
         }
 
         // Pega os candidatos do posto selecionado cuja data de vacinação é de amanhã pra frente, os que já passaram não importam
-        $candidatos = Candidato::where([["posto_vacinacao_id", $posto_id],["aprovacao", "!=", Candidato::APROVACAO_ENUM[2]]])->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->get();
+        $candidatos = Candidato::where("posto_vacinacao_id", $posto_id)->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
+
+        // $candidatos = Candidato::where([["posto_vacinacao_id", $posto_id],["aprovacao", "!=", Candidato::APROVACAO_ENUM[2]]])->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->get();
 
 
         $horarios_disponiveis = array_diff($todos_os_horarios, $candidatos->pluck('chegada')->toArray());
