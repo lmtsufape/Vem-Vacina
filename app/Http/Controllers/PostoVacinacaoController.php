@@ -25,7 +25,7 @@ class PostoVacinacaoController extends Controller
         $todos_os_horarios = [];
         set_time_limit(360);
         $posto = PostoVacinacao::find($posto_id);
-
+        $contador = 0;
         // Pega os proximos 7 dias
         for($i = 0; $i < 7; $i++) {
             $dia = Carbon::tomorrow()->addDay($i);
@@ -51,6 +51,10 @@ class PostoVacinacaoController extends Controller
                 $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_tarde);
                 $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_tarde . " minutes", $fim_do_dia);
                 array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
+            }
+            $contador++;
+            if($contador == 2){
+                break;
             }
         }
 
@@ -434,6 +438,7 @@ class PostoVacinacaoController extends Controller
                     $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_tarde . " minutes", $fim_do_dia);
                     array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
                 }
+
             }
 
             // Os periodos são salvos como horarios[dia][janela]

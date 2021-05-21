@@ -9,7 +9,7 @@
         @endforeach
     </select>
 
-    
+
     @foreach($horarios_por_dia as $dia => $horarios)
         <div class="seletor_horario_dia_div"  id="seletor_horario_dia_{{$dia}}" style="display:none;">
             <div class="form-row horario_vacina_div">
@@ -37,7 +37,7 @@
  #dia_vacinacao {
      margin-bottom: 16px;
  }
- 
+
  .horario_vacina_div {
      margin-left: -102%;
  }
@@ -60,5 +60,5 @@
  }
 
 
- 
+
 </style>

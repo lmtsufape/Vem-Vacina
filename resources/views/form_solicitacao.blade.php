@@ -812,7 +812,7 @@
 
             success: function(data){
                 console.log(data);
-                /* console.log(typeof data) */
+                //  console.log( data)
                 if(data.length <= 0 && data != null){
                     const buttonSend = document.getElementById('buttonSend');
                     buttonSend.innerText = "Enviar para fila de Espera";
