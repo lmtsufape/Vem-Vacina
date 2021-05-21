@@ -53,7 +53,7 @@ class PostoVacinacaoController extends Controller
                 array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
             }
             $contador++;
-            if($contador == 2){
+            if($contador == 1){
                 break;
             }
         }
