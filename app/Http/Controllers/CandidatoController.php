@@ -29,10 +29,18 @@ class CandidatoController extends Controller
     public function show(Request $request) {
         $candidatos = null;
         // dd($request->all());
-        $query = Candidato::query()->where('aprovacao', '!=' ,Candidato::APROVACAO_ENUM[0]);
 
-        if ($request->reprovado) {
-            $query->onlyTrashed()->where('aprovacao', Candidato::APROVACAO_ENUM[2])->where('aprovacao', "Reprovado");
+
+        if ($request->tipo == "Não Analisado") {
+            $query = Candidato::query()->where('aprovacao', Candidato::APROVACAO_ENUM[0]);
+        }else if ($request->tipo == "Aprovado") {
+            $query = Candidato::query()->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
+        }else if ($request->tipo == "Reprovado") {
+            $query = Candidato::query()->onlyTrashed()->where('aprovacao', Candidato::APROVACAO_ENUM[2]);
+        }else if ($request->tipo == "Vacinado") {
+            $query = Candidato::query()->where('aprovacao', Candidato::APROVACAO_ENUM[3]);
+        }else{
+            $query = Candidato::query()->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
         }
 
         if ($request->nome_check && $request->nome != null) {

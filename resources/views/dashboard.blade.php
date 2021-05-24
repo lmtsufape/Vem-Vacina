@@ -71,6 +71,10 @@
                                     <label>Ponto</label>
                                 </div>
                                 <div class="col-md-3">
+                                    <input type="checkbox" name="tipo_check" id="ponto_check_input" @if($request->tipo_check != null && $request->tipo_check) checked @endif onclick="mostrarFiltro(this, 'tipo_check')">
+                                    <label>Tipo</label>
+                                </div>
+                                <div class="col-md-3">
                                     <input type="checkbox" name="publico_check" id="publico_check_input" @if($request->publico_check != null && $request->publico_check) checked @endif onclick="mostrarFiltro(this, 'publico_check')">
                                     <label>Público</label>
                                 </div>
@@ -103,6 +107,7 @@
                                         <option @if($request->campo == "chegada") selected @endif value="chegada">dia</option>
                                     </select>
                                 </div>
+
                                 <div id="ordem_check" class="col-md-3" @if($request->ordem_check != null && $request->ordem_check) style="display: block;" @else style="display:none;" @endif>
                                     <select id="ordem" name="ordem" class="form-control">
                                         <option value="">-- ordem --</option>
@@ -116,6 +121,15 @@
                                         @foreach ($postos as $posto)
                                             <option @if($request->ponto == $posto->id) selected @endif value="{{ $posto->id }}">{{ $posto->nome }}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+                                <div id="tipo_check" class="col-md-3" @if($request->tipo_check != null && $request->tipo_check) style="display: block;" @else style="display:none;" @endif>
+                                    <select id="tipo" name="tipo" class="form-control">
+                                        <option value="">-- tipo --</option>
+                                            <option @if($request->tipo == "Aprovado") selected @endif value="{{ "Aprovado" }}">{{ "Aprovado" }}</option>
+                                            <option @if($request->tipo == "Reprovado") selected @endif value="{{ "Reprovado" }}">{{ "Reprovado" }}</option>
+                                            <option @if($request->tipo == "Vacinado") selected @endif value="{{ "Vacinado" }}">{{ "Vacinado" }}</option>
+                                            <option @if($request->tipo == "Não Analisado") selected @endif value="{{ "Não Analisado" }}">{{ "Não Analisado" }}</option>
                                     </select>
                                 </div>
                                 <div id="publico_check" class="col-md-3" @if($request->publico_check != null && $request->publico_check) style="display: block;" @else style="display:none;" @endif>
@@ -177,7 +191,7 @@
                         <tbody id="agendamentos">
                             @foreach ($candidatos as $i => $candidato)
                             <tr>
-                                <td style="display:none;">{{$candidato->toJson()}}</td>
+                                {{-- <td style="display:none;">{{$candidato->toJson()}}</td> --}}
                                 <td>{{ $candidato->id }}</td>
                                 <td>
                                     <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
@@ -185,10 +199,10 @@
                                       </span>
                                 </td>
                                 <td>{{$candidato->cpf}}</td>
-                                <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
-                                <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td>
+                                <td>{{ $candidato->chegada ? date('d/m/Y',strtotime($candidato->chegada)) : "Indefinido" }}</td>
+                                <td>{{ $candidato->chegada ? date('H:i',strtotime($candidato->chegada)) ."-". date('H:i',strtotime($candidato->saida)) : "Indefinido" }}</td>
                                 <td>
-                                    {{ $candidato->dose  }}
+                                    {{ $candidato->chegada ?  $candidato->dose : "Indefinido" }}
                                 </td>
                                 <td>
                                     <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
@@ -199,40 +213,44 @@
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
                                 </td>
                                 <td>
-                                    @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
-                                        Vacinado
-                                    @else
-                                        @can('confirmar-vaga-candidato')
-                                        <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-md-12 px-0">
-                                                    <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
-                                                        <option value="" selected disabled>selecione</option>
-                                                        <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
-                                                        <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
-                                                        <option value="Ausente" >Ausente</option>
-                                                        {{-- <option value="restaurar" >Restaurar</option> --}}
-                                                    </select>
+                                    @if($candidato->lote_id)
+                                        @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
+                                            Vacinado
+                                        @else
+                                            @can('confirmar-vaga-candidato')
+                                            <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
+                                                @csrf
+                                                <div class="row">
+                                                    <div class="col-md-12 px-0">
+                                                        <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
+                                                            <option value="" selected disabled>selecione</option>
+                                                            <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
+                                                            <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
+                                                            <option value="Ausente" >Ausente</option>
+                                                            {{-- <option value="restaurar" >Restaurar</option> --}}
+                                                        </select>
+                                                    </div>
+                                                    {{-- <div class="col-md-2">
+
+                                                            <button class="btn btn-success"><i class="far fa-check-circle"></i></button>
+
+                                                    </div> --}}
                                                 </div>
-                                                {{-- <div class="col-md-2">
-
-                                                        <button class="btn btn-success"><i class="far fa-check-circle"></i></button>
-
-                                                </div> --}}
-                                            </div>
-                                        </form>
-                                        @endcan
+                                            </form>
+                                            @endcan
+                                        @endif
                                     @endif
                                 </td>
 
                                 <td style="text-align: center;" class="pl-4">
-                                    @can('vacinado-candidato')
-                                        <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif><i class="fas fa-syringe"></i></button>
-                                        @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
-                                            <button class="btn btn-danger" data-toggle="modal" data-target="#cancelar_vacinado_candidato_{{$candidato->id}}"><i class="far fa-times-circle"></i></button>
-                                        @endif
-                                    @endcan
+                                    @if($candidato->lote_id)
+                                        @can('vacinado-candidato')
+                                            <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif><i class="fas fa-syringe"></i></button>
+                                            @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
+                                                <button class="btn btn-danger" data-toggle="modal" data-target="#cancelar_vacinado_candidato_{{$candidato->id}}"><i class="far fa-times-circle"></i></button>
+                                            @endif
+                                        @endcan
+                                    @endif
                                 </td>
                                 <td>
                                     @can('whatsapp-candidato')
@@ -299,7 +317,10 @@
                             </div>
                             <br>
                             @php
-                                $lote = App\Models\LotePostoVacinacao::find($candidato->lote_id)->lote;
+                                $lote = App\Models\LotePostoVacinacao::find($candidato->lote_id);
+                                if($lote != null){
+                                    $lote->lote;
+                                }
                             @endphp
                             @if ($lote != null)
                                 <div class="row">
