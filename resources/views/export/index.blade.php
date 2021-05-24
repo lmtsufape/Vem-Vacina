@@ -65,6 +65,10 @@
                                         <label>Ponto</label>
                                     </div>
                                     <div class="col-md-3">
+                                        <input type="checkbox" name="tipo_check" id="ponto_check_input" @if($request->tipo_check != null && $request->tipo_check) checked @endif onclick="mostrarFiltro(this, 'tipo_check')">
+                                        <label>Tipo</label>
+                                    </div>
+                                    <div class="col-md-3">
                                         <input type="checkbox" name="publico_check" id="publico_check_input" @if($request->publico_check != null && $request->publico_check) checked @endif onclick="mostrarFiltro(this, 'publico_check')">
                                         <label>Público</label>
                                     </div>
@@ -112,6 +116,15 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div id="tipo_check" class="col-md-3" @if($request->tipo_check != null && $request->tipo_check) style="display: block;" @else style="display:none;" @endif>
+                                        <select id="tipo" name="tipo" class="form-control">
+                                            <option value="">-- tipo --</option>
+                                                <option @if($request->tipo == "Aprovado") selected @endif value="{{ "Aprovado" }}">{{ "Aprovado" }}</option>
+                                                <option @if($request->tipo == "Reprovado") selected @endif value="{{ "Reprovado" }}">{{ "Reprovado" }}</option>
+                                                <option @if($request->tipo == "Vacinado") selected @endif value="{{ "Vacinado" }}">{{ "Vacinado" }}</option>
+                                                <option @if($request->tipo == "Não Analisado") selected @endif value="{{ "Não Analisado" }}">{{ "Não Analisado" }}</option>
+                                        </select>
+                                    </div>
                                     <div id="publico_check" class="col-md-3" @if($request->publico_check != null && $request->publico_check) style="display: block;" @else style="display:none;" @endif>
                                         <select id="publico" name="publico" class="form-control">
                                             <option value="">-- Público --</option>
@@ -142,7 +155,9 @@
                             <form id="form" action="{{ route('export.gerar') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="candidatos" value="{{ $candidatos }}">
-                                <button type="submit" class="btn btn-success" style="width: 100%;">Baixar  {{ $candidatos->count() }}</button>
+                                <label for="nome_arquivo">Nome do arquivo:</label><br>
+                                <input type="text" name="nome_arquivo" >
+                                <button type="submit" class="btn btn-success mt-2" style="width: 100%;">Baixar  {{ $candidatos->count() }}</button>
                             </form>
                         </div>
                     </div>

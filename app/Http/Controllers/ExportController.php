@@ -58,10 +58,18 @@ class ExportController extends Controller
         Gate::authorize('baixar-export');
         $candidatos = null;
         // dd($request->all());
-        $query = Candidato::query()->where('aprovacao', '!=' ,Candidato::APROVACAO_ENUM[0]);
+        $query = Candidato::query();
 
-        if ($request->reprovado) {
-            $query->onlyTrashed()->where('aprovacao', Candidato::APROVACAO_ENUM[2])->where('aprovacao', "Reprovado");
+        if ($request->tipo == "Não Analisado") {
+            $query = $query->where('aprovacao', Candidato::APROVACAO_ENUM[0]);
+        }else if ($request->tipo == "Aprovado") {
+            $query = $query->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
+        }else if ($request->tipo == "Reprovado") {
+            $query = $query->onlyTrashed()->where('aprovacao', Candidato::APROVACAO_ENUM[2]);
+        }else if ($request->tipo == "Vacinado") {
+            $query = $query->where('aprovacao', Candidato::APROVACAO_ENUM[3]);
+        }else{
+            $query = $query->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
         }
 
         if ($request->nome_check && $request->nome != null) {
@@ -157,9 +165,11 @@ class ExportController extends Controller
     {
         // dd( array_column(json_decode($request->candidatos), 'id')  );
         $ids = array_column(json_decode($request->candidatos), 'id');
-        // $candidatos = Candidato::whereIn('id', $ids)->take(400)->get();
-        $candidatos = Candidato::whereIn('id', $ids)->take(400)->get();
-        return Excel::download(new PostoCandidatoExport( $candidatos), 'postosCandidato.xlsx');
+        $nome_arquivo = $request->nome_arquivo ? $request->nome_arquivo : 'postosCandidato.xlsx';
+        $caraceteres = array("-", "/", ".", "*", "@", "$", "%", "&", ")", "(");
+        $nome_arquivo = str_replace($caraceteres, "", $nome_arquivo);
+        $candidatos = Candidato::withTrashed()->whereIn('id', $ids)->take(400)->get();
+        return Excel::download(new PostoCandidatoExport( $candidatos), $nome_arquivo.'.xlsx' );
     }
     public function listarCandidato()
     {

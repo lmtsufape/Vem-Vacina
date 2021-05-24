@@ -51,21 +51,31 @@
             <td>{{ $candidato->numero_residencia }}</td>
             <td>{{ $candidato->aprovacao }}</td>
             <td>{{ $candidato->dose }}</td>
-            <td>{{ $candidato->chegada }}</td>
-            <td>{{ $candidato->saida }}</td>
-            <td>{{ $candidato->lote->lote ? $candidato->lote->lote->numero_lote : "Erro" }} </td>
-            <td>{{ $candidato->lote->lote ? $candidato->lote->lote->fabricante : "Erro" }}</td>
-            <td>{{ $candidato->posto->nome }}</td>
-            @if ($candidato->etapa->tipo == $tipos[0])
-                <td> {{ 'De '.$candidato->etapa->inicio_intervalo." às ".$candidato->etapa->fim_intervalo}}</td>
-            @elseif($candidato->etapa->tipo == $tipos[1] || $candidato->etapa->tipo == $tipos[2])
-                <td> {{$candidato->etapa->texto}} </td>
+            <td>{{ $candidato->chegada ?? "Erro" }}</td>
+            <td>{{ $candidato->saida   ?? "Erro" }}</td>
+            @if ($candidato->lote_id)
+                <td>{{ $candidato->lote->lote ? $candidato->lote->lote->numero_lote : "Erro" }} </td>
+                <td>{{ $candidato->lote->lote ? $candidato->lote->lote->fabricante : "Erro" }}</td>
+                <td>{{ $candidato->posto->nome }}</td>
+                @if ($candidato->etapa->tipo == $tipos[0])
+                    <td> {{ 'De '.$candidato->etapa->inicio_intervalo." às ".$candidato->etapa->fim_intervalo}}</td>
+                @elseif($candidato->etapa->tipo == $tipos[1] || $candidato->etapa->tipo == $tipos[2])
+                    <td> {{$candidato->etapa->texto}} </td>
+                @endif
+                <td>
+                    @foreach ($candidato->outrasInfo as $item)
+                        {{ $item->campo . '/'}}
+                    @endforeach
+                </td>
+            @else
+                <td>{{  "Erro"  }} </td>
+                <td>{{  "Erro"  }} </td>
+                <td>{{  "Erro"  }} </td>
+                <td>{{  "Erro"  }} </td>
+                <td>{{  "Erro"  }} </td>
+                <td>{{  "Erro"  }} </td>
             @endif
-            <td>
-                @foreach ($candidato->outrasInfo as $item)
-                    {{ $item->campo . '/'}}
-                @endforeach
-            </td>
+
             <td>{{ $candidato->created_at }}</td>
             <td>{{ $candidato->updated_at }}</td>
             <td>{{ $candidato->deleted_at }}</td>
