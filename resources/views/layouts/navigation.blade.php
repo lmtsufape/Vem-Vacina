@@ -67,6 +67,11 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
+                        @can('criar-user')
+                            <x-dropdown-link :href="route('admin.form.user')">
+                                {{ __('Criar usuário') }}
+                            </x-dropdown-link>
+                        @endcan
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
@@ -76,6 +81,7 @@
                                 {{ __('Sair') }}
                             </x-dropdown-link>
                         </form>
+
                     </x-slot>
                 </x-dropdown>
             </div>
