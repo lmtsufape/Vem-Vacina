@@ -12,6 +12,7 @@ use Carbon\CarbonPeriod;
 use App\Models\Candidato;
 use App\Models\PostoVacinacao;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoFilaArquivo;
 use Illuminate\Support\Facades\Notification;
@@ -48,7 +49,7 @@ class FilaDistribuir extends Component
     public function distribuir()
     {
         $this->validate();
-
+        Gate::authorize('distribuir-fila');
         set_time_limit(3600);
         // dd($this->etapa_id, $this->ponto_id);
         $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->get();
@@ -290,6 +291,7 @@ class FilaDistribuir extends Component
 
     public function render()
     {
+        Gate::authorize('distribuir-fila');
         return view('livewire.fila-distribuir');
     }
 }

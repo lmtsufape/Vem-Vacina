@@ -872,4 +872,40 @@ class CandidatoController extends Controller
 
         return redirect()->back()->with(["mensagem" => "Vacinação desfeita."]);
     }
+
+    public function form_edit($id) {
+        Gate::authorize('editar-candidato');
+        $candidato = Candidato::find($id);
+
+        return view('candidato.editar', compact('candidato'));
+    }
+    public function editar(Request $request, $id) {
+        Gate::authorize('editar-candidato');
+        // dd(Candidato::where('cpf',$request->cpf)->where('id', '!=',$id)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])->count());
+        $request->validate([
+            "nome_completo"         => "required|string|min:8|max:65|regex:/^[\pL\s]+$/u",
+            "data_de_nascimento"    => "required|date|before:today",
+            "cpf"                   => "required",
+            "numero_cartao_sus"     => "required",
+            "nome_da_mae"           => "required|string|min:8|max:65|regex:/^[\pL\s]+$/u",
+        ]);
+        // $ids = Candidato::where('cpf',$request->cpf)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])->pluck('id');
+        if (Candidato::where('cpf',$request->cpf)->where('id', '!=',$id)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])->count() > 1) {
+                return redirect()->back()->withErrors([
+                    "cpf" => "Já existe um cpf no sistema."
+                ])->withInput();
+        }
+        $candidato = Candidato::find($id);
+        Candidato::where('cpf', $candidato->cpf)->update([
+            'nome_completo'         => $request->nome_completo,
+            'cpf'                   => $request->cpf,
+            'data_de_nascimento'    => $request->data_de_nascimento,
+            'numero_cartao_sus'     => $request->numero_cartao_sus,
+            'nome_da_mae'           => $request->nome_da_mae,
+        ]);
+
+
+
+        return redirect()->back()->with(["mensagem" => "Atualização feita com sucesso."]);
+    }
 }

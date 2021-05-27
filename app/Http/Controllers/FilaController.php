@@ -26,6 +26,7 @@ use App\Notifications\CandidatoInscritoSegundaDose;
 class FilaController extends Controller
 {
     public function index(Request $request) {
+        Gate::authorize('ver-fila');
         // dd($request->all());
         $query = Candidato::query()->where('aprovacao',Candidato::APROVACAO_ENUM[0]);
 
@@ -374,7 +375,7 @@ class FilaController extends Controller
 
     public function painel()
     {
-
+        Gate::authorize('ver-fila');
         return view('fila.fila_distribuir');
     }
 
