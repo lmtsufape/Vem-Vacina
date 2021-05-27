@@ -11,12 +11,13 @@ class AdminController extends Controller
 
     public function userForm(Request $request)
     {
-
+        Gate::authorize('criar-user');
         return view('admin.criarUser');
     }
 
     public function createUser(Request $request)
     {
+        Gate::authorize('criar-user');
         $data = $request->all();
 
         $data['password'] = Hash::make($data['password']);
