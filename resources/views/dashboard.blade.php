@@ -212,12 +212,13 @@
                                 <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
                                     <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
                                 </td>
+                                @can('confirmar-vaga-candidato')
                                 <td>
                                     @if($candidato->lote_id)
                                         @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
                                             Vacinado
                                         @else
-                                            @can('confirmar-vaga-candidato')
+
                                             <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
                                                 @csrf
                                                 <div class="row">
@@ -237,30 +238,30 @@
                                                     </div> --}}
                                                 </div>
                                             </form>
-                                            @endcan
+
                                         @endif
                                     @endif
                                 </td>
-
+                                @endcan
+                                @can('vacinado-candidato')
                                 <td style="text-align: center;" class="pl-4">
                                     @if($candidato->lote_id)
-                                        @can('vacinado-candidato')
                                             <button data-toggle="modal" data-target="#vacinar_candidato_{{$candidato->id}}" class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif><i class="fas fa-syringe"></i></button>
                                             @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
-                                                <button class="btn btn-danger" data-toggle="modal" data-target="#cancelar_vacinado_candidato_{{$candidato->id}}"><i class="far fa-times-circle"></i></button>
+                                                <button  class="btn btn-danger " data-toggle="modal" data-target="#cancelar_vacinado_candidato_{{$candidato->id}}"><i class="far fa-times-circle"></i></button>
                                             @endif
-                                        @endcan
-                                    @endif
-                                </td>
+                                            @endif
+                                        </td>
+                                @endcan
+                                @can('whatsapp-candidato')
                                 <td>
-                                    @can('whatsapp-candidato')
                                         @if ($candidato->aprovacao != null && $candidato->aprovacao != $candidato_enum[3])
                                             <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                         @else
                                             <a class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                         @endif
-                                    @endcan
-                                </td>
+                                    </td>
+                                @endcan
                             </tr>
                             @endforeach
                         </tbody>
@@ -291,7 +292,15 @@
                     <div class="container">
                         <div class="modal-body">
                             <div class="row">
-                                <h4>Informações do público</h4>
+                                <div class="col-10">
+                                    <h4>Informações do público</h4>
+                                </div>
+                                @can('editar-candidato')
+                                    <div class="col-2">
+                                        <a class="btn btn-info" href="{{ route('candidato.form_edit', ['id' => $candidato->id]) }}">Editar</a>
+                                    </div>
+                                @endcan
+
                             </div>
                             <div class="row">
                                 @if ($candidato->etapa->tipo == $tipos[0] || $candidato->etapa->tipo == $tipos[1] )
@@ -554,7 +563,7 @@
                         <div class="modal-body">
                         <form id="vacinado_{{$candidato->id}}" action="{{route('candidato.vacinado', ['id' => $candidato->id])}}" method="POST">
                                 @csrf
-                                Deseja confirmar que esse candidato foi vacinado?
+                                Deseja confirmar que esse candidato foi vacinado?(CPF:{{ $candidato->cpf }})
                         </form>
                         </div>
                         <div class="modal-footer">

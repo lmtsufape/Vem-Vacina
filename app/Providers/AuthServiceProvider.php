@@ -34,6 +34,11 @@ class AuthServiceProvider extends ServiceProvider
                $user->tipo == User::TIPO_ENUM['gerente'] ||
                $user->tipo == User::TIPO_ENUM['admin'];
         });
+        Gate::define('editar-candidato', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['enfermeira'] ||
+               $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
 
         Gate::define('baixar-candidato', function (User $user) {
             return $user->tipo == User::TIPO_ENUM['gerente'] ||
@@ -64,8 +69,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('vacinado-candidato', function (User $user) {
             return  $user->tipo == User::TIPO_ENUM['colaborador'] ||
+                    $user->tipo == User::TIPO_ENUM['admin'] ||
                     $user->tipo == User::TIPO_ENUM['gerente'] ||
-                    $user->tipo == User::TIPO_ENUM['admin'];
+                    $user->tipo == User::TIPO_ENUM['enfermeira'];
         });
 
         Gate::define('ver-candidato-lote', function (User $user) {
@@ -172,5 +178,88 @@ class AuthServiceProvider extends ServiceProvider
             return $user->tipo == User::TIPO_ENUM['gerente'] ||
                $user->tipo == User::TIPO_ENUM['admin'];
         });
+        //fila
+        Gate::define('ver-fila', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['secretaria'] ||
+               $user->tipo == User::TIPO_ENUM['enfermeira'] ||
+               $user->tipo == User::TIPO_ENUM['colaborador'] ||
+               $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('editar-fila', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('apagar-fila', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('criar-fila', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('distribuir-fila', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+                $user->tipo == User::TIPO_ENUM['admin'];
+        });
+        //Estatísticas
+        Gate::define('ver-estatistica', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['secretaria'] ||
+               $user->tipo == User::TIPO_ENUM['colaborador'] ||
+               $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('editar-estatistica', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('apagar-estatistica', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('criar-estatistica', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('distribuir-estatistica', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+                $user->tipo == User::TIPO_ENUM['admin'];
+        });
+        //config
+        Gate::define('ver-config', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['secretaria'] ||
+               $user->tipo == User::TIPO_ENUM['colaborador'] ||
+               $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('editar-config', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('apagar-config', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('criar-config', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('distribuir-config', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+                $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
     }
 }

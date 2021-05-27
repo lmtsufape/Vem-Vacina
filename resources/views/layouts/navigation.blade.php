@@ -27,21 +27,26 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Agendamentos') }}
                     </x-nav-link>
+                    @can('ver-fila')
                     <x-nav-link :href="route('fila.index')" :active="request()->routeIs('fila.*')">
                         {{ __('Fila de Espera') }}
                     </x-nav-link>
+                    @endcan
+                    @can('ver-estatistica')
                     <x-nav-link :href="route('estatistica.index')" :active="request()->routeIs('estatistica.*')">
                         {{ __('Estatísticas') }}
                     </x-nav-link>
+                    @endcan
                     @can('ver-export')
                     <x-nav-link :href="route('export.index')" :active="request()->routeIs('export.*')">
                         {{ __('Exportar/Importar') }}
                     </x-nav-link>
                     @endcan
+                    @can('ver-config')
                     <x-nav-link :href="route('config.index')" :active="request()->routeIs('config.*')">
                         {{ __('Configurações') }}
                     </x-nav-link>
-
+                    @endcan
                 </div>
             </div>
 

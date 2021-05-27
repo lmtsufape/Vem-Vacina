@@ -20,7 +20,8 @@ class User extends Authenticatable
         "admin" => "admin",
         "gerente" => "gerente",
         "colaborador" => "colaborador",
-        "secretaria" => "secretaria"
+        "secretaria" => "secretaria",
+        "enfermeira" => "enfermeira",
     ];
 
     protected $fillable = [
