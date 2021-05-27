@@ -261,5 +261,10 @@ class AuthServiceProvider extends ServiceProvider
                 $user->tipo == User::TIPO_ENUM['admin'];
         });
 
+        //User
+        Gate::define('criar-user', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
     }
 }
