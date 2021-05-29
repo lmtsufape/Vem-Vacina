@@ -385,13 +385,22 @@
                                     </div>
                                 </div>
 
-
+                                {{-- {{dd(old('cidade') == null)}} --}}
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCidade" class="style_titulo_input">CIDADE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="@if(old('cidade') != null){{old('cidade')}}@else{{"Garanhuns"}}@endif" disabled>
+                                        <div id="inputCidadeTextSelect" style="display: @if(old('cidade_') == null || old('cidade_') == "Garanhuns") block;@else none;@endif">
+                                            <select class="form-control style_input @error('cidade_') is-invalid @enderror" name="@if(old('cidade_') == null || old('cidade_') == "Garanhuns")cidade @endif" onchange="mudarParaDigitavel(this)">
+                                                <option @if(old('cidade_') != null && old('cidade_') == "Garanhuns") selected @endif value="Garanhuns" selected>Garanhuns</option>
+                                                <option value="Outro">Outra</option>
+                                            </select>
+                                        </div>
+                                        
+                                       <div id="inputCidadeText" style="display: @if(old('cidade_') == null) none;@elseif(old('cidade_') != null && old('cidade_') != "Garanhuns") block;@endif">
+                                            <input id="inputCidade" class="form-control style_input @error('cidade_') is-invalid @enderror" name="@if(old('cidade_') != null && old('cidade_') != "Garanhuns")cidade @endif" value="@if(old('cidade_') != null){{old('cidade_')}}@endif">
+                                       </div>
 
-                                        @error('cidade')
+                                        @error('cidade_')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
                                             <strong>{{$message}}</strong>
                                         </div>
@@ -400,14 +409,19 @@
                                     <div class="form-group col-md-6">
                                         <label for="inputBairro" class="style_titulo_input">BAIRRO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
 
-                                        <select id="inputBairro" class="form-control style_input @error('bairro') is-invalid @enderror" name="bairro">
-                                            <option selected disabled>-- Selecione o bairro --</option>
-                                            @foreach($bairros as $bairro)
-                                                <option value="{{$bairro}}" @if (old('bairro') == $bairro) selected @endif>{{$bairro}}</option>
-                                            @endforeach
-                                        </select>
-
-                                        @error('bairro')
+                                        <div id="inputBairroSelect" style="display: @if(old('bairro_') != null && in_array(old('bairro_'), $bairros)) block;@elseif(old('bairro_') == null) block;@else none;@endif">
+                                            <select id="inputBairro" class="form-control style_input @error('bairro_') is-invalid @enderror" name="@if(old('bairro_') == null || in_array(old('bairro_'), $bairros))bairro @endif" onchange="mudarParaDigitavel(this)">
+                                                <option selected disabled>-- Selecione o bairro --</option>
+                                                @foreach($bairros as $bairro)
+                                                    <option value="{{$bairro}}" @if (old('bairro_') == $bairro) selected @endif>{{$bairro}}</option>
+                                                @endforeach
+                                                <option value="Outro" @if (old('bairro_') == "Outro") selected @endif>Outro</option>
+                                            </select>
+                                        </div>
+                                        <div id="inputBairroText" style="display: @if(old('bairro_') != null && !(in_array(old('bairro_'), $bairros))) block;@elseif(old('bairro_') == null) none;@else none;@endif">
+                                            <input type="text" class="form-control style_input @error('bairro_') is-invalid @enderror" name="@if(old('bairro_') != null && !(in_array(old('bairro_'), $bairros)))bairro @endif" value="@if(old('bairro_') != null){{old('bairro_')}}@endif">
+                                        </div>
+                                        @error('bairro_')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
                                             <strong>{{$message}}</strong>
                                         </div>
@@ -847,6 +861,24 @@
             }
         })
 
+    }
+
+    function mudarParaDigitavel(select) {
+        var divAtual = select.parentElement;
+        var divAlterar = select.parentElement.parentElement.children[2];
+        var inputText = select.parentElement.parentElement.children[2].children[0];
+
+        if (select.name == "cidade ") {
+            divAtual.style.display = "none";
+            divAlterar.style.display = "block";
+            select.name = "";
+            inputText.name = "cidade ";
+        } else if (select.name == "bairro " && select.options[select.selectedIndex].value == "Outro") {
+            divAtual.style.display = "none";
+            divAlterar.style.display = "block";
+            select.name = "";
+            inputText.name = "bairro ";
+        }
     }
     </script>
 
