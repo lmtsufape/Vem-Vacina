@@ -189,7 +189,7 @@ class CandidatoController extends Controller
     }
 
     public function enviar_solicitacao(Request $request) {
-        // dd($request->all());
+        // dd($request);
         // dd(Rule::requiredIf($request->fila));
         $request->validate([
             "voltou"                => "nullable",
@@ -204,8 +204,8 @@ class CandidatoController extends Controller
             "whatsapp"              => "nullable",
             "email"                 => "nullable|email",
             "cep"                   => "nullable",
-            // "cidade"                => "required", // como valor é fixado no front, pode ser desabilitado e hardcoded aqui no controller
-            "bairro"                => "required",
+            "cidade_"                => "required", // como valor é fixado no front, pode ser desabilitado e hardcoded aqui no controller
+            "bairro_"                => "required",
             "rua"                   => "required|regex:/[a-zA-Z0-9\s]+/|min:5", // Na cohab 2, as pessoas não sabem os nomes das ruas, só os numeros, então tem gente que vai por "Rua 2"
             "número_residencial"    => "required|regex:/[a-zA-Z0-9\s]+/",
             "complemento_endereco"  => "nullable",
@@ -238,9 +238,9 @@ class CandidatoController extends Controller
             $candidato->whatsapp                = $request->whatsapp;
             $candidato->email                   = $request->email;
             $candidato->cep                     = preg_replace('/[^0-9]/', '', $request->cep);
-            // $candidato->cidade                  = $request->cidade;
-            $candidato->cidade                  = "Garanhuns";
-            $candidato->bairro                  = $request->bairro;
+            $candidato->cidade                  = $request->cidade_;
+            // $candidato->cidade                  = "Garanhuns";
+            $candidato->bairro                  = $request->bairro_;
             $candidato->logradouro              = $request->rua;
             $candidato->numero_residencia       = $request->input("número_residencial");
             $candidato->complemento_endereco    = $request->complemento_endereco;
