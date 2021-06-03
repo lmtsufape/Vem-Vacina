@@ -7,41 +7,88 @@ use App\Models\Etapa;
 use App\Models\Candidato;
 use App\Models\PostoVacinacao;
 use App\Models\Configuracao;
+use App\Models\EstatisticaKeyCache;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Carbon;
 
 class WelcomeController extends Controller
 {
     public function index() {
-        // $quantPessoasCadastradas = 0;
-        // $quantPessoasPriDose = 0;
-        // $quantPessoasSegDose = 0;
+        $quantPessoasCadastradas = 0;
+        $quantPessoasPriDose = 0;
+        $quantPessoasSegDose = 0;
         $config = Configuracao::first();
 
-        // $publicos = Etapa::orderBy('texto')->get();
-        // $pontos = PostoVacinacao::all();
+        $publicos = Etapa::orderBy('texto')->get();
+        $pontos = PostoVacinacao::all();
 
-        // foreach ($publicos as $publico) {
-        //     $quantPessoasPriDose += $publico->total_pessoas_vacinadas_pri_dose;
-        //     $quantPessoasSegDose += $publico->total_pessoas_vacinadas_seg_dose;
-        // }
+        foreach ($publicos as $publico) {
+            $quantPessoasPriDose += $publico->total_pessoas_vacinadas_pri_dose;
+            $quantPessoasSegDose += $publico->total_pessoas_vacinadas_seg_dose;
+        }
 
-        // $candidatosVacinados = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
+        $candidatosVacinados = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
 
-        // $quantPessoasCadastradas = intval(count(Candidato::where('aprovacao', '!=', Candidato::APROVACAO_ENUM[0])->get())/2) + count(Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get());
+        $quantPessoasCadastradas = intval(count(Candidato::where('aprovacao', '!=', Candidato::APROVACAO_ENUM[0])->get())/2) + count(Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get());
 
+        $ultimaAtualizacao = 0;
+        $porcentagemVacinada = 0;
+        $quantVacinadosPorBairro = [];
+        $quantVacinadosPorIdade = [];
+        $vacinadosPorSexo = [];
+        $tempo = Carbon::now()->subDays(EstatisticaKeyCache::TEMPO_DE_CACHE);
+        $checagem = EstatisticaKeyCache::where([['dado', 'ultimaAtualizacao'],['created_at', '>=', $tempo]])->first();
+        if ($checagem == null) {
+            $agora = now();
+            $ultimaAtualizacao = $agora;
+            $tempoDeCache = now()->addDays(EstatisticaKeyCache::TEMPO_DE_CACHE);
 
-        return view('welcome')->with([//'publicos'                => $publicos,
-                                    //   'quantPessoasCadastradas' => $quantPessoasCadastradas,
-                                    //   'quantPessoasPriDose'     => $quantPessoasPriDose,
-                                    //   'quantPessoasSegDose'     => $quantPessoasSegDose,
-                                    //   'aprovacao_enum'          => Candidato::APROVACAO_ENUM,
-                                    //   'vacinasDisponiveis'      => $this->quantVacinasDisponiveis($pontos),
-                                    //   'porcentagemVacinada'     => $this->porcentagemVacinada($quantPessoasPriDose),
-                                    //   'quantVacinadosPorBairro' => $this->quantVacinadosPorBairro($candidatosVacinados),
-                                    //   'quantVacinadosPorIdade'  => $this->quantVacinadosPorIdade($candidatosVacinados),
-                                    //   'vacinadosPorSexo'        => $this->vacinadosPorSexo($candidatosVacinados),
-                                      'config'                  => $config,]);
+            $keyCacheUltimaAtt = Hash::make(Str::random(8));
+            $keyCachePorcentagemVacinados = Hash::make(Str::random(8));
+            $keyCacheQuantVacinadosPorBairro = Hash::make(Str::random(8));
+            $keyCacheQauntVacinadosPorIdade = Hash::make(Str::random(8));
+            $keyCacheVacinadosPorSexo = Hash::make(Str::random(8));
+
+            $this->salvarCache($keyCacheUltimaAtt, $agora, $tempoDeCache, 'ultimaAtualizacao');
+
+            $porcentagemVacinada = $this->porcentagemVacinada($quantPessoasPriDose);
+            $this->salvarCache($keyCachePorcentagemVacinados, $porcentagemVacinada, $tempoDeCache, 'porcentagemVacinada');
+
+            $quantVacinadosPorBairro = $this->quantVacinadosPorBairro($candidatosVacinados);
+            $this->salvarCache($keyCacheQuantVacinadosPorBairro, $quantVacinadosPorBairro, $tempoDeCache, 'quantVacinadosPorBairro');
+
+            $quantVacinadosPorIdade = $this->quantVacinadosPorIdade($candidatosVacinados);
+            $this->salvarCache($keyCacheQauntVacinadosPorIdade, $quantVacinadosPorIdade, $tempoDeCache, 'quantVacinadosPorIdade');
+
+            $vacinadosPorSexo = $this->vacinadosPorSexo($candidatosVacinados);
+            $this->salvarCache($keyCacheVacinadosPorSexo, $vacinadosPorSexo, $tempoDeCache, 'vacinadosPorSexo');
+        } else {
+            $ultimaAtualizacao = Cache::get($checagem->key, 0);
+
+            $porcentagemVacinada = $this->carregarCache('porcentagemVacinada', $tempo, 0);
+
+            $quantVacinadosPorBairro = $this->carregarCache('quantVacinadosPorBairro', $tempo, []);
+
+            $quantVacinadosPorIdade = $this->carregarCache('quantVacinadosPorIdade', $tempo, []);
+
+            $vacinadosPorSexo = $this->carregarCache('vacinadosPorSexo', $tempo, []);
+        }
+
+        return view('welcome')->with(['publicos'                => $publicos,
+                                      'quantPessoasCadastradas' => $quantPessoasCadastradas,
+                                      'quantPessoasPriDose'     => $quantPessoasPriDose,
+                                      'quantPessoasSegDose'     => $quantPessoasSegDose,
+                                      'aprovacao_enum'          => Candidato::APROVACAO_ENUM,
+                                      'porcentagemVacinada'     => $porcentagemVacinada,
+                                      'quantVacinadosPorBairro' => $quantVacinadosPorBairro,
+                                      'quantVacinadosPorIdade'  => $quantVacinadosPorIdade,
+                                      'vacinadosPorSexo'        => $vacinadosPorSexo,
+                                      'config'                  => $config,
+                                      'ultimaAtt'               => $ultimaAtualizacao]);
     }
-
+    
     public function quantVacinasDisponiveis($pontos) {
         $vacinasDisponiveisNosPontos = 0;
         foreach ($pontos as $posto) {
@@ -107,5 +154,24 @@ class WelcomeController extends Controller
 
     public function sobre() {
         return view('sobre');
+    }
+
+    public function salvarCache($key, $dado, $tempoDeCache, $nomeDoDado) {
+        $estatisticaCache = new EstatisticaKeyCache();
+        $estatisticaCache->dado = $nomeDoDado;
+        $estatisticaCache->key  = $key;
+        $estatisticaCache->save();
+
+        Cache::put($key, $dado, $tempoDeCache->addMinutes(10));
+    }
+
+    public function carregarCache($nomeDoDado, $tempo, $padrao) {
+        $checagem = EstatisticaKeyCache::where([['dado', $nomeDoDado],['created_at', '>=', $tempo]])->first();
+
+        if ($checagem != null) {
+            return Cache::get($checagem->key);
+        }
+
+        return $padrao;
     }
 }
