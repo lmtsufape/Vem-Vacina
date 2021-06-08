@@ -216,7 +216,7 @@ class CandidatoController extends Controller
         ]);
 
         // dd($request->all());
-        // DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             if (Candidato::where('cpf',$request->cpf)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
@@ -312,7 +312,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
-                // DB::commit();
+                DB::commit();
                 $agendamentos = [];
                 array_push($agendamentos, $candidato);
                 return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
@@ -341,7 +341,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
-                // DB::commit();
+                DB::commit();
                 $agendamentos = [];
                 array_push($agendamentos, $candidato);
                 return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
@@ -380,7 +380,7 @@ class CandidatoController extends Controller
                             $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                             $candidato->save();
                             Notification::send($candidato, new CandidatoFila($candidato));
-                            // DB::commit();
+                            DB::commit();
                             $agendamentos = [];
                             array_push($agendamentos, $candidato);
                             return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
@@ -409,7 +409,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
-                // DB::commit();
+                DB::commit();
                 $agendamentos = [];
                 array_push($agendamentos, $candidato);
                 return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
@@ -465,10 +465,10 @@ class CandidatoController extends Controller
                 }
             }
 
-            // DB::commit();
+            DB::commit();
 
         } catch (\Throwable $e) {
-            // DB::rollback();
+            DB::rollback();
             if(env('APP_DEBUG')){
                 return redirect()->back()->withErrors([
                     "message" => $e->getMessage(),
