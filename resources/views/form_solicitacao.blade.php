@@ -129,7 +129,7 @@
                                                                         <option value="" seleceted disabled>-- Selecione o tipo --</option>
                                                                         @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
                                                                         @if($publico->inicio_intervalo == 18)
-                                                                            @if ($opcao->opcao != "Gestantes e puérperas" && $opcao->opcao != "Imunossuprimidos")
+                                                                            @if ($opcao->opcao != "Gestantes e puérperas" )
                                                                                 <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
                                                                             @endif
                                                                         @else
