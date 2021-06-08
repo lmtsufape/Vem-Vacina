@@ -343,13 +343,11 @@ class PostoVacinacaoController extends Controller
     }
 
     public function todosOsPostos(Request $request) {
-        $etapa = null;
-        $postos = Etapa::find($request->publico_id)->pontos;
-        $postos_disponiveis = collect([]);
-        // $etapa = Etapa::where('id',$request->publico_id)->first();
-        set_time_limit(60);
-        //$count = count($this->diasPorPostoDois($posto));
+
         try {
+            set_time_limit(60);
+            $postos = Etapa::find($request->publico_id)->pontos;
+            $postos_disponiveis = collect([]);
             foreach ($postos as $key => $posto) {
                 $lote_bool = false;
                 foreach($posto->lotes as $key1 => $lote){
