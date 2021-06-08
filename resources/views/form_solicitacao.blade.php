@@ -50,7 +50,7 @@
                         <div class="col-md-12"><hr class="style_linha_campo"></div>
                         <div class="col-md-12 style_titulo_campo" style="margin-bottom: 10px;">Informações pessoais</div>
                         <div class="col-md-12">
-                            <form method="POST" id="formSolicitar" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
+                            <form method="POST" id="formSolicitar" class="needs-validation" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
                                 @if ($errors->any())
@@ -339,6 +339,8 @@
                                     <div class="form-group col-md-6">
                                         <label for="inputEmail" class="style_titulo_input">E-MAIL</label>
                                         <input type="email" class="form-control style_input" id="inputEmail" placeholder="Digite o seu e-mail" name="email" value="{{old('email')}}">
+                                        <div id="inputMessage" class="valid-feedback">
+                                        </div>
                                     </div>
                                 </div>
                                 @foreach ($publicos as $publico)
@@ -562,6 +564,28 @@
     @endif
 
     <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+    </script>
+
+
+    <script>
         const buttonSend = document.getElementById('buttonSend');
         const formSolicitar = document.getElementById('formSolicitar');
         buttonSend.addEventListener('click', (e)=>{
@@ -569,6 +593,31 @@
             e.target.setAttribute("disabled", "disabled");
             formSolicitar.submit()
         })
+
+        var inputEmail = document.getElementById('inputEmail');
+        var inputMessage = document.getElementById('inputMessage');
+        inputEmail.addEventListener('change', (e)=>{
+            console.log(e.target.value);
+            var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+            console.log(pattern.test(e.target.value));
+            var bool = pattern.test(e.target.value);
+
+            if(bool){
+                inputMessage.setAttribute('class', 'valid-feedback')
+                inputMessage.innerText = 'E-mail válido!';
+                inputEmail.classList.add( 'is-valid')
+                inputEmail.classList.remove( 'is-invalid')
+                inputMessage.style.display = 'block';
+            }else{
+                inputMessage.setAttribute('class', 'invalid-feedback')
+                inputMessage.innerText = 'E-mail inválido!';
+                inputEmail.classList.remove( 'is-valid')
+                inputEmail.classList.add( 'is-invalid')
+                inputMessage.style.display = 'block';
+
+            }
+        });
+
     </script>
 
 
