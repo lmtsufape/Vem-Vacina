@@ -57,12 +57,29 @@
                                       <div class="panel panel-default">
                                         <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
                                           <h3 class="panel-title">
+                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos3" aria-expanded="true" aria-controls="anexos1">
+                                                Documentação necessária para vacinação dos grupos prioritários
+                                            </a>
+                                          </h3>
+                                        </div>
+                                        <div id="anexos3" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
+                                          <div class="panel-body px-3 mb-4">
+                                            <p style="text-align: justify">
+                                                Relação contendo a documentação necessária, e que deve ser apresentada no ato da vacinação, de acordo com cada grupo prioritário.
+                                            </p>
+                                            <a href="{{route('baixar.anexo', ['name'=> 'anexo2.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Anexo </a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="panel panel-default">
+                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                          <h3 class="panel-title">
                                             <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos2" aria-expanded="true" aria-controls="anexos2">
                                                 Formulário com informações para gestantes e puérperas para vacinação contra a covid-19
                                             </a>
                                           </h3>
                                         </div>
-                                        <div id="anexos2" class="panel-collapse collapse  show" role="tabpanel" aria-labelledby="heading0">
+                                        <div id="anexos2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
                                           <div class="panel-body px-3 mb-4">
                                             <p style="text-align: justify">
                                                 Através deste documento, a gestante ou puérpera poderá ter acesso as informações necessárias sobre a vacinação. No mesmo deverão ser preenchidos os dados de identificação, além da autorização para que a vacina seja administrada.
@@ -105,9 +122,7 @@
                                           </div>
                                         </div>
                                       </div>
-
                                     </div>
-
                                 </div>
                               </section>
                         </div>
@@ -341,23 +356,7 @@
                             <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
                                 <div class="container">
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                      <div class="panel panel-default">
-                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
-                                          <h3 class="panel-title">
-                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse0" aria-expanded="true" aria-controls="collapse0">
-                                                Quando serão vacinadas as pessoas com comorbidades?
-                                            </a>
-                                          </h3>
-                                        </div>
-                                        <div id="collapse0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
-                                          <div class="panel-body px-3 mb-4">
-                                            <p style="text-align: justify">
-                                                Olá, estamos seguindo o Plano Nacional de Imunização (PNI), do Ministério da Saúde, que indica quais grupos devem ser priorizados. De acordo com o PNI, entre os próximos grupos contemplados estão as pessoas de 18 a 59 anos com comorbidades, assim que mais doses forem recebidas.
-                                                Acompanhe todas as atualizações por meio das nossas redes sociais! Agradecemos o seu contato.
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
+
 
                                       <div class="panel panel-default">
                                         <div class="panel-heading p-3 mb-3" role="tab" id="heading1" style="border-radius: 8px;">
@@ -1020,7 +1019,7 @@
                         data:['836', '535'],
                         backgroundColor:['#F50057', '#2396F3'],
                     }]
-                
+
             }, options:{
                 animation:{
                     animateScale: true
