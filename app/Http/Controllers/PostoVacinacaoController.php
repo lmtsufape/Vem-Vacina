@@ -345,34 +345,30 @@ class PostoVacinacaoController extends Controller
     public function todosOsPostos(Request $request) {
 
         try {
-            set_time_limit(60);
-            $postos = Etapa::find($request->publico_id)->pontos;
-            $postos_disponiveis = collect([]);
-            foreach ($postos as $key => $posto) {
-                $lote_bool = false;
-                foreach($posto->lotes as $key1 => $lote){
-                    if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($request->publico_id)){
-                        $lote_bool = true;
-                        break;
-                    }
-                }
-
-                if($lote_bool == true){
-                    $postos_disponiveis->push($posto);
-                    continue;
-                }
-            }
-            // return response()->json( $this->diasPorPostoDois($postos_disponiveis->first()) );
-
-
 
             if ($request->publico_id == 0) {
                 $pontos = PostoVacinacao::where('padrao_no_formulario', true)->get();
-                // $filtered = $pontos->filter(function ($value1, $key1) use($postos_disponiveis) {
-                //     return $postos_disponiveis->find($value1->id) != null;
-                // });
+
                 return response()->json($pontos);
             } else {
+                set_time_limit(60);
+                $postos = Etapa::find($request->publico_id)->pontos;
+                $postos_disponiveis = collect([]);
+                foreach ($postos as $key => $posto) {
+                    $lote_bool = false;
+                    foreach($posto->lotes as $key1 => $lote){
+                        if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($request->publico_id)){
+                            $lote_bool = true;
+                            break;
+                        }
+                    }
+
+                    if($lote_bool == true){
+                        $postos_disponiveis->push($posto);
+                        continue;
+                    }
+                }
+
                 $postos_disponiveis = array_values($postos_disponiveis->toArray());
                 return response()->json($postos_disponiveis);
             }
