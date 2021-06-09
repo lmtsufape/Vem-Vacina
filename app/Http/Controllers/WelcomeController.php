@@ -22,6 +22,9 @@ class WelcomeController extends Controller
         $ultimaAtualizacao = null;
         $seconds = now()->addDays(1);
         // $seconds = now()->addMinutes(3);
+        $ultimaAtualizacao      = Cache::remember('ultimaAtualizacao', $seconds, function () {
+                                    return now();
+                                });
 
         $quantPessoasPriDose      = Cache::remember('quantPessoasPriDose', $seconds, function () use($publicos) {
                                         $quantPessoasPriDose = 0;
@@ -42,11 +45,7 @@ class WelcomeController extends Controller
 
         $quantPessoasCadastradas = intval(count(Candidato::where('aprovacao', '!=', Candidato::APROVACAO_ENUM[0])->get())/2) + count(Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get());
 
-        if (!Cache::has('vacinasDisponiveis')) {
-            $ultimaAtualizacao = now();
-        }else{
-            $ultimaAtualizacao = now()->subDay(1);
-        }
+
         $vacinasDisponiveis      = Cache::remember('vacinasDisponiveis', $seconds, function () use($pontos) {
                                         return $this->quantVacinasDisponiveis($pontos);
                                     });
