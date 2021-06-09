@@ -11,62 +11,6 @@ use Illuminate\Support\Facades\Cache;
 
 class WelcomeController extends Controller
 {
-    public function cache()
-    {
-
-        $quantPessoasPriDose = 0;
-        set_time_limit(360);
-        $publicos = Etapa::orderBy('texto')->get();
-        $pontos = PostoVacinacao::all();
-        $seconds = now()->addMinutes(2);
-        // $seconds = now()->addDays(1);
-
-        $quantPessoasPriDose      = Cache::remember('quantPessoasPriDose', $seconds, function () use($publicos) {
-                                        $quantPessoasPriDose = 0;
-                                        foreach ($publicos as $publico) {
-                                            $quantPessoasPriDose += $publico->total_pessoas_vacinadas_pri_dose;
-                                        }
-                                        return $quantPessoasPriDose;
-                                    });
-        $quantPessoasSegDose      = Cache::remember('quantPessoasSegDose', $seconds, function () use($publicos) {
-                                        $quantPessoasSegDose = 0;
-                                        foreach ($publicos as $publico) {
-                                            $quantPessoasSegDose += $publico->total_pessoas_vacinadas_seg_dose;
-                                        }
-                                        return $quantPessoasSegDose;
-                                    });
-
-        $candidatosVacinados = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
-
-        if (!Cache::has('vacinasDisponiveis')) {
-            $time = now();
-        }else{
-            $time = now()->subDay(1);
-        }
-        $quantPessoasCadastradas = intval(count(Candidato::where('aprovacao', '!=', Candidato::APROVACAO_ENUM[0])->get())/2) + count(Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get());
-        if (!Cache::has('vacinasDisponiveis')) {
-            $ultimaAtualizacao = now();
-        }
-        $vacinasDisponiveis      = Cache::remember('vacinasDisponiveis', $seconds, function () use($pontos) {
-                                        return $this->quantVacinasDisponiveis($pontos);
-                                    });
-        $porcentagemVacinada      = Cache::remember('porcentagemVacinada', $seconds, function () use($quantPessoasPriDose) {
-                                        return $this->porcentagemVacinada($quantPessoasPriDose);
-                                    });
-        $quantVacinadosPorBairro      = Cache::remember('quantVacinadosPorBairro', $seconds, function () use($candidatosVacinados) {
-                                        return $this->quantVacinadosPorBairro($candidatosVacinados);
-                                    });
-        $quantVacinadosPorIdade     = Cache::remember('quantVacinadosPorIdade', $seconds, function () use($candidatosVacinados) {
-                                        return $this->quantVacinadosPorIdade($candidatosVacinados);
-                                    });
-        $vacinadosPorSexo      = Cache::remember('vacinadosPorSexo', $seconds, function () use($candidatosVacinados) {
-                                        return $this->vacinadosPorSexo($candidatosVacinados);
-                                    });
-
-
-        return "0";
-    }
-
     public function index() {
         $quantPessoasCadastradas = 0;
         $quantPessoasPriDose = 0;
