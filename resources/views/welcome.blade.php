@@ -529,7 +529,7 @@
         </div>
 
         <div class="container" style="text-align: center; margin-top:2rem; margin-bottom: 4rem;">
-            <p style="color: #204788; font-weight: bold;">Última atualização dos dados: {{date('d/m/Y \à\s  H:i\h', strtotime($ultimaAtt))}}</p>
+            <p style="color: #204788; font-weight: bold;">Última atualização dos dados: {{date('d/m/Y ', strtotime($ultimaAtt))}}</p>
         </div>
 
         <!-- rodapé -->

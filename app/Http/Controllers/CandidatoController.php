@@ -169,9 +169,9 @@ class CandidatoController extends Controller
         if ($config->botao_solicitar_agendamento && auth()->user() == null) {
             abort(403);
         }
-
+        setlocale (LC_COLLATE, 'pt_BR');
         $bairrosOrdenados = Candidato::bairros;
-        sort($bairrosOrdenados);
+        // sort($bairrosOrdenados);
 
         return view("form_solicitacao")->with([
             "sexos" => Candidato::SEXO_ENUM,
