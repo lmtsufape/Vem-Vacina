@@ -12,6 +12,7 @@ use Carbon\CarbonPeriod;
 use App\Models\Candidato;
 use App\Models\PostoVacinacao;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoFilaArquivo;
@@ -86,7 +87,7 @@ class FilaDistribuir extends Component
         } catch (\Throwable $th) {
             //throw $th;
             session()->flash('message',  $th->getMessage());
-            return;
+            Log::info($th->getMessage());
         }
 
     }
