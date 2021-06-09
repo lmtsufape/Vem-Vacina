@@ -422,12 +422,12 @@
                 <!-- pessoas vacinadas -->
                 <div class="style_card_menor">
                     <div class="card_menor">
-                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">PESSOAS VACINADAS</div>
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">DOSES APLICADAS</div>
                         <div class="container" style="padding-top: 10px;;">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_menor_conteudo">34749</div>
+                                        <div class="col-md-12 style_card_menor_conteudo">48461</div>
                                         <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
                                     </div>
                                 </div>
@@ -443,7 +443,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_menor_conteudo">23764</div>
+                                        <div class="col-md-12 style_card_menor_conteudo">34892</div>
                                         <div class="col-md-12 style_card_menor_legenda">TOTAL DE PESSOAS VACINADAS</div>
                                     </div>
                                 </div>
@@ -459,7 +459,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_menor_conteudo">10985</div>
+                                        <div class="col-md-12 style_card_menor_conteudo">13569</div>
                                         <div class="col-md-12 style_card_menor_legenda">TOTAL DE PESSOAS VACINADAS</div>
                                     </div>
                                 </div>
