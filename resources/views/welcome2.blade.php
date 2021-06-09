@@ -79,7 +79,7 @@
                                             </a>
                                           </h3>
                                         </div>
-                                        <div id="anexos2" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading0">
+                                        <div id="anexos2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
                                           <div class="panel-body px-3 mb-4">
                                             <p style="text-align: justify">
                                                 Através deste documento, a gestante ou puérpera poderá ter acesso as informações necessárias sobre a vacinação. No mesmo deverão ser preenchidos os dados de identificação, além da autorização para que a vacina seja administrada.
@@ -150,29 +150,108 @@
                                 </tr>
                             </thead>
                             <tbody style="text-align: center; color: #204788; font-weight: bold;">
-                                @foreach ($publicos as $publico)
-                                    @if ($publico->exibir_na_home)
-                                        @php
-                                            $quant_aprovada = intval(count($publico->candidatos()->where('aprovacao', '!=', $aprovacao_enum[0])->get())/2);
-                                            $quant_espera = count($publico->candidatos()->where('aprovacao', $aprovacao_enum[0])->get());
-                                        @endphp
-                                        @if($publico->atual)
-                                            <tr style="background-color: #E7FFF2;">
-                                                <td>{{$publico->texto_home}}</td>
-                                                <td>{{$quant_aprovada + $quant_espera}}</td>
-                                                <td>{{$publico->total_pessoas_vacinadas_pri_dose + $publico->total_pessoas_vacinadas_seg_dose}}</td>
-                                                <td>ATUAL</td>
-                                            </tr>
-                                        @else
-                                            <tr style="background-color: #FFE7E7;">
-                                                <td>{{$publico->texto_home}}</td>
-                                                <td>{{$quant_aprovada + $quant_espera}}</td>
-                                                <td>{{$publico->total_pessoas_vacinadas_pri_dose + $publico->total_pessoas_vacinadas_seg_dose}}</td>
-                                                <td style="color: #E35E60; font-weight: bold;">ENCERRADO</td>
-                                            </tr>
-                                        @endif
-                                    @endif
-                                @endforeach
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>60 a 64 anos</td>
+                                    <td>4519</td>
+                                    <td>52</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>65 a 69 anos</td>
+                                    <td>2891</td>
+                                    <td>1181</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>70 a 74 anos</td>
+                                    <td>344</td>
+                                    <td>86</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>75 a 79 anos</td>
+                                    <td>1</td>
+                                    <td>4407</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>80 a 84 anos</td>
+                                    <td>0</td>
+                                    <td>1991</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>85 anos a mais</td>
+                                    <td>0</td>
+                                    <td>2284</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Forças Armadas</td>
+                                    <td>0</td>
+                                    <td>267</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Gestantes e puérperas (18 a 59 anos)</td>
+                                    <td>519</td>
+                                    <td>0</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Idosos ILP (Idosos em Instituição de Longa Permanência)</td>
+                                    <td>0</td>
+                                    <td>156</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Pessoas com comorbidades (18 a 59 anos)</td>
+                                    <td>1963</td>
+                                    <td>49</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Pessoas com comorbidades (50 a 59 anos)</td>
+                                    <td>1849</td>
+                                    <td>2</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Pessoas com deficiência permanente cadastradas no BPC (50 a 59 anos)</td>
+                                    <td>113</td>
+                                    <td>1</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Povos e comunidades quilombolas</td>
+                                    <td>0</td>
+                                    <td>2367</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>(Pré-Sistema) 60 a 64 anos</td>
+                                    <td>0</td>
+                                    <td>3817</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>(Pré-Sistema) 65 a 69 anos</td>
+                                    <td>0</td>
+                                    <td>5217</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>(Pré-Sistema) 70 a 74 anos</td>
+                                    <td>0</td>
+                                    <td>6524</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Profissionais da saúde</td>
+                                    <td>0</td>
+                                    <td>6348</td>
+                                    <td>ATUAL</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -186,25 +265,74 @@
                                 </tr>
                             </thead>
                             <tbody style="text-align: center; color: #204788; font-weight: bold;">
-                                @foreach ($publicos as $publico)
-                                    @if ($publico->exibir_na_home)
-                                        @php
-                                            $quant_aprovada = intval(count($publico->candidatos()->where('aprovacao', '!=', $aprovacao_enum[0])->get())/2);
-                                            $quant_espera = count($publico->candidatos()->where('aprovacao', $aprovacao_enum[0])->get());
-                                        @endphp
-                                        @if($publico->atual)
-                                            <tr style="background-color: #E7FFF2;">
-                                                <td>{{$publico->texto_home}}</td>
-                                                <td>ATUAL</td>
-                                            </tr>
-                                        @else
-                                            <tr style="background-color: #FFE7E7;">
-                                                <td>{{$publico->texto_home}}</td>
-                                                <td style="color: #E35E60; font-weight: bold;">ENCERRADO</td>
-                                            </tr>
-                                        @endif
-                                    @endif
-                                @endforeach
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>60 a 64 anos</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>65 a 69 anos</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>70 a 74 anos</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>75 a 79 anos</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>80 a 84 anos</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>85 anos a mais</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Forças Armadas</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Gestantes e puérperas (18 a 59 anos)</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Idosos ILP (Idosos em Instituição de Longa Permanência)</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Pessoas com comorbidades (18 a 59 anos)</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Pessoas com comorbidades (50 a 59 anos)</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Pessoas com deficiência permanente cadastradas no BPC (50 a 59 anos)</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Povos e comunidades quilombolas</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>(Pré-Sistema) 60 a 64 anos</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                 <tr style="background-color: #E7FFF2;">
+                                    <td>(Pré-Sistema) 65 a 69 anos</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>(Pré-Sistema) 70 a 74 anos</td>
+                                    <td>ATUAL</td>
+                                </tr>
+                                <tr style="background-color: #E7FFF2;">
+                                    <td>Profissionais da saúde</td>
+                                    <td>ATUAL</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -228,6 +356,8 @@
                             <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
                                 <div class="container">
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
                                       <div class="panel panel-default">
                                         <div class="panel-heading p-3 mb-3" role="tab" id="heading1" style="border-radius: 8px;">
                                           <h3 class="panel-title">
@@ -297,7 +427,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasPriDose + $quantPessoasSegDose}}</div>
+                                        <div class="col-md-12 style_card_menor_conteudo">48461</div>
                                         <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
                                     </div>
                                 </div>
@@ -313,7 +443,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasPriDose}}</div>
+                                        <div class="col-md-12 style_card_menor_conteudo">34892</div>
                                         <div class="col-md-12 style_card_menor_legenda">TOTAL DE PESSOAS VACINADAS</div>
                                     </div>
                                 </div>
@@ -329,7 +459,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasSegDose}}</div>
+                                        <div class="col-md-12 style_card_menor_conteudo">13569</div>
                                         <div class="col-md-12 style_card_menor_legenda">TOTAL DE PESSOAS VACINADAS</div>
                                     </div>
                                 </div>
@@ -345,7 +475,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_menor_conteudo">{{$quantPessoasCadastradas}}</div>
+                                        <div class="col-md-12 style_card_menor_conteudo">12200</div>
                                         <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
                                     </div>
                                 </div>
@@ -361,7 +491,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_menor_conteudo">{{$config->vacinas_recebidas}}</div>
+                                        <div class="col-md-12 style_card_menor_conteudo">0</div>
                                         <div class="col-md-12 style_card_menor_legenda">TOTAL</div>
                                     </div>
                                 </div>
@@ -377,7 +507,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 style_card_menor_conteudo">{{number_format($porcentagemVacinada, '2', ',', ' ')}}%</div>
+                                        <div class="col-md-12 style_card_menor_conteudo">16,91%</div>
                                         <div class="col-md-12 style_card_menor_legenda">POPULAÇÃO VACINADA (%)</div>
                                     </div>
                                 </div>
@@ -414,7 +544,7 @@
                                     <p style="font-weight: 700; color: #01487E;">POPULAÇÃO: <span style="font-weight: 500; color: #FF545A;">140.570 hab *</span></p>
                                 </div>
                                 <div class="col-md-12">
-                                    <p style="font-weight: 700;color: #01487E;">Nº TOTAL DE VACINADOS: <span style="font-weight: 500;color: #FF545A;">{{$quantPessoasPriDose + $quantPessoasSegDose}}</span></p>
+                                    <p style="font-weight: 700;color: #01487E;">Nº TOTAL DE VACINADOS: <span style="font-weight: 500;color: #FF545A;">34749</span></p>
                                 </div>
                             </div>
                         </div>
@@ -439,18 +569,30 @@
                                     </tr>
                                     </thead>
                                     <tbody style=" color: #204788;">
-                                        @php
-                                            $posicao = 1;
-                                        @endphp
-                                        @foreach ($quantVacinadosPorBairro as $i => $bairroVacinados)
-                                            @if($posicao < 6)
-                                                <tr>
-                                                    <th scope="row" style="color: #FF545A;">{{$posicao++}}º</th>
-                                                    <td>{{$bairroVacinados['bairro']}}</td>
-                                                    <td style="text-align: center;">{{$bairroVacinados['quantidade']}}</td>
-                                                </tr>
-                                            @endif
-                                        @endforeach
+                                        <tr>
+                                            <th scope="row" style="color: #FF545A;">1º</th>
+                                            <td>Heliópolis</td>
+                                            <td style="text-align: center;">338</td>
+                                        </tr>                                                                                                                    <tr>
+                                            <th scope="row" style="color: #FF545A;">2º</th>
+                                            <td>Severiano Moraes Filho</td>
+                                            <td style="text-align: center;">187</td>
+                                        </tr>
+                                                                                                                                                                        <tr>
+                                            <th scope="row" style="color: #FF545A;">3º</th>
+                                            <td>Magano</td>
+                                            <td style="text-align: center;">177</td>
+                                        </tr>
+                                                                                                                                                                        <tr>
+                                            <th scope="row" style="color: #FF545A;">4º</th>
+                                            <td>Boa Vista</td>
+                                            <td style="text-align: center;">169</td>
+                                        </tr>
+                                                                                                                                                                        <tr>
+                                            <th scope="row" style="color: #FF545A;">5º</th>
+                                            <td>Santo Antônio</td>
+                                            <td style="text-align: center;">113</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -478,12 +620,182 @@
                                     </tr>
                                     </thead>
                                     <tbody style=" color: #204788; text-align: center;">
-                                        @foreach ($quantVacinadosPorIdade as $vacinadosDaIdade)
-                                            <tr>
-                                                <td>{{$vacinadosDaIdade['idade']}}</td>
-                                                <td style="text-align: center;">{{number_format($vacinadosDaIdade['porcentagem'], '2', ',', ' ')}}%</td>
-                                            </tr>
-                                        @endforeach
+                                        <tr>
+                                            <td>20</td>
+                                            <td style="text-align: center;">1,43%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>21</td>
+                                            <td style="text-align: center;">0,93%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>23</td>
+                                            <td style="text-align: center;">1,04%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>26</td>
+                                            <td style="text-align: center;">1,37%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>29</td>
+                                            <td style="text-align: center;">0,60%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>32</td>
+                                            <td style="text-align: center;">0,59%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>33</td>
+                                            <td style="text-align: center;">2,48%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>34</td>
+                                            <td style="text-align: center;">1,32%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>35</td>
+                                            <td style="text-align: center;">1,15%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>36</td>
+                                            <td style="text-align: center;">1,33%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>38</td>
+                                            <td style="text-align: center;">0,59%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>39</td>
+                                            <td style="text-align: center;">1,32%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>40</td>
+                                            <td style="text-align: center;">0,74%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>41</td>
+                                            <td style="text-align: center;">0,89%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>42</td>
+                                            <td style="text-align: center;">1,39%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>43</td>
+                                            <td style="text-align: center;">1,43%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>44</td>
+                                            <td style="text-align: center;">1,82%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>45</td>
+                                            <td style="text-align: center;">0,88%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>46</td>
+                                            <td style="text-align: center;">2,78%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>47</td>
+                                            <td style="text-align: center;">0,98%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>49</td>
+                                            <td style="text-align: center;">0,88%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>50</td>
+                                            <td style="text-align: center;">0,68%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>51</td>
+                                            <td style="text-align: center;">0,63%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>52</td>
+                                            <td style="text-align: center;">0,52%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>54</td>
+                                            <td style="text-align: center;">0,49%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>55</td>
+                                            <td style="text-align: center;">0,35%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>57</td>
+                                            <td style="text-align: center;">0,49%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>58</td>
+                                            <td style="text-align: center;">0,49%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>59</td>
+                                            <td style="text-align: center;">0,17%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>60</td>
+                                            <td style="text-align: center;">0,29%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>61</td>
+                                            <td style="text-align: center;">0,39%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>62</td>
+                                            <td style="text-align: center;">0,39%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>63</td>
+                                            <td style="text-align: center;">0,95%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>64</td>
+                                            <td style="text-align: center;">0,94%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>65</td>
+                                            <td style="text-align: center;">19,88%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>66</td>
+                                            <td style="text-align: center;">20,08%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>67</td>
+                                            <td style="text-align: center;">20,37%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>68</td>
+                                            <td style="text-align: center;">20,80%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>69</td>
+                                            <td style="text-align: center;">21,33%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>70</td>
+                                            <td style="text-align: center;">15,54%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>71</td>
+                                            <td style="text-align: center;">7,64%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>72</td>
+                                            <td style="text-align: center;">9,59%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>73</td>
+                                            <td style="text-align: center;">14,42%</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>74</td>
+                                            <td style="text-align: center;">10,17%</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -529,7 +841,7 @@
         </div>
 
         <div class="container" style="text-align: center; margin-top:2rem; margin-bottom: 4rem;">
-            <p style="color: #204788; font-weight: bold;">Última atualização dos dados: {{date('d/m/Y \à\s  H:i\h', strtotime($ultimaAtt))}}</p>
+            <p style="color: #204788; font-weight: bold;">Última atualização dos dados: 09/06/2021 - 14h29</p>
         </div>
 
         <!-- rodapé -->
@@ -591,7 +903,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-12 style_card_menor_conteudo" style="font-size: 70px;">{{number_format($porcentagemVacinada, '2', ',', ' ')}}%</div>
+                                <div class="col-md-12 style_card_menor_conteudo" style="font-size: 70px;">16,91%</div>
                                 <div class="col-md-12 style_card_menor_legenda">POPULAÇÃO VACINADA</div>
                                 <div class="col-md-12 style_card_menor_legenda" style="text-align: justify; margin-top: -0.3rem;">O percentual é calculado por uma regra de três simples, utilizando o número da população total estimada pelo IBGE/2020, cruzado com a informação das pessoas vacinadas cadastradas no vem vacina.</div>
                             </div>
@@ -696,28 +1008,17 @@
         }); */
 
         let graficoSexo = document.getElementById("graficoSexo").getContext("2d");
+
         let chart2 = new Chart(graficoSexo, {
-                @if(count($vacinadosPorSexo) > 2)
-                    type: 'doughnut',
+                                    type: 'doughnut',
                     data:{
-                    labels:['{{$vacinadosPorSexo[0]['sexo']}}', '{{$vacinadosPorSexo[1]['sexo']}}', '{{$vacinadosPorSexo[2]['sexo']}}'],
+                    labels:['Feminino', 'Masculino'],
 
                     datasets:[{
                         label:"Sexo",
-                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}', '{{$vacinadosPorSexo[2]['quantidade']}}'],
-                        backgroundColor:['#2396F3', '#F5C900','#F50057'],
-                    }]
-                @elseif(count($vacinadosPorSexo) > 1)
-                    type: 'doughnut',
-                    data:{
-                    labels:['{{$vacinadosPorSexo[0]['sexo']}}', '{{$vacinadosPorSexo[1]['sexo']}}'],
-
-                    datasets:[{
-                        label:"Sexo",
-                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}'],
+                        data:['836', '535'],
                         backgroundColor:['#F50057', '#2396F3'],
                     }]
-                @endif
 
             }, options:{
                 animation:{
