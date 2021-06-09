@@ -18,23 +18,25 @@ class Candidato extends Model
     public const APROVACAO_ENUM = ["Não Analisado", "Aprovado", "Reprovado", "Vacinado"];
     public const DOSE_ENUM = ["1ª Dose", '2ª Dose', "Dose única"];
     public const bairros = [
-        "Magano",
-        "Dom Hélder Câmara",
-        "Dom Thiago Postma",
-        "São José",
-        "Santo Antônio",
+        "Área rural",
         "Aloísio Pinto",
         "Boa Vista",
+        "Distrito Iratama",
+        "Distrito Miracica",
+        "Distrito São Pedro",
+        "Dom Hélder Câmara",
+        "Dom Thiago Postma",
         "Francisco Figueira",
         "Heliópolis",
         "José Maria Dourado",
-        "Novo Heliópolis",
-        "Severiano Moraes Filho",
+        "Magano",
         "Manoel Chéu",
-        "Distrito São Pedro",
-        "Distrito Miracica",
-        "Distrito Iratama"
+        "Novo Heliópolis",
+        "Santo Antônio",
+        "Severiano Moraes Filho",
+        "São José",
     ];
+
 
 
     protected $fillable = [
