@@ -26,6 +26,7 @@ use App\Http\Controllers\EstatisticaController;
 */
 
 Route::get('/', [WelcomeController::class, 'index'])->name('index');
+Route::get('/cache', [WelcomeController::class, 'cache'])->name('cache');
 
 Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");

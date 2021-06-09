@@ -31,6 +31,9 @@ class Candidato extends Model
         "Novo Heliópolis",
         "Severiano Moraes Filho",
         "Manoel Chéu",
+        "Distrito São Pedro",
+        "Distrito Miracica",
+        "Distrito Iratama"
     ];
 
 
