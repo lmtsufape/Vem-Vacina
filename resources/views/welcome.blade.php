@@ -841,7 +841,7 @@
         </div>
 
         <div class="container" style="text-align: center; margin-top:2rem; margin-bottom: 4rem;">
-            <p style="color: #204788; font-weight: bold;">Última atualização dos dados: 19/05/2021 - 03h05</p>
+            <p style="color: #204788; font-weight: bold;">Última atualização dos dados: 09/06/2021 - 14h29</p>
         </div>
 
         <!-- rodapé -->
