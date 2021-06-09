@@ -328,7 +328,7 @@
                             @php
                                 $lote = App\Models\LotePostoVacinacao::find($candidato->lote_id);
                                 if($lote != null){
-                                    $lote->lote;
+                                    $lote = $lote->lote;
                                 }
                             @endphp
                             @if ($lote != null)
