@@ -262,16 +262,7 @@ class FilaDistribuir extends Component
             // Pega os candidatos do posto selecionado cuja data de vacinação é de amanhã pra frente, os que já passaram não importam
             $candidatos = Candidato::where("posto_vacinacao_id", $posto->id)->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
 
-            $horarios_disponiveis = [];
-
-            // Remove os horarios já agendados por outros candidados
-            foreach($todos_os_horarios as $horario) {
-                $horario_ocupado = $candidatos->contains('chegada', $horario);
-
-                if(!$horario_ocupado) {
-                    array_push($horarios_disponiveis, $horario);
-                }
-            }
+            $horarios_disponiveis = array_diff($todos_os_horarios, $candidatos->pluck('chegada')->toArray());
 
             $horarios_agrupados_por_dia = [];
 
