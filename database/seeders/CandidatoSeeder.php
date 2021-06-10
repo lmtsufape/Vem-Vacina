@@ -16,7 +16,7 @@ class CandidatoSeeder extends Seeder
      */
     public function run()
     {
-        Candidato::factory()->times(1000)->create();
+        Candidato::factory()->times(20000)->create();
         // $chegada = new Carbon("19-03-2021 09:00:00");
         // $saida = new Carbon("19-03-2021 09:10:00");
 
