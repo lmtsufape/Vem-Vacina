@@ -54,6 +54,14 @@
                 pointer-events: none;
                 color: #ccc;
             }
+            .my-custom-scrollbar {
+                position: relative;
+                height: 250px;
+                overflow: auto;
+            }
+            .table-wrapper-scroll-y {
+                display: block;
+            }
         </style>
     </head>
     <body class="font-sans antialiased">
