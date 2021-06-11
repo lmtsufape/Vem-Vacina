@@ -249,6 +249,13 @@ class FilaDistribuir extends Component
                     $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_tarde . " minutes", $fim_do_dia);
                     array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
                 }
+
+                if($posto->inicio_atendimento_noite && $posto->intervalo_atendimento_noite && $posto->fim_atendimento_noite) {
+                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_noite);
+                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_noite);
+                    $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_noite . " minutes", $fim_do_dia);
+                    array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
+                }
             }
 
             // Os periodos são salvos como horarios[dia][janela]

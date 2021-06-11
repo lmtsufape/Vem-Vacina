@@ -52,6 +52,14 @@ class PostoVacinacaoController extends Controller
                 $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_tarde . " minutes", $fim_do_dia);
                 array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
             }
+
+            if($posto->inicio_atendimento_noite && $posto->intervalo_atendimento_noite && $posto->fim_atendimento_noite) {
+                $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_noite);
+                $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_noite);
+                $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_noite . " minutes", $fim_do_dia);
+                array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
+            }
+
             $contador++;
             if($contador == 3){
                 break;
@@ -237,6 +245,7 @@ class PostoVacinacaoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         Gate::authorize('editar-posto');
 
         $rules = [
@@ -304,6 +313,22 @@ class PostoVacinacaoController extends Controller
             $posto->inicio_atendimento_tarde = NULL;
             $posto->intervalo_atendimento_tarde = NULL;
             $posto->fim_atendimento_tarde = NULL;
+        }
+
+        if($request->funcionamento_noite == "on") {
+            $request->validate([
+                "inicio_atendimento_noite" => "required|integer",
+                "intervalo_atendimento_noite" => "required|integer",
+                "fim_atendimento_noite" => "required|integer|gt:inicio_atendimento_noite",
+            ]);
+
+            $posto->inicio_atendimento_noite = $request->inicio_atendimento_noite;
+            $posto->intervalo_atendimento_noite = $request->intervalo_atendimento_noite;
+            $posto->fim_atendimento_noite = $request->fim_atendimento_noite;
+        } else {
+            $posto->inicio_atendimento_noite = NULL;
+            $posto->intervalo_atendimento_noite = NULL;
+            $posto->fim_atendimento_noite = NULL;
         }
 
         $posto->update();
@@ -417,6 +442,14 @@ class PostoVacinacaoController extends Controller
                     $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_tarde . " minutes", $fim_do_dia);
                     array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
                 }
+
+                if($posto->inicio_atendimento_noite && $posto->intervalo_atendimento_noite && $posto->fim_atendimento_noite) {
+                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_noite);
+                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_noite);
+                    $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_noite . " minutes", $fim_do_dia);
+                    array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
+                }
+
                 $contador++;
                 if($contador == 2){
                     break;

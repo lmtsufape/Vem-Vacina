@@ -1,7 +1,7 @@
 <div wire:poll="contador">
     <div class="row">
-        <div class="col-sm-12">
-            <table class="table">
+        <div class="col-sm-12 table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table" >
                 <thead>
                     <tr>
                         <th scope="col">Público</th>
