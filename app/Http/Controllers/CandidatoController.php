@@ -463,13 +463,7 @@ class CandidatoController extends Controller
                     }
                 }
             }
-            if(!Candidato::where('cpf', $candidato->cpf)->count()){
-                return redirect()->back()->withErrors([
-                    "message" => "Houve algum erro, entre em contato com a administração do site.",
-                ])->withInput();
-            }
 
-            $agendamentos = Candidato::where('cpf', $candidato->cpf)->orderBy('dose')->get();
 
             DB::commit();
 
@@ -485,6 +479,14 @@ class CandidatoController extends Controller
                 "message" => "Houve algum erro, entre em contato com a administração do site.",
             ])->withInput();
         }
+
+        if(!Candidato::where('cpf', $candidato->cpf)->count()){
+            return redirect()->back()->withErrors([
+                "message" => "Houve algum erro, entre em contato com a administração do site.",
+            ])->withInput();
+        }
+
+        $agendamentos = Candidato::where('cpf', $candidato->cpf)->orderBy('dose')->get();
 
 
         return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
