@@ -1,8 +1,9 @@
 <div class="py-12">
-    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
         <div class="container">
 
             <livewire:contador/>
+            <br>
             <div>
                 @if (session()->has('message'))
                     <div class="alert alert-success">
@@ -41,8 +42,6 @@
                     <p>Processando distribuição...</p>
 
                 </div>
-
-
 
                 <br>
                 <div class="row" wire:loading.remove.delay>
