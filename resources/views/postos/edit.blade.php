@@ -152,7 +152,7 @@
 
 
 
-                    
+
                     <div class="row">
                         <div class="col-md">
                             <input onchange="check_funcionamento(this, 'seletores_funcionamento_tarde')" id="funcionamento_tarde" type="checkbox" name="funcionamento_tarde" @if(old('funcionamento_tarde') || (old('funcionamento_tarde') == null && $posto->inicio_atendimento_tarde && $posto->intervalo_atendimento_tarde && $posto->fim_atendimento_tarde)) checked @endif>
@@ -166,7 +166,7 @@
                             <label style="margin-right: 8%;">Inicio:</label>
                             <select name="inicio_atendimento_tarde" class="form-control">
                                 <option disabled selected> -- hrs</option>
-                                @for($i = 13; $i <= 18; $i++)
+                                @for($i = 13; $i <= 22; $i++)
                                    <option value="{{$i}}" @if(old('inicio_atendimento_tarde', $posto->inicio_atendimento_tarde) == $i) selected @endif >{{$i}} hrs</option>
                                 @endfor
                             </select>
@@ -177,7 +177,7 @@
                             <label style="margin-right: 8%;">Fim:</label>
                             <select name="fim_atendimento_tarde"class="form-control">
                                 <option disabled selected> -- hrs</option>
-                                @for($i = 13; $i <= 18; $i++)
+                                @for($i = 13; $i <= 22; $i++)
                                    <option value="{{$i}}" @if(old('fim_atendimento_tarde', $posto->fim_atendimento_tarde) == $i) selected @endif>{{$i}} hrs</option>
                                 @endfor
                             </select>
@@ -218,9 +218,9 @@
              document.getElementById(div).style.display = "none";
          }
      }
-     
+
     </script>
 
 
-    
+
   </x-app-layout>
