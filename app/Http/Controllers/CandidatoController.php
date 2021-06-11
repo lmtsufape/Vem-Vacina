@@ -189,8 +189,7 @@ class CandidatoController extends Controller
     }
 
     public function enviar_solicitacao(Request $request) {
-        // dd($request->all());
-        // dd(Rule::requiredIf($request->fila));
+
         $request->validate([
             "voltou"                => "nullable",
             "público"               => "required",
@@ -464,11 +463,19 @@ class CandidatoController extends Controller
                     }
                 }
             }
+            if(!Candidato::where('cpf', $candidato->cpf)->count()){
+                return redirect()->back()->withErrors([
+                    "message" => "Houve algum erro, entre em contato com a administração do site.",
+                ])->withInput();
+            }
+
+            $agendamentos = Candidato::where('cpf', $candidato->cpf)->orderBy('dose')->get();
 
             DB::commit();
 
         } catch (\Throwable $e) {
             DB::rollback();
+
             if(env('APP_DEBUG')){
                 return redirect()->back()->withErrors([
                     "message" => $e->getMessage(),
@@ -479,13 +486,6 @@ class CandidatoController extends Controller
             ])->withInput();
         }
 
-        if(!Candidato::where('cpf', $candidato->cpf)->count()){
-            return redirect()->back()->withErrors([
-                "message" => "Houve algum erro, seu agendamento não, entre em contato com a administração do site.",
-            ])->withInput();
-        }
-
-        $agendamentos = Candidato::where('cpf', $candidato->cpf)->orderBy('dose')->get();
 
         return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
                                           'agendamentos' => $agendamentos,
