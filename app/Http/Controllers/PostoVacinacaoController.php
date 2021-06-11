@@ -23,7 +23,7 @@ class PostoVacinacaoController extends Controller
 
         $todos_os_horarios_por_dia = [];
         $todos_os_horarios = [];
-        set_time_limit(60);
+        set_time_limit(40);
         $posto = PostoVacinacao::find($posto_id);
         $contador = 0;
         // Pega os proximos 7 dias
@@ -376,7 +376,7 @@ class PostoVacinacaoController extends Controller
 
                 return response()->json($pontos);
             } else {
-                set_time_limit(60);
+                set_time_limit(40);
                 $postos = Etapa::find($request->publico_id)->pontos;
                 $postos_disponiveis = collect([]);
                 foreach ($postos as $key => $posto) {
@@ -406,7 +406,7 @@ class PostoVacinacaoController extends Controller
     }
 
     public function diasPorPosto(Request $request) {
-        set_time_limit(60);
+        set_time_limit(40);
         if ($request->posto_id != null) {
             // Cria uma lista de possiveis horarios do proximo dia quando o posto abre
             // até a proxima semana, removendo os final de semanas
