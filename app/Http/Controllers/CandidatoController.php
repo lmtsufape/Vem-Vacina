@@ -11,18 +11,19 @@ use App\Models\Candidato;
 use App\Models\Configuracao;
 use Illuminate\Http\Request;
 use App\Models\PostoVacinacao;
+use Illuminate\Validation\Rule;
 use App\Notifications\Reagendado;
+use App\Models\LotePostoVacinacao;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\CandidatoFila;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\CandidatoInscrito;
 use App\Notifications\CandidatoReprovado;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CandidatoInscritoSegundaDose;
-use Illuminate\Validation\Rule;
-use App\Models\LotePostoVacinacao;
 
 class CandidatoController extends Controller
 {
@@ -149,9 +150,13 @@ class CandidatoController extends Controller
     public function solicitar() {
 
         // TODO: pegar só os postos com vacinas disponiveis
-
-        $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
-        $etapasAtuais = Etapa::where('atual', true)->orderBy('texto')->get();
+        $seconds = now()->addMinutes(1);
+        $postos_com_vacina  = Cache::remember('postos_com_vacina', $seconds, function () {
+                                    return PostoVacinacao::where('padrao_no_formulario', true)->get();
+                            });
+        $etapasAtuais   = Cache::remember('etapasAtuais', $seconds, function () {
+                                    return Etapa::where('atual', true)->orderBy('texto')->get();
+                            });
         $config = Configuracao::first();
 
         if ($config->botao_solicitar_agendamento && auth()->user() == null) {
