@@ -17,11 +17,20 @@ class WelcomeController extends Controller
         $quantPessoasSegDose = 0;
         $config = Configuracao::first();
         set_time_limit(360);
-        $publicos = Etapa::orderBy('texto')->get();
+        $publicos = Etapa::with('candidatos')->orderBy('texto')->get();
         $pontos = PostoVacinacao::all();
         $ultimaAtualizacao = null;
         $seconds = now()->addDays(1);
+        // dd($publicos);
         // $seconds = now()->addMinutes(3);
+        // $quant_aprovada = intval(count($publico->candidatos()->where('aprovacao', '!=', $aprovacao_enum[0])->get())/2);
+        // $quant_espera = count($publico->candidatos()->where('aprovacao', $aprovacao_enum[0])->get());
+        $ultimaAtualizacao      = Cache::remember('ultimaAtualizacao', $seconds, function () {
+                                    return now();
+                                });
+        $ultimaAtualizacao      = Cache::remember('ultimaAtualizacao', $seconds, function () {
+                                    return now();
+                                });
         $ultimaAtualizacao      = Cache::remember('ultimaAtualizacao', $seconds, function () {
                                     return now();
                                 });
