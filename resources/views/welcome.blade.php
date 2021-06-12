@@ -132,7 +132,7 @@
         </div>
 
 
-        <div class="container">
+        {{-- <div class="container">
             <div class="row justify-content-center">
                 <!-- grupos a serem vacinados nesta etapa -->
                 <div class="col-md-9 style_card_medio">
@@ -247,36 +247,6 @@
                                           </div>
                                         </div>
                                       </div>
-
-                                      {{-- <div class="panel panel-default">
-                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading2" style="border-radius: 8px;">
-                                          <h3 class="panel-title">
-                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapse2">
-                                                Qual é a comida que liga e desliga?
-                                            </a>
-                                          </h3>
-                                        </div>
-                                        <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
-                                          <div class="panel-body px-3 mb-4">
-                                            <p>O Strog-ON-OFF</p>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div class="panel panel-default">
-                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading3" style="border-radius: 8px;">
-                                          <h3 class="panel-title">
-                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
-                                                O que o tomate foi fazer no banco?
-                                            </a>
-                                          </h3>
-                                        </div>
-                                        <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
-                                          <div class="panel-body px-3 mb-4">
-                                            <p>Tirar extrato</p>
-                                          </div>
-                                        </div>
-                                      </div>--}}
                                     </div>
 
                                 </div>
@@ -285,7 +255,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="container">
             <div class="row justify-content-center">

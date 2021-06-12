@@ -41,11 +41,12 @@ class WelcomeController extends Controller
                                         return $quantPessoasSegDose;
                                     });
 
-        $candidatosVacinados = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
-
-        $quantPessoasCadastradas = intval(count(Candidato::where('aprovacao', '!=', Candidato::APROVACAO_ENUM[0])->get())/2) + count(Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get());
-
-
+        $candidatosVacinados     = Cache::remember('candidatosVacinados', $seconds, function () use($pontos) {
+                                        return Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
+                                    });
+        $quantPessoasCadastradas    = Cache::remember('vacinasDisponiveis', $seconds, function () use($pontos) {
+                                        return intval(count(Candidato::where('aprovacao', '!=', Candidato::APROVACAO_ENUM[0])->get())/2) + count(Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->get());
+                                    });
         $vacinasDisponiveis      = Cache::remember('vacinasDisponiveis', $seconds, function () use($pontos) {
                                         return $this->quantVacinasDisponiveis($pontos);
                                     });
