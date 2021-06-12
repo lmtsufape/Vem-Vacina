@@ -217,7 +217,7 @@
                             <label style="margin-right: 8%;">Inicio:</label>
                             <select name="inicio_atendimento_noite" class="form-control">
                                 <option disabled selected> -- hrs</option>
-                                @for($i = 19; $i <= 23; $i++)
+                                @for($i = 17; $i <= 23; $i++)
                                    <option value="{{$i}}" @if(old('inicio_atendimento_noite', $posto->inicio_atendimento_noite) == $i) selected @endif >{{$i}} hrs</option>
                                 @endfor
                             </select>
@@ -228,7 +228,7 @@
                             <label style="margin-right: 8%;">Fim:</label>
                             <select name="fim_atendimento_noite"class="form-control">
                                 <option disabled selected> -- hrs</option>
-                                @for($i = 19; $i <= 23; $i++)
+                                @for($i = 17; $i <= 23; $i++)
                                    <option value="{{$i}}" @if(old('fim_atendimento_noite', $posto->fim_atendimento_noite) == $i) selected @endif>{{$i}} hrs</option>
                                 @endfor
                             </select>
