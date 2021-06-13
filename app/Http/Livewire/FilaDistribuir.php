@@ -65,7 +65,7 @@ class FilaDistribuir extends Component
             foreach ($candidatos as $key => $candidato) {
 
                     $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato, $posto );
-
+                    Log::info($key);
                     if ($resultado) {
                         $aprovado = true;
                         Notification::send(User::all(), new CandidatoFilaArquivo($candidato));
@@ -153,10 +153,7 @@ class FilaDistribuir extends Component
                             $qtd = $lote->qtdVacina - $qtdCandidato;
 
                             if ( !$lote_original->dose_unica && !($qtd >= 2) ) {
-                                continue;
-                                // return redirect()->back()->withErrors([
-                                //     'posto_vacinacao_' . $id => "Não há mais doses disponíveis."
-                                // ])->withInput();
+                                break 3;
                             }
                             break;
                         }
@@ -175,7 +172,7 @@ class FilaDistribuir extends Component
 
                 if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
                     session()->flash('message', 'Acabaram as vacinas.');
-                    return;
+                    break 2;
                 }
                 // dd($id_lote);
                 $candidato->posto_vacinacao_id      = $id_posto;
