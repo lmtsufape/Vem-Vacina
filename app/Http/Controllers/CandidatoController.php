@@ -151,12 +151,14 @@ class CandidatoController extends Controller
 
         // TODO: pegar só os postos com vacinas disponiveis
         $seconds = now()->addMinutes(1);
-        $postos_com_vacina  = Cache::remember('postos_com_vacina', $seconds, function () {
-                                    return PostoVacinacao::where('padrao_no_formulario', true)->get();
-                            });
-        $etapasAtuais   = Cache::remember('etapasAtuais', $seconds, function () {
-                                    return Etapa::where('atual', true)->orderBy('texto')->get();
-                            });
+        // $postos_com_vacina  = Cache::remember('postos_com_vacina', $seconds, function () {
+        //                             return PostoVacinacao::where('padrao_no_formulario', true)->get();
+        //                     });
+        // $etapasAtuais   = Cache::remember('etapasAtuais', $seconds, function () {
+        //                             return Etapa::where('atual', true)->orderBy('texto')->get();
+        //                     });
+        $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
+        $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
         $config = Configuracao::first();
 
         if ($config->botao_solicitar_agendamento && auth()->user() == null) {
@@ -317,9 +319,10 @@ class CandidatoController extends Controller
             $horario_vacinacao = $request->horario_vacinacao;
             $id_posto = $request->posto_vacinacao;
             $datetime_chegada = Carbon::createFromFormat("d/m/Y H:i", $dia_vacinacao . " " . $horario_vacinacao);
+            $datetime = $datetime_chegada;
             $datetime_saida = $datetime_chegada->copy()->addMinutes(10);
 
-            $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime_chegada)->where("posto_vacinacao_id", $id_posto)->get();
+            $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime)->where("posto_vacinacao_id", $id_posto)->get();
 
             if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
                 return redirect()->back()->withErrors([
