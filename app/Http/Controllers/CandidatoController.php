@@ -151,12 +151,14 @@ class CandidatoController extends Controller
 
         // TODO: pegar só os postos com vacinas disponiveis
         $seconds = now()->addMinutes(1);
-        $postos_com_vacina  = Cache::remember('postos_com_vacina', $seconds, function () {
-                                    return PostoVacinacao::where('padrao_no_formulario', true)->get();
-                            });
-        $etapasAtuais   = Cache::remember('etapasAtuais', $seconds, function () {
-                                    return Etapa::where('atual', true)->orderBy('texto')->get();
-                            });
+        // $postos_com_vacina  = Cache::remember('postos_com_vacina', $seconds, function () {
+        //                             return PostoVacinacao::where('padrao_no_formulario', true)->get();
+        //                     });
+        // $etapasAtuais   = Cache::remember('etapasAtuais', $seconds, function () {
+        //                             return Etapa::where('atual', true)->orderBy('texto')->get();
+        //                     });
+        $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
+        $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
         $config = Configuracao::first();
 
         if ($config->botao_solicitar_agendamento && auth()->user() == null) {
