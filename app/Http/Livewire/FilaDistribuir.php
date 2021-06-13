@@ -90,6 +90,8 @@ class FilaDistribuir extends Component
             Log::info($th->getMessage());
             return;
         }
+        session()->flash('message', 'Distribuição finalizada.');
+        return;
 
     }
 
@@ -172,7 +174,8 @@ class FilaDistribuir extends Component
                 }
 
                 if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
-                    continue;
+                    session()->flash('message', 'Acabaram as vacinas.');
+                    return;
                 }
                 // dd($id_lote);
                 $candidato->posto_vacinacao_id      = $id_posto;
