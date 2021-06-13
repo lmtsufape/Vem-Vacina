@@ -882,7 +882,7 @@
                 }
                 if (data != null && typeof data != 'string') {
 
-                    var option = '<option selected disabled>-- Selecione o posto --</option>';
+                    var option;
                     if (data.length > 0) {
                         $.each(data, function(i, obj) {
                             option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
