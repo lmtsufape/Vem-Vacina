@@ -317,9 +317,10 @@ class CandidatoController extends Controller
             $horario_vacinacao = $request->horario_vacinacao;
             $id_posto = $request->posto_vacinacao;
             $datetime_chegada = Carbon::createFromFormat("d/m/Y H:i", $dia_vacinacao . " " . $horario_vacinacao);
+            $datetime = $datetime_chegada;
             $datetime_saida = $datetime_chegada->copy()->addMinutes(10);
 
-            $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime_chegada)->where("posto_vacinacao_id", $id_posto)->get();
+            $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime)->where("posto_vacinacao_id", $id_posto)->get();
 
             if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
                 return redirect()->back()->withErrors([
