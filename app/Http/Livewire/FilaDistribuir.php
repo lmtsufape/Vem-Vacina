@@ -88,6 +88,7 @@ class FilaDistribuir extends Component
             //throw $th;
             session()->flash('message',  $th->getMessage());
             Log::info($th->getMessage());
+            return;
         }
 
     }
