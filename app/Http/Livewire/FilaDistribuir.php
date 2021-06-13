@@ -53,7 +53,7 @@ class FilaDistribuir extends Component
         Gate::authorize('distribuir-fila');
         set_time_limit(900);
         // dd($this->etapa_id, $this->ponto_id);
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->get();
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take(500)->get();
         $posto = PostoVacinacao::find($this->ponto_id);
         $horarios_agrupados_por_dia = $this->diasPorPosto($posto);
         if (!$horarios_agrupados_por_dia || !count($horarios_agrupados_por_dia) ) {
@@ -87,7 +87,7 @@ class FilaDistribuir extends Component
         } catch (\Throwable $th) {
             //throw $th;
             session()->flash('message',  $th->getMessage());
-            Log::info($th->getMessage());
+            Log::error($th->getMessage());
             return;
         }
         session()->flash('message', 'Distribuição finalizada.');

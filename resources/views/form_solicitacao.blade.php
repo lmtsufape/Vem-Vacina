@@ -467,7 +467,6 @@
                                         <div class="form-group col-md-6">
                                             <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O PONTO DE VACINAÇÃO MAIS PRÓXIMO DE SUA CASA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
                                             <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
-                                                <option selected disabled>-- Selecione o ponto --</option>
                                                 @foreach($postos as $posto)
                                                     <option value="{{$posto->id}}">{{$posto->nome}}</option>
                                                 @endforeach
