@@ -353,7 +353,7 @@
 
                                             @foreach ($publico->outrasInfo()->orderBy('campo')->get() as $outra)
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="defaultCheck0" name="opcao_etapa_{{$publico->id}}[]" value="{{$outra->id}}" @if(old('opcao_etapa_'.$publico->id) != null && in_array($outra->id, old('opcao_etapa_'.$publico->id))) checked @endif>
+                                                    <input class="form-check-input" type="checkbox" id="defaultCheck{{ $outra->id }}" name="opcao_etapa_{{$publico->id}}[]" value="{{$outra->id}}" @if(old('opcao_etapa_'.$publico->id) != null && in_array($outra->id, old('opcao_etapa_'.$publico->id))) checked @endif>
                                                     <label class="form-check-label style_titulo_input" for="defaultCheck0">{{mb_strtoupper($outra->campo)}}</label>
                                                 </div>
                                             @endforeach
@@ -467,7 +467,6 @@
                                         <div class="form-group col-md-6">
                                             <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O PONTO DE VACINAÇÃO MAIS PRÓXIMO DE SUA CASA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
                                             <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
-                                                <option selected disabled>-- Selecione o ponto --</option>
                                                 @foreach($postos as $posto)
                                                     <option value="{{$posto->id}}">{{$posto->nome}}</option>
                                                 @endforeach
@@ -774,7 +773,7 @@
          let div_seletor_horararios = document.getElementById("seletor_horario");
          div_seletor_horararios.innerHTML = "Buscando horários disponíveis...";
          let url = window.location.toString().replace("solicitar", "horarios/" + id_posto);
-         console.log(url);
+        //  console.log(url);
 
          /* Mágia de programação funcional */
          fetch(url).then((dados) => {
@@ -835,7 +834,7 @@
         divLocal.style.display = "none";
         loading.style.display = "block";
         btnForm.disabled = true;
-        console.log("etapa:"+id);
+        // console.log("etapa:"+id);
         $.ajax({
             url: "{{route('postos')}}",
             method: 'get',
@@ -860,7 +859,7 @@
             },
 
             success: function(data){
-                console.log(data);
+                // console.log(data);
                 //  console.log( data)
                 if(data.length <= 0 && data != null){
                     const buttonSend = document.getElementById('buttonSend');
@@ -882,7 +881,7 @@
                 }
                 if (data != null && typeof data != 'string') {
 
-                    var option;
+                    var option = '<option selected disabled>-- Selecione o posto --</option>';
                     if (data.length > 0) {
                         $.each(data, function(i, obj) {
                             option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
