@@ -28,7 +28,7 @@ class PostoVacinacaoController extends Controller
         $contador = 0;
         // Pega os proximos 7 dias
         for($i = 0; $i < 7; $i++) {
-            $dia = Carbon::today()->addDay($i);
+            $dia = Carbon::tomorrow()->addDay($i);
 
             // Não adiciona os dias caso não funcione nesses dias
             if(!($posto->funciona_domingo) && $dia->isSunday()) {continue;}
