@@ -38,17 +38,7 @@
 
                 @endcan
             </div>
-            <div class="col-md-2">
-                @can('whatsapp-candidato')
 
-                    @if ($candidato->aprovacao != null && $candidato->aprovacao != $candidato_enum[3])
-                        <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
-                    @else
-                        <a class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
-                    @endif
-
-                @endcan
-            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
