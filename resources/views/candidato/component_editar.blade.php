@@ -28,12 +28,12 @@
                 @can('vacinado-candidato')
 
                     @if($candidato->lote_id)
-                            <button type="button"  id="buttonVacinado_{{$candidato->id}}"  class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif><i class="fas fa-syringe"></i></button>
-                            @can('desmarcar-vacinado-candidato')
-                                @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
-                                    <button  class="btn btn-danger " data-toggle="modal" data-target="#cancelar_vacinado_candidato_{{$candidato->id}}"><i class="far fa-times-circle"></i></button>
-                                @endif
-                            @endcan
+                        <button type="button"  id="buttonVacinado_{{$candidato->id}}"  class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif><i class="fas fa-syringe"></i></button>
+                        @can('desmarcar-vacinado-candidato')
+                            @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
+                                <button  class="btn btn-danger " id="buttonDesmarcar_{{$candidato->id}}"><i class="far fa-times-circle"></i></button>
+                            @endif
+                        @endcan
                     @endif
 
                 @endcan
@@ -134,6 +134,7 @@
 
 
         var buttonVacinado = document.getElementById("buttonVacinado_"+"{{$candidato->id}}");
+
         buttonVacinado.addEventListener('click', (e)=>{
             var confimacao = confirm('Tem certeza?')
             console.log(confimacao)
@@ -169,6 +170,45 @@
 
 
         });
+        var buttonDesmarcar = document.getElementById("buttonDesmarcar_"+"{{$candidato->id}}");
+        if(buttonDesmarcar != null){
+            buttonDesmarcar.addEventListener('click', (e)=>{
+            var confimacao = confirm('Tem certeza?')
+            console.log(confimacao)
+            if(confimacao){
+                var id = "{{$candidato->id}}";
+                e.preventDefault();
+                var alerta = document.getElementById("alerta"+id);
+                $.ajax({
+                    type: 'get',
+                    url: "{{route('vacinado.desmarcar.ajax')}}",
+                    data: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    success: function(res){
+                        console.log(res)
+                        alerta.children[0].classList.add("alert-success");
+                        alerta.children[0].classList.remove("alert-danger");
+                        alerta.style.display = 'block';
+                        alerta.children[0].children[0].innerText = res
+                    },
+                    error: function(err){
+                        console.log(err)
+                        alerta.style.display = 'block';
+                        alerta.children[0].classList.remove("alert-success");
+                        alerta.children[0].classList.add("alert-danger");
+
+                    }
+                });
+            }else{
+
+            }
+
+
+        });
+        }
+
 
         function editar(id){
             var alerta = document.getElementById("alerta"+id);

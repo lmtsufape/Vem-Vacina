@@ -173,7 +173,7 @@
                           <div class="accordion" id="accordionExample">
                             @foreach ($candidatos as $i => $candidato)
                             <div class="card">
-                              <div class="card-header  @if ($candidato->aprovacao == $candidato_enum[3]) bg-info @elseif($candidato->aprovacao == $candidato_enum[0]) bg-warning @elseif($candidato->aprovacao == $candidato_enum[1]) bg-success @endif " id="headingOne">
+                              <div class="card-header  @if ($candidato->aprovacao == $candidato_enum[3]) bg-info @elseif($candidato->aprovacao == $candidato_enum[0]) bg-warning @elseif($candidato->aprovacao == $candidato_enum[1]) bg-success @elseif($candidato->aprovacao == $candidato_enum[2]) bg-danger @endif " id="headingOne">
                                     <div class="row justify-content-between">
                                         <div class="col-9">
                                             <h2 class="mb-0">
@@ -207,7 +207,7 @@
                                         <div class="col-2">
                                           @can('confirmar-vaga-candidato')
                                               @if($candidato->lote_id)
-                                                  @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
+                                                  @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3] )
                                                     <div class="row  align-items-end">
                                                         <div class="col-md-12 mt-2 text-center">
                                                             <span class=" text-white " >Vacinado</span>
