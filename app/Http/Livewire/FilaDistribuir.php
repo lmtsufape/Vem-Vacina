@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use Exception;
+use Throwable;
 use DateInterval;
 use Carbon\Carbon;
 use App\Models\Lote;
@@ -52,18 +54,29 @@ class FilaDistribuir extends Component
         $this->validate();
         Gate::authorize('distribuir-fila');
         set_time_limit(900);
-        // dd($this->etapa_id, $this->ponto_id);
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take(400)->get();
         $posto = PostoVacinacao::find($this->ponto_id);
+        $soma = 0;
+
+        foreach($posto->lotes as $key1 => $lote){
+            if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($this->etapa_id)){
+
+                $soma += $lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count();
+                continue;
+            }
+        }
+        // dd($soma);
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($soma)->get();
+
         $horarios_agrupados_por_dia = $this->diasPorPosto($posto);
         if (!$horarios_agrupados_por_dia || !count($horarios_agrupados_por_dia) ) {
             session()->flash('message', 'Acabaram os horários.');
             return;
         }
         try {
+
+
             $aprovado = false;
             foreach ($candidatos as $key => $candidato) {
-
                     $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato, $posto );
                     Log::info($key);
                     if ($resultado) {
@@ -74,7 +87,6 @@ class FilaDistribuir extends Component
                     }
             }
             if ($aprovado) {
-                # code...
                 session()->flash('message', 'Distribuição feita.');
                 return;
             }else{
@@ -83,12 +95,11 @@ class FilaDistribuir extends Component
 
             }
 
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             //throw $th;
             session()->flash('message',  $th->getMessage());
-            Log::error($th->getMessage());
             return;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             session()->flash('message',  $e->getMessage());
             return ;
         }
@@ -98,7 +109,6 @@ class FilaDistribuir extends Component
     }
 
     public function agendar($horarios_agrupados_por_dia, $candidato, $posto) {
-
 
         // var_dump($horarios_agrupados_por_dia);
         foreach ($horarios_agrupados_por_dia as $key1 => $dia) {
