@@ -88,6 +88,9 @@ class FilaDistribuir extends Component
             session()->flash('message',  $th->getMessage());
             Log::error($th->getMessage());
             return;
+        } catch (\Exception $e) {
+            session()->flash('message',  $e->getMessage());
+            return ;
         }
         session()->flash('message', 'Distribuição finalizada.');
         return;

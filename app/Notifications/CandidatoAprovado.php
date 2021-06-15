@@ -103,7 +103,7 @@ class CandidatoAprovado extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Condidato de ID:'. $this->candidato1->cpf. ' Aprovado'
+
         ];
     }
 
