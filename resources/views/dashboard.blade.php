@@ -308,7 +308,7 @@
                                     </div>
                                 @endcan --}}
                             </div>
-                            @component('candidato.component_editar', ['candidato' => $candidato])
+                            @component('candidato.component_editar', ['candidato' => $candidato, 'candidato_enum' =>$candidato_enum])
                             @endcomponent
                             <div class="row">
                                 @if ($candidato->etapa->tipo == $tipos[0] || $candidato->etapa->tipo == $tipos[1] )
@@ -586,32 +586,32 @@
                     </div>
                 </div>
             <!-- Fim modal confirmar vacinação -->
-        @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
-            <!-- Modal cancelar vacina -->
-                <div class="modal fade" id="cancelar_vacinado_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="vacinar_candidato_{{$candidato->id}}_label" aria-hidden="true">
-                    <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                        <h5 class="modal-title" id="vacinar_candidato_{{$candidato->id}}_label">Desfazer vacinação de {{$candidato->nome_completo}}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+            @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
+                <!-- Modal cancelar vacina -->
+                    <div class="modal fade" id="cancelar_vacinado_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="vacinar_candidato_{{$candidato->id}}_label" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="vacinar_candidato_{{$candidato->id}}_label">Desfazer vacinação de {{$candidato->nome_completo}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                            <form id="cancelar_vacinado_{{$candidato->id}}" action="{{route('desfazer.vacinado', ['id' => $candidato->id])}}" method="POST">
+                                @csrf
+                                Tem certeza que deseja desfazer a vacinação desse agendamento?
+                            </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger" form="cancelar_vacinado_{{$candidato->id}}" onclick="desabilitar(this, 'cancelar_vacinado_'+{{$candidato->id}})">Sim</button>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                        <form id="cancelar_vacinado_{{$candidato->id}}" action="{{route('desfazer.vacinado', ['id' => $candidato->id])}}" method="POST">
-                            @csrf
-                            Tem certeza que deseja desfazer a vacinação desse agendamento?
-                        </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-danger" form="cancelar_vacinado_{{$candidato->id}}" onclick="desabilitar(this, 'cancelar_vacinado_'+{{$candidato->id}})">Sim</button>
                         </div>
                     </div>
-                    </div>
-                </div>
-            <!-- Modal cancelar vacina -->
-        @endif
+                <!-- Modal cancelar vacina -->
+            @endif
     @endforeach
 
 @if(old('edit_agendamento_id') != null)

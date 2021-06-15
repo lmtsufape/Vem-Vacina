@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard',  [CandidatoController::class, 'show'])->name('dashboard');
     Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento");
     Route::post("/agendamento/{id}/confirmar-vacinacao", [CandidatoController::class, 'vacinado'])->name('candidato.vacinado');
+    Route::get("/agendamento/confirmar-vacinacao", [CandidatoController::class, 'vacinadoAjax'])->name('candidato.vacinado.ajax');
     Route::post("/agendamento/{id}/desfazer-vacinacao", [CandidatoController::class, 'desfazerVacinado'])->name('desfazer.vacinado');
     Route::get("/agendamento/form/edit/{id}", [CandidatoController::class, 'form_edit'])->name('candidato.form_edit');
     Route::post("/agendamento/editar", [CandidatoController::class, 'editar'])->name('candidato.editar');

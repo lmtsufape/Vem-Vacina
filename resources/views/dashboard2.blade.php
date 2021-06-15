@@ -43,6 +43,10 @@
                                     <label>Por data de agendamento</label>
                                 </div>
                                 <div class="col-md-3">
+                                    <input type="checkbox" name="data_vacinado_check" id="data_vacinado_check_input" onclick="mostrarFiltro(this, 'data_vacinado_check')" @if($request->data_vacinado_check != null && $request->data_vacinado_check) checked @endif>
+                                    <label>Por data de Vacinado</label>
+                                </div>
+                                <div class="col-md-3">
                                     <input type="checkbox" name="dose_check" id="dose_check_input" onclick="mostrarFiltro(this, 'dose_check')" @if($request->dose_check != null && $request->dose_check) checked @endif>
                                     <label>Por dose</label>
                                 </div>
@@ -50,14 +54,14 @@
                                     <input type="checkbox" name="outro" id="outro" @if($request->outro != null && $request->outro) checked @endif>
                                     <label>É acamado</label>
                                 </div>
-                                <div class="col-md-3">
+                                {{-- <div class="col-md-3">
                                     <input type="checkbox" name="campo_check" id="campo_check_input" @if($request->campo_check != null && $request->campo_check) checked @endif onclick="mostrarFiltro(this, 'campo_check')">
                                     <label>Campo</label>
-                                </div>
-                                <div class="col-md-3">
+                                </div> --}}
+                                {{-- <div class="col-md-3">
                                     <input type="checkbox" name="ordem_check" id="ordem_check_input" @if($request->ordem_check != null && $request->ordem_check) checked @endif onclick="mostrarFiltro(this, 'ordem_check')">
                                     <label>Ordem</label>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-3">
                                     <input type="checkbox" name="ponto_check" id="ponto_check_input" @if($request->ponto_check != null && $request->ponto_check) checked @endif onclick="mostrarFiltro(this, 'ponto_check')">
                                     <label>Ponto</label>
@@ -83,6 +87,9 @@
                                 </div>
                                 <div id="data_check" class="col-md-3" style="@if($request->data_check != null && $request->data_check) display: block; @else display: none; @endif">
                                     <input type="date" class="form-control" name="data" id="data" @if($request->data != null) value="{{$request->data}}" @endif>
+                                </div>
+                                <div id="data_vacinado_check" class="col-md-3" style="@if($request->data_vacinado_check != null && $request->data_vacinado_check) display: block; @else display: none; @endif">
+                                    <input type="date" class="form-control" name="data_vacinado" id="data_vacinado" @if($request->data_vacinado != null) value="{{$request->data_vacinado}}" @endif>
                                 </div>
                                 <div id="dose_check" class="col-md-3" style="@if($request->dose_check != null && $request->dose_check) display: block; @else display: none; @endif">
                                     <select id="dose" name="dose" class="form-control">
@@ -206,7 +213,7 @@
                                     <div class="card-body">
                                         <div class="container">
                                             <div class="modal-body">
-                                                @component('candidato.component_editar', ['candidato' => $candidato])
+                                                @component('candidato.component_editar', ['candidato' => $candidato,'candidato_enum' =>$candidato_enum])
 
                                                 @endcomponent
                                                 {{-- @livewire('editar-candidato', ['candidato' => $candidato]) --}}

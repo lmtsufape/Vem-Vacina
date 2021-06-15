@@ -114,11 +114,9 @@ class PostoVacinacaoController extends Controller
     public function index_novo()
     {
         Gate::authorize('ver-posto');
-        // dd('tsste');
-        // $lotes = LotePostoVacinacao::all();
         $lotes_pivot = LotePostoVacinacao::all();
         $tipos = Etapa::TIPO_ENUM;
-        $postos = PostoVacinacao::orderBy('nome')->paginate(10);
+        $postos = PostoVacinacao::with('candidatos')->orderBy('nome')->paginate(10);
         $candidatos = Candidato::all();
         return view('postos.index_novo', compact('postos', 'lotes_pivot','tipos', 'candidatos'));
     }
