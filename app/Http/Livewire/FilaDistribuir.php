@@ -64,8 +64,11 @@ class FilaDistribuir extends Component
 
             }
         }
-        dd($soma);
-
+        // dd($posto->lotes->first()->dose_unica);
+        if($posto->lotes->first()->dose_unica == false){
+            $soma = intval($soma/2) + 1;
+        }
+        // dd($soma);
         $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($soma)->get();
         // dd($candidatos->count());
         $horarios_agrupados_por_dia = $this->diasPorPosto($posto);
