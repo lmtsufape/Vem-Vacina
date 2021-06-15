@@ -15,10 +15,14 @@
                 <h4>Informações pessoais</h4>
             </div>
             <div class="col-md-2 pl-0">
-            @can('editar-candidato')
-                    <button type="button" id="buttonEditar{{$candidato->id}}" style="display: block;" onclick="editar({{$candidato->id}})" class="btn btn-info">Editar</button type="button">
-                    <button type="button" id="buttonAtualizar{{$candidato->id}}" style="display: none;" onclick="editar({{$candidato->id}})" class="btn btn-info">Atualizar</button type="button">
+            @if ($candidato->aprovacao != "Vacinado")
+                @can('editar-candidato')
+                        <button type="button" id="buttonEditar{{$candidato->id}}" style="display: block;" onclick="editar({{$candidato->id}})" class="btn btn-info">Editar</button type="button">
+                        <button type="button" id="buttonAtualizar{{$candidato->id}}" style="display: none;" onclick="editar({{$candidato->id}})" class="btn btn-info">Atualizar</button type="button">
                 @endcan
+            @else
+                <p>Candidato Vacinado</p>
+            @endif
             </div>
 
         </div>

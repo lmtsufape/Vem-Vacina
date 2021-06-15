@@ -63,9 +63,17 @@
                                         </ul>
                                     </div>
                                 @endif
-                                <div class="alert alert-warning" style="display: none" id="alerta_vacinas">
-                                    Não há mais doses disponíveis para esta faixa etária ou público, ao finalizar o cadastro você será encaminhado para a fila de espera e deve aguardar a confirmação de agendamento para vacinação.
-                                </div>
+                                @if (env('ATIVAR_FILA') == true)
+                                    <div class="alert alert-warning"  id="alerta_vacinas">
+                                        Não há mais doses disponíveis para esta faixa etária ou público, ao finalizar o cadastro você será encaminhado para a fila de espera e deve aguardar a confirmação de agendamento para vacinação.
+                                    </div>
+                                @else
+                                    <div class="alert alert-warning" style="display: none" id="alerta_vacinas">
+                                        Não há mais doses disponíveis para esta faixa etária ou público, ao finalizar o cadastro você será encaminhado para a fila de espera e deve aguardar a confirmação de agendamento para vacinação.
+                                    </div>
+
+                                @endif
+
                                 @if (old('público') != null)
                                     @foreach ($publicos as $publico)
                                         @auth

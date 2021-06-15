@@ -70,7 +70,7 @@ class FilaDistribuir extends Component
                         $aprovado = true;
                         continue;
                     }else{
-                        break;
+                        continue;
                     }
             }
             if ($aprovado) {
