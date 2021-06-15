@@ -192,9 +192,13 @@
                           <div class="accordion" id="accordionExample">
                             @foreach ($candidatos as $i => $candidato)
                             <div class="card">
-                              <div class="card-header" id="headingOne">
+                              <div class="card-header  @if ($candidato->aprovacao == $candidato_enum[3]) bg-info @elseif($candidato->aprovacao == $candidato_enum[0]) bg-warning @elseif($candidato->aprovacao == $candidato_enum[1]) bg-success @endif " id="headingOne">
                                 <h2 class="mb-0">
-                                  <button class="btn btn-white btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ $i }}" aria-expanded="true" aria-controls="collapseOne">
+
+                                  <button class="btn btn-white btn-block text-left @if ($candidato->aprovacao != $candidato_enum[0]) text-white @elseif($candidato->aprovacao == $candidato_enum[0]) text-dark  @endif " type="button" data-toggle="collapse" data-target="#collapse{{ $i }}" aria-expanded="true" aria-controls="collapseOne">
+                                    <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" style="max-width: 40%;">
+                                    <strong>    {{ trim ( "#".$candidato->id )." - "  }}   </strong>
+                                    </span>
                                     <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" style="max-width: 40%;">
                                     <strong>    {{ "CPF : " }}   </strong> {{ $candidato->cpf }}
                                     </span>
@@ -208,9 +212,9 @@
                                 </h2>
                               </div>
 
-                              <div id="collapse{{ $i }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                              <div id="collapse{{ $i }}" class="collapse " aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body ">
                                         <div class="container">
                                             <div class="modal-body">
                                                 @component('candidato.component_editar', ['candidato' => $candidato,'candidato_enum' =>$candidato_enum])
