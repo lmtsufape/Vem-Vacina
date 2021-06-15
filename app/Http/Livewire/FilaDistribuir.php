@@ -60,7 +60,9 @@ class FilaDistribuir extends Component
             session()->flash('message', 'Acabaram os horários.');
             return;
         }
-        try {
+        // try {
+
+
             $aprovado = false;
             foreach ($candidatos as $key => $candidato) {
 
@@ -83,22 +85,20 @@ class FilaDistribuir extends Component
 
             }
 
-        } catch (\Throwable $th) {
-            //throw $th;
-            session()->flash('message',  $th->getMessage());
-            Log::error($th->getMessage());
-            return;
-        } catch (\Exception $e) {
-            session()->flash('message',  $e->getMessage());
-            return ;
-        }
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        //     session()->flash('message',  $th->getMessage());
+        //     return;
+        // } catch (\Exception $e) {
+        //     session()->flash('message',  $e->getMessage());
+        //     return ;
+        // }
         session()->flash('message', 'Distribuição finalizada.');
         return;
 
     }
 
     public function agendar($horarios_agrupados_por_dia, $candidato, $posto) {
-
 
         // var_dump($horarios_agrupados_por_dia);
         foreach ($horarios_agrupados_por_dia as $key1 => $dia) {
