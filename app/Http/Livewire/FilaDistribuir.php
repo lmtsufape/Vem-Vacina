@@ -61,12 +61,13 @@ class FilaDistribuir extends Component
             if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($this->etapa_id)){
 
                 $soma += $lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count();
-                continue;
+
             }
         }
-        // dd($soma);
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($soma)->get();
+        dd($soma);
 
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($soma)->get();
+        // dd($candidatos->count());
         $horarios_agrupados_por_dia = $this->diasPorPosto($posto);
         if (!$horarios_agrupados_por_dia || !count($horarios_agrupados_por_dia) ) {
             session()->flash('message', 'Acabaram os horários.');
@@ -120,12 +121,13 @@ class FilaDistribuir extends Component
                 $id_posto               = $posto->id;
                 $datetime_chegada       = Carbon::createFromFormat("d/m/Y H:i", $dia_vacinacao . " " . $horario_vacinacao);
                 $datetime_saida         = $datetime_chegada->copy()->addMinutes(10);
-                // dd( $datetime_chegada );
+
                 $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime_chegada)->where("posto_vacinacao_id", $id_posto)->get();
 
                 if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
                     continue;
                 }
+
                 if (Candidato::where('cpf',$candidato->cpf)->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1],Candidato::APROVACAO_ENUM[3]])
                 ->count() > 0) {
                     //\Log::info("cpf");
