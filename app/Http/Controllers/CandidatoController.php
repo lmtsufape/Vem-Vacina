@@ -614,6 +614,26 @@ class CandidatoController extends Controller
 
         return response()->json('Vacinado com sucesso!');
     }
+    public function desmarcarVacinadoAjax(Request $request) {
+        // return response()->json($request->id);
+        // return response()->json('Vacinado com sucesso!');
+        Gate::authorize('vacinado-candidato');
+        $candidato = Candidato::find($request->id);
+        $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
+        $candidato->update();
+
+        $etapa = $candidato->etapa;
+        if ($etapa != null) {
+            if ($candidato->dose == Candidato::DOSE_ENUM[0]) {
+                $etapa->total_pessoas_vacinadas_pri_dose -= 1;
+            } else if ($candidato->dose == Candidato::DOSE_ENUM[1]) {
+                $etapa->total_pessoas_vacinadas_seg_dose -= 1;
+            }
+            $etapa->update();
+        }
+
+        return response()->json('Atualização feita!');
+    }
 
     public function consultar(Request $request) {
         $validated = $request->validate([

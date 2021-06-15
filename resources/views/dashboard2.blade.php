@@ -165,36 +165,17 @@
                     @endif
                 </div>
                 <br>
+                {{-- <iframe name="iframe1" height="80%" width="100%"></iframe> --}}
                 <div class="table-responsive">
                     <table class="table table-condensed"  id="myTable">
-                        {{-- <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">CPF</th>
-                                <th scope="col">Dia</th>
-                                <th scope="col">Horário</th>
-                                <th scope="col">Dose</th>
-                                <th scope="col">Ponto</th>
-                                <th scope="col">Ver</th>
-                                @can('confirmar-vaga-candidato')
-                                    <th scope="col">Resultado</th>
-                                @endcan
-                                @can('vacinado-candidato')
-                                    <th scope="col" class="text-center">Confirmar vacinação</th>
-                                @endcan
-                                @can('whatsapp-candidato')
-                                    <th scope="col" class="text-center">Link</th>
-                                @endcan
-                            </tr>
-                        </thead> --}}
+
                         <tbody class="panel">
                           <div class="accordion" id="accordionExample">
                             @foreach ($candidatos as $i => $candidato)
                             <div class="card">
-                              <div class="card-header  @if ($candidato->aprovacao == $candidato_enum[3]) bg-info @elseif($candidato->aprovacao == $candidato_enum[0]) bg-warning @elseif($candidato->aprovacao == $candidato_enum[1]) bg-success @endif " id="headingOne">
+                              <div class="card-header  @if ($candidato->aprovacao == $candidato_enum[3]) bg-info @elseif($candidato->aprovacao == $candidato_enum[0]) bg-warning @elseif($candidato->aprovacao == $candidato_enum[1]) bg-success @elseif($candidato->aprovacao == $candidato_enum[2]) bg-danger @endif " id="headingOne">
                                     <div class="row justify-content-between">
-                                        <div class="col-10">
+                                        <div class="col-9">
                                             <h2 class="mb-0">
 
                                                 <button class="btn btn-white btn-block text-left @if ($candidato->aprovacao != $candidato_enum[0]) text-white @elseif($candidato->aprovacao == $candidato_enum[0]) text-dark  @endif " type="button" data-toggle="collapse" data-target="#collapse{{ $i }}" aria-expanded="true" aria-controls="collapseOne">
@@ -215,12 +196,42 @@
                                         </div>
                                         <div class="col-1">
                                             @can('whatsapp-candidato')
+
                                                 @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
-                                                    <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center text-white"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
+                                                    <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center text-white"  target="iframe1"><i class="fab fa-whatsapp fa-2x"></i></a>
                                                 @else
-                                                    <a class="text-center"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
+                                                    <a class="text-center"  target="iframe1"><i class="fab fa-whatsapp fa-2x"></i></a>
                                                 @endif
                                             @endcan
+                                        </div>
+                                        <div class="col-2">
+                                          @can('confirmar-vaga-candidato')
+                                              @if($candidato->lote_id)
+                                                  @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3] )
+                                                    <div class="row  align-items-end">
+                                                        <div class="col-md-12 mt-2 text-center">
+                                                            <span class=" text-white " >Vacinado</span>
+                                                        </div>
+                                                    </div>
+
+                                                  @else
+                                                      <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
+                                                          @csrf
+                                                          <div class="row">
+                                                              <div class="col-md-12 px-0">
+                                                                  <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
+                                                                      <option value="" selected disabled>selecione</option>
+                                                                      <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
+                                                                      <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
+                                                                      <option value="Ausente" >Ausente</option>
+                                                                      {{-- <option value="restaurar" >Restaurar</option> --}}
+                                                                  </select>
+                                                              </div>
+                                                          </div>
+                                                      </form>
+                                                  @endif
+                                              @endif
+                                          @endcan
                                         </div>
                                     </div>
 
