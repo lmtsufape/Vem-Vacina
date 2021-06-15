@@ -53,6 +53,7 @@
                             <form method="POST" id="formSolicitar" class="needs-validation" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
+
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
                                         <ul>
@@ -377,8 +378,8 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCEP" class="style_titulo_input">CEP</label>
-                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" onchange="requisitar_preenchimento_cep(this.value)">
-
+                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" >
+                                        {{-- onchange="requisitar_preenchimento_cep(this.value)" --}}
                                         @error('cep')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
                                             <strong>{{$message}}</strong>
@@ -451,43 +452,48 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div id="div_local">
-                                    <div class="form-group">
-                                        <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Local da vacinação</div>
-                                        <div style="font-size: 15px; margin-bottom: 15px;">(Escolha o local, dia e horário que você quer ser vacinado)</div>
-                                    </div>
 
-                                    <!-- informações do atendimento -->
-                                    <!-- um select que vai ser selecionado a posto de atendimento -->
-                                    <!-- depois que for selecionado, vai ser baixado o html com a lista dos dias e horarios de possiveis atendimentos -->
-                                    <!-- quando o usuario escolher, e enviar, a vaga da lista já pode ter sido tomada -->
-                                    <!-- então o controller deve avisar isso ao usuario e pedir pra escolher outro horario dos novos disposiveis -->
+                                @if (env('ATIVAR_FILA') == true)
 
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O PONTO DE VACINAÇÃO MAIS PRÓXIMO DE SUA CASA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
-                                            <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
-                                                @foreach($postos as $posto)
-                                                    <option value="{{$posto->id}}">{{$posto->nome}}</option>
-                                                @endforeach
-                                            </select>
-
-                                            @error('posto_vacinacao')
-                                            <div id="validationServer05Feedback" class="invalid-feedback">
-                                                <strong>{{$message}}</strong>
-                                            </div>
-                                            @enderror
+                                @else
+                                    <div id="div_local">
+                                        <div class="form-group">
+                                            <div class="style_titulo_campo" style="margin-top: 8px; margin-bottom: -2px;">Local da vacinação</div>
+                                            <div style="font-size: 15px; margin-bottom: 15px;">(Escolha o local, dia e horário que você quer ser vacinado)</div>
                                         </div>
-                                        <div class="form-group col-md-6" id="seletor_horario" style="padding-top: 24px;"></div>
+
+                                        <!-- informações do atendimento -->
+                                        <!-- um select que vai ser selecionado a posto de atendimento -->
+                                        <!-- depois que for selecionado, vai ser baixado o html com a lista dos dias e horarios de possiveis atendimentos -->
+                                        <!-- quando o usuario escolher, e enviar, a vaga da lista já pode ter sido tomada -->
+                                        <!-- então o controller deve avisar isso ao usuario e pedir pra escolher outro horario dos novos disposiveis -->
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="posto_vacinacao" class="style_titulo_input">ESCOLHA O PONTO DE VACINAÇÃO MAIS PRÓXIMO DE SUA CASA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
+                                                <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao') is-invalid @enderror" name="posto_vacinacao" required onchange="selecionar_posto(this)">
+                                                    @foreach($postos as $posto)
+                                                        <option value="{{$posto->id}}">{{$posto->nome}}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                @error('posto_vacinacao')
+                                                <div id="validationServer05Feedback" class="invalid-feedback">
+                                                    <strong>{{$message}}</strong>
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-6" id="seletor_horario" style="padding-top: 24px;"></div>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
+
                                 <div id="loading" class="spinner-border" role="status" style="display: none;">
                                     <span class="sr-only">Loading...</span>
                                 </div>
 
                                 <div><hr></div>
 
-                                <input type="hidden" name="">
                                 <div class="col-md-12" style="margin-bottom: 30px;">
                                     <div class="row">
                                         <div class="col-md-6"></div>
@@ -496,9 +502,16 @@
                                                 <!--<div class="col-md-6" style="padding:3px">
                                                      <button class="btn btn-light" style="width: 100%;margin: 0px;">Cancelar</button>
                                                      </div>-->
-                                                <div class="col-md-12" style="padding:3px">
-                                                    <button class="btn btn-success" id="buttonSend" style="width: 100%;">Enviar</button>
-                                                </div>
+                                                @if (env('ATIVAR_FILA') == true)
+                                                    <div class="col-md-12" style="padding:3px">
+                                                        <button class="btn btn-success"  style="width: 100%;">Enviar para fila de Espera</button>
+                                                    </div>
+                                                @else
+                                                    <div class="col-md-12" style="padding:3px">
+                                                        <button class="btn btn-success" id="buttonSend" style="width: 100%;">Enviar</button>
+                                                    </div>
+
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -561,6 +574,85 @@
             });
         </script>
     @endif
+    @if (env('ATIVAR_FILA') == true)
+    <script>
+        $(document).ready(function() {
+            $('input:radio[name=público]').change(
+                function() {
+                    var inputs = document.getElementsByName('público');
+                    for (var i = 0; i < inputs.length; i++) {
+                        //  console.log(this);
+                        // console.log(this.value);
+                        if (document.getElementById("divPublico_"+inputs[i].value)) {
+                            var div = document.getElementById("divPublico_"+inputs[i].value);
+                            var select = document.getElementById("publico_opcao_"+inputs[i].value);
+
+                            if(div.style.display == "none" && inputs[i].value == this.value){
+                                div.style.display = "block";
+                                select.value = "";
+                            }else{
+                                div.style.display = "none";
+                                select.value = "";
+                            }
+                        }
+
+                        if (document.getElementById("divOutrasInformacoes_"+inputs[i].value)) {
+                            var div = document.getElementById("divOutrasInformacoes_"+inputs[i].value);
+
+                            if (div.style.display == "none" && inputs[i].value == this.value) {
+                                div.style.display = "block";
+                            } else {
+                                div.style.display = "none";
+                            }
+                        }
+
+                    }
+                    //descomentar quando desativar a fila
+                    // postoPara(this, this.value);
+                }
+            )
+        });
+    </script>
+    @else
+    <script>
+        $(document).ready(function() {
+            $('input:radio[name=público]').change(
+                function() {
+                    var inputs = document.getElementsByName('público');
+                    for (var i = 0; i < inputs.length; i++) {
+                        //  console.log(this);
+                        // console.log(this.value);
+                        if (document.getElementById("divPublico_"+inputs[i].value)) {
+                            var div = document.getElementById("divPublico_"+inputs[i].value);
+                            var select = document.getElementById("publico_opcao_"+inputs[i].value);
+
+                            if(div.style.display == "none" && inputs[i].value == this.value){
+                                div.style.display = "block";
+                                select.value = "";
+                            }else{
+                                div.style.display = "none";
+                                select.value = "";
+                            }
+                        }
+
+                        if (document.getElementById("divOutrasInformacoes_"+inputs[i].value)) {
+                            var div = document.getElementById("divOutrasInformacoes_"+inputs[i].value);
+
+                            if (div.style.display == "none" && inputs[i].value == this.value) {
+                                div.style.display = "block";
+                            } else {
+                                div.style.display = "none";
+                            }
+                        }
+
+                    }
+                    //descomentar quando desativar a fila
+                    postoPara(this, this.value);
+                }
+            )
+        });
+    </script>
+    @endif
 
     <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -587,11 +679,14 @@
     <script>
         const buttonSend = document.getElementById('buttonSend');
         const formSolicitar = document.getElementById('formSolicitar');
-        buttonSend.addEventListener('click', (e)=>{
-            e.target.innerText = "Aguarde...";
-            e.target.setAttribute("disabled", "disabled");
-            formSolicitar.submit()
-        })
+        if(buttonSend){
+            buttonSend.addEventListener('click', (e)=>{
+                e.target.innerText = "Aguarde...";
+                e.target.setAttribute("disabled", "disabled");
+
+                formSolicitar.submit()
+            })
+        }
 
         var inputEmail = document.getElementById('inputEmail');
         var inputMessage = document.getElementById('inputMessage');
@@ -731,41 +826,7 @@
         postoPara(input, id);
      } */
 
-    $(document).ready(function() {
-        $('input:radio[name=público]').change(
-            function() {
-                var inputs = document.getElementsByName('público');
-                for (var i = 0; i < inputs.length; i++) {
-                    /* console.log(this);
-                    console.log(this.value); */
-                    if (document.getElementById("divPublico_"+inputs[i].value)) {
-                        var div = document.getElementById("divPublico_"+inputs[i].value);
-                        var select = document.getElementById("publico_opcao_"+inputs[i].value);
 
-                        if(div.style.display == "none" && inputs[i].value == this.value){
-                            div.style.display = "block";
-                            select.value = "";
-                        }else{
-                            div.style.display = "none";
-                            select.value = "";
-                        }
-                    }
-
-                    if (document.getElementById("divOutrasInformacoes_"+inputs[i].value)) {
-                        var div = document.getElementById("divOutrasInformacoes_"+inputs[i].value);
-
-                        if (div.style.display == "none" && inputs[i].value == this.value) {
-                            div.style.display = "block";
-                        } else {
-                            div.style.display = "none";
-                        }
-                    }
-
-                }
-                postoPara(this, this.value);
-            }
-        )
-    });
 
 
      function selecionar_posto(posto_selecionado) {
@@ -827,73 +888,76 @@
      }
 
     function postoPara(input, id) {
-        valor = input.checked;
-        var btnForm = document.getElementById('buttonSend');
-        var divLocal = document.getElementById("div_local");
-        var loading = document.getElementById("loading");
-        divLocal.style.display = "none";
-        loading.style.display = "block";
-        btnForm.disabled = true;
-        // console.log("etapa:"+id);
-        $.ajax({
-            url: "{{route('postos')}}",
-            method: 'get',
-            type: 'get',
-            data: {
-                publico_id: function () {
-                    if (valor) {
-                        return id;
-                    } else {
-                        return 0;
+
+            valor = input.checked;
+            var btnForm = document.getElementById('buttonSend');
+            var divLocal = document.getElementById("div_local");
+            var loading = document.getElementById("loading");
+            divLocal.style.display = "none";
+            loading.style.display = "block";
+            btnForm.disabled = true;
+
+            $.ajax({
+                url: "{{route('postos')}}",
+                method: 'get',
+                type: 'get',
+                data: {
+                    publico_id: function () {
+                        if (valor) {
+                            return id;
+                        } else {
+                            return 0;
+                        }
                     }
-                }
-            },
-            statusCode: {
-                404: function() {
-                    alert("Nenhum posto encontrado");
-                    btnForm.disabled = false;
                 },
-                500: function() {
+                statusCode: {
+                    404: function() {
+                        alert("Nenhum posto encontrado");
+                        btnForm.disabled = false;
+                    },
+                    500: function() {
+                        btnForm.disabled = false;
+                    }
+                },
+
+                success: function(data){
+                    //  console.log( data)
+                    if(data.length <= 0 && data != null){
+                        console.log('posto');
+                        const buttonSend = document.getElementById('buttonSend');
+                        buttonSend.innerText = "Enviar para fila de Espera";
+                        divLocal.style.display = "none";
+                        const input = '<input id="input_fila" type="hidden" name="fila" value="true">';
+                        $("#formSolicitar").append(input);
+                        document.getElementById("alerta_vacinas").style.display = "block";
+                        loading.style.display = "none";
+                        /* alert('Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera') */
+                    }else{
+                        document.getElementById("alerta_vacinas").style.display = "none";
+                        if(document.getElementById("input_fila") != null){
+                            document.getElementById("input_fila").remove();
+                        }
+                        buttonSend.innerText = "Enviar";
+                        document.getElementById("div_local").style.display = "block";
+                        loading.style.display = "none";
+                    }
+                    if (data != null && typeof data != 'string') {
+
+                        var option = '<option selected disabled>-- Selecione o posto --</option>';
+                        if (data.length > 0) {
+                            $.each(data, function(i, obj) {
+                                option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
+                            })
+                        }
+
+                        document.getElementById("posto_vacinacao").innerHTML = option;
+                    }
+
                     btnForm.disabled = false;
                 }
-            },
+            })
 
-            success: function(data){
-                // console.log(data);
-                //  console.log( data)
-                if(data.length <= 0 && data != null){
-                    const buttonSend = document.getElementById('buttonSend');
-                    buttonSend.innerText = "Enviar para fila de Espera";
-                    divLocal.style.display = "none";
-                    const input = '<input id="input_fila" type="hidden" name="fila" value="true">';
-                    $("#formSolicitar").append(input);
-                    document.getElementById("alerta_vacinas").style.display = "block";
-                    loading.style.display = "none";
-                    /* alert('Não existe vacinas para esse público, se continuar o preenchimento você irá para a fila de espera') */
-                }else{
-                    document.getElementById("alerta_vacinas").style.display = "none";
-                    if(document.getElementById("input_fila") != null){
-                        document.getElementById("input_fila").remove();
-                    }
-                    buttonSend.innerText = "Enviar";
-                    document.getElementById("div_local").style.display = "block";
-                    loading.style.display = "none";
-                }
-                if (data != null && typeof data != 'string') {
 
-                    var option = '<option selected disabled>-- Selecione o posto --</option>';
-                    if (data.length > 0) {
-                        $.each(data, function(i, obj) {
-                            option += '<option value="' + obj.id + '">' + obj.nome + '</option>';
-                        })
-                    }
-
-                    document.getElementById("posto_vacinacao").innerHTML = option;
-                }
-
-                btnForm.disabled = false;
-            }
-        })
 
     }
     </script>
