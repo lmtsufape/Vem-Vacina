@@ -37,6 +37,10 @@
                                         <label>Por data de agendamento</label>
                                     </div>
                                     <div class="col-md-3">
+                                        <input type="checkbox" name="data_vacinado_check" id="data_vacinado_check_input" onclick="mostrarFiltro(this, 'data_vacinado_check')" @if($request->data_vacinado_check != null && $request->data_vacinado_check) checked @endif>
+                                        <label>Por data de Vacinado</label>
+                                    </div>
+                                    <div class="col-md-3">
                                         <input type="checkbox" name="dose_check" id="dose_check_input" onclick="mostrarFiltro(this, 'dose_check')" @if($request->dose_check != null && $request->dose_check) checked @endif>
                                         <label>Por dose</label>
                                     </div>
@@ -85,6 +89,9 @@
                                     </div>
                                     <div id="data_check" class="col-md-3" style="@if($request->data_check != null && $request->data_check) display: block; @else display: none; @endif">
                                         <input type="date" class="form-control" name="data" id="data" @if($request->data != null) value="{{$request->data}}" @endif>
+                                    </div>
+                                    <div id="data_vacinado_check" class="col-md-3" style="@if($request->data_vacinado_check != null && $request->data_vacinado_check) display: block; @else display: none; @endif">
+                                        <input type="date" class="form-control" name="data_vacinado" id="data_vacinado" @if($request->data_vacinado != null) value="{{$request->data_vacinado}}" @endif>
                                     </div>
                                     <div id="dose_check" class="col-md-3" style="@if($request->dose_check != null && $request->dose_check) display: block; @else display: none; @endif">
                                         <select id="dose" name="dose" class="form-control">
@@ -180,84 +187,86 @@
             </div>
         </div>
         <hr>
-        <div class="grid grid-cols-6 gap-4">
-            <div class="col-span-5">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Importar dados') }}
-                </h2>
+        @can('ver-import')
+            <div class="grid grid-cols-6 gap-4">
+                <div class="col-span-5">
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                        {{ __('Importar dados') }}
+                    </h2>
+                </div>
             </div>
-        </div>
-        <div class="py-12">
-            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-                <div class="container">
-                    @if (session('message'))
-                        <div class="alert alert-success">
-                            {{ session('message') }}
-                        </div>
-                    @endif
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h5>Importar fila de espera</h5>
-                                </div>
-                                <div class="col-md-4">
-                                    <a href="{{asset('planilha_modelo_fila_espera.csv')}}">Planilha modelo</a>
-                                </div>
+            <div class="py-12">
+                <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+                    <div class="container">
+                        @if (session('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
                             </div>
-                            <form action="{{ route('candidato.import.store') }}" method="post" enctype="multipart/form-data">
-                                <div class="form-row">
-                                    <div class="col-md-12">
-                                        @csrf
-                                        <input type="file" name="agendamentos">
-                                        @error('agendamentos')
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
+                        @endif
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h5>Importar fila de espera</h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="{{asset('planilha_modelo_fila_espera.csv')}}">Planilha modelo</a>
                                     </div>
                                 </div>
-                                <br>
-                                <div class="form-row">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary">
-                                            Importar Fila
-                                        </button>
+                                <form action="{{ route('candidato.import.store') }}" method="post" enctype="multipart/form-data">
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            @csrf
+                                            <input type="file" name="agendamentos">
+                                            @error('agendamentos')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h5>Importar lista de vacinados</h5>
-                                </div>
-                                <div class="col-md-4">
-                                    <a href="{{asset('planilha_modelo_vacinados.csv')}}">Planilha modelo</a>
-                                </div>
+                                    <br>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-primary">
+                                                Importar Fila
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                            <form action="{{ route('candidato.import.store.vacinados') }}" method="post" enctype="multipart/form-data">
-                                <div class="form-row">
-                                    <div class="col-md-12">
-                                        @csrf
-                                        <input type="file" name="vacinados">
-                                        @error('vacinados')
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h5>Importar lista de vacinados</h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="{{asset('planilha_modelo_vacinados.csv')}}">Planilha modelo</a>
                                     </div>
                                 </div>
-                                <br>
-                                <div class="form-row">
-                                    <div class="col-md-12">
-                                        <button type="submit" class="btn btn-primary">
-                                            Importar Vacinados
-                                        </button>
+                                <form action="{{ route('candidato.import.store.vacinados') }}" method="post" enctype="multipart/form-data">
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            @csrf
+                                            <input type="file" name="vacinados">
+                                            @error('vacinados')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                    <br>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-primary">
+                                                Importar Vacinados
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endcan
         <br>
 
     </x-slot>

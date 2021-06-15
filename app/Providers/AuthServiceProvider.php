@@ -166,12 +166,14 @@ class AuthServiceProvider extends ServiceProvider
             return $user->tipo == User::TIPO_ENUM['secretaria'] ||
                $user->tipo == User::TIPO_ENUM['colaborador'] ||
                $user->tipo == User::TIPO_ENUM['gerente'] ||
-               $user->tipo == User::TIPO_ENUM['admin'];
+               $user->tipo == User::TIPO_ENUM['admin']||
+               $user->tipo == User::TIPO_ENUM['enfermeira'];
         });
 
         Gate::define('baixar-export', function (User $user) {
             return $user->tipo == User::TIPO_ENUM['gerente'] ||
-               $user->tipo == User::TIPO_ENUM['admin'];
+               $user->tipo == User::TIPO_ENUM['admin']||
+               $user->tipo == User::TIPO_ENUM['enfermeira'];
         });
 
         Gate::define('apagar-export', function (User $user) {
@@ -181,8 +183,19 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('criar-export', function (User $user) {
             return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin']||
+               $user->tipo == User::TIPO_ENUM['enfermeira'];
+        });
+        //fila
+        //import
+        Gate::define('ver-import', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['secretaria'] ||
+               $user->tipo == User::TIPO_ENUM['colaborador'] ||
+               $user->tipo == User::TIPO_ENUM['gerente'] ||
                $user->tipo == User::TIPO_ENUM['admin'];
         });
+
+
         //fila
         Gate::define('ver-fila', function (User $user) {
             return $user->tipo == User::TIPO_ENUM['secretaria'] ||
