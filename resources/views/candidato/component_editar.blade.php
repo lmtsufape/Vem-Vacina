@@ -11,7 +11,7 @@
         @csrf
         <input type="hidden" name="id" value="{{$candidato->id}}" >
         <div class="row">
-            <div class="col-md-6 pl-0">
+            <div class="col-md-8 pl-0">
                 <h4>Informações pessoais</h4>
             </div>
             <div class="col-md-2 pl-0">
