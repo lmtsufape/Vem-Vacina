@@ -68,7 +68,6 @@ class FilaDistribuir extends Component
                     Log::info($key);
                     if ($resultado) {
                         $aprovado = true;
-                        Notification::send(User::all(), new CandidatoFilaArquivo($candidato));
                         continue;
                     }else{
                         break;
