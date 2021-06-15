@@ -16,6 +16,8 @@ class CandidatoAprovado extends Notification implements ShouldQueue
     public $candidato1;
     public $candidato2;
     public $data_chegada;
+    public $data_chegada1;
+    public $data_chegada2;
     public $texto;
     public $texto_dose_unica;
     public $texto_dose_dupla;
