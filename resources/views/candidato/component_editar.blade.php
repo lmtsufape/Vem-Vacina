@@ -11,20 +11,44 @@
         @csrf
         <input type="hidden" name="id" value="{{$candidato->id}}" >
         <div class="row">
-            <div class="col-md-10 pl-0">
+            <div class="col-md-6 pl-0">
                 <h4>Informações pessoais</h4>
             </div>
             <div class="col-md-2 pl-0">
-            @if ($candidato->aprovacao != "Vacinado")
-                @can('editar-candidato')
-                        <button type="button" id="buttonEditar{{$candidato->id}}" style="display: block;" onclick="editar({{$candidato->id}})" class="btn btn-info">Editar</button type="button">
-                        <button type="button" id="buttonAtualizar{{$candidato->id}}" style="display: none;" onclick="editar({{$candidato->id}})" class="btn btn-info">Atualizar</button type="button">
-                @endcan
-            @else
-                <p>Candidato Vacinado</p>
-            @endif
+                @if ($candidato->aprovacao != "Vacinado")
+                    @can('editar-candidato')
+                            <button type="button" id="buttonEditar{{$candidato->id}}" style="display: block;" onclick="editar({{$candidato->id}})" class="btn btn-info">Editar</button type="button">
+                            <button type="button" id="buttonAtualizar{{$candidato->id}}" style="display: none;" onclick="editar({{$candidato->id}})" class="btn btn-info">Atualizar</button type="button">
+                    @endcan
+                @else
+                    <p>Candidato Vacinado</p>
+                @endif
             </div>
+            <div class="col-md-2">
+                @can('vacinado-candidato')
 
+                    @if($candidato->lote_id)
+                            <button type="button"  id="buttonVacinado_{{$candidato->id}}"  class="btn btn-primary" @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3]) disabled @endif><i class="fas fa-syringe"></i></button>
+                            @can('desmarcar-vacinado-candidato')
+                                @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
+                                    <button  class="btn btn-danger " data-toggle="modal" data-target="#cancelar_vacinado_candidato_{{$candidato->id}}"><i class="far fa-times-circle"></i></button>
+                                @endif
+                            @endcan
+                    @endif
+
+                @endcan
+            </div>
+            <div class="col-md-2">
+                @can('whatsapp-candidato')
+
+                    @if ($candidato->aprovacao != null && $candidato->aprovacao != $candidato_enum[3])
+                        <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
+                    @else
+                        <a class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    @endif
+
+                @endcan
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -60,6 +84,56 @@
             </div>
         </div>
     </form>
+    {{-- <!-- Modal confirmar vacinação -->
+      <div class="modal fade" id="vacinar_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="vacinar_candidato_{{$candidato->id}}_label" aria-hidden="true">
+          <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h5 class="modal-title" id="vacinar_candidato_{{$candidato->id}}_label">Confirmar vacinação de {{$candidato->nome_completo}}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              </div>
+              <div class="modal-body">
+              <form id="vacinado_{{$candidato->id}}" action="{{route('candidato.vacinado', ['id' => $candidato->id])}}" method="POST">
+                      @csrf
+                      Deseja confirmar que esse candidato foi vacinado?(CPF:{{ $candidato->cpf }})
+              </form>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary" form="vacinado_{{$candidato->id}}" onclick="desabilitar(this, 'vacinado_'+{{$candidato->id}})">Sim</button>
+              </div>
+          </div>
+          </div>
+      </div>
+      <!-- Fim modal confirmar vacinação -->
+      @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
+        <!-- Modal cancelar vacina -->
+            <div class="modal fade" id="cancelar_vacinado_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="vacinar_candidato_{{$candidato->id}}_label" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="vacinar_candidato_{{$candidato->id}}_label">Desfazer vacinação de {{$candidato->nome_completo}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    <form id="cancelar_vacinado_{{$candidato->id}}" action="{{route('desfazer.vacinado', ['id' => $candidato->id])}}" method="POST">
+                        @csrf
+                        Tem certeza que deseja desfazer a vacinação desse agendamento?
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger" form="cancelar_vacinado_{{$candidato->id}}" onclick="desabilitar(this, 'cancelar_vacinado_'+{{$candidato->id}})">Sim</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        <!-- Modal cancelar vacina -->
+      @endif --}}
     <script>
 
         var valueNascimento = document.getElementById("data_nacimento_"+"{{$candidato->id}}").value;
@@ -67,6 +141,44 @@
         var valueCpf = document.getElementById("cpf_"+"{{$candidato->id}}").value;
         var valueSus = document.getElementById("n_cartao_sus_"+"{{$candidato->id}}").value;
         var valueMae = document.getElementById("nome_mae_"+"{{$candidato->id}}").value;
+
+
+        var buttonVacinado = document.getElementById("buttonVacinado_"+"{{$candidato->id}}");
+        buttonVacinado.addEventListener('click', (e)=>{
+            var confimacao = confirm('Tem certeza?')
+            console.log(confimacao)
+            if(confimacao){
+                var id = "{{$candidato->id}}";
+                e.preventDefault();
+                var alerta = document.getElementById("alerta"+id);
+                $.ajax({
+                    type: 'get',
+                    url: "{{route('candidato.vacinado.ajax')}}",
+                    data: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    success: function(res){
+                        console.log(res)
+                        alerta.children[0].classList.add("alert-success");
+                        alerta.children[0].classList.remove("alert-danger");
+                        alerta.style.display = 'block';
+                        alerta.children[0].children[0].innerText = res
+                    },
+                    error: function(err){
+                        console.log(err)
+                        alerta.style.display = 'block';
+                        alerta.children[0].classList.remove("alert-success");
+                        alerta.children[0].classList.add("alert-danger");
+
+                    }
+                });
+            }else{
+
+            }
+
+
+        });
 
         function editar(id){
             var alerta = document.getElementById("alerta"+id);

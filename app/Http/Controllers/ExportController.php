@@ -83,7 +83,11 @@ class ExportController extends Controller
         if ($request->cpf_check && $request->cpf != null) {
             $query->where('cpf', 'ilike', '%'.$request->cpf.'%');
         }
-
+        if ($request->data_vacinado_check && $request->data_vacinado != null) {
+            $amanha = (new Carbon($request->data_vacinado))->addDays(1);
+            $hoje = (new Carbon($request->data_vacinado));
+            $query->where([['updated_at','>=',$hoje], ['updated_at','<=', $amanha]]);
+        }
         if ($request->data_check && $request->data != null) {
             $amanha = (new Carbon($request->data))->addDays(1);
             $hoje = (new Carbon($request->data));
