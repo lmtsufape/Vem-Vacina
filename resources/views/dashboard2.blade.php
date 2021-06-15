@@ -194,7 +194,36 @@
                                                 </button>
                                             </h2>
                                         </div>
-                                        <div class="col-1">
+                                        <div class="col-2">
+                                            @can('confirmar-vaga-candidato')
+                                                @if($candidato->lote_id)
+                                                    @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3] )
+                                                      <div class="row  align-items-end">
+                                                          <div class="col-md-12 mt-2 text-center">
+                                                              <span class=" text-white " >Vacinado</span>
+                                                          </div>
+                                                      </div>
+
+                                                    @else
+                                                        <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
+                                                            @csrf
+                                                            <div class="row">
+                                                                <div class="col-md-12 px-0">
+                                                                    <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
+                                                                        <option value="" selected disabled>selecione</option>
+                                                                        <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
+                                                                        <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
+                                                                        <option value="Ausente" >Ausente</option>
+                                                                        {{-- <option value="restaurar" >Restaurar</option> --}}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                            @endcan
+                                        </div>
+                                        <div class="col-1 text-center">
                                             @can('whatsapp-candidato')
 
                                                 @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
@@ -204,35 +233,7 @@
                                                 @endif
                                             @endcan
                                         </div>
-                                        <div class="col-2">
-                                          @can('confirmar-vaga-candidato')
-                                              @if($candidato->lote_id)
-                                                  @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3] )
-                                                    <div class="row  align-items-end">
-                                                        <div class="col-md-12 mt-2 text-center">
-                                                            <span class=" text-white " >Vacinado</span>
-                                                        </div>
-                                                    </div>
 
-                                                  @else
-                                                      <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
-                                                          @csrf
-                                                          <div class="row">
-                                                              <div class="col-md-12 px-0">
-                                                                  <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
-                                                                      <option value="" selected disabled>selecione</option>
-                                                                      <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
-                                                                      <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
-                                                                      <option value="Ausente" >Ausente</option>
-                                                                      {{-- <option value="restaurar" >Restaurar</option> --}}
-                                                                  </select>
-                                                              </div>
-                                                          </div>
-                                                      </form>
-                                                  @endif
-                                              @endif
-                                          @endcan
-                                        </div>
                                     </div>
 
                                 </div>
