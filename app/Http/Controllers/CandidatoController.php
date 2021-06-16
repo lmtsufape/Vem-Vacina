@@ -933,7 +933,7 @@ class CandidatoController extends Controller
             $validator = Validator::make($request->all(), [
                 "nome_completo"         => "required|string|min:8|max:65|regex:/^[\pL\s]+$/u",
                 "data_de_nascimento"    => "required|date|before:today",
-                "cpf"                   => "required",
+                "cpf"                   => "required|regex:/^[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}/u",
                 "numero_cartao_sus"     => "required",
                 "nome_da_mae"           => "required|string|min:8|max:65|regex:/^[\pL\s]+$/u",
             ]);
@@ -943,7 +943,7 @@ class CandidatoController extends Controller
             }
 
             if (Candidato::where('cpf',$request->cpf)->where('id', '!=',$request->id)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])->count() > 1) {
-                    return response()->json(['erro' => "Já existe um cpf no sistema."]);
+                    return response()->json([["Já existe alguém com esse CPF"]], 400);
             }
             $candidato = Candidato::find($request->id);
             Candidato::where('cpf', $candidato->cpf)->update([
@@ -952,6 +952,7 @@ class CandidatoController extends Controller
                 'data_de_nascimento'    => $request->data_de_nascimento,
                 'numero_cartao_sus'     => $request->numero_cartao_sus,
                 'nome_da_mae'           => $request->nome_da_mae,
+                'observacao'           => $request->observacao,
             ]);
 
 
