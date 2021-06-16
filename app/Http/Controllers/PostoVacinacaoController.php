@@ -101,22 +101,22 @@ class PostoVacinacaoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        Gate::authorize('ver-posto');
-        $lotes = DB::table("lote_posto_vacinacao")->with(['posto', 'lote'])->get();
-        $tipos = Etapa::TIPO_ENUM;
-        $postos = PostoVacinacao::paginate(10);
+    // public function index()
+    // {
+    //     Gate::authorize('ver-posto');
+    //     $lotes = DB::table("lote_posto_vacinacao")->with(['posto', 'lote'])->get();
+    //     $tipos = Etapa::TIPO_ENUM;
+    //     $postos = PostoVacinacao::paginate(10);
 
-        return view('postos.index', compact('postos', 'lotes','tipos'));
-    }
+    //     return view('postos.index', compact('postos', 'lotes','tipos'));
+    // }
 
     public function index_novo()
     {
         Gate::authorize('ver-posto');
         $lotes_pivot = LotePostoVacinacao::with(['lote', 'posto'])->get();
         $tipos = Etapa::TIPO_ENUM;
-        $postos = PostoVacinacao::with(['lotes', 'etapas', 'candidatos'])->paginate(10);
+        $postos = PostoVacinacao::with(['lotes', 'etapas', 'candidatos'])->orderBy('nome')->paginate(15);
         // $candidatos = Candidato::all();
         return view('postos.index_novo', compact('postos', 'lotes_pivot','tipos'));
     }
@@ -202,7 +202,7 @@ class PostoVacinacaoController extends Controller
             }
         }
 
-        return redirect()->route('postos.index')->with('message', 'Posto criado com sucesso!');
+        return redirect()->route('postos.index.new')->with('message', 'Posto criado com sucesso!');
     }
 
     /**
@@ -341,7 +341,7 @@ class PostoVacinacaoController extends Controller
             }
         }
 
-        return redirect()->route('postos.index')->with('message', 'Posto editado com sucesso!');
+        return redirect()->route('postos.index.new')->with('message', 'Posto editado com sucesso!');
     }
 
     /**
@@ -362,7 +362,7 @@ class PostoVacinacaoController extends Controller
         }
         $posto->forceDelete();
 
-        return redirect()->route('postos.index')->with('message', 'Posto excluído com sucesso!');
+        return redirect()->route('postos.index.new')->with('message', 'Posto excluído com sucesso!');
     }
 
     public function todosOsPostos(Request $request) {
