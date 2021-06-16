@@ -27,6 +27,11 @@ use App\Http\Controllers\EstatisticaController;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('index');
 
+Route::get('/whats', function() {
+    //TODO: mover isso pra um controller
+    return redirect()->to("https://api.whatsapp.com/send?phone=5587981216574&text=Ola");
+})->name('whats');
+
 Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
 // Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");

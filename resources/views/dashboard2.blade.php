@@ -165,7 +165,11 @@
                     @endif
                 </div>
                 <br>
-                {{-- <iframe name="iframe1" height="80%" width="100%"></iframe> --}}
+                <span class="badge badge-success">Aprovado</span>
+                <span class="badge badge-danger">Reprovado</span>
+                <span class="badge badge-warning">Fila de Espera</span>
+                <span class="badge badge-info">Vacinado</span>
+
                 <div class="table-responsive">
                     <table class="table table-condensed"  id="myTable">
 
@@ -416,6 +420,16 @@
                                                     <div class="col-md-12">
                                                         <label for="complemento_{{$candidato->id}}">Complemento</label>
                                                         <textarea id="complemento_{{$candidato->id}}" type="text" class="form-control" disabled rows="3">{{$candidato->complemento_endereco ?? " "}}</textarea>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="badge badge-dark text-wrap text-left" style="width: 16rem;">
+                                                            Criado:{{ date('d/m/Y \à\s  H:i\h', strtotime($candidato->created_at)) }}<br>
+                                                            Atualizado:{{date('d/m/Y \à\s  H:i\h', strtotime($candidato->updated_at)) }}<br>
+                                                            Deletado:{{ $candidato->deleted_at ?  date('d/m/Y \à\s  H:i\h', strtotime($candidato->deleted_at)): "" }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <br>
