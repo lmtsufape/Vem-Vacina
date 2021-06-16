@@ -178,10 +178,10 @@
                             @foreach ($candidatos as $i => $candidato)
                             <div class="card">
                               <div class="card-header  @if ($candidato->aprovacao == $candidato_enum[3]) bg-info @elseif($candidato->aprovacao == $candidato_enum[0]) bg-warning @elseif($candidato->aprovacao == $candidato_enum[1]) bg-success @elseif($candidato->aprovacao == $candidato_enum[2]) bg-danger @endif " id="headingOne">
-                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
 
-                                        <div class="col col-sm-8">
-                                            <h2 class="mb-0">
+                                        <div class="col-sm-8">
+
                                                 <button class="btn btn-white btn-block text-left @if ($candidato->aprovacao != $candidato_enum[0]) text-white @elseif($candidato->aprovacao == $candidato_enum[0]) text-dark  @endif " type="button" data-toggle="collapse" data-target="#collapse{{ $i }}" aria-expanded="true" aria-controls="collapseOne">
                                                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
                                                         <div class="col ">
@@ -195,45 +195,43 @@
                                                             </span>
                                                         </div>
                                                         <div class="col col-6">
-                                                            <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 100%;">
+                                                            <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="width: 100%;">
                                                                 <strong>   {{ "- Nome: "}} </strong>  {{$candidato->nome_completo}}
                                                                 </span>
                                                         </div>
                                                     </div>
 
                                                 </button>
-                                            </h2>
-                                        </div>
-                                        <div class="col col-sm-2">
-                                            @can('confirmar-vaga-candidato')
-                                                @if($candidato->lote_id)
-                                                    @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3] )
-                                                      <div class="row  align-items-end">
-                                                          <div class="col-md-12 mt-2 text-center">
-                                                              <span class=" text-white " >Vacinado</span>
-                                                          </div>
-                                                      </div>
 
-                                                    @else
-                                                        <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
-                                                            @csrf
-                                                            <div class="row">
-                                                                <div class="col-md-12 px-0">
-                                                                    <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
-                                                                        <option value="" selected disabled>selecione</option>
-                                                                        <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
-                                                                        <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
-                                                                        <option value="Ausente" >Ausente</option>
-                                                                        {{-- <option value="restaurar" >Restaurar</option> --}}
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    @endif
-                                                @endif
-                                            @endcan
                                         </div>
-                                        <div class="col col-sm-2 text-center">
+                                        <div class="col-sm ">
+                                            <div>
+                                                @can('confirmar-vaga-candidato')
+                                                    @if($candidato->lote_id)
+                                                        @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3] )
+                                                          <div class="row  align-items-end">
+                                                              <div class="col-md-12 mt-2 text-center">
+                                                                  <span class=" text-white " >Vacinado</span>
+                                                              </div>
+                                                          </div>
+
+                                                        @else
+                                                            <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
+                                                                @csrf
+                                                                <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
+                                                                    <option value="" selected disabled>selecione</option>
+                                                                    <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
+                                                                    <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
+                                                                    <option value="Ausente" >Ausente</option>
+                                                                    {{-- <option value="restaurar" >Restaurar</option> --}}
+                                                                </select>
+                                                            </form>
+                                                        @endif
+                                                    @endif
+                                                @endcan
+                                            </div>
+                                        </div>
+                                        <div class="col-sm  text-center">
                                             @can('whatsapp-candidato')
                                                 @if ($candidato->aprovacao != null && $candidato->aprovacao != $candidato_enum[3])
                                                     <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center text-white"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
