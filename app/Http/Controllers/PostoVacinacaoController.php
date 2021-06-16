@@ -104,9 +104,9 @@ class PostoVacinacaoController extends Controller
     public function index()
     {
         Gate::authorize('ver-posto');
-        $lotes = DB::table("lote_posto_vacinacao")->get();
+        $lotes = DB::table("lote_posto_vacinacao")->with(['posto', 'lote'])->get();
         $tipos = Etapa::TIPO_ENUM;
-        $postos = PostoVacinacao::orderBy('nome')->paginate(10);
+        $postos = PostoVacinacao::paginate(10);
 
         return view('postos.index', compact('postos', 'lotes','tipos'));
     }
@@ -114,11 +114,11 @@ class PostoVacinacaoController extends Controller
     public function index_novo()
     {
         Gate::authorize('ver-posto');
-        $lotes_pivot = LotePostoVacinacao::all();
+        $lotes_pivot = LotePostoVacinacao::with(['lote', 'posto'])->get();
         $tipos = Etapa::TIPO_ENUM;
-        $postos = PostoVacinacao::with('candidatos')->orderBy('nome')->paginate(10);
-        $candidatos = Candidato::all();
-        return view('postos.index_novo', compact('postos', 'lotes_pivot','tipos', 'candidatos'));
+        $postos = PostoVacinacao::with(['lotes', 'etapas', 'candidatos'])->paginate(10);
+        // $candidatos = Candidato::all();
+        return view('postos.index_novo', compact('postos', 'lotes_pivot','tipos'));
     }
 
 
