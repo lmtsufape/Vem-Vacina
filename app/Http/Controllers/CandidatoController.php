@@ -187,10 +187,10 @@ class CandidatoController extends Controller
     }
 
     public function enviar_solicitacao(Request $request) {
-        if(env('ATIVAR_FILA') == true){
+        if(env('ATIVAR_FILA') == true || env('ATIVAR_FILA') == null){
             $request->merge(['fila' => "true"]);
         }
-        // dd($request->has('fila'));
+        dd($request->all());
         $request->validate([
             "voltou"                => "nullable",
             "público"               => "required",
