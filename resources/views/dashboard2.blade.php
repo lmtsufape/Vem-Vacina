@@ -178,27 +178,33 @@
                             @foreach ($candidatos as $i => $candidato)
                             <div class="card">
                               <div class="card-header  @if ($candidato->aprovacao == $candidato_enum[3]) bg-info @elseif($candidato->aprovacao == $candidato_enum[0]) bg-warning @elseif($candidato->aprovacao == $candidato_enum[1]) bg-success @elseif($candidato->aprovacao == $candidato_enum[2]) bg-danger @endif " id="headingOne">
-                                    <div class="row justify-content-between">
-                                        <div class="col-9">
-                                            <h2 class="mb-0">
+                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
 
+                                        <div class="col col-sm-8">
+                                            <h2 class="mb-0">
                                                 <button class="btn btn-white btn-block text-left @if ($candidato->aprovacao != $candidato_enum[0]) text-white @elseif($candidato->aprovacao == $candidato_enum[0]) text-dark  @endif " type="button" data-toggle="collapse" data-target="#collapse{{ $i }}" aria-expanded="true" aria-controls="collapseOne">
-                                                    <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" style="max-width: 40%;">
-                                                    <strong>    {{ trim ( "#".$candidato->id )." - "  }}   </strong>
-                                                    </span>
-                                                    <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" style="max-width: 40%;">
-                                                    <strong>    {{ "CPF : " }}   </strong> {{ $candidato->cpf }}
-                                                    </span>
-                                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" style="max-width: 150px;">
-                                                        <strong> {{ " - Dose: " }}</strong> {{$candidato->dose}}
-                                                    </span>
-                                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 45%;">
-                                                    <strong>   {{ "- Nome: "}} </strong>  {{$candidato->nome_completo}}
-                                                    </span>
+                                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+                                                        <div class="col ">
+                                                            <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
+                                                                <strong>    {{ "CPF : " }}   </strong> {{ $candidato->cpf }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col ">
+                                                            <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
+                                                                <strong> {{ " - Dose: " }}</strong> {{$candidato->dose}}
+                                                            </span>
+                                                        </div>
+                                                        <div class="col col-6">
+                                                            <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 100%;">
+                                                                <strong>   {{ "- Nome: "}} </strong>  {{$candidato->nome_completo}}
+                                                                </span>
+                                                        </div>
+                                                    </div>
+
                                                 </button>
                                             </h2>
                                         </div>
-                                        <div class="col-2">
+                                        <div class="col col-sm-2">
                                             @can('confirmar-vaga-candidato')
                                                 @if($candidato->lote_id)
                                                     @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3] )
@@ -227,20 +233,17 @@
                                                 @endif
                                             @endcan
                                         </div>
-                                        <div class="col-1 text-center">
+                                        <div class="col col-sm-2 text-center">
                                             @can('whatsapp-candidato')
-
                                                 @if ($candidato->aprovacao != null && $candidato->aprovacao != $candidato_enum[3])
                                                     <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center text-white"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
                                                 @else
                                                     <a class="text-center"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
                                                 @endif
-
-                                        @endcan
+                                            @endcan
                                         </div>
 
                                     </div>
-
                                 </div>
 
 
