@@ -96,7 +96,8 @@ class Candidato extends Model
             $mensagem = $mensagem."Local: ".$this->posto->nome.".\n";
             $mensagem = $mensagem."Endereço: ".$this->posto->endereco.".\n";
             $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência. Para os agendamentos de pessoas com comorbidades é necessária a apresentação do formulário que atesta a comorbidade, previamente preenchido por um profissional de saúde (exceto pessoas com Síndrome de Down).\n";
-            $mensagem = $mensagem."Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.\n";
+            $mensagem = $mensagem."As pessoas que pertencem aos grupos prioritários de funcionários do sistema de privação de liberdade; trabalhadores da educação de 40 a 59 anos; guardas municipais e bombeiros civis de 30 a 59 anos; motoristas do transporte coletivo de passageiros urbano, trabalhadores dos CRAS e CREAS, médicos veterinários, profissionais de educação física, caminhoneiros de 50 a 59 anos; deverão comprovar esta condição, através um dos documentos a seguir: declaração de vínculo profissional da empresa ou instituição, contracheque, ou outro documento que comprove o exercício da função e/ou vinculação com o serviço onde atua. Além de documento oficial com foto, cartão do SUS e comprovante de residência.\n";
+            $mensagem = $mensagem."Reforçamos a importância de que a pessoa esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.\n";
             $mensagem = $mensagem."Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!";
         } else if ($this->aprovacao == $this::APROVACAO_ENUM[2]) {
             $mensagem = "Seu agendamento foi reprovado.";
