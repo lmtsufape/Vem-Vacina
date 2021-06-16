@@ -115,7 +115,7 @@
             </x-responsive-nav-link>
             @endif
             @can('ver-posto')
-            <x-responsive-nav-link :href="route('postos.index')" :active="request()->routeIs('postos.*')">
+            <x-responsive-nav-link :href="route('postos.index.new')" :active="request()->routeIs('postos.*')">
                 {{ __('Pontos') }}
             </x-responsive-nav-link>
             @endif
