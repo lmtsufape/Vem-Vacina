@@ -17,4 +17,10 @@ class LotePostoVacinacao extends Pivot
     {
         return $this->belongsTo(Lote::class, 'lote_id');
     }
+
+    public function candidatos()
+    {
+        return $this->hasMany(Candidato::class, 'lote_id', 'id');
+    }
+
 }
