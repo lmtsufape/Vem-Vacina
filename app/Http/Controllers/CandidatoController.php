@@ -140,6 +140,113 @@ class CandidatoController extends Controller
         //     }
         // }
 
+        return view('dashboard')->with(['candidatos' => $agendamentos,
+                                        'candidato_enum' => Candidato::APROVACAO_ENUM,
+                                        'tipos' => Etapa::TIPO_ENUM,
+                                        'postos' => PostoVacinacao::all(),
+                                        'doses' => Candidato::DOSE_ENUM,
+                                        'publicos' => Etapa::orderBy('texto_home')->get(),
+                                        'request' => $request]);
+    }
+    public function showNovo(Request $request) {
+        $candidatos = null;
+        // dd($request->all());
+
+
+        if ($request->tipo == "Não Analisado") {
+            $query = Candidato::query()->where('aprovacao', Candidato::APROVACAO_ENUM[0]);
+        }else if ($request->tipo == "Aprovado") {
+            $query = Candidato::query()->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
+        }else if ($request->tipo == "Reprovado") {
+            $query = Candidato::query()->onlyTrashed()->where('aprovacao', Candidato::APROVACAO_ENUM[2]);
+        }else if ($request->tipo == "Vacinado") {
+            $query = Candidato::query()->where('aprovacao', Candidato::APROVACAO_ENUM[3]);
+        }else{
+            $query = Candidato::query()->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1], Candidato::APROVACAO_ENUM[3]]);
+        }
+
+        if ($request->nome_check && $request->nome != null) {
+            $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
+        }
+
+        if ($request->ponto_check && $request->ponto != null) {
+            $query->where('posto_vacinacao_id', $request->ponto);
+        }
+
+        if ($request->cpf_check && $request->cpf != null) {
+            $query->where('cpf', 'ilike', '%'.$request->cpf.'%');
+        }
+
+        if ($request->data_check && $request->data != null) {
+            $amanha = (new Carbon($request->data))->addDays(1);
+            $hoje = (new Carbon($request->data));
+            $query->where([['chegada','>=',$hoje], ['chegada','<=', $amanha]]);
+        }
+        if ($request->data_vacinado_check && $request->data_vacinado != null) {
+            $amanha = (new Carbon($request->data_vacinado))->addDays(1);
+            $hoje = (new Carbon($request->data_vacinado));
+            $query->where([['updated_at','>=',$hoje], ['updated_at','<=', $amanha]]);
+        }
+
+        if ($request->dose_check && $request->dose != null) {
+            $query->where('dose',$request->dose);
+        }
+
+        if ($request->aprovado) {
+            $query->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
+        }
+
+        if ($request->duplicado) {
+            $query->where('cpf', Candidato::APROVACAO_ENUM[0]);
+        }
+
+        if ($request->publico_check) {
+            if ($request->publico != null) {
+                $query->where('etapa_id', $request->publico);
+            }
+        }
+
+        if ($request->sus_check) {
+            if ($request->sus) {
+                $query->where('numero_cartao_sus', 'ilike', '%'.$request->sus.'%');
+            }
+        }
+
+        if ($request->ordem_check && $request->ordem != null) {
+            if($request->campo != null){
+                $query->orderBy($request->campo, $request->ordem);
+            }else{
+                $query->orderBy('nome_completo', $request->ordem);
+            }
+        }
+
+        if ($request->campo_check && $request->campo != null) {
+            $query->orderBy($request->campo);
+        }
+
+        if ($request->outro) {
+            $agendamentos = $query->get();
+        } else {
+            $agendamentos = $query->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate(100)->withQueryString();
+        }
+
+        if ($request->outro) {
+            $agendamentosComOutrasInfo = collect();
+
+            foreach ($agendamentos as $agendamento) {
+                $outros = $agendamento->outrasInfo;
+                if($outros != null && count($outros) > 0) {
+                    $agendamentosComOutrasInfo->push($agendamento);
+                }
+            }
+
+            if ($agendamentosComOutrasInfo->count() > 0) {
+                $agendamentos = $agendamentosComOutrasInfo;
+            } else {
+                $agendamentos = collect();
+            }
+        }
+
         return view('dashboard2')->with(['candidatos' => $agendamentos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM,

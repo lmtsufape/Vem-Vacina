@@ -230,13 +230,13 @@
                                         <div class="col-1 text-center">
                                             @can('whatsapp-candidato')
 
-                                                @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[1])
-                                                    <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
-
+                                                @if ($candidato->aprovacao != null && $candidato->aprovacao != $candidato_enum[3])
+                                                    <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                                 @else
-                                                    <a class="text-center"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
+                                                    <a class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
                                                 @endif
-                                            @endcan
+
+                                        @endcan
                                         </div>
 
                                     </div>

@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/form',  [AdminController::class, 'userForm'])->name('admin.form.user');
     Route::post('/admin/create/user',  [AdminController::class, 'createUser'])->name('admin.create.user');
     Route::get('/dashboard',  [CandidatoController::class, 'show'])->name('dashboard');
+    Route::get('/dashboard/novo',  [CandidatoController::class, 'showNovo'])->name('dashboard.novo');
     Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento");
     Route::post("/agendamento/{id}/confirmar-vacinacao", [CandidatoController::class, 'vacinado'])->name('candidato.vacinado');
     Route::get("/agendamento/confirmar-vacinacao", [CandidatoController::class, 'vacinadoAjax'])->name('candidato.vacinado.ajax');

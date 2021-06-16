@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Agendamentos') }}
                     </x-nav-link>
+                    <x-responsive-nav-link :href="route('dashboard.novo')" :active="request()->routeIs('dashboard.*')">
+                        {{ __('Agendamentos 2') }}
+                    </x-responsive-nav-link>
                     @can('ver-fila')
                     <x-nav-link :href="route('fila.index')" :active="request()->routeIs('fila.*')">
                         {{ __('Fila de Espera') }}
@@ -121,6 +124,9 @@
             @endif
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Agendamentos') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard.novo')" :active="request()->routeIs('dashboard.*')">
+                {{ __('Agendamentos 2') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('fila.index')" :active="request()->routeIs('fila.*')">
                 {{ __('Fila de Espera') }}
