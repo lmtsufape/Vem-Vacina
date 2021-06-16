@@ -63,9 +63,9 @@
                                         </ul>
                                     </div>
                                 @endif
-                                @if (env('ATIVAR_FILA') == true)
+                                @if (env('ATIVAR_FILA') == true || env('ATIVAR_FILA') == null)
                                     <div class="alert alert-warning"  id="alerta_vacinas">
-                                        Não há mais doses disponíveis para esta faixa etária ou público, ao finalizar o cadastro você será encaminhado para a fila de espera e deve aguardar a confirmação de agendamento para vacinação.
+                                        Não há mais doses disponíveis no momento, ao finalizar o cadastro você será encaminhado para a fila de espera e deve aguardar a confirmação de agendamento para vacinação.
                                     </div>
                                 @else
                                     <div class="alert alert-warning" style="display: none" id="alerta_vacinas">
@@ -461,7 +461,7 @@
                                     </div>
                                 </div>
 
-                                @if (env('ATIVAR_FILA') == true)
+                                @if (env('ATIVAR_FILA') == true || env('ATIVAR_FILA') == null)
 
                                 @else
                                     <div id="div_local">
@@ -510,7 +510,7 @@
                                                 <!--<div class="col-md-6" style="padding:3px">
                                                      <button class="btn btn-light" style="width: 100%;margin: 0px;">Cancelar</button>
                                                      </div>-->
-                                                @if (env('ATIVAR_FILA') == true)
+                                                @if (env('ATIVAR_FILA') == true || env('ATIVAR_FILA') == null)
                                                     <div class="col-md-12" style="padding:3px">
                                                         <button class="btn btn-success"  style="width: 100%;">Enviar para fila de Espera</button>
                                                     </div>
@@ -582,7 +582,7 @@
             });
         </script>
     @endif
-    @if (env('ATIVAR_FILA') == true)
+    @if (env('ATIVAR_FILA') == true || env('ATIVAR_FILA') == null)
     <script>
         $(document).ready(function() {
             $('input:radio[name=público]').change(
