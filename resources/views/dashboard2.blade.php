@@ -492,9 +492,9 @@
         </div>
     </div>
 
-    @foreach ($candidatos as $i => $candidato)
+    {{-- @foreach ($candidatos as $i => $candidato)
         <!-- Modal -->
-            {{-- <div class="modal fade" id="visualizar_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="visualizar_candidato_{{$candidato->id}}_label" aria-hidden="true">
+            <div class="modal fade" id="visualizar_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="visualizar_candidato_{{$candidato->id}}_label" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -762,7 +762,7 @@
                     </div>
                 </div>
                 </div>
-            </div> --}}
+            </div>
         <!-- Fim modal visualizar agendamento -->
             <!-- Modal confirmar vacinação -->
                 <div class="modal fade" id="vacinar_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="vacinar_candidato_{{$candidato->id}}_label" aria-hidden="true">
@@ -814,7 +814,7 @@
                 </div>
             <!-- Modal cancelar vacina -->
         @endif
-    @endforeach
+    @endforeach --}}
 
 @if(old('edit_agendamento_id') != null)
     <script>
@@ -833,10 +833,6 @@
         }
     }
 
-    function myFunction(event) {
-        console.log(event);
-
-    }
     function selecionar_posto(posto_selecionado, id) {
         document.getElementById('seletor_data_'+id).innerHTML = "";
         document.getElementById('seletor_horario_'+id).innerHTML = "";
