@@ -116,7 +116,7 @@ class PostoVacinacaoController extends Controller
         Gate::authorize('ver-posto');
         $lotes_pivot = LotePostoVacinacao::with(['lote', 'posto'])->get();
         $tipos = Etapa::TIPO_ENUM;
-        $postos = PostoVacinacao::with(['lotes', 'etapas', 'candidatos'])->orderBy('nome')->paginate(15);
+        $postos = PostoVacinacao::with(['lotes', 'etapas', 'candidatos'])->orderBy('nome')->paginate(10);
         // $candidatos = Candidato::all();
         return view('postos.index_novo', compact('postos', 'lotes_pivot','tipos'));
     }
