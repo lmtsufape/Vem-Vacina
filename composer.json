@@ -18,7 +18,8 @@
         "laravel/nexmo-notification-channel": "^2.5",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.4",
-        "maatwebsite/excel": "^3.1"
+        "maatwebsite/excel": "^3.1",
+        "rap2hpoutre/laravel-log-viewer": "^1.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
