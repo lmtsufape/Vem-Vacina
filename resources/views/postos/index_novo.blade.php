@@ -117,6 +117,7 @@
                                                 <td>{{$lote_pivot->lote->dose_unica ? 'Sim' : 'Não'}}</td>
                                                 <td>{{$lote_pivot->lote->dose_unica ? " - " : 'Entre '.$lote_pivot->lote->inicio_periodo." à  ". $lote_pivot->lote->fim_periodo." dias" }} </td>
                                                 <td>{{($lote_pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote_pivot->id)->count())}}</td>
+                                                {{-- <td>{{$lote_pivot->qtdVacina}}</td> --}}
                                                 {{-- <td>{{($posto->candidatos()->where('lote_id', $lote_pivot->id)->count())}}</td> --}}
                                                 {{-- <td>{{($lote_pivot->candidatos()->count() )}}</td> --}}
 
