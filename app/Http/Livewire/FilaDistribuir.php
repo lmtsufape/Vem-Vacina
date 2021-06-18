@@ -28,6 +28,7 @@ class FilaDistribuir extends Component
     public $etapa_id;
     public $ponto_id;
     public $qtdFila;
+    public $contador;
 
     protected $rules = [
         'etapa_id' => 'required',
@@ -46,7 +47,7 @@ class FilaDistribuir extends Component
         $this->pontos = PostoVacinacao::all();
         $this->etapas = Etapa::all();
         $this->tipos = Etapa::TIPO_ENUM;
-
+        $this->contador = 0;
     }
 
     public function distribuir()
@@ -83,6 +84,7 @@ class FilaDistribuir extends Component
             foreach ($candidatos as $key => $candidato) {
                     $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato, $posto );
                     Log::info($key);
+                    $this->contador = $key;
                     if ($resultado) {
                         $aprovado = true;
                         continue;

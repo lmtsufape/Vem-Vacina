@@ -12,6 +12,7 @@ class Contador extends Component
     public $publicos;
     public $aprovacao;
 
+
     public function mount()
     {
 

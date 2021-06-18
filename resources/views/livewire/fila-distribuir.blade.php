@@ -2,7 +2,9 @@
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
         <div class="container">
 
-            <livewire:contador/>
+            {{-- <livewire:contador/> --}}
+            <p>Pessoas distribuidas:</p>
+            <p>{{ $contador }}</p>
             <br>
             <div>
                 @if (session()->has('message'))
