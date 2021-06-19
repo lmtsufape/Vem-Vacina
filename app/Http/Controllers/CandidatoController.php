@@ -104,7 +104,7 @@ class CandidatoController extends Controller
         if ($request->outro) {
             $agendamentos = $query->get();
         } else {
-            $agendamentos = $query->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate(100)->withQueryString();
+            $agendamentos = $query->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate($request->qtd)->withQueryString();
         }
 
         if ($request->outro) {
@@ -187,10 +187,11 @@ class CandidatoController extends Controller
     }
 
     public function enviar_solicitacao(Request $request) {
-        if(env('ATIVAR_FILA') == true || env('ATIVAR_FILA') == null){
+
+        if(env('ATIVAR_FILA', false) == true){
             $request->merge(['fila' => "true"]);
         }
-        dd($request->all());
+        // dd($request->all());
         $request->validate([
             "voltou"                => "nullable",
             "público"               => "required",

@@ -11,12 +11,14 @@ class Contador extends Component
 
     public $publicos;
     public $aprovacao;
+    public $contadorPessoas;
 
     public function mount()
     {
 
         $this->publicos = Etapa::orderBy('texto')->get();
         $this->aprovacao = Candidato::APROVACAO_ENUM;
+        $this->contadorPessoas = 0;
 
     }
 

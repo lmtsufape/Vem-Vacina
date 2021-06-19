@@ -2,7 +2,12 @@
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
         <div class="container">
 
-            <livewire:contador/>
+            {{-- <livewire:contador/> --}}
+
+            {{-- <div wire:poll="counter">
+                <h1>{{ $count }}</h1>
+
+            </div> --}}
             <br>
             <div>
                 @if (session()->has('message'))

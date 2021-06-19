@@ -13,6 +13,7 @@ use App\Http\Controllers\ConfiguracaoController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\PostoVacinacaoController;
 use App\Http\Controllers\EstatisticaController;
+use App\Models\Candidato;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,30 @@ use App\Http\Controllers\EstatisticaController;
 */
 
 Route::get('/', [WelcomeController::class, 'index'])->name('index');
+
+Route::get('/teste', function() {
+    DB::enableQueryLog();
+    $result = DB::select(DB::raw('select p.nome, lp.posto_vacinacao_id, "qtdVacina", count(c.*) as "Quantidade de candidatos", ("qtdVacina" - count(c.*)) as "Vacinas disponiveis",lp.id as "lote_pivot_id"
+    from posto_vacinacaos p
+    inner join lote_posto_vacinacao lp
+    on p.id = lp.posto_vacinacao_id
+    inner join candidatos c
+    on c.lote_id = lp.id
+    group by lp.id, "qtdVacina", lp.posto_vacinacao_id, p.nome;'));
+    // $result = DB::select(DB::raw('select   nome_completo,count(nome_completo) as "QUANTIDAD DE REGISTROS" ,cpf
+    // from candidatos
+    // where cpf in
+    //     (select c.cpf
+    //     from candidatos c
+    //     group by c.cpf
+    //     having count(cpf) > 2)
+    // group by nome_completo, cpf'));
+
+    return response($result );
+
+    // return view('sobre');
+
+});
 
 Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
@@ -45,6 +70,11 @@ Route::get("/anexo/{name}", [WelcomeController::class, 'baixarAnexo'])->name('ba
 Route::get('/sobre', [WelcomeController::class, 'sobre'])->name('sobre');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get("/real", function() {
+
+        return view('fila.fila_tempo_real');
+    });
+
     Route::get('/admin/form',  [AdminController::class, 'userForm'])->name('admin.form.user');
     Route::post('/admin/create/user',  [AdminController::class, 'createUser'])->name('admin.create.user');
     Route::get('/dashboard',  [CandidatoController::class, 'show'])->name('dashboard');

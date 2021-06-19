@@ -49,12 +49,9 @@ class FilaDistribuir extends Component
 
     }
 
-    public function distribuir()
+    public function quantidadeVacinaPorPonto($posto)
     {
-        $this->validate();
-        Gate::authorize('distribuir-fila');
-        set_time_limit(900);
-        $posto = PostoVacinacao::find($this->ponto_id);
+
         $soma = 0;
 
         foreach($posto->lotes as $key1 => $lote){
@@ -64,13 +61,26 @@ class FilaDistribuir extends Component
 
             }
         }
-        // dd($posto->lotes->first()->dose_unica);
+
         if($posto->lotes->first()->dose_unica == false){
             $soma = intval($soma/2) + 1;
         }
-        // dd($soma);
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($soma)->get();
-        // dd($candidatos->count());
+        return $soma;
+    }
+
+
+
+    public function distribuir()
+    {
+        $this->validate();
+        Gate::authorize('distribuir-fila');
+        set_time_limit(900);
+        $posto = PostoVacinacao::find($this->ponto_id);
+
+        $qtdVacinaPorPonto = $this->quantidadeVacinaPorPonto($posto);
+
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($qtdVacinaPorPonto)->get();
+
         $horarios_agrupados_por_dia = $this->diasPorPosto($posto);
         if (!$horarios_agrupados_por_dia || !count($horarios_agrupados_por_dia) ) {
             session()->flash('message', 'Acabaram os horários.');
@@ -80,18 +90,27 @@ class FilaDistribuir extends Component
 
 
             $aprovado = false;
+            $contadorParada = 0;
             foreach ($candidatos as $key => $candidato) {
                     $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato, $posto );
-                    Log::info($key);
+
+
                     if ($resultado) {
+                        Log::info($key);
                         $aprovado = true;
                         continue;
                     }else{
+                        $contadorParada++;
+                        if($contadorParada > 20){
+                            session()->flash('message', 'Distribuição concluída com sucesso, as vacinas ou os horários acabaram.');
+                            return;
+                        }
                         continue;
                     }
             }
+
             if ($aprovado) {
-                session()->flash('message', 'Distribuição feita.');
+                session()->flash('message', 'Distribuição concluída com sucesso.');
                 return;
             }else{
                 session()->flash('message', 'Ninguém foi distribuído.');
