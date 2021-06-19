@@ -74,6 +74,10 @@
                                     <input type="checkbox" name="publico_check" id="publico_check_input" @if($request->publico_check != null && $request->publico_check) checked @endif onclick="mostrarFiltro(this, 'publico_check')">
                                     <label>Público</label>
                                 </div>
+                                <div class="col-md-3">
+                                    <input type="checkbox" name="qtd_check" id="qtd_check_input" @if($request->qtd_check != null && $request->qtd_check) checked @endif onclick="mostrarFiltro(this, 'qtd_check')">
+                                    <label>Quantidade</label>
+                                </div>
                             </div>
                             <div class="row">
                                 <div id="nome_check" class="col-md-3" style="@if($request->nome_check != null && $request->nome_check) display: block; @else display: none; @endif">
@@ -137,6 +141,14 @@
                                         @foreach ($publicos as $publico)
                                             <option @if($request->publico == $publico->id) selected @endif value="{{ $publico->id }}">{{ $publico->texto_home }}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+                                <div id="qtd_check" class="col-md-3" @if($request->qtd_check != null && $request->qtd_check) style="display: block;" @else style="display:none;" @endif>
+                                    <select id="qtd" name="qtd" class="form-control">
+                                        <option @if($request->qtd == "10") selected @endif value="10">10</option>
+                                        <option @if($request->qtd == "20") selected @endif value="20">20</option>
+                                        <option @if($request->qtd == "100") selected @endif value="100">100</option>
+                                        <option @if($request->qtd == "200") selected @endif value="200">200</option>
                                     </select>
                                 </div>
                             </div>
