@@ -1,5 +1,7 @@
 <div wire:poll="contador">
-    <div class="row">
+    <p>Pessoas distribuidas:</p>
+    <p>{{ $contadorPessoas }}</p>
+    {{-- <div class="row">
         <div class="col-sm-12 table-wrapper-scroll-y my-custom-scrollbar">
             <table class="table" >
                 <thead>
@@ -26,5 +28,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div> --}}
 </div>

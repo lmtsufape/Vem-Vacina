@@ -56,7 +56,7 @@ class LoteController extends Controller
     {
         Gate::authorize('criar-lote');
         $rules = [
-            'numero_lote'       => 'required|min:6|max:8|unique:lotes',
+            'numero_lote'       => 'required|min:6|max:12|unique:lotes',
             'fabricante'        => 'required|max:30',
             'numero_vacinas'    => 'required|gt:0|integer',
             'dose_unica'        => '',
@@ -146,7 +146,7 @@ class LoteController extends Controller
         Gate::authorize('editar-lote');
 
         $rules = [
-            'numero_lote'       => 'required|min:6|max:8',
+            'numero_lote'       => 'required|min:6|max:12',
             'fabricante'        => 'required|max:30',
             'numero_vacinas'    => 'required|gte:0|integer',
             'dose_unica'        => '',

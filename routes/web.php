@@ -70,7 +70,7 @@ Route::get("/anexo/{name}", [WelcomeController::class, 'baixarAnexo'])->name('ba
 Route::get('/sobre', [WelcomeController::class, 'sobre'])->name('sobre');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
     Route::get('/admin/form',  [AdminController::class, 'userForm'])->name('admin.form.user');
     Route::post('/admin/create/user',  [AdminController::class, 'createUser'])->name('admin.create.user');
     Route::get('/dashboard',  [CandidatoController::class, 'show'])->name('dashboard');

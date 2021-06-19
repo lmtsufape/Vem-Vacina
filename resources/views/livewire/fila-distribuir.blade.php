@@ -3,8 +3,11 @@
         <div class="container">
 
             {{-- <livewire:contador/> --}}
-            <p>Pessoas distribuidas:</p>
-            <p>{{ $contador }}</p>
+
+            {{-- <div wire:poll="counter">
+                <h1>{{ $count }}</h1>
+
+            </div> --}}
             <br>
             <div>
                 @if (session()->has('message'))
