@@ -166,14 +166,12 @@ class AuthServiceProvider extends ServiceProvider
             return $user->tipo == User::TIPO_ENUM['secretaria'] ||
                $user->tipo == User::TIPO_ENUM['colaborador'] ||
                $user->tipo == User::TIPO_ENUM['gerente'] ||
-               $user->tipo == User::TIPO_ENUM['admin']||
-               $user->tipo == User::TIPO_ENUM['enfermeira'];
+               $user->tipo == User::TIPO_ENUM['admin'];
         });
 
         Gate::define('baixar-export', function (User $user) {
             return $user->tipo == User::TIPO_ENUM['gerente'] ||
-               $user->tipo == User::TIPO_ENUM['admin']||
-               $user->tipo == User::TIPO_ENUM['enfermeira'];
+               $user->tipo == User::TIPO_ENUM['admin'];
         });
 
         Gate::define('apagar-export', function (User $user) {
