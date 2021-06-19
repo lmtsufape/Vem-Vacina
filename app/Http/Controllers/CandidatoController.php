@@ -937,6 +937,7 @@ class CandidatoController extends Controller
                 "cpf"                   => "required|regex:/^[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}/u",
                 "numero_cartao_sus"     => "required",
                 "nome_da_mae"           => "required|string|min:8|max:65|regex:/^[\pL\s]+$/u",
+                "observacao"     => "required",
             ]);
 
             if ($validator->fails()) {
