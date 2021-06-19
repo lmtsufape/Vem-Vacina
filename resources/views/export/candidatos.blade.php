@@ -13,6 +13,7 @@ use App\Models\LotePostoVacinacao;
         <th>numero_cartao_sus</th>
         <th>sexo</th>
         <th>nome_da_mae</th>
+        <th>observacao</th>
         <th>telefone</th>
         <th>whatsapp</th>
         <th>email</th>
@@ -34,6 +35,7 @@ use App\Models\LotePostoVacinacao;
         <th>atualizado</th>
         <th>apagado</th>
 
+
     </tr>
     </thead>
     <tbody>
@@ -50,6 +52,7 @@ use App\Models\LotePostoVacinacao;
             <td>{{ implode(".", $pieces)  }}</td>
             <td>{{ $candidato->sexo }}</td>
             <td>{{ $candidato->nome_da_mae }}</td>
+            <td>{{ $candidato->observacao }}</td>
             <td>{{ $candidato->telefone }}</td>
             <td>{{ $candidato->whatsapp }}</td>
             <td>{{ $candidato->email }}</td>
@@ -108,6 +111,7 @@ use App\Models\LotePostoVacinacao;
             <td>{{ $candidato->created_at }}</td>
             <td>{{ $candidato->updated_at }}</td>
             <td>{{ $candidato->deleted_at }}</td>
+
         </tr>
     @endforeach
     </tbody>
