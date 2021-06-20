@@ -100,11 +100,11 @@ class FilaDistribuir extends Component
                         $aprovado = true;
                         continue;
                     }else{
-                        // $contadorParada++;
-                        // if($contadorParada > 20){
-                        //     session()->flash('message', 'Distribuição concluída com sucesso, as vacinas ou os horários acabaram.');
-                        //     return;
-                        // }
+                        $contadorParada++;
+                        if($contadorParada > 180){
+                            session()->flash('message', 'Distribuição concluída com sucesso, as vacinas ou os horários acabaram.');
+                            return;
+                        }
                         continue;
                     }
             }
