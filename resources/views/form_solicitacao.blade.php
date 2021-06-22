@@ -67,7 +67,7 @@
 
                                 @if (env('ATIVAR_FILA', false) == true)
                                     <div class="alert alert-warning"  id="alerta_vacinas">
-                                        Não há mais doses disponíveis no momento, ao finalizar o cadastro você será encaminhado para a fila de espera e deve aguardar a confirmação de agendamento para vacinação.
+                                        Sua solicitação será processada. Aguarde a confirmação da Secretaria de Saúde, indicando agendamento com data, local e horário para vacinação
                                     </div>
                                 @else
                                     <div class="alert alert-warning" style="display: none" id="alerta_vacinas">
@@ -514,7 +514,7 @@
                                                      </div>-->
                                                 @if (env('ATIVAR_FILA', false) == true)
                                                     <div class="col-md-12" style="padding:3px">
-                                                        <button class="btn btn-success"  style="width: 100%;">Enviar para fila de Espera</button>
+                                                        <button class="btn btn-success"  style="width: 100%;">Enviar</button>
                                                     </div>
                                                 @else
                                                     <div class="col-md-12" style="padding:3px">
