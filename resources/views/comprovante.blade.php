@@ -33,7 +33,7 @@
                                                 @if($agendamentos[0]->aprovacao == $aprovacao_enum[0] && $agendamentos[0]->chegada == null )
                                                     <p>
                                                         @if (env('ATIVAR_FILA', false) == true)
-                                                            Informamos que a sua solicitação foi recebida com sucesso será <strong>processada</strong>. Aguarde a confirmação da Secretaria de Saúde, indicando agendamento com data, local e horário para vacinação.
+                                                            Informamos que a sua solicitação foi recebida com sucesso e será <strong>PROCESSADA</strong>. Aguarde a confirmação da Secretaria de Saúde, indicando agendamento com data, local e horário para vacinação.
                                                         @else
                                                             Informamos que a sua solicitação de agendamento para vacinação foi recebida com sucesso e se encontra na
                                                             <strong>FILA DE ESPERA</strong>.
