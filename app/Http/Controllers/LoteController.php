@@ -229,6 +229,7 @@ class LoteController extends Controller
     public function distribuir($id)
     {
         Gate::authorize('distribuir-lote');
+
         $lote = Lote::findOrFail($id);
         if ($lote->etapas->count() == 0) {
             return redirect()->back()

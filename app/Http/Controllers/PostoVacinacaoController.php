@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use DateTime;
 use Carbon\Carbon;
 use App\Models\Lote;
 use App\Models\Etapa;
@@ -25,73 +26,102 @@ class PostoVacinacaoController extends Controller
         $todos_os_horarios = [];
         set_time_limit(40);
         $posto = PostoVacinacao::find($posto_id);
-        $contador = 0;
-        // Pega os proximos 7 dias
-        for($i = 0; $i < 7; $i++) {
-            $dia = Carbon::tomorrow()->addDay($i);
+        // $contador = 0;
+        // // Pega os proximos 7 dias
+        // for($i = 0; $i < 7; $i++) {
+        //     $dia = Carbon::tomorrow()->addDay($i);
 
-            // Não adiciona os dias caso não funcione nesses dias
-            if(!($posto->funciona_domingo) && $dia->isSunday()) {continue;}
-            if(!($posto->funciona_segunda) && $dia->isMonday()) {continue;}
-            if(!($posto->funciona_terca) && $dia->isTuesday()) {continue;}
-            if(!($posto->funciona_quarta) && $dia->isWednesday()) {continue;}
-            if(!($posto->funciona_quinta) && $dia->isThursday()) {continue;}
-            if(!($posto->funciona_sexta) && $dia->isFriday()) {continue;}
-            if(!($posto->funciona_sabado) && $dia->isSaturday()) {continue;}
+        //     // Não adiciona os dias caso não funcione nesses dias
+        //     if(!($posto->funciona_domingo) && $dia->isSunday()) {continue;}
+        //     if(!($posto->funciona_segunda) && $dia->isMonday()) {continue;}
+        //     if(!($posto->funciona_terca) && $dia->isTuesday()) {continue;}
+        //     if(!($posto->funciona_quarta) && $dia->isWednesday()) {continue;}
+        //     if(!($posto->funciona_quinta) && $dia->isThursday()) {continue;}
+        //     if(!($posto->funciona_sexta) && $dia->isFriday()) {continue;}
+        //     if(!($posto->funciona_sabado) && $dia->isSaturday()) {continue;}
 
-            if($posto->inicio_atendimento_manha && $posto->intervalo_atendimento_manha && $posto->fim_atendimento_manha) {
-                $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_manha);
-                $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_manha);
-                $periodos_da_manha = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_manha . " minutes", $fim_do_dia);
-                array_push($todos_os_horarios_por_dia, $periodos_da_manha);
-            }
+        //     if($posto->inicio_atendimento_manha && $posto->intervalo_atendimento_manha && $posto->fim_atendimento_manha) {
+        //         $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_manha);
+        //         $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_manha);
+        //         $periodos_da_manha = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_manha . " minutes", $fim_do_dia);
+        //         array_push($todos_os_horarios_por_dia, $periodos_da_manha);
+        //     }
 
-            if($posto->inicio_atendimento_tarde && $posto->intervalo_atendimento_tarde && $posto->fim_atendimento_tarde) {
-                $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_tarde);
-                $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_tarde);
-                $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_tarde . " minutes", $fim_do_dia);
-                array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
-            }
+        //     if($posto->inicio_atendimento_tarde && $posto->intervalo_atendimento_tarde && $posto->fim_atendimento_tarde) {
+        //         $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_tarde);
+        //         $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_tarde);
+        //         $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_tarde . " minutes", $fim_do_dia);
+        //         array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
+        //     }
 
-            if($posto->inicio_atendimento_noite && $posto->intervalo_atendimento_noite && $posto->fim_atendimento_noite) {
-                $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_noite);
-                $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_noite);
-                $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_noite . " minutes", $fim_do_dia);
-                array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
-            }
+        //     if($posto->inicio_atendimento_noite && $posto->intervalo_atendimento_noite && $posto->fim_atendimento_noite) {
+        //         $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_noite);
+        //         $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_noite);
+        //         $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_noite . " minutes", $fim_do_dia);
+        //         array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
+        //     }
 
-            $contador++;
-            if($contador == 3){
-                break;
-            }
-        }
+        //     $contador++;
+        //     if($contador == 3){
+        //         break;
+        //     }
+        // }
+        // // return $todos_os_horarios_por_dia;
+        // // Os periodos são salvos como horarios[dia][janela]
+        // // Esse loop planificado o array pra horarios[janela]
+        // foreach($todos_os_horarios_por_dia as $dia) {
+        //     foreach($dia as $janela) {
+        //         array_push($todos_os_horarios, $janela);
+        //     }
+        // }
+        // // return $todos_os_horarios;
+        // // foreach($todos_os_horarios_por_dia as $dia) {
 
-        // Os periodos são salvos como horarios[dia][janela]
-        // Esse loop planificado o array pra horarios[janela]
-        foreach($todos_os_horarios_por_dia as $dia) {
-            foreach($dia as $janela) {
-                array_push($todos_os_horarios, $janela);
-            }
-        }
+        // //     $dia = $posto->dias()->createMany([['dia' => $dia->toArray()]]);
+        // //     foreach($dia as $janela) {
+        // //         $dia->first()->horarios()->createMany([['horario' =>$janela->format("d-m-Y H:i:s")]]);
+        // //         // array_push($todos_os_horarios, $janela);
+        // //     }
+        // // }
+        // // return $janela;
+        // // Pega os candidatos do posto selecionado cuja data de vacinação é de amanhã pra frente, os que já passaram não importam
+        // $candidatos = Candidato::where("posto_vacinacao_id", $posto_id)->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
 
-        // Pega os candidatos do posto selecionado cuja data de vacinação é de amanhã pra frente, os que já passaram não importam
-        $candidatos = Candidato::where("posto_vacinacao_id", $posto_id)->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
-
-        // $candidatos = Candidato::where([["posto_vacinacao_id", $posto_id],["aprovacao", "!=", Candidato::APROVACAO_ENUM[2]]])->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->get();
+        // // $candidatos = Candidato::where([["posto_vacinacao_id", $posto_id],["aprovacao", "!=", Candidato::APROVACAO_ENUM[2]]])->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->get();
 
 
-        $horarios_disponiveis = array_diff($todos_os_horarios, $candidatos->pluck('chegada')->toArray());
+        // $horarios_disponiveis = array_diff($todos_os_horarios, $candidatos->pluck('chegada')->toArray());
 
-        $horarios_agrupados_por_dia = [];
-
+        // $horarios_agrupados_por_dia = [];
+        // return $horarios_disponiveis;
         // Agrupa os horarios disponiveis por dia pra mostrar melhor no html
-        foreach($horarios_disponiveis as $h) {
-            $inicio_do_dia = $h->copy()->startOfDay()->format("d/m/Y");
-            if(!isset($horarios_agrupados_por_dia[$inicio_do_dia])) {
-                $horarios_agrupados_por_dia[$inicio_do_dia] = [];
-            }
-            array_push($horarios_agrupados_por_dia[$inicio_do_dia], $h);
+        // foreach($horarios_disponiveis as $h) {
+        //     $inicio_do_dia = $h->copy()->startOfDay()->format("d/m/Y");
+        //     if(!isset($horarios_agrupados_por_dia[$inicio_do_dia])) {
+        //         $horarios_agrupados_por_dia[$inicio_do_dia] = [];
+        //         $dia = $posto->dias()->createMany([['dia' =>date_format($h->copy()->startOfDay(),"d-m-Y") ]]);
+        //     }
+        //     $dia->first()->horarios()->createMany([['horario' =>$h]]);
+        //     array_push($horarios_agrupados_por_dia[$inicio_do_dia], $h);
+        // }
+        // return $posto->dias;
+        // foreach($posto->dias as $dia) {
+        //     $inicio_do_dia = $dia->dia->copy()->startOfDay()->format("d/m/Y");
+        //     return $inicio_do_dia;
+        //     if(!isset($horarios_agrupados_por_dia[$inicio_do_dia])) {
+        //         $horarios_agrupados_por_dia[$inicio_do_dia] = [];
+        //         // $dia = $posto->dias()->createMany([['dia' =>date_format($dia->dia->copy()->startOfDay(),"d-m-Y") ]]);
+        //     }
+        //     // $dia->first()->horarios()->createMany([['horario' =>$dia->dia->horarios]]);
+        //     array_push($horarios_agrupados_por_dia[$inicio_do_dia], $dia->dia->horarios);
+        // }
+        $postoDias = $posto->dias;
+        $horarios_agrupados_por_dia = [];
+        foreach ($postoDias as $key => $value) {
+            $key = date_format($value->dia, "d/m/Y");
+            $horarios_agrupados_por_dia[$key] = $value->horarios->pluck('horario');
         }
+
 
         // return $horarios_agrupados_por_dia;
         return view('seletor_horario_form', ["horarios_por_dia" => $horarios_agrupados_por_dia]);
@@ -558,6 +588,95 @@ class PostoVacinacaoController extends Controller
         }
 
         return [];
+    }
+
+    public function geradorHorarios()
+    {
+        set_time_limit(360);
+        $postos = PostoVacinacao::all();
+        foreach ($postos as $key => $posto) {
+                  // Cria uma lista de possiveis horarios do proximo dia quando o posto abre
+            // até a proxima semana, removendo os final de semanas
+
+            $todos_os_horarios_por_dia = [];
+            $todos_os_horarios = [];
+
+            $contador = $posto->dias()->whereDate('dia', '>=', now())->count();
+            $contador >= 3 ? 0 : 3 ;
+
+            // Pega os proximos 3 disponiveis dias
+            for($i = 0; $i < 7; $i++) {
+                $dia = Carbon::tomorrow()->addDay($i);
+
+                // Não adiciona os dias caso não funcione nesses dias
+                if(!($posto->funciona_domingo) && $dia->isSunday()) {continue;}
+                if(!($posto->funciona_segunda) && $dia->isMonday()) {continue;}
+                if(!($posto->funciona_terca) && $dia->isTuesday()) {continue;}
+                if(!($posto->funciona_quarta) && $dia->isWednesday()) {continue;}
+                if(!($posto->funciona_quinta) && $dia->isThursday()) {continue;}
+                if(!($posto->funciona_sexta) && $dia->isFriday()) {continue;}
+                if(!($posto->funciona_sabado) && $dia->isSaturday()) {continue;}
+
+                if($posto->inicio_atendimento_manha && $posto->intervalo_atendimento_manha && $posto->fim_atendimento_manha) {
+                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_manha);
+                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_manha);
+                    $periodos_da_manha = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_manha . " minutes", $fim_do_dia);
+                    array_push($todos_os_horarios_por_dia, $periodos_da_manha);
+                }
+
+                if($posto->inicio_atendimento_tarde && $posto->intervalo_atendimento_tarde && $posto->fim_atendimento_tarde) {
+                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_tarde);
+                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_tarde);
+                    $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_tarde . " minutes", $fim_do_dia);
+                    array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
+                }
+
+                if($posto->inicio_atendimento_noite && $posto->intervalo_atendimento_noite && $posto->fim_atendimento_noite) {
+                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_noite);
+                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_noite);
+                    $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_noite . " minutes", $fim_do_dia);
+                    array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
+                }
+
+                $contador++;
+                if($contador == 3){
+                    break;
+                }
+            }
+
+            // Os periodos são salvos como horarios[dia][janela]
+            // Esse loop planificado o array pra horarios[janela]
+            foreach($todos_os_horarios_por_dia as $dia) {
+                foreach($dia as $janela) {
+                    array_push($todos_os_horarios, $janela);
+                }
+            }
+
+            // Pega os candidatos do posto selecionado cuja data de vacinação é de amanhã pra frente, os que já passaram não importam
+            $candidatos = Candidato::where("posto_vacinacao_id", $posto->id)->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
+
+
+
+            $horarios_disponiveis = array_diff($todos_os_horarios, $candidatos->pluck('chegada')->toArray());
+
+            $horarios_agrupados_por_dia = [];
+
+            // Agrupa os horarios disponiveis por dia pra mostrar melhor no html
+
+            foreach($horarios_disponiveis as $h) {
+                $inicio_do_dia = $h->copy()->startOfDay()->format("d/m/Y");
+                if(!isset($horarios_agrupados_por_dia[$inicio_do_dia])) {
+                    // $horarios_agrupados_por_dia[$inicio_do_dia] = [];
+                    $dia = $posto->dias()->createMany([['dia' =>date_format($h->copy()->startOfDay(),"d-m-Y") ]]);
+                }
+                $dia->first()->horarios()->createMany([['horario' =>$h]]);
+                // array_push($horarios_agrupados_por_dia[$inicio_do_dia], $h);
+            }
+
+            // return $horarios_agrupados_por_dia;
+        }
+        return true;
+
     }
 }
 

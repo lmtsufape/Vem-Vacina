@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\PostoVacinacao;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -28,8 +29,10 @@ class GerarHorarios implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(PostoVacinacao $posto)
     {
-        \Log::info("handle");
+        \Log::info("Gerar horarios");
+        $posto->geradorHorarios();
+
     }
 }
