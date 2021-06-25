@@ -59,7 +59,7 @@
                                                 $lote_pivot = $lotes_pivot->where('lote_id', $lote->id)->where('posto_vacinacao_id', $posto->id)->first();
                                                 /* dd($lote_pivot); */
                                                 if($lote_pivot){
-                                                    $qtdCandidato = $candidatos->where('posto_vacinacao_id', $posto->id)->where('lote_id', $lote_pivot->id)->count();
+                                                    $qtdCandidato = $posto->candidatos->where('lote_id', $lote_pivot->id)->count();
                                                 }
                                             @endphp
                                             @if ($lote_pivot != null)
