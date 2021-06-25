@@ -62,9 +62,9 @@ class FilaDistribuir extends Component
             }
         }
 
-        if($posto->lotes->first()->dose_unica == false){
-            $soma = intval($soma/2) + 1;
-        }
+        // if($posto->lotes->first()->dose_unica == false){
+        //     $soma = intval($soma/2) + 1;
+        // }
         return $soma;
     }
 
