@@ -220,7 +220,9 @@ class FilaDistribuir extends Component
                 $lote = Lote::find($chave_estrangeiro_lote);
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
                 $candidato->update();
+                $candidatoSegundaDose = null;
                 if (!$lote->dose_unica) {
+                    \Log::info("candidato segundo");
                     $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
                     if($datetime_chegada_segunda_dose->format('l') == "Sunday"){
                         $datetime_chegada_segunda_dose->add(new DateInterval('P1D'));
@@ -239,11 +241,11 @@ class FilaDistribuir extends Component
                     Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
                 }
 
-
+                unset($dia[$key2]);
                 return true;
 
             }
-
+            unset($horarios_agrupados_por_dia[$key1]);
         }
 
         return false;
