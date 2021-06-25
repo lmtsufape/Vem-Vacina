@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
-use App\Models\PostoVacinacao;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use App\Http\Controllers\PostoVacinacaoController;
 
 class GerarHorarios implements ShouldQueue
 {
@@ -29,7 +29,7 @@ class GerarHorarios implements ShouldQueue
      *
      * @return void
      */
-    public function handle(PostoVacinacao $posto)
+    public function handle(PostoVacinacaoController $posto)
     {
         \Log::info("Gerar horarios");
         $posto->geradorHorarios();

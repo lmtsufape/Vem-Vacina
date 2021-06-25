@@ -18,7 +18,7 @@ class CreateHorariosTable extends Migration
             $table->dateTime('horario');
 
             $table->unsignedBigInteger('dia_id')->nullable(true);
-            $table->foreign('dia_id')->references('id')->on('dias');
+            $table->foreign('dia_id')->references('id')->on('dias')->onUpdate('cascade')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use Throwable;
 use DateInterval;
 use Carbon\Carbon;
@@ -18,10 +19,10 @@ use Illuminate\Support\Facades\DB;
 use App\Notifications\CandidatoFila;
 use Illuminate\Support\Facades\Gate;
 use App\Notifications\CandidatoAprovado;
-use App\Notifications\CandidatoReprovado;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Response;
+use App\Notifications\CandidatoReprovado;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
 
 class CandidatoController extends Controller
 {
@@ -153,13 +154,7 @@ class CandidatoController extends Controller
     public function solicitar() {
 
         // TODO: pegar só os postos com vacinas disponiveis
-        $seconds = now()->addMinutes(1);
-        // $postos_com_vacina  = Cache::remember('postos_com_vacina', $seconds, function () {
-        //                             return PostoVacinacao::where('padrao_no_formulario', true)->get();
-        //                     });
-        // $etapasAtuais   = Cache::remember('etapasAtuais', $seconds, function () {
-        //                             return Etapa::where('atual', true)->orderBy('texto')->get();
-        //                     });
+
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
         $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
         $config = Configuracao::first();
@@ -297,12 +292,6 @@ class CandidatoController extends Controller
                 ])->withInput();
             }
 
-            // if(Candidato::where('cpf',$request->cpf )->contains()) {
-            //     return redirect()->back()->withErrors([
-            //         "cpf" => "Número de CPF inválido"
-            //     ])->withInput();
-            // }
-
             if (!$this->validar_telefone($request->telefone)) {
                 return redirect()->back()->withErrors([
                     "telefone" => "Número de telefone inválido"
@@ -424,8 +413,12 @@ class CandidatoController extends Controller
             $candidato->lote_id                 = $id_lote;
             $candidato->posto_vacinacao_id      = $id_posto;
 
-            // $candidato->paciente_acamado = isset($dados["paciente_acamado"]);
-            // $candidato->paciente_dificuldade_locomocao = isset($dados["paciente_dificuldade_locomocao"]);
+            $posto = PostoVacinacao::find($id_posto);
+
+            $posto->dias->where('dia', $datetime_chegada->copy()->startOfDay())->first()->horarios->where('horario', $datetime_chegada)->first()->delete();
+            $posto->refresh();
+            // dd($posto->dias->where('dia', $datetime_chegada->copy()->startOfDay())->first()->horarios->where('horario', $datetime_chegada)->first());
+
 
             $candidato->save();
             $candidatoSegundaDose = null;
