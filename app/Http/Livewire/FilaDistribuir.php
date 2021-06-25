@@ -241,11 +241,11 @@ class FilaDistribuir extends Component
                     Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
                 }
 
-                unset($dia[$key2]);
+                // unset($dia[$key2]);
                 return true;
 
             }
-            unset($horarios_agrupados_por_dia[$key1]);
+
         }
 
         return false;
