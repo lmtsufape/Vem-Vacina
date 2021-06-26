@@ -95,7 +95,11 @@
                                 @endcomponent
                                 {{-- @livewire('editar-candidato', ['candidato' => $candidato]) --}}
                                 <br>
-
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    <a target="_blank" href="https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp?CPF={{$candidato->cpf}}&NASCIMENTO={{$candidato->data_de_nascimento_dmY()}}">Validar data de nascimento e CPF</a>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <h4>Agendado para</h4>
                                 </div>
@@ -128,17 +132,7 @@
                                     </div>
 
                                 </div>
-                                <br>
-                                @can('reagendar')
-                                <div class="row " id="agendado_para_{{$candidato->id}}" style="display: block;">
-                                        <div class="col-md-6">
-                                        </div>
 
-                                        <div class="col-md-6">
-                                            <button id="btn_edit_{{$candidato->id}}" type="button" class="btn btn-primary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, true)">Reagendar</button>
-                                        </div>
-                                    </div>
-                                @endcan
                                 <br>
                                 <div class="row">
                                     <h4>Informações do público</h4>
@@ -275,6 +269,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br>
+                                @can('reagendar')
+                                <div class="row " id="agendado_para_{{$candidato->id}}" style="display: block;">
+                                        <div class="col-md-6">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <button id="btn_edit_{{$candidato->id}}" type="button" class="btn btn-primary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, true)">Reagendar</button>
+                                        </div>
+                                    </div>
+                                @endcan
                                 <br>
 
 
