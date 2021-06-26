@@ -240,12 +240,12 @@ class FilaDistribuir extends Component
                 if($candidato->email != null || $candidato->email != ""  || $candidato->email != " "){
                     Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
                 }
-
-                unset($dia[$key2]);
+                // \Log::info("message");
+                // unset($dia[$key2]);
+                unset($horarios_agrupados_por_dia[$key1][$key2]);
                 return true;
 
             }
-            // unset($horarios_agrupados_por_dia[$key1]);
         }
 
         return false;
