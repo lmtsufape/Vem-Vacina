@@ -75,6 +75,12 @@
                                 {{ __('Criar usuário') }}
                             </x-dropdown-link>
                         @endcan
+                        @can('posicao-fila')
+                            <x-dropdown-link :href="route('admin.posicao.fila')">
+                                {{ __('Posição fila') }}
+                            </x-dropdown-link>
+                        @endcan
+
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 

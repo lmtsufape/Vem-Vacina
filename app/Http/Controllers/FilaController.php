@@ -59,9 +59,15 @@ class FilaController extends Controller
 
         if ($request->outro) {
             $agendamentos = $query->get();
-        } else {
+        } elseif($request->posicao_check) {
+
+            $agendamentos = $query->oldest()->paginate(100)->withQueryString();
+        }else{
             $agendamentos = $query->paginate(100)->withQueryString();
+
         }
+
+
 
         if ($request->outro) {
             $agendamentosComOutrasInfo = collect();
@@ -378,6 +384,7 @@ class FilaController extends Controller
         Gate::authorize('ver-fila');
         return view('fila.fila_distribuir');
     }
+
 
     public function show($id)
     {

@@ -1,424 +1,48 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="row">
-            <div class="col-md-8">
+        <div class="container">
+            <div class="row">
+              <div class="col-auto mr-auto">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Lista de Espera') }}
-
                 </h2>
-
-            </div>
-            @can('distribuir-fila')
-                <div class="col-md-4" id="Distribuir" class="col-md-4" style="text-align: right;">
+              </div>
+              <div class="col-auto">
+                @can('distribuir-fila')
                     <a  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" href="{{route('fila.painel',)}}">
                         Distribuir agendamentos
                     </a>
-                </div>
-            @endcan
+                @endcan
+              </div>
 
+            </div>
         </div>
+
     </x-slot>
+
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="container">
-                <form method="GET" action="{{route('fila.index')}}">
-                    <div class="row">
-                        <div class="col-sm-10">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <input type="checkbox" name="nome_check" id="nome_check_input" onclick="mostrarFiltro(this, 'nome_check')" @if($request->nome_check != null && $request->nome_check) checked @endif>
-                                    <label>Por nome</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="checkbox" name="cpf_check" id="cpf_check_input" onclick="mostrarFiltro(this, 'cpf_check')" @if($request->cpf_check != null && $request->cpf_check) checked @endif>
-                                    <label>Por CPF</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="checkbox" name="campo_check" id="campo_check_input" @if($request->campo_check != null && $request->campo_check) checked @endif onclick="mostrarFiltro(this, 'campo_check')">
-                                    <label>Campo</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="checkbox" name="ordem_check" id="ordem_check_input" @if($request->ordem_check != null && $request->ordem_check) checked @endif onclick="mostrarFiltro(this, 'ordem_check')">
-                                    <label>Ordem</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="checkbox" name="publico_check" id="publico_check_input" @if($request->publico_check != null && $request->publico_check) checked @endif onclick="mostrarFiltro(this, 'publico_check')">
-                                    <label>Público</label>
-                                </div>
-                                <div class="col-md-3">
-                                    <input type="checkbox" name="duplicado" id="duplicado" @if($request->duplicado != null && $request->duplicado) checked @endif>
-                                    <label>Duplicados</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div id="nome_check" class="col-md-3" style="@if($request->nome_check != null && $request->nome_check) display: block; @else display: none; @endif">
-                                    <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite o nome" @if($request->nome != null) value="{{$request->nome}}" @endif>
-                                </div>
-                                <div id="cpf_check" class="col-md-3" style="@if($request->cpf_check != null && $request->cpf_check) display: block; @else display: none; @endif">
-                                    <input type="text" class="form-control cpf" name="cpf" id="cpf" placeholder="Digite o CPF"  @if($request->cpf != null) value="{{$request->cpf}}" @endif>
-                                </div>
-                                <div id="data_check" class="col-md-3" style="@if($request->data_check != null && $request->data_check) display: block; @else display: none; @endif">
-                                    <input type="date" class="form-control" name="data" id="data" @if($request->data != null) value="{{$request->data}}" @endif>
-                                </div>
-                                <div id="dose_check" class="col-md-3" style="@if($request->dose_check != null && $request->dose_check) display: block; @else display: none; @endif">
-                                    <select id="dose" name="dose" class="form-control">
-                                        <option value="">-- Dose --</option>
-                                        <option @if($request->dose == $doses[0]) selected @endif value="{{$doses[0]}}">1ª dose</option>
-                                        <option @if($request->data == $doses[1]) selected @endif value="{{$doses[1]}}">2ª dose</option>
-                                    </select>
-                                </div>
-                                <div id="campo_check" class="col-md-3" @if($request->campo_check != null && $request->campo_check) style="display: block;" @else style="display: none;" @endif>
-                                    <select id="campo" name="campo" class="form-control">
-                                        <option value="">-- campo --</option>
-                                        <option @if($request->campo == "cpf") selected @endif value="cpf">cpf</option>
-                                        <option @if($request->campo == "nome_completo") selected @endif value="nome_completo">nome</option>
-                                        <option @if($request->campo == "chegada") selected @endif value="chegada">dia</option>
-                                    </select>
-                                </div>
-                                <div id="ordem_check" class="col-md-3" @if($request->ordem_check != null && $request->ordem_check) style="display: block;" @else style="display:none;" @endif>
-                                    <select id="ordem" name="ordem" class="form-control">
-                                        <option value="">-- ordem --</option>
-                                        <option @if($request->ordem == "asc") selected @endif value="asc">Crescente</option>
-                                        <option @if($request->ordem == "desc") selected @endif value="desc">Descrescente</option>
-                                    </select>
-                                </div>
-                                <div id="ponto_check" class="col-md-3" @if($request->ponto_check != null && $request->ponto_check) style="display: block;" @else style="display:none;" @endif>
-                                    <select id="ponto" name="ponto" class="form-control">
-                                        <option value="">-- ponto --</option>
-                                        @foreach ($postos as $posto)
-                                            <option @if($request->ponto == $posto->id) selected @endif value="{{ $posto->id }}">{{ $posto->nome }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div id="publico_check" class="col-md-3" @if($request->publico_check != null && $request->publico_check) style="display: block;" @else style="display:none;" @endif>
-                                    <select id="publico" name="publico" class="form-control">
-                                        <option value="">-- Público --</option>
-                                        @foreach ($publicos as $publico)
-                                            <option @if($request->publico == $publico->id) selected @endif value="{{ $publico->id }}">{{ $publico->texto_home }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="row">
-                                <div class="col-md-12" style="margin-bottom: 5px;">
-                                    <button type="submit" class="btn btn-primary" style="width: 100%;">Filtrar</button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <a href="{{route('fila.index')}}"><button type="button" class="btn btn-secondary" style="width: 100%;">Limpar filtros</button></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+
+                @include('subviews.filtros', ['rota' => "fila.index"])
+
                 <div class="row">
                     @if(session('mensagem'))
                     <div class="col-md-12">
-                        <div class="alert alert-{{session('class')}}" role="alert">
+                        <div class="alert alert-success" role="alert">
                             <p>{{session('mensagem')}}</p>
                         </div>
                     </div>
                     @endif
                 </div>
-                <div class="row">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">CPF</th>
-                                <th scope="col">Idade</th>
-                                <th scope="col">Público</th>
-                                <th scope="col">Ver</th>
-                                <th scope="col">Resultado</th>
-                                @can('whatsapp-candidato')
-                                    <th scope="col" >Link</th>
-                                @endcan
-                            </tr>
-                        </thead>
-                        <tbody id="agendamentos">
-                            @foreach ($candidatos as $i => $candidato)
-                            <tr>
-                                <td>{{ $candidato->id }}</td>
-                                <td>
-                                    <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="max-width: 150px;">
-                                        {{$candidato->nome_completo}}
-                                      </span>
-                                </td>
-                                <td>{{$candidato->cpf}}</td>
-                                <td>{{$candidato->idade}}</td>
-                                <td>{{$candidato->etapa->texto_home}}</td>
-                                {{-- <td>{{date('d/m/Y',strtotime($candidato->chegada))}}</td>
-                                <td>{{date('H:i',strtotime($candidato->chegada))}} - {{date('H:i',strtotime($candidato->saida))}}</td> --}}
-                                <td data-toggle="modal" data-target="#visualizar_candidato_{{$candidato->id}}">
-                                    <a href="#"><img src="{{asset('img/icons/eye-regular.svg')}}" alt="Visualizar" width="25px;"></a>
-                                </td>
-                                <td>
-                                    @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3])
-                                        Vacinado
-                                    @else
-                                        @can('confirmar-vaga-candidato')
-                                        <form method="POST" action="{{route('update.agendamento', ['id' => $candidato->id])}}">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-md-12 px-0">
-                                                    <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
-                                                        <option value="" selected disabled>selecione</option>
-                                                        <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
-                                                        <option value="Ausente" >Ausente</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        @endcan
-                                    @endif
-                                </td>
 
-
-                                <td>
-                                    @can('whatsapp-candidato')
-                                        @if ($candidato->aprovacao != null && $candidato->aprovacao != $candidato_enum[3])
-                                            <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
-                                        @else
-                                            <a class="text-center"  target="_blank"><i class="fab fa-whatsapp"></i></a>
-                                        @endif
-                                    @endcan
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $candidatos->links() }}
-                </div>
+                @include('subviews.list_agendamentos')
 
             </div>
         </div>
     </div>
-    @foreach ($candidatos as $i => $candidato)
-        <!-- Modal -->
-        <div class="modal fade" id="visualizar_candidato_{{$candidato->id}}" tabindex="-1" aria-labelledby="visualizar_candidato_{{$candidato->id}}_label" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="visualizar_candidato_{{$candidato->id}}_label">Visualizar {{$candidato->nome_completo}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="container">
-                    <div class="modal-body">
-                        <div class="row">
-                            <h4>Informações do público</h4>
-                        </div>
-                        <div class="row">
-                            @if ($candidato->etapa->tipo == $tipos[0] || $candidato->etapa->tipo == $tipos[1] )
-                                <div class="col-md-12">
-                                    <label for="">Público</label>
-                                    <input type="text" class="form-control" value="{{$candidato->etapa->texto}}" disabled>
-                                </div>
-                            @elseif($candidato->etapa->tipo == $tipos[2])
-                                <div class="col-md-6">
-                                    <label for="">Público</label>
-                                    <input type="text" class="form-control" value="{{$candidato->etapa->texto}}" disabled>
-                                </div>
-                                {{-- @if($candidato->id > 10)
-                                {{dd(App\Models\OpcoesEtapa::find((integer)$candidato->etapa_resultado))}}
-                                @endif --}}
-                                @if(App\Models\OpcoesEtapa::find($candidato->etapa_resultado) != null)
-                                    <div class="col-md-6">
-                                        <label for="">Opção selecionada</label>
-                                        <input type="text" class="form-control" value="{{App\Models\OpcoesEtapa::find($candidato->etapa_resultado)->opcao}}" disabled>
-                                    </div>
-                                @endif
-                            @endif
-                        </div>
-                        <br>
 
-                        <br>
-                        <div class="row">
-                            <h4>Informações pessoais</h4>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="nome_{{$candidato->id}}">Nome completo</label>
-                                <input id="nome_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->nome_completo}}">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="data_nacimento_{{$candidato->id}}">Data de nascimento</label>
-                                <input id="data_nacimento_{{$candidato->id}}" type="date" class="form-control" disabled value="{{$candidato->data_de_nascimento}}">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="cpf_{{$candidato->id}}">CPF</label>
-                                <input id="cpf_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->cpf}}">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                            <a target="_blank" href="https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp?CPF={{$candidato->cpf}}&NASCIMENTO={{$candidato->data_de_nascimento_dmY()}}">Validar data de nascimento e CPF</a>
-                            </div>
-                        </div>
-                        <br>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="n_cartao_sus_{{$candidato->id}}">Número do cartão do SUS</label>
-                                <input id="n_cartao_sus_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->numero_cartao_sus}}">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="sexo_{{$candidato->id}}">Sexo</label>
-                                <input id="sexo_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->sexo}}">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="nome_mae_{{$candidato->id}}">Nome completo da mãe</label>
-                                <input id="nome_mae_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->nome_da_mae}}">
-                            </div>
-                        </div>
-                        <br>
-                        @if ($candidato->outrasInfo != null && count($candidato->outrasInfo) > 0)
-                            <div class="row">
-                                <h4>Outras informações</h4>
-                            </div>
-                            <div class="row">
-                                @foreach ($candidato->etapa->outrasInfo as $outraInfo)
-                                    <div class="col-md-6">
-                                        <input id="outra_{{$outraInfo->id}}" type="checkbox" disabled @if($candidato->outrasInfo->contains('id', $outraInfo->id)) checked @endif>
-                                        <label for="outra_{{$outraInfo->id}}">{{$outraInfo->campo}}</label>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-                        <br>
-                        <div class="row">
-                            <h4>Contato</h4>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="telefone_{{$candidato->id}}">Telefone</label>
-                                <input id="telefone_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->telefone}}">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="whatsapp_{{$candidato->id}}">Whatsapp</label>
-                                <input id="whatsapp_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->whatsapp}}">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="email_{{$candidato->id}}">E-mail</label>
-                                <input id="email_{{$candidato->id}}" type="email" class="form-control" disabled value="{{$candidato->email}}">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <h4>Endereço</h4>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="cep_{{$candidato->id}}">CEP</label>
-                                <input id="cep_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->cep}}">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="cidade_{{$candidato->id}}">Cidade</label>
-                                <input id="cidade_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->cidade}}">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="bairro_{{$candidato->id}}">Bairro</label>
-                                <input id="bairro_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->bairro}}">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="logradouro_{{$candidato->id}}">Rua</label>
-                                <input id="logradouro_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->logradouro}}">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="numero_residencia_{{$candidato->id}}">Número da residência</label>
-                                <input id="numero_residencia_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->numero_residencia}}">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="complemento_{{$candidato->id}}">Complemento</label>
-                                <textarea id="complemento_{{$candidato->id}}" type="text" class="form-control" disabled rows="3">{{$candidato->numero_residencia}}</textarea>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <h4>Agendado para</h4>
-                        </div>
-                        <div id="agendado_para_{{$candidato->id}}" style="display: block;">
-                            <div class="row">
-
-                                <div class="col-md-6">
-                                    <label for="dose_{{$candidato->id}}">Dose</label>
-                                    <input id="dose_{{$candidato->id}}" type="text" class="form-control" disabled value="{{$candidato->dose}}">
-                                </div>
-                            </div>
-
-
-                            <br>
-                            {{-- <div class="row">
-                                <div class="col-md-6">
-                                </div>
-                                <div class="col-md-6">
-                                    <button id="btn_edit_{{$candidato->id}}" type="button" class="btn btn-primary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, true)">Reagendar</button>
-                                </div>
-                            </div> --}}
-                        </div>
-
-                        <div id="editar_agendado_para_{{$candidato->id}}" style="display: none;">
-                            <form id="form_editar_agendado_para_{{$candidato->id}}" action="{{route('agendamento.posto.update', ['id' => $candidato->id])}}" method="POST">
-                                @csrf
-                                <input type="hidden" name="edit_agendamento_id" value="{{$candidato->id}}">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="posto_vacinacao" class="style_titulo_input">PONTO DE VACINAÇÃO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
-                                        <select id="posto_vacinacao" class="form-control style_input @error('posto_vacinacao_'.$candidato->id) is-invalid @enderror" name="posto_vacinacao_{{$candidato->id}}" required onchange="selecionar_posto(this, {{$candidato->id}})">
-                                            <option selected disabled>-- Selecione o ponto --</option>
-                                            @foreach($postos as $posto)
-                                                <option value="{{$posto->id}}">{{$posto->nome}}</option>
-                                            @endforeach
-                                        </select>
-
-                                        @error('posto_vacinacao_'.$candidato->id)
-                                        <div id="validationServer05Feedback" class="invalid-feedback">
-                                            <strong>{{$message}}</strong>
-                                        </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group col-md-6" id="seletor_data_{{$candidato->id}}"></div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-12" id="seletor_horario_{{$candidato->id}}"></div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <button type="button" class="btn btn-secondary" style="width: 100%;" onclick="reagendar({{$candidato->id}}, false)">Cancelar</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="submit" class="btn btn-success" style="width: 100%;" form="form_editar_agendado_para_{{$candidato->id}}">Salvar</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-        </div>
-    <!-- Fim modal visualizar agendamento -->
-
-    @endforeach
 </x-app-layout>
 @if(old('edit_agendamento_id') != null)
     <script>
