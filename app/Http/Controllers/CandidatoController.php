@@ -77,6 +77,8 @@ class CandidatoController extends Controller
             $query->where('cpf', Candidato::APROVACAO_ENUM[0]);
         }
 
+
+
         if ($request->publico_check) {
             if ($request->publico != null) {
                 $query->where('etapa_id', $request->publico);
@@ -101,10 +103,11 @@ class CandidatoController extends Controller
             $query->orderBy($request->campo);
         }
 
+
         if ($request->outro) {
             $agendamentos = $query->get();
         } else {
-            $agendamentos = $query->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate($request->qtd)->withQueryString();
+            $agendamentos = $query->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->simplePaginate($request->qtd)->withQueryString();
         }
 
         if ($request->outro) {

@@ -184,7 +184,6 @@ class AuthServiceProvider extends ServiceProvider
                $user->tipo == User::TIPO_ENUM['admin']||
                $user->tipo == User::TIPO_ENUM['enfermeira'];
         });
-        //fila
         //import
         Gate::define('ver-import', function (User $user) {
             return $user->tipo == User::TIPO_ENUM['secretaria'] ||
@@ -214,6 +213,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('criar-fila', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('posicao-fila', function (User $user) {
             return $user->tipo == User::TIPO_ENUM['gerente'] ||
                $user->tipo == User::TIPO_ENUM['admin'];
         });
