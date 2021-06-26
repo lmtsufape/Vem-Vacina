@@ -108,7 +108,7 @@ class FilaDistribuir extends Component
                         continue;
                     }
             }
-
+            \Log::info("acabou");
             if ($aprovado) {
                 session()->flash('message', 'Distribuição concluída com sucesso.');
                 return;
