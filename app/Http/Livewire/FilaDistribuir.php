@@ -245,7 +245,7 @@ class FilaDistribuir extends Component
                 return true;
 
             }
-            unset($horarios_agrupados_por_dia[$key1]);
+            // unset($horarios_agrupados_por_dia[$key1]);
         }
 
         return false;
