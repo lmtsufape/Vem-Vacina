@@ -68,34 +68,41 @@
                 <div class="row justify-content-center">
                     <div class="col-md-auto">
                         <h3>
-                            <div class="row justify-content-center ">
-                                    <div class="col-auto align-self-center">Total:</div>
-                            </div>
-                            <div class="row justify-content-center ">
-                                <div class="col-auto align-self-center">{{ $total }}</div>
-                            </div>
-                            <br>
-                            <div class="row justify-content-center ">
-                                <div class="col-auto align-self-center">Posição: </div>
+                            @if ($candidato)
+                                <div class="row justify-content-center ">
+                                        <div class="col-auto align-self-center">Total:</div>
+                                </div>
+                                <div class="row justify-content-center ">
+                                    <div class="col-auto align-self-center">{{ $total }}</div>
+                                </div>
+                                <br>
+                                <div class="row justify-content-center ">
+                                    <div class="col-auto align-self-center">Posição: </div>
 
-                            </div>
-                            <div class="row justify-content-center ">
-                                <div class="col-auto align-self-center">{{ $posicao }}</div>
-                            </div>
-                            <br>
-                            <div class="row justify-content-center ">
-                                <div class="col-auto align-self-center">Nome/CPF:</div>
-                            </div>
-                            <div class="row justify-content-center ">
-                                <div class="col-auto align-self-center">
-                                    {{ $candidato ? $candidato->nome_completo : "Não encontrado" }}
                                 </div>
-                            </div>
-                            <div class="row justify-content-center ">
-                                <div class="col-auto align-self-center">
-                                    {{ $candidato ? $candidato->cpf : "" }}
+                                <div class="row justify-content-center ">
+                                    <div class="col-auto align-self-center">{{ $posicao ."º" }}</div>
                                 </div>
-                            </div>
+                                <br>
+                                <div class="row justify-content-center ">
+                                    <div class="col-auto align-self-center">Nome/CPF:</div>
+                                </div>
+                                <div class="row justify-content-center ">
+                                    <div class="col-auto align-self-center">
+                                        {{ $candidato ? $candidato->nome_completo : "Não encontrado" }}
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center ">
+                                    <div class="col-auto align-self-center">
+                                        {{ $candidato ? $candidato->cpf : "" }}
+                                    </div>
+                                </div>
+                            @else
+                                <div class="row justify-content-center ">
+                                    <div class="col-auto align-self-center">Não encontrado</div>
+                                </div>
+                            @endif
+
                         </h3>
 
                     </div>
