@@ -108,7 +108,7 @@ class FilaDistribuir extends Component
                         continue;
                     }
             }
-
+            \Log::info("acabou");
             if ($aprovado) {
                 session()->flash('message', 'Distribuição concluída com sucesso.');
                 return;
@@ -240,12 +240,12 @@ class FilaDistribuir extends Component
                 if($candidato->email != null || $candidato->email != ""  || $candidato->email != " "){
                     Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
                 }
-
-                unset($dia[$key2]);
+                // \Log::info("message");
+                // unset($dia[$key2]);
+                unset($horarios_agrupados_por_dia[$key1][$key2]);
                 return true;
 
             }
-
         }
 
         return false;
