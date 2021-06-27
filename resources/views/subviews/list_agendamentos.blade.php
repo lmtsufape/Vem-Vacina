@@ -42,7 +42,7 @@
                         <div class="col-sm ">
                             <div>
                                 @can('confirmar-vaga-candidato')
-                                    @if($candidato->lote_id)
+
                                         @if ($candidato->aprovacao != null && $candidato->aprovacao == $candidato_enum[3] )
                                           <div class="row  align-items-end">
                                               <div class="col-md-12 mt-2 text-center">
@@ -55,14 +55,16 @@
                                                 @csrf
                                                 <select onchange="this.form.submit()" id="confirmacao_{{$candidato->id}}" class="form-control" name="confirmacao" required>
                                                     <option value="" selected disabled>selecione</option>
-                                                    <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
+                                                    @if($candidato->lote_id)
+                                                        <option value="{{$candidato_enum[1]}}" @if($candidato->aprovacao == $candidato_enum[1]) selected @endif>Confirmar</option>
+                                                    @endif
                                                     <option value="{{$candidato_enum[2]}}" @if($candidato->aprovacao == $candidato_enum[2]) selected @endif>Reprovado</option>
                                                     <option value="Ausente" >Ausente</option>
                                                     {{-- <option value="restaurar" >Restaurar</option> --}}
                                                 </select>
                                             </form>
                                         @endif
-                                    @endif
+
                                 @endcan
                             </div>
                         </div>
