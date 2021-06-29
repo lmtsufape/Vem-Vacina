@@ -32,10 +32,12 @@ class FilaDistribuir extends Component
     protected $rules = [
         'etapa_id' => 'required',
         'ponto_id' => 'required',
+        'qtdFila' => 'required',
     ];
     protected $messages = [
         'etapa_id.required' => 'Selecione um público.',
         'ponto_id.required' => 'Selecione um ponto.',
+        'qtdFila.required' => 'Coloque uma quantidade.',
     ];
 
 
@@ -78,8 +80,10 @@ class FilaDistribuir extends Component
         $posto = PostoVacinacao::find($this->ponto_id);
 
         $qtdVacinaPorPonto = $this->quantidadeVacinaPorPonto($posto);
-
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($qtdVacinaPorPonto)->get();
+        if ($this->qtdFila == null) {
+            $this->qtdFila = $qtdVacinaPorPonto;
+        }
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($this->qtdFila)->get();
 
         $horarios_agrupados_por_dia = $this->diasPorPosto($posto);
         if (!$horarios_agrupados_por_dia || !count($horarios_agrupados_por_dia) ) {
@@ -101,7 +105,7 @@ class FilaDistribuir extends Component
                         continue;
                     }else{
                         $contadorParada++;
-                        if($contadorParada > 180){
+                        if($contadorParada > 80){
                             session()->flash('message', 'Distribuição concluída com sucesso, as vacinas ou os horários acabaram.');
                             return;
                         }

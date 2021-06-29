@@ -1,5 +1,5 @@
 <div class="py-12">
-    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="container">
 
             {{-- <livewire:contador/> --}}
@@ -40,6 +40,16 @@
                             @endforeach
                         </select>
                         @error('etapa_id')<div class="alert alert-danger">{{ $message }}</div> @enderror
+                    </div>
+
+
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="qtdFila">Quantidade de pessoas da fila para aprovar:</label><br>
+                        <input wire:model="qtdFila" type="number">
+                        @error('qtdFila')<div class="alert alert-danger">{{ $message }}</div> @enderror
                     </div>
                 </div>
                 <br>
