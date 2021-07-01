@@ -107,7 +107,7 @@ class CandidatoController extends Controller
         if ($request->outro) {
             $agendamentos = $query->get();
         } else {
-            $agendamentos = $query->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->simplePaginate($request->qtd)->withQueryString();
+            $agendamentos = $query->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate($request->qtd)->withQueryString();
         }
 
         if ($request->outro) {
