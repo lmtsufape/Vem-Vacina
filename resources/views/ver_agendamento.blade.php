@@ -8,6 +8,7 @@
         </div>
 
         <div class="container" style="margin-bottom: 1rem;;">
+            @dd($agendamentos);
             @foreach($agendamentos as $agendamento)
             <div class="row justify-content-center  style_card_apresentacao">
                 @if($agendamento)

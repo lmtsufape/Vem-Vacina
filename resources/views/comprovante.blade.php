@@ -60,9 +60,15 @@
                                     </div>
                                 </div> --}}
                                 @if(count($agendamentos) > 0 && $agendamentos[0]->chegada != null)
+
                                     <div class="justify-content-center destaque-pri-dose">
                                         <div class="row">
-                                            <div class="col-md-12">1ª Dose</div>
+                                            @if(count($agendamentos) == 1)
+                                                <div class="col-md-12">DOSE ÚNICA </div>
+                                            @else
+                                                <div class="col-md-12">1ª Dose</div>
+                                            @endif
+
                                             {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
                                             <div class="col-md-12"><hr class="style_linha_dose"></div>
                                         </div>
