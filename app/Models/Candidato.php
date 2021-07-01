@@ -98,7 +98,7 @@ class Candidato extends Model
             $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência constando o nome da pessoa a ser vacinada.\n";
             $mensagem = $mensagem."Para os agendamentos de comorbidades é necessário o formulário que atesta a comorbidade, previamente preenchido por um profissional de saúde (exceto pessoas com Síndrome de Down).\n";
             $mensagem = $mensagem."Os demais grupos prioritários deverão comprovar esta condição através um destes documentos: declaração de vínculo profissional, contracheque, ou outro documento que comprove o exercício da função e/ou vinculação com o serviço.\n";
-            $mensagem = $mensagem."Reforçamos a importância de que a pessoa esteja de posse de todos os documentos! A pessoa cadastrada será imunizada com a dose disponível, de acordo com o grupo escolhido, não sendo permitida a escolha de outro grupo no ato da vacinação.";
+            $mensagem = $mensagem."Reforçamos a importância de que a pessoa esteja de posse de todos os documentos! A pessoa cadastrada será imunizada com a dose disponível, de acordo com o grupo escolhido, não sendo permitida a escolha de outro grupo no ato da vacinação. Agradecemos a sua atenção!";
 
         } else if ($this->aprovacao == $this::APROVACAO_ENUM[2]) {
             $mensagem = "Seu agendamento foi reprovado.";

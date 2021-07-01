@@ -312,11 +312,19 @@ class CandidatoController extends Controller
                 ])->withInput();
             }
 
+
             if($request->has('fila')){
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
                 DB::commit();
+                if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+                    if ($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0) {
+                        foreach ($request->input("opcao_etapa_".$etapa->id) as $outra_info_id) {
+                            $candidato->outrasInfo()->attach($outra_info_id);
+                        }
+                    }
+                }
                 $agendamentos = [];
                 array_push($agendamentos, $candidato);
                 return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
