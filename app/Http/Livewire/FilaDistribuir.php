@@ -36,10 +36,12 @@ class FilaDistribuir extends Component
     protected $rules = [
         'etapa_id' => 'required',
         'ponto_id' => 'required',
+        'qtdFila' => 'required',
     ];
     protected $messages = [
         'etapa_id.required' => 'Selecione um público.',
         'ponto_id.required' => 'Selecione um ponto.',
+        'qtdFila.required' => 'Coloque uma quantidade.',
     ];
 
 
@@ -66,11 +68,9 @@ class FilaDistribuir extends Component
             }
         }
 
-        if($posto->lotes->first()->dose_unica == false){
-            $soma = intval($soma/2) + 2;
-        }else{
-            $soma += 1;
-        }
+        // if($posto->lotes->first()->dose_unica == false){
+        //     $soma = intval($soma/2) + 1;
+        // }
         return $soma;
     }
 
@@ -84,8 +84,10 @@ class FilaDistribuir extends Component
         $posto = PostoVacinacao::find($this->ponto_id);
 
         $qtdVacinaPorPonto = $this->quantidadeVacinaPorPonto($posto);
-
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($qtdVacinaPorPonto)->get();
+        if ($this->qtdFila == null) {
+            $this->qtdFila = $qtdVacinaPorPonto;
+        }
+        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($this->qtdFila)->get();
 
         $horarios_agrupados_por_dia = $this->traitHorarios($posto->id);
 
@@ -109,14 +111,14 @@ class FilaDistribuir extends Component
                         continue;
                     }else{
                         $contadorParada++;
-                        if($contadorParada > 180){
+                        if($contadorParada > 80){
                             session()->flash('message', 'Distribuição concluída com sucesso, as vacinas ou os horários acabaram.');
                             return;
                         }
                         continue;
                     }
             }
-
+            \Log::info("acabou");
             if ($aprovado) {
                 session()->flash('message', 'Distribuição concluída com sucesso.');
                 return;
@@ -228,7 +230,9 @@ class FilaDistribuir extends Component
                 $lote = Lote::find($chave_estrangeiro_lote);
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
                 $candidato->update();
+                $candidatoSegundaDose = null;
                 if (!$lote->dose_unica) {
+                    \Log::info("candidato segundo");
                     $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
                     if($datetime_chegada_segunda_dose->format('l') == "Sunday"){
                         $datetime_chegada_segunda_dose->add(new DateInterval('P1D'));

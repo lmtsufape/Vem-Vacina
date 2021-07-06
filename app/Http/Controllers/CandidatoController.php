@@ -78,6 +78,8 @@ class CandidatoController extends Controller
             $query->where('cpf', Candidato::APROVACAO_ENUM[0]);
         }
 
+
+
         if ($request->publico_check) {
             if ($request->publico != null) {
                 $query->where('etapa_id', $request->publico);
@@ -101,6 +103,7 @@ class CandidatoController extends Controller
         if ($request->campo_check && $request->campo != null) {
             $query->orderBy($request->campo);
         }
+
 
         if ($request->outro) {
             $agendamentos = $query->get();
@@ -298,11 +301,19 @@ class CandidatoController extends Controller
                 ])->withInput();
             }
 
+
             if($request->has('fila')){
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
                 Notification::send($candidato, new CandidatoFila($candidato));
                 DB::commit();
+                if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+                    if ($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0) {
+                        foreach ($request->input("opcao_etapa_".$etapa->id) as $outra_info_id) {
+                            $candidato->outrasInfo()->attach($outra_info_id);
+                        }
+                    }
+                }
                 $agendamentos = [];
                 array_push($agendamentos, $candidato);
                 return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
@@ -770,14 +781,14 @@ class CandidatoController extends Controller
 
         try {
         if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
-            return redirect()->back()->withErrors([
-                'posto_vacinacao_' . $id => "Alguém conseguiu preencher o formulário mais rápido, escolha outro horario por favor."
+            return redirect()->back()->with([
+                'message' . $id => "Alguém conseguiu preencher o formulário mais rápido, escolha outro horario por favor."
             ])->withInput();
         }
         $etapa = $candidato->etapa;
         if(!$etapa->lotes->count()){
-            return redirect()->back()->withErrors([
-                'posto_vacinacao_' . $id => "Não há vacinas."
+            return redirect()->back()->with([
+                'message' . $id => "Não há vacinas."
             ])->withInput();
         }
         //Retorna um array de IDs do lotes associados a etapa escolhida
@@ -809,10 +820,10 @@ class CandidatoController extends Controller
                     $qtd = $lote->qtdVacina - $qtdCandidato;
 
                     if ( !$lote_original->dose_unica && !($qtd >= 2) ) {
-                        return redirect()->back()->withErrors([
-                            'posto_vacinacao_' . $id => "Não há vacinas."
+                        return redirect()->back()->with([
+                            'message' . $id => "Não há vacinas."
                         ])->withInput();
-                        // return redirect()->back()->withErrors([
+                        // return redirect()->back()->with([
                         //     "posto_vacinacao" => "Não há mais doses disponíveis. Favor realize o seu cadastro na fila de espera pela página principal."
                         // ])->withInput();
                     }
@@ -833,8 +844,8 @@ class CandidatoController extends Controller
 
         if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
 
-            return redirect()->back()->withErrors([
-                'posto_vacinacao_' . $id => "Não há vacinas."
+            return redirect()->back()->with([
+                'message' . $id => "Não há vacinas."
             ])->withInput();
         }
 
