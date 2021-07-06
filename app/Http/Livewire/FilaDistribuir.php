@@ -28,6 +28,7 @@ class FilaDistribuir extends Component
     public $etapa_id;
     public $ponto_id;
     public $qtdFila;
+    public $cpf;
 
     protected $rules = [
         'etapa_id' => 'required',
@@ -83,7 +84,14 @@ class FilaDistribuir extends Component
         if ($this->qtdFila == null) {
             $this->qtdFila = $qtdVacinaPorPonto;
         }
-        $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($this->qtdFila)->get();
+        // dd($this->cpf);
+        if ($this->cpf != null) {
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->where('cpf', $this->cpf)->get();
+        }else{
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($this->qtdFila)->get();
+
+        }
+
 
         $horarios_agrupados_por_dia = $this->diasPorPosto($posto);
         if (!$horarios_agrupados_por_dia || !count($horarios_agrupados_por_dia) ) {
@@ -112,6 +120,7 @@ class FilaDistribuir extends Component
                         continue;
                     }
             }
+            $this->reset('cpf');
             \Log::info("acabou");
             if ($aprovado) {
                 session()->flash('message', 'Distribuição concluída com sucesso.');

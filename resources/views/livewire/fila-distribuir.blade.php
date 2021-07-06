@@ -53,6 +53,14 @@
                     </div>
                 </div>
                 <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="cpf">CPF:</label><br>
+                        <input wire:model="cpf" type="text">
+                        {{-- @error('cpf')<div class="alert alert-danger">{{ $message }}</div> @enderror --}}
+                    </div>
+                </div>
+                <br>
                 <div wire:loading.delay>
                     <p>Processando distribuição...</p>
 
