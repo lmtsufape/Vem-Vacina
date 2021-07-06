@@ -34,6 +34,19 @@
                       </ul>
                   </div>
               @endif
+              <form action="{{ route('postos.index.new') }}" method="get">
+                    <select class="custom-select" name="posto[]" multiple>
+                        @foreach ($todosPosto as $posto)
+                            <option value="{{ $posto->id }}" >{{ $posto->nome }}</option>
+                        @endforeach
+                    </select>
+
+                    <button type="submit" class="btn btn-primary mt-1">
+                        Ver
+                    </button>
+
+                </form>
+                <br>
               <div class="table-responsive">
                   <table class="table table-condensed"  id="myTable">
                       <thead>
@@ -148,7 +161,9 @@
 
                       </tbody>
                   </table>
-                  {{ $postos->links() }}
+
+                    {{ $postos->links() }}
+
               </div>
             </div>
         </div>

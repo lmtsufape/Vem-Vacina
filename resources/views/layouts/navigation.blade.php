@@ -46,6 +46,11 @@
                     </x-nav-link>
                     @endcan
                     @can('ver-config')
+                    <x-nav-link :href="route('horarios.index')" :active="request()->routeIs('horarios.*')">
+                        {{ __('Horários') }}
+                    </x-nav-link>
+                    @endcan
+                    @can('ver-config')
                     <x-nav-link :href="route('config.index')" :active="request()->routeIs('config.*')">
                         {{ __('Configurações') }}
                     </x-nav-link>
