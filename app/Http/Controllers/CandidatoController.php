@@ -788,14 +788,14 @@ class CandidatoController extends Controller
 
         try {
         if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
-            return redirect()->back()->withErrors([
-                'posto_vacinacao_' . $id => "Alguém conseguiu preencher o formulário mais rápido, escolha outro horario por favor."
+            return redirect()->back()->with([
+                'message' . $id => "Alguém conseguiu preencher o formulário mais rápido, escolha outro horario por favor."
             ])->withInput();
         }
         $etapa = $candidato->etapa;
         if(!$etapa->lotes->count()){
-            return redirect()->back()->withErrors([
-                'posto_vacinacao_' . $id => "Não há vacinas."
+            return redirect()->back()->with([
+                'message' . $id => "Não há vacinas."
             ])->withInput();
         }
         //Retorna um array de IDs do lotes associados a etapa escolhida
@@ -827,10 +827,10 @@ class CandidatoController extends Controller
                     $qtd = $lote->qtdVacina - $qtdCandidato;
 
                     if ( !$lote_original->dose_unica && !($qtd >= 2) ) {
-                        return redirect()->back()->withErrors([
-                            'posto_vacinacao_' . $id => "Não há vacinas."
+                        return redirect()->back()->with([
+                            'message' . $id => "Não há vacinas."
                         ])->withInput();
-                        // return redirect()->back()->withErrors([
+                        // return redirect()->back()->with([
                         //     "posto_vacinacao" => "Não há mais doses disponíveis. Favor realize o seu cadastro na fila de espera pela página principal."
                         // ])->withInput();
                     }
@@ -851,8 +851,8 @@ class CandidatoController extends Controller
 
         if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
 
-            return redirect()->back()->withErrors([
-                'posto_vacinacao_' . $id => "Não há vacinas."
+            return redirect()->back()->with([
+                'message' . $id => "Não há vacinas."
             ])->withInput();
         }
 
