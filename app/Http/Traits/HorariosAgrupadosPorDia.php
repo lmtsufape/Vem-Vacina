@@ -16,7 +16,9 @@ trait HorariosAgrupadosPorDia {
         $horarios_agrupados_por_dia = [];
         foreach ($postoDias as $key => $value) {
             $key = date_format($value->dia, "d/m/Y");
-            $horarios_agrupados_por_dia[$key] = $value->horarios->pluck('horario');
+            if($value->horarios->count()){
+                $horarios_agrupados_por_dia[$key] = $value->horarios->pluck('horario');
+            }
         }
         return $horarios_agrupados_por_dia;
 

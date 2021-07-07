@@ -418,6 +418,11 @@ class PostoVacinacaoController extends Controller
                     array_push($todos_os_horarios, $janela);
                 }
             }
+            $candidatos = Candidato::where("posto_vacinacao_id", $posto->id)->whereDate('chegada', '>=', Carbon::tomorrow()->toDateString())->where('aprovacao', Candidato::APROVACAO_ENUM[1])->get();
+
+            $horarios_disponiveis = array_diff($todos_os_horarios, $candidatos->pluck('chegada')->toArray());
+
+            $todos_os_horarios = $horarios_disponiveis;
 
             foreach($todos_os_horarios as $h) {
                 if ($posto->dias->where('dia', date($h->copy()->startOfDay()))->count() == 0) {

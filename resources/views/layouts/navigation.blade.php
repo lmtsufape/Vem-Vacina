@@ -45,7 +45,7 @@
                         {{ __('Exportar/Importar') }}
                     </x-nav-link>
                     @endcan
-                    @can('ver-config')
+                    @can('horarios')
                     <x-nav-link :href="route('horarios.index')" :active="request()->routeIs('horarios.*')">
                         {{ __('Horários') }}
                     </x-nav-link>
