@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lote;
 use App\Models\Candidato;
 use App\Models\Configuracao;
+use App\Models\PostoVacinacao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\CandidatoAprovado;
@@ -63,5 +64,11 @@ class ConfiguracaoController extends Controller
             sleep(10);
         }
         return redirect()->back()->with(['mensagem' => 'Aprovados']);
+    }
+
+    public function gerar()
+    {
+        $postos = PostoVacinacao::all();
+        return view('config.gerar_horarios', compact('postos'));
     }
 }

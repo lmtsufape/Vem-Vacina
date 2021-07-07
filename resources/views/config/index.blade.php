@@ -20,6 +20,16 @@
                 </div>
             </div>
         @endif
+        <div class="row">
+            <div class="col">
+                <a href="{{ route('config.gerar.horarios') }}" class="btn btn-primary">
+                    Gerar horários
+                </a>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <br>
         <form action="{{route('config.update')}}" method="GET">
             <div class="row">
                 <div class="col-md-6">

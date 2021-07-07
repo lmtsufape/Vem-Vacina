@@ -8,8 +8,16 @@
             </div>
         </div>
     </x-slot>
-
-    <div class="container" style="padding-top: 20px;">
+    <div class="container mb-4" style="padding-top: 20px;">
+        @if(session('message'))
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success" role="alert">
+                        <p>{{session('message')}}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
         <form action="{{ route('horarios.index') }}" method="get">
             <select class="custom-select" name="posto[]" multiple>
                 @foreach ($todosPosto as $posto)

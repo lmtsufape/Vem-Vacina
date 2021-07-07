@@ -130,11 +130,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('exportar/gerar', [ExportController::class, 'gerar'])->name('export.gerar');
     Route::get('/exportar/agendamentos/posto/{id}', [ExportController::class,'agendamentosDoPosto'])->name('export.agendamentos.posto');
     Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('config.index');
+    Route::get('/configuracoes/gerar', [ConfiguracaoController::class, 'gerar'])->name('config.gerar.horarios');
     Route::get('/configuracoes/salvar', [ConfiguracaoController::class, 'update'])->name('config.update');
     Route::post('/configuracoes/aprovar', [ConfiguracaoController::class, 'aprovarAgendamentos'])->name('config.agendados.aprovados');
     Route::post('/importar/vacinados', [ImportController::class, 'storeVacinados'])->name('candidato.import.store.vacinados');
 
     Route::get('/horarios', [HorarioController::class, 'index'])->name('horarios.index');
+    Route::get('/horarios/delete/{posto_id}/{dia_id}', [HorarioController::class, 'delete'])->name('horarios.delete');
+
+    Route::get('/posto/gerador/{id?}', [PostoVacinacaoController::class, 'geradorHorarios'])->name('posto.geradorHorarios');
 
     Route::get('/posto/dias-disponiveis', [PostoVacinacaoController::class, 'diasPorPosto'])->name('dias.posto.ajax');
     Route::post('/agentamento/{id}/reagendar', [CandidatoController::class, 'reagendar'])->name('agendamento.posto.update');

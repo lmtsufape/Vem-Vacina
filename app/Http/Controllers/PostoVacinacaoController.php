@@ -339,11 +339,15 @@ class PostoVacinacaoController extends Controller
 
     }
 
-    public function geradorHorarios()
+    public function geradorHorarios($id = null)
     {
         set_time_limit(720);
         \Log::info('geradorHorarios');
-        $postos = PostoVacinacao::all();
+        if ($id == null) {
+            $postos = PostoVacinacao::all();
+        }else{
+            $postos = PostoVacinacao::where('id', $id)->get();
+        }
 
         foreach ($postos as $key => $posto) {
             // Cria uma lista de possiveis horarios do proximo dia quando o posto abre
@@ -432,7 +436,12 @@ class PostoVacinacaoController extends Controller
             }
 
         }
-        return true;
+        if ($id == null) {
+            return true;
+        }else{
+            return back()->with(['message' => 'Dia gerado com sucesso!']);
+        }
+
 
     }
 }

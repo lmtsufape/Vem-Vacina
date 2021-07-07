@@ -27,6 +27,7 @@ class FilaDistribuir extends Component
         horarios as protected traitHorarios;
     }
     public $pontos;
+    public $postos;
     public $etapas;
     public $tipos;
     public $etapa_id;
@@ -50,7 +51,8 @@ class FilaDistribuir extends Component
 
     public function mount()
     {
-        $this->pontos = PostoVacinacao::all();
+        $this->pontos = PostoVacinacao::orderBy('nome')->get();
+        $this->postos = $this->pontos;
         $this->etapas = Etapa::all();
         $this->tipos = Etapa::TIPO_ENUM;
 
