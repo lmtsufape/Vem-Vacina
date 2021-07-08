@@ -82,7 +82,13 @@
                 </div>
 
 
-              <div id="collapse{{ $i }}" class="collapse " aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div id="collapse{{ $i }}"
+              @if (session('candidato_id', '0') == $candidato->id)
+                class="collapse show" autofocus
+              @else
+                class="collapse "
+              @endif
+              aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card">
                     <div class="card-body ">
                         <div class="container">
@@ -102,8 +108,17 @@
                                     <a target="_blank" href="https://servicos.receita.fazenda.gov.br/Servicos/CPF/ConsultaSituacao/ConsultaPublica.asp?CPF={{$candidato->cpf}}&NASCIMENTO={{$candidato->data_de_nascimento_dmY()}}">Validar data de nascimento e CPF</a>
                                     </div>
                                 </div>
+                                <br>
                                 <div class="row">
-                                    <h4>Agendado para</h4>
+                                    <h4>
+                                        @can('reagendar')
+                                            <a href="{{ route('candidato.form_edit', ['id' => $candidato->id]) }}">
+                                                Agendado para <i class="fas fa-edit"></i>
+                                            </a>
+                                        @else
+                                            Agendado para
+                                        @endcan
+                                    </h4>
                                 </div>
                                 <div >
                                     <div class="row">
@@ -119,7 +134,10 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <label for="data_{{$candidato->id}}">Data</label>
-                                            <input id="data_{{$candidato->id}}" type="text" class="form-control" disabled value="@if($candidato->posto != null){{date('d/m/Y',strtotime($candidato->chegada))}}@endif">
+                                            <input
+                                            @if (session('candidato_id', '0') == $candidato->id)
+                                                autofocus
+                                            @endif id="data_{{$candidato->id}}" type="text" class="form-control"  value="@if($candidato->posto != null){{date('d/m/Y',strtotime($candidato->chegada))}}@endif">
                                         </div>
                                     </div>
                                     <div class="row">
