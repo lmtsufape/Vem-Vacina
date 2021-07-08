@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/agendamento/desfazer/vacinacao", [CandidatoController::class, 'desmarcarVacinadoAjax'])->name('vacinado.desmarcar.ajax');
     Route::get("/agendamento/form/edit/{id}", [CandidatoController::class, 'form_edit'])->name('candidato.form_edit');
     Route::post("/agendamento/editar", [CandidatoController::class, 'editar'])->name('candidato.editar');
+    Route::post("/agendamento/editarData/{id}", [CandidatoController::class, 'editarData'])->name('candidato.editarData');
     Route::get("/candidato/lote", [CandidatoController::class, 'CandidatoLote'])->name('candidato.candidatoLote');
     Route::get("/candidato/order/{field}/campo/{order}", [CandidatoController::class, 'ordenar'])->name('candidato.order');
     Route::get("/candidato/filtro/{field}/tipo/{tipo}", [CandidatoController::class, 'filtro'])->name('candidato.filtro');
