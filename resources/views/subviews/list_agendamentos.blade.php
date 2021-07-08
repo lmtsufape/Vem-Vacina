@@ -111,7 +111,7 @@
                                 <br>
                                 <div class="row">
                                     <h4>
-                                        @can('reagendar')
+                                        @can('reagendar-data')
                                             <a href="{{ route('candidato.form_edit', ['id' => $candidato->id]) }}">
                                                 Agendado para <i class="fas fa-edit"></i>
                                             </a>
