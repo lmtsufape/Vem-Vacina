@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-7">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Lista de Pontos de Vacinação') }}
                 </h2>
@@ -10,6 +10,14 @@
                 @can('criar-posto')
                     <a href="{{ route('postos.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Adicionar Ponto de Vacinação
+                    </a>
+                @endcan
+            </div>
+            <div class="col-md-2" style="text-align: right">
+
+                @can('ver-fila')
+                    <a href="{{ route('fila.index') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                        {{ __('Fila de Espera') }}
                     </a>
                 @endcan
             </div>

@@ -81,6 +81,9 @@
             <main>
                 {{ $slot }}
             </main>
+            <footer>
+
+            </footer>
         </div>
         @livewireScripts
     </body>

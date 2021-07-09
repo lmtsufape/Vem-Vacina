@@ -240,7 +240,7 @@ class LoteController extends Controller
         }
         $lotes_pivot = LotePostoVacinacao::all();
         // $postos = PostoVacinacao::orderBy('vacinas_disponiveis')->get();
-        $postos = PostoVacinacao::all();
+        $postos = PostoVacinacao::orderBy('nome')->get();
         // $candidatos = Candidato::all();
         return view('lotes.distribuicao', compact('lote', 'postos', 'lotes_pivot'));
     }
