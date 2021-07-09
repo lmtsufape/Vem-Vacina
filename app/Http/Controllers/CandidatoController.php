@@ -20,7 +20,9 @@ use App\Notifications\CandidatoFila;
 use Illuminate\Support\Facades\Gate;
 use App\Notifications\CandidatoAprovado;
 use Illuminate\Support\Facades\Response;
+use App\Notifications\CandidatoAtualizado;
 use App\Notifications\CandidatoReprovado;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
 
@@ -108,7 +110,7 @@ class CandidatoController extends Controller
         if ($request->outro) {
             $agendamentos = $query->get();
         } else {
-            $agendamentos = $query->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate($request->qtd)->withQueryString();
+            $agendamentos = $query->orderBy('created_at')->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate($request->qtd)->withQueryString();
         }
 
         if ($request->outro) {
@@ -127,22 +129,8 @@ class CandidatoController extends Controller
                 $agendamentos = collect();
             }
         }
-        // $postos = PostoVacinacao::all();
-        // $postos_disponiveis = collect([]);
-        // foreach ($postos as $key => $posto) {
-        //     $lote_bool = false;
-        //     foreach($posto->lotes as $key1 => $lote){
-        //         if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($request->publico_id)){
-        //             $lote_bool = true;
-        //             break;
-        //         }
-        //     }
 
-        //     if($lote_bool == true){
-        //         $postos_disponiveis->push($posto);
-        //         continue;
-        //     }
-        // }
+        session(['candidato_url' => $request->fullUrl()]);
 
         return view('dashboard2')->with(['candidatos' => $agendamentos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
@@ -926,8 +914,40 @@ class CandidatoController extends Controller
         Gate::authorize('editar-candidato');
         $candidato = Candidato::find($id);
 
-        return view('candidato.editar', compact('candidato'));
+        return view('candidato.editar_data', compact('candidato'));
     }
+
+    public function editarData(Request $request, $id)
+    {
+        try {
+            Gate::authorize('editar-candidato');
+
+            $candidato = Candidato::find($id);
+            if($candidato->dose != "2ª Dose" || $candidato->aprovacao != "Aprovado"){
+                return back()->with(['message' => "Não permitido"]);
+            }
+            $candidato->update([
+                'chegada'         => $request->chegada,
+                'saida'         => $candidato->chegada->copy()->modify('+2 minutes'),
+            ]);
+
+            if($candidato->email != null){
+                Notification::send($candidato, new CandidatoAtualizado($candidato));
+            }
+            if ($request->session()->has('candidato_url')) {
+                session(['candidato_id' => $candidato->id]);
+
+                return redirect(session('candidato_url', 'dashboard'))->with(['message' => "Atualizado com sucesso"]);
+
+            }
+
+
+            return back()->with(['message' => "Atualizado com sucesso"]);
+        } catch (\Throwable $th) {
+            return back()->with(['message' => $th->getMessage()]);
+        }
+    }
+
     public function editar(Request $request) {
 
 

@@ -53,7 +53,7 @@ class FilaDistribuir extends Component
     {
         $this->pontos = PostoVacinacao::orderBy('nome')->get();
         $this->postos = $this->pontos;
-        $this->etapas = Etapa::all();
+        $this->etapas = Etapa::orderBy('texto_home')->get();
         $this->tipos = Etapa::TIPO_ENUM;
 
     }
