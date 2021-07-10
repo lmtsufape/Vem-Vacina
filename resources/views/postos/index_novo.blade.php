@@ -138,22 +138,25 @@
                                                 </th>
                                                 <td>{{$lote_pivot->lote->dose_unica ? 'Sim' : 'Não'}}</td>
                                                 <td>{{$lote_pivot->lote->dose_unica ? " - " : 'Entre '.$lote_pivot->lote->inicio_periodo." à  ". $lote_pivot->lote->fim_periodo." dias" }} </td>
-                                                <td>{{($lote_pivot->qtdVacina - $lote_pivot->candidatos_count)}}</td>
+                                                @php
+                                                    $qtdC = $lote_pivot->qtdVacina - $candidatosPosto->where('lote_id', $lote_pivot->id)->count()
+                                                @endphp
+                                                <td>{{($qtdC)}}</td>
                                                 {{-- <td>{{$lote_pivot->qtdVacina}}</td> --}}
                                                 {{-- <td>{{($posto->candidatos()->where('lote_id', $lote_pivot->id)->count())}}</td> --}}
                                                 {{-- <td>{{($lote_pivot->candidatos()->count() )}}</td> --}}
 
-                                                <td scope="row">
+                                                <td >
                                                   <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
                                                       @csrf
                                                       <input type="hidden" name="posto_id" value="{{ $posto->id }}">
                                                       <input type="hidden" name="lote_id" value="{{ $lote_pivot->id }}">
                                                       <input type="hidden" name="lote_original_id" value="{{ $lote_pivot->lote->id }}">
                                                       <div class="row">
-                                                          <div class="col-6">
-                                                              <input class="form-control" name="quantidade"  min="1" type="number" placeholder="Quantidade">
+                                                          <div class="col-12">
+                                                              <input class="form-control" name="quantidade"  min="1" max="{{ $qtdC }}" type="number" placeholder="Quantidade">
                                                           </div>
-                                                          <div class="col-2">
+                                                          <div class="col-12 mt-1">
                                                               <button class="btn btn-success">Devolver</button>
                                                           </div>
                                                       </div>
