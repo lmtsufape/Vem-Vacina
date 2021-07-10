@@ -35,7 +35,7 @@ class PostoVacinacaoController extends Controller
     public function index_novo(Request $request)
     {
         Gate::authorize('ver-posto');
-        $lotes_pivot = LotePostoVacinacao::with(['lote', 'posto'])->withCount('candidatos')->get();
+        $lotes_pivot = LotePostoVacinacao::with(['lote', 'posto'])->get();
         // $posts = Post::withCount(['votes', 'comments' => function (Builder $query) {
         //     $query->where('content', 'like', 'code%');
         // }])->get();

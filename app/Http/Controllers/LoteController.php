@@ -311,9 +311,9 @@ class LoteController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-
+        $queryCandidato = Candidato::where('posto_vacinacao_id', $posto->id );
         $lotes_pivot = LotePostoVacinacao::where("posto_vacinacao_id", $posto->id)->where('id', $request->lote_id)->first();
-        $qtdCandidato = Candidato::where('posto_vacinacao_id', $posto->id )->where('lote_id', $request->lote_id)->count();
+        $qtdCandidato = $queryCandidato->where('lote_id', $request->lote_id)->count();
         if(($lotes_pivot->qtdVacina - $qtdCandidato) > 0 && ($lotes_pivot->qtdVacina - $qtdCandidato) >= $request->quantidade){
             // dd(($lotes_pivot->qtdVacina - $qtdCandidato) == $request->quantidade);
             if (($lotes_pivot->qtdVacina - $qtdCandidato) > $request->quantidade) {
@@ -326,7 +326,7 @@ class LoteController extends Controller
                 $lote_original->numero_vacinas += $request->quantidade;
                 $lote_original->save();
                 $lotes_pivot->save();
-                if(Candidato::where('posto_vacinacao_id', $posto->id )->count() == 0){
+                if($queryCandidato->count() == 0){
                     $posto->lotes()->detach($lote_original);
                     $posto->refresh();
                 }
