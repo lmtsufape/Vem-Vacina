@@ -371,7 +371,7 @@ class PostoVacinacaoController extends Controller
             }else{
                 $contador = 1;
             }
-            \Log::info($contador);
+            // \Log::info($contador);
             $posto->dias()->whereDate('dia', '<=', now())->forceDelete();
             // Pega os proximos 3 disponiveis dias
             for($i = 0; $i < 7; $i++) {
