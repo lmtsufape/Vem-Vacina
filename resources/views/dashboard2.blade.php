@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Lista de agendamentos') }}
                 </h2>
@@ -9,12 +9,18 @@
                     <small>Atualizar página <i class="fas fa-redo"></i> </small>
                 </a>
             </div>
-            <div class="col-md-4" style="text-align: right;">
-                <a href="{{route('solicitacao.candidato')}}">
-                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Fazer agendamento
-                    </button>
+            <div class="col-md-3" style="text-align: right;">
+                <a href="{{route('solicitacao.candidato')}}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Fazer agendamento
                 </a>
+            </div>
+            <div class="col-md-2" style="text-align: right">
+
+                @can('ver-fila')
+                    <a href="{{ route('fila.index') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                        {{ __('Fila de Espera') }}
+                    </a>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -147,51 +153,5 @@
         form.submit();
     }
 
-
-    /*
-    function filtrar() {
-        $.ajax({
-            url: "{{route('agendamentos.filtro.ajax')}}",
-            method: 'GET',
-            type: 'GET',
-            data: {
-                nome_check: document.getElementById('nome_check_input').checked,
-                cpf_check: document.getElementById('cpf_check_input').checked,
-                data_check: document.getElementById('data_check_input').checked,
-                dose_check: document.getElementById('dose_check_input').checked,
-                outro: document.getElementById('outro').checked,
-                aprovado: document.getElementById('aprovado').checked,
-                reprovado: document.getElementById('reprovado').checked,
-                nome: document.getElementById('nome').value,
-                cpf: document.getElementById('cpf').value,
-                data: document.getElementById('data').value,
-                dose: document.getElementById('dose').value,
-                field: document.getElementById('field').value,
-                order: document.getElementById('order').value,
-            },
-            statusCode: {
-                404: function() {
-                    alert("Nenhum posto encontrado");
-                }
-            },
-            success: function(data){
-                console.log(data);
-                 var html = "";
-                if (data != null) {
-                    if (data.length > 0) {
-                        $.each(data, function(i, obj) {
-                            html += ``
-                        })
-                    }
-                }
-                document.getElementById('agendamentos').innerHTML = "";
-                $('#agendamentos').append(html);
-            },
-            error:function(data){
-                console.log('erro');
-                alert('Erro'.data);
-            },
-        })
-    }*/
 </script>
 </x-app-layout>

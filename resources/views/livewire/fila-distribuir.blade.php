@@ -16,6 +16,7 @@
                     </div>
                 @endif
             </div>
+
             <form wire:submit.prevent="distribuir">
                 @csrf
                 <div class="row">
@@ -73,6 +74,38 @@
                     </div>
                 </div>
             </form>
+            <hr>
+            <div class="accordion" id="accordionHorario">
+                @foreach ($postos as $posto)
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="mb-0">
+                                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ $posto->id }}" aria-expanded="true" aria-controls="collapse{{ $posto->id }}">
+                                            {{ $posto->nome }}
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div id="collapse{{ $posto->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionHorario">
+                            <div class="row ml-4">
+                                @foreach ($posto->dias as $dia)
+                                    <div class="col-6">
+                                        {{ date('d/m/Y ', strtotime($dia->dia )) }}
+                                        {{ " - Nº:".$dia->horarios->count() }}
+                                    </div>
+                                @endforeach
+
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
 
         </div>
     </div>

@@ -1,10 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-10">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Estatísticas') }}
                 </h2>
+            </div>
+            <div class="col-md-2" style="text-align: right">
+
+                @can('ver-fila')
+                    <a href="{{ route('fila.index') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                        {{ __('Fila de Espera') }}
+                    </a>
+                @endcan
             </div>
         </div>
     </x-slot>

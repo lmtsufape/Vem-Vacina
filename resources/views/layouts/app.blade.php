@@ -56,7 +56,7 @@
             }
             .my-custom-scrollbar {
                 position: relative;
-                height: 350px;
+                height: 100px;
                 overflow: auto;
             }
             .table-wrapper-scroll-y {
@@ -81,6 +81,9 @@
             <main>
                 {{ $slot }}
             </main>
+            <footer>
+
+            </footer>
         </div>
         @livewireScripts
     </body>

@@ -30,11 +30,6 @@
                     {{-- <x-responsive-nav-link :href="route('dashboard.novo')" :active="request()->routeIs('dashboard.*')">
                         {{ __('Agendamentos 2') }}
                     </x-responsive-nav-link> --}}
-                    @can('ver-fila')
-                    <x-nav-link :href="route('fila.index')" :active="request()->routeIs('fila.*')">
-                        {{ __('Fila de Espera') }}
-                    </x-nav-link>
-                    @endcan
                     @can('ver-estatistica')
                     <x-nav-link :href="route('estatistica.index')" :active="request()->routeIs('estatistica.*')">
                         {{ __('Estatísticas') }}
@@ -43,6 +38,11 @@
                     @can('ver-export')
                     <x-nav-link :href="route('export.index')" :active="request()->routeIs('export.*')">
                         {{ __('Exportar/Importar') }}
+                    </x-nav-link>
+                    @endcan
+                    @can('horarios')
+                    <x-nav-link :href="route('horarios.index')" :active="request()->routeIs('horarios.*')">
+                        {{ __('Horários') }}
                     </x-nav-link>
                     @endcan
                     @can('ver-config')

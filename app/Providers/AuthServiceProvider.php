@@ -298,5 +298,11 @@ class AuthServiceProvider extends ServiceProvider
                $user->tipo == User::TIPO_ENUM['admin'];
         });
 
+        //horarios
+        Gate::define('horarios', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+               $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
     }
 }

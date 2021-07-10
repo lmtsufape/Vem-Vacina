@@ -230,6 +230,7 @@ class LoteController extends Controller
     {
         set_time_limit(120);
         Gate::authorize('distribuir-lote');
+
         $lote = Lote::findOrFail($id);
         if ($lote->etapas->count() == 0) {
             return redirect()->back()
@@ -239,7 +240,7 @@ class LoteController extends Controller
         }
         $lotes_pivot = LotePostoVacinacao::all();
         // $postos = PostoVacinacao::orderBy('vacinas_disponiveis')->get();
-        $postos = PostoVacinacao::all();
+        $postos = PostoVacinacao::orderBy('nome')->get();
         // $candidatos = Candidato::all();
         return view('lotes.distribuicao', compact('lote', 'postos', 'lotes_pivot'));
     }
