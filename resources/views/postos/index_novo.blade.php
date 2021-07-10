@@ -13,14 +13,14 @@
                     </a>
                 @endcan
             </div>
-            <div class="col-md-2" style="text-align: right">
+            {{-- <div class="col-md-2" style="text-align: right">
 
                 @can('ver-fila')
                     <a href="{{ route('fila.index') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                         {{ __('Fila de Espera') }}
                     </a>
                 @endcan
-            </div>
+            </div> --}}
         </div>
 
     </x-slot>

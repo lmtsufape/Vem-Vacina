@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
             dispatch(new GerarHorarios());
             \Log::info('schedule');
         })->dailyAt('04:00');
-        // })->everyMinute();
+        // })->hourly();
         // $schedule->job(new GerarHorarios)->everyFiveMinutes();
     }
 

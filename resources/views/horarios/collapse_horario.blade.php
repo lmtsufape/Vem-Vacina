@@ -1,5 +1,5 @@
 <div class="accordion" id="accordionDia">
-    @foreach ($posto->dias as $dia)
+    @foreach ($posto->dias->sortBy('dia') as $dia)
         <div class="card">
             <div class="card-header" id="headingOne">
                 <div class="row">
@@ -25,7 +25,7 @@
             <div id="collapseDia{{ $dia->id }}Ponto{{ $posto->id }}" class="collapse ml-4" aria-labelledby="headingOne" data-parent="#accordionDia">
                 <div class="container">
                     <div class="row ml-4">
-                        @foreach ($dia->horarios()->withTrashed()->get() as $horario)
+                        @foreach ($dia->horarios()->orderBy('horario')->withTrashed()->get() as $horario)
                             @if (!$horario->deleted_at)
                                 <div class="col-3 text-success">
                                     {{ date('d/m/Y \à\s  H:i\h', strtotime($horario->horario )) }}

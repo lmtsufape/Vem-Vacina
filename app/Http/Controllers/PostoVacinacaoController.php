@@ -301,24 +301,30 @@ class PostoVacinacaoController extends Controller
             } else {
                 set_time_limit(40);
                 $postos = Etapa::find($request->publico_id)->pontos;
-                $postos_disponiveis = collect([]);
-                foreach ($postos as $key => $posto) {
-                    $lote_bool = false;
-                    foreach($posto->lotes as $key1 => $lote){
-                        if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($request->publico_id)){
-                            $lote_bool = true;
-                            break;
+                $candidato_count = Candidato::where('etapa_id', $request->publico_id)->where('aprovacao',Candidato::APROVACAO_ENUM[0])->count();
+                if($candidato_count == 0){
+                    $postos_disponiveis = collect([]);
+                    foreach ($postos as $key => $posto) {
+                        $lote_bool = false;
+                        foreach($posto->lotes as $key1 => $lote){
+                            if($lote->pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote->pivot->id)->count() > 0 && $lote->etapas->find($request->publico_id)){
+                                $lote_bool = true;
+                                break;
+                            }
+                        }
+
+                        if($lote_bool == true){
+                            $postos_disponiveis->push($posto);
+                            continue;
                         }
                     }
 
-                    if($lote_bool == true){
-                        $postos_disponiveis->push($posto);
-                        continue;
-                    }
-                }
+                    $postos_disponiveis = array_values($postos_disponiveis->toArray());
+                    return response()->json($postos_disponiveis);
+                }else{
+                    return response()->json([]);
 
-                $postos_disponiveis = array_values($postos_disponiveis->toArray());
-                return response()->json($postos_disponiveis);
+                }
             }
         } catch (\Throwable $th) {
             return response()->json($th->getMessage());
