@@ -36,6 +36,10 @@ class PostoVacinacaoController extends Controller
     {
         Gate::authorize('ver-posto');
         $lotes_pivot = LotePostoVacinacao::with(['lote', 'posto'])->get();
+        // $posts = Post::withCount(['votes', 'comments' => function (Builder $query) {
+        //     $query->where('content', 'like', 'code%');
+        // }])->get();
+        // $posto->candidatos()->where('lote_id', $lote_pivot->id)->count()
         $tipos = Etapa::TIPO_ENUM;
         $todosPosto = PostoVacinacao::orderBy('nome')->get();
         if($request->posto == null){
