@@ -18,17 +18,21 @@
                     @endif
                 </div>
                 <div class="row justify-content-center">
-                    <div class="col-10">
-                        <h3>{{ "Nome: ". $candidato->nome_completo }}</h3>
-                        <h3>{{ "Data: ". date('d/m/Y \à\s H:i\h', strtotime($candidato->chegada))  }}</h3>
-                        <h3>{{ "Dose: ". $candidato->dose  }}</h3>
-                        <br>
+                    <div class="col-6">
+                        @foreach ($candidatos as $candidato)
+                            <div class="col-10">
+                                <h5>{{ "Nome: ". $candidato->nome_completo }}</h5>
+                                <h5>{{ "Data: ". date('d/m/Y \à\s H:i\h', strtotime($candidato->chegada))  }}</h5>
+                                <h5>{{ "Dose: ". $candidato->dose  }}</h5>
+                                <br>
+                            </div>
+                        @endforeach
                     </div>
                     <div class="col-6">
-                        <form method="post" action="{{ route('candidato.editarData', ['id' => $candidato->id]) }}">
+                        <form method="post" action="{{ route('candidato.editarData', ['id' => $candidatos->first->id]) }}">
                             @csrf
 
-                            @component('components.basic-input', ['disabled' => false, 'class' => null,'name' => 'chegada','label' => 'Data agendamento', 'type' => 'datetime-local', 'value' => $candidato->chegada->format('Y-m-d\TH:i'), 'id' => null, 'placeholder' => null])
+                            @component('components.basic-input', ['disabled' => false, 'class' => null,'name' => 'chegada','label' => 'Data agendamento', 'type' => 'datetime-local', 'value' => $candidatos->first()->chegada->format('Y-m-d\TH:i'), 'id' => null, 'placeholder' => null])
                             @endcomponent
 
                             <br>

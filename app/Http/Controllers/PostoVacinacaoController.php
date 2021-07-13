@@ -43,7 +43,7 @@ class PostoVacinacaoController extends Controller
         $tipos = Etapa::TIPO_ENUM;
         $todosPosto = PostoVacinacao::orderBy('nome')->get();
         if($request->posto == null){
-            $postos = PostoVacinacao::with(['lotes', 'etapas', 'candidatos'])->orderBy('nome')->simplePaginate(10);
+            $postos = PostoVacinacao::with(['lotes', 'etapas', 'candidatos'])->orderBy('nome')->simplePaginate(5);
         }else{
             $postos = PostoVacinacao::whereIn('id', $request->posto)->orderBy('nome')->simplePaginate(10);
         }
