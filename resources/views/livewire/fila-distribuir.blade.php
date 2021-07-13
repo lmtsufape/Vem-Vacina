@@ -62,13 +62,14 @@
                     </div>
                 </div>
                 <br>
-                <div wire:loading.delay>
+
+                <div wire:loading wire:target="distribuir">
                     <p>Processando distribuição...</p>
 
                 </div>
 
                 <br>
-                <div class="row" wire:loading.remove.delay>
+                <div class="row" >
                     <div class="col-md-3">
                         <button class="btn btn-success">Distribuir</button>
                     </div>

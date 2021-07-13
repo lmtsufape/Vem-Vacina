@@ -34,6 +34,7 @@ class FilaDistribuir extends Component
     public $ponto_id;
     public $qtdFila;
     public $cpf;
+    public $bool;
 
     protected $rules = [
         'etapa_id' => 'required',
@@ -55,6 +56,7 @@ class FilaDistribuir extends Component
         $this->postos = $this->pontos;
         $this->etapas = Etapa::orderBy('texto_home')->get();
         $this->tipos = Etapa::TIPO_ENUM;
+        $this->bool = false;
 
     }
 
@@ -81,6 +83,7 @@ class FilaDistribuir extends Component
 
     public function distribuir()
     {
+        $this->reset(['bool']);
         $this->validate();
         Gate::authorize('distribuir-fila');
         set_time_limit(900);
