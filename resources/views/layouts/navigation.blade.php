@@ -80,7 +80,7 @@
                                 {{ __('Posição fila') }}
                             </x-dropdown-link>
                         @endcan
-                        @can('posicao-fila')
+                        @can('reagendar-data')
                             <x-dropdown-link :href="route('admin.editar.lista.data')">
                                 {{ __('Editar data') }}
                             </x-dropdown-link>
@@ -157,6 +157,16 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                 </div>
+                @can('posicao-fila')
+                    <x-dropdown-link :href="route('admin.posicao.fila')">
+                        {{ __('Posição fila') }}
+                    </x-dropdown-link>
+                @endcan
+                @can('reagendar-data')
+                    <x-dropdown-link :href="route('admin.editar.lista.data')">
+                        {{ __('Editar data') }}
+                    </x-dropdown-link>
+                @endcan
 
                 <div class="ml-3">
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>

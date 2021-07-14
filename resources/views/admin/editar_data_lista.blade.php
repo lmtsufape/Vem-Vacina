@@ -64,34 +64,36 @@
                         </div>
                     </div>
                     <br>
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">
-                                <input type="checkbox" name="" id="input_all">
-                            </th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Dose</th>
-                            <th scope="col">Data</th>
-                            <th scope="col">Ponto</th>
-                          </tr>
-                        </thead>
-                        <tbody>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">
+                                    <input type="checkbox" name="" id="input_all">
+                                </th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Dose</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Ponto</th>
+                              </tr>
+                            </thead>
+                            <tbody>
 
 
-                            @foreach ($candidatos as $candidato)
-                                <tr>
-                                    <th scope="row">
-                                        <input type="checkbox" class="input" name="ids[]" value="{{ $candidato->id }}">
-                                    </th>
-                                    <td>{{ $candidato->nome_completo }}</td>
-                                    <td>{{ $candidato->dose }}</td>
-                                    <td>{{ date('d/m/Y \à\s H:i', strtotime($candidato->chegada ))  }}</td>
-                                    <td>{{ $candidato->posto->nome }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @foreach ($candidatos as $candidato)
+                                    <tr>
+                                        <th scope="row">
+                                            <input type="checkbox" class="input" name="ids[]" value="{{ $candidato->id }}">
+                                        </th>
+                                        <td>{{ $candidato->nome_completo }}</td>
+                                        <td>{{ $candidato->dose }}</td>
+                                        <td>{{ date('d/m/Y \à\s H:i', strtotime($candidato->chegada ))  }}</td>
+                                        <td>{{ $candidato->posto->nome }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
                 </form>
 
