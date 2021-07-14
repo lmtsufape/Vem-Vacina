@@ -80,6 +80,11 @@
                                 {{ __('Posição fila') }}
                             </x-dropdown-link>
                         @endcan
+                        @can('posicao-fila')
+                            <x-dropdown-link :href="route('admin.editar.lista.data')">
+                                {{ __('Editar data') }}
+                            </x-dropdown-link>
+                        @endcan
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
