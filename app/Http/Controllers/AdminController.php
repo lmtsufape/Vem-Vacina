@@ -175,6 +175,7 @@ class AdminController extends Controller
             'ids' => 'required|array',
             'chegada' => 'required',
         ]);
+        set_time_limit(180);
         try {
             Gate::authorize('editar-candidato');
 

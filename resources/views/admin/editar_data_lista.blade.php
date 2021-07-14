@@ -5,7 +5,9 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Lista de edição de data de agendamento') }}
                 </h2>
-
+                <h2 class="font-semibold text-lg text-gray-800 leading-tight">
+                    {{ " Quantidade: " . $candidatos->total() }}
+                </h2>
             </div>
             <div class="col-md-4" style="text-align: right;">
 
