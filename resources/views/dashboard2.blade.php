@@ -1,20 +1,22 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-sm-7 pt-3">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Lista de agendamentos') }}
+
                 </h2>
-                <a href="{{ route('dashboard') }}">
-                    <small>Atualizar página <i class="fas fa-redo"></i> </small>
-                </a>
+                <h2 class="font-semibold text-lg text-gray-800 leading-tight">
+                    {{ __('Resultados:') . $candidatos->count() }}
+                </h2>
+
             </div>
-            <div class="col-md-3" style="text-align: right;">
+            <div class="col-sm-3 pt-3" style="text-align: right;">
                 <a href="{{route('solicitacao.candidato')}}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                     Fazer agendamento
                 </a>
             </div>
-            <div class="col-md-2" style="text-align: right">
+            <div class="col-sm-2 pt-3" style="text-align: right">
 
                 @can('ver-fila')
                     <a href="{{ route('fila.index') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">

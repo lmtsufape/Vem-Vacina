@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-9">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Lista de Pontos de Vacinação') }}
                 </h2>
