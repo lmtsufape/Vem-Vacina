@@ -80,11 +80,12 @@
                                     </div>
                                     <input type="hidden" >
                                     <input type="text" class="form-control"  aria-label="Text input with checkbox"
-                                        @if ($etapa->tipo == $tipos[0])
+                                        {{-- @if ($etapa->tipo == $tipos[0])
                                             placeholder="{{ 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo}}"
                                         @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
                                             placeholder="{{$etapa->texto}}"
-                                        @endif
+                                        @endif --}}
+                                        placeholder="{{$etapa->texto}}"
                                         >
                                 </div>
                             @endforeach
