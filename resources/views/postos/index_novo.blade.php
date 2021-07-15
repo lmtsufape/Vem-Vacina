@@ -162,10 +162,13 @@
                                                     <th scope="row">{{$lote_pivot->lote->numero_lote}}</th>
                                                     <td>
                                                     @foreach ($lote_pivot->lote->etapas as $key1 => $etapa)
-
-                                                        <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{ $etapa->texto }}" style="max-width: 150px;">
-                                                            {{$etapa->texto ." -" }}
-                                                        </span>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{ $etapa->texto }}" style="max-width: 150px;">
+                                                                    {{$etapa->texto ." -" }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
                                                     {{-- @if ($etapa->tipo == $tipos[0])
 
                                                     @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
