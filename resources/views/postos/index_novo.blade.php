@@ -43,7 +43,7 @@
                   </div>
               @endif
               <form action="{{ route('postos.index.new') }}" method="get">
-                    <select class="custom-select" name="posto[]" multiple>
+                    <select class="custom-select" style="height: 200px" name="posto[]" multiple>
                         @foreach ($todosPosto as $posto)
                             <option value="{{ $posto->id }}" >{{ $posto->nome }}</option>
                         @endforeach
