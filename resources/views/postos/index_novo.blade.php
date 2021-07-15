@@ -188,20 +188,20 @@
                                                   {{-- <td>{{($lote_pivot->candidatos()->count() )}}</td> --}}
 
                                                   <td scope="row">
-                                                    <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="posto_id" value="{{ $posto->id }}">
-                                                        <input type="hidden" name="lote_id" value="{{ $lote_pivot->id }}">
-                                                        <input type="hidden" name="lote_original_id" value="{{ $lote_pivot->lote->id }}">
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <input class="form-control" name="quantidade"  min="1" type="number" placeholder="Quantidade">
+                                                    <div class="row">
+                                                        <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="posto_id" value="{{ $posto->id }}">
+                                                            <input type="hidden" name="lote_id" value="{{ $lote_pivot->id }}">
+                                                            <input type="hidden" name="lote_original_id" value="{{ $lote_pivot->lote->id }}">
+
+                                                                    <input class="form-control" name="quantidade"  min="1" type="number" placeholder="Quantidade">
+
+                                                                    <button class="btn btn-success">Devolver</button>
+
                                                             </div>
-                                                            <div class="col-2">
-                                                                <button class="btn btn-success">Devolver</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </div>
                                                   </td>
                                                 </tr>
 
