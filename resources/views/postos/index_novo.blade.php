@@ -147,7 +147,7 @@
                                                   <th scope="col">Faixa</th>
                                                   <th scope="col">Fabricante</th>
                                                   <th scope="col">Dose única</th>
-                                                  <th scope="col">Tempo para a segunda dose</th>
+                                                  {{-- <th scope="col">Tempo para a segunda dose</th> --}}
                                                   <th scope="col">Nº de vacinas <i class="fas fa-exclamation-circle"  data-toggle="tooltip" data-placement="top" title="Quantidade de vacinas - quantidade de candidatos nesse lote = vacinas disponíveis"></i></th>
                                                   <th scope="col" colspan="2">Ações</th>
                                                 </tr>
@@ -181,7 +181,7 @@
                                                       </span>
                                                   </th>
                                                   <td>{{$lote_pivot->lote->dose_unica ? 'Sim' : 'Não'}}</td>
-                                                  <td>{{$lote_pivot->lote->dose_unica ? " - " : 'Entre '.$lote_pivot->lote->inicio_periodo." à  ". $lote_pivot->lote->fim_periodo." dias" }} </td>
+                                                  {{-- <td>{{$lote_pivot->lote->dose_unica ? " - " : 'Entre '.$lote_pivot->lote->inicio_periodo." à  ". $lote_pivot->lote->fim_periodo." dias" }} </td> --}}
                                                   <td>{{($lote_pivot->qtdVacina - $posto->candidatos()->where('lote_id', $lote_pivot->id)->count())}}</td>
                                                   {{-- <td>{{$lote_pivot->qtdVacina}}</td> --}}
                                                   {{-- <td>{{($posto->candidatos()->where('lote_id', $lote_pivot->id)->count())}}</td> --}}
@@ -189,18 +189,20 @@
 
                                                   <td scope="row">
                                                     <div class="row">
-                                                        <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
-                                                            @csrf
-                                                            <input type="hidden" name="posto_id" value="{{ $posto->id }}">
-                                                            <input type="hidden" name="lote_id" value="{{ $lote_pivot->id }}">
-                                                            <input type="hidden" name="lote_original_id" value="{{ $lote_pivot->lote->id }}">
+                                                        <div class="col">
+                                                            <form action="{{ route('lotes.alterarQuantidadeVacina') }}" method="post">
+                                                                @csrf
+                                                                <input type="hidden" name="posto_id" value="{{ $posto->id }}">
+                                                                <input type="hidden" name="lote_id" value="{{ $lote_pivot->id }}">
+                                                                <input type="hidden" name="lote_original_id" value="{{ $lote_pivot->lote->id }}">
 
-                                                                    <input class="form-control" name="quantidade"  min="1" type="number" placeholder="Quantidade">
+                                                                        <input class="form-control" name="quantidade" style="width: 100%"  min="1" type="number" placeholder="Quantidade">
 
-                                                                    <button class="btn btn-success">Devolver</button>
+                                                                        <button style="width: 100%" class="btn btn-success mt-1">Devolver</button>
 
-                                                            </div>
-                                                        </form>
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                   </td>
                                                 </tr>
