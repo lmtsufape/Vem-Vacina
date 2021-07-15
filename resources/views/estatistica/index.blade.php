@@ -20,6 +20,19 @@
     <div class="container" style="padding-top: 20px;">
         <div class="row">
             <div class="col-sm-12">
+                <form action="{{ route('estatistica.index') }}" method="get">
+                    <select class="custom-select" style="height: 200px" name="publicos[]" multiple>
+                        @foreach ($todosPublicos as $publico)
+                            <option value="{{ $publico->id }}" >{{ $publico->texto_home }}</option>
+                        @endforeach
+                    </select>
+
+                    <button type="submit" class="btn btn-primary mt-1">
+                        Ver
+                    </button>
+
+                </form>
+                <br>
                 <table class="table">
                     <thead>
                         <tr>
