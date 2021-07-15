@@ -269,7 +269,6 @@ class FilaDistribuir extends Component
                 if($candidato->email != null || $candidato->email != ""  || $candidato->email != " "){
                     Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
                 }
-                \Log::info("user: ".$candidato->chegada);
                 $posto->dias->where('dia', $datetime_chegada->copy()->startOfDay())->first()->horarios->where('horario', $datetime_chegada)->first()->delete();
                 $posto->refresh();
 

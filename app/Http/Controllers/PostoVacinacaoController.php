@@ -270,7 +270,7 @@ class PostoVacinacaoController extends Controller
             }
         }
 
-        return redirect()->route('postos.index.new')->with('message', 'Posto editado com sucesso!');
+        return back()->with('message', 'Posto '.$posto->nome.' editado com sucesso!');
     }
 
     /**
