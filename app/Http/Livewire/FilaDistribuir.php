@@ -176,13 +176,14 @@ class FilaDistribuir extends Component
 
                 if (Candidato::where('cpf',$candidato->cpf)->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1],Candidato::APROVACAO_ENUM[3]])
                 ->count() > 0) {
-                    //\Log::info("cpf");
+                    \Log::info("1");
                     break 2;
                 }
 
                 $etapa = $candidato->etapa;
 
                 if(!$etapa->lotes->count()){
+                    \Log::info("2");
                     break 2;
                 }
                 //Retorna um array de IDs do lotes associados a etapa escolhida
@@ -213,8 +214,10 @@ class FilaDistribuir extends Component
                             $qtd = $lote->qtdVacina - $qtdCandidato;
 
                             if ( !$lote_original->dose_unica && !($qtd >= 2) ) {
+                                \Log::info("3");
                                 break 3;
                             }
+                            \Log::info("4");
                             break;
                         }
 
@@ -224,6 +227,7 @@ class FilaDistribuir extends Component
                         if ($qtdCandidato < $lote->qtdVacina) {
                             $id_lote = $lote->id;
                             $chave_estrangeiro_lote = $lote->lote_id;
+                            \Log::info("5");
                             break;
                         }
                     }
@@ -232,6 +236,7 @@ class FilaDistribuir extends Component
 
                 if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
                     session()->flash('message', 'Acabaram as vacinas.');
+                    \Log::info("6");
                     break 2;
                 }
                 // dd($id_lote);
@@ -268,14 +273,14 @@ class FilaDistribuir extends Component
                 $posto->dias->where('dia', $datetime_chegada->copy()->startOfDay())->first()->horarios->where('horario', $datetime_chegada)->first()->delete();
                 $posto->refresh();
 
-                unset($dia[$key2]);
-
+                // unset($dia[$key2]);
+                \Log::info("true");
                 return true;
 
             }
-            unset($horarios_agrupados_por_dia[$key1]);
+            // unset($horarios_agrupados_por_dia[$key1]);
         }
-
+        \Log::info("false");
         return false;
 
     }
