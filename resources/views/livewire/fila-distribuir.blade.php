@@ -36,7 +36,7 @@
                             <option selected>Selecione...</option>
                             @foreach ($etapas as $key => $etapa)
                             <tr>
-                                <option  value="{{ $etapa->id }}" wire:key="{{ $key }}" >{{$etapa->texto}}</option>
+                                <option  value="{{ $etapa->id }}" wire:key="{{ $key }}" >{{$etapa->texto ."-". $etapa->candidatos->where('aprovacao', "Não Analisado")->count()}}</option>
                             </tr>
                             @endforeach
                         </select>
