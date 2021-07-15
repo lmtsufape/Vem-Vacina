@@ -162,8 +162,8 @@
                                                     <th scope="row">{{$lote_pivot->lote->numero_lote}}</th>
                                                     <td>
                                                     @foreach ($lote_pivot->lote->etapas as $key1 => $etapa)
-
-                                                    @if ($etapa->tipo == $tipos[0])
+                                                        {{ $etapa->texto . " -" }}
+                                                    {{-- @if ($etapa->tipo == $tipos[0])
                                                       <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{ $lote_pivot->lote->etapas->count() > 1 ? 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo ."/" : 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo  }}" style="max-width: 150px;">
                                                           {{ $lote_pivot->lote->etapas->count() > 1 ? 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo ."/" : 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo  }}
                                                       </span>
@@ -172,7 +172,7 @@
                                                       <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$etapa->texto."-"}}" style="max-width: 150px;">
                                                           {{$etapa->texto."-"}}
                                                       </span>
-                                                    @endif
+                                                    @endif --}}
                                                     @endforeach
                                                   </td>
                                                   <th scope="row">

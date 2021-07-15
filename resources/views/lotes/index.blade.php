@@ -107,11 +107,12 @@
                                         <tbody>
                                         @foreach ($lote->etapas as $key => $etapa)
                                         <tr>
-                                            @if ($etapa->tipo == $tipos[0])
+                                            {{-- @if ($etapa->tipo == $tipos[0])
                                                 <td> {{ 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo}}</td>
                                             @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
                                                 <td> {{$etapa->texto}} </td>
-                                            @endif
+                                            @endif --}}
+                                            <td>{{ $etapa->texto }}</td>
                                         </tr>
                                         @endforeach
                                         </tbody>
