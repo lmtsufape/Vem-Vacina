@@ -151,12 +151,14 @@ class PostoVacinacaoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         Gate::authorize('editar-posto');
         $posto = PostoVacinacao::findOrFail($id);
         $etapas = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
         $etapasDoPosto = $posto->etapas()->select('etapa_id')->get();
+        // dd( redirect()->back()->getTargetUrl());
+        session(['url' => redirect()->back()->getTargetUrl()]);
         return view('postos.edit')->with(['posto' => $posto,
                                           'publicos' => $etapas,
                                           'tipos' => Etapa::TIPO_ENUM,
@@ -269,8 +271,13 @@ class PostoVacinacaoController extends Controller
                 $posto->etapas()->attach($publico_id);
             }
         }
+        if ($request->session()->has('url')) {
 
-        return back()->with('message', 'Posto '.$posto->nome.' editado com sucesso!');
+            return redirect(session('url', 'dashboard'))->with(['message' => 'Ponto '.$posto->nome.' editado com sucesso!']);
+
+        }
+
+        return redirect()->route('postos.index.new')->with('message', 'Ponto '.$posto->nome.' editado com sucesso!');
     }
 
     /**
