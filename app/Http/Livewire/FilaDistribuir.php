@@ -272,12 +272,12 @@ class FilaDistribuir extends Component
                 $posto->dias->where('dia', $datetime_chegada->copy()->startOfDay())->first()->horarios->where('horario', $datetime_chegada)->first()->delete();
                 $posto->refresh();
 
-                // unset($dia[$key2]);
+                unset($dia[$key2]);
                 \Log::info("true");
                 return true;
 
             }
-            // unset($horarios_agrupados_por_dia[$key1]);
+            unset($horarios_agrupados_por_dia[$key1]);
         }
         \Log::info("false");
         return false;
