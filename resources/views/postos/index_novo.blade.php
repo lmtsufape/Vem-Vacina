@@ -164,7 +164,7 @@
                                                     @foreach ($lote_pivot->lote->etapas as $key1 => $etapa)
 
                                                         <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{ $etapa->texto }}" style="max-width: 150px;">
-                                                            {{$etapa->texto  }}
+                                                            {{$etapa->texto ." -" }}
                                                         </span>
                                                     {{-- @if ($etapa->tipo == $tipos[0])
 
