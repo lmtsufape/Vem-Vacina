@@ -76,6 +76,10 @@
                                         <input type="checkbox" name="publico_check" id="publico_check_input" @if($request->publico_check != null && $request->publico_check) checked @endif onclick="mostrarFiltro(this, 'publico_check')">
                                         <label>Público</label>
                                     </div>
+                                    <div class="col-md-3">
+                                        <input type="checkbox" name="posicao_check" id="posicao_check" @if($request->posicao_check != null && $request->posicao_check) checked @endif>
+                                        <label>Mais velhos</label>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div id="nome_check" class="col-md-3" style="@if($request->nome_check != null && $request->nome_check) display: block; @else display: none; @endif">
