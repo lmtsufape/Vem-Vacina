@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <input type="checkbox" name="posicao_check" id="posicao_check" @if($request->posicao_check != null && $request->posicao_check) checked @endif>
-                                        <label>Mais velhos</label>
+                                        <label>Posição</label>
                                     </div>
                                 </div>
                                 <div class="row">
