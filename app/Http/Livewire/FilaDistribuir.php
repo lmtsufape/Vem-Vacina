@@ -253,8 +253,8 @@ class FilaDistribuir extends Component
                 if (!$lote->dose_unica) {
                     \Log::info("candidato segundo");
                     $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
-                    if($datetime_chegada_segunda_dose->format('l') == "Sunday"){
-                        $datetime_chegada_segunda_dose->add(new DateInterval('P1D'));
+                    if($datetime_chegada_segunda_dose->format('l') == "Sunday" || $datetime_chegada_segunda_dose->format('l') == "Saturday"){
+                        $datetime_chegada_segunda_dose->add(new DateInterval('P3D'));
                     }
                     $candidatoSegundaDose = $candidato->replicate()->fill([
                         'aprovacao' =>  Candidato::APROVACAO_ENUM[1],
