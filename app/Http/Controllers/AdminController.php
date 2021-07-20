@@ -95,11 +95,9 @@ class AdminController extends Controller
             $hoje = (new Carbon($request->data_vacinado));
             $query->where([['updated_at','>=',$hoje], ['updated_at','<=', $amanha]]);
         }
-
         if ($request->dose_check && $request->dose != null) {
             $query->where('dose',$request->dose);
         }
-
         if ($request->aprovado) {
             $query->where('aprovacao', Candidato::APROVACAO_ENUM[1]);
         }
@@ -107,21 +105,16 @@ class AdminController extends Controller
         if ($request->duplicado) {
             $query->where('cpf', Candidato::APROVACAO_ENUM[0]);
         }
-
-
-
         if ($request->publico_check) {
             if ($request->publico != null) {
                 $query->where('etapa_id', $request->publico);
             }
         }
-
         if ($request->sus_check) {
             if ($request->sus) {
                 $query->where('numero_cartao_sus', 'ilike', '%'.$request->sus.'%');
             }
         }
-
         if ($request->ordem_check && $request->ordem != null) {
             if($request->campo != null){
                 $query->orderBy($request->campo, $request->ordem);
@@ -129,18 +122,14 @@ class AdminController extends Controller
                 $query->orderBy('nome_completo', $request->ordem);
             }
         }
-
         if ($request->campo_check && $request->campo != null) {
             $query->orderBy($request->campo);
         }
-
-
         if ($request->outro) {
             $agendamentos = $query->get();
         } else {
             $agendamentos = $query->orderBy('created_at')->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate($request->qtd)->withQueryString();
         }
-
         if ($request->outro) {
             $agendamentosComOutrasInfo = collect();
 
@@ -157,9 +146,6 @@ class AdminController extends Controller
                 $agendamentos = collect();
             }
         }
-
-
-
         return view('admin.editar_data_lista')->with(['candidatos' => $agendamentos,
                                                     'candidato_enum' => Candidato::APROVACAO_ENUM,
                                                     'tipos' => Etapa::TIPO_ENUM,
