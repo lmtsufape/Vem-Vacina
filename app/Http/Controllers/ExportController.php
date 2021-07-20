@@ -95,8 +95,8 @@ class ExportController extends Controller
             }elseif(count($request->mes) == 2 && $request->mes[1] != null){
                 $mes0 = (new Carbon($request->mes[0]))->format('m');
                 $mes1 = (new Carbon($request->mes[1]))->format('m');
-                $query->whereRaw('extract(month from chegada) = ?', [$mes0])
-                      ->orwhereRaw('extract(month from chegada) = ?', [$mes1]);
+                $query->whereMonth('chegada','=',$mes0)
+                      ->orwhereMonth('chegada','=',$mes1);
             }
         }
         if ($request->data_check && $request->data != null) {
