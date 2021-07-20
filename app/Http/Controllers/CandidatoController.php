@@ -42,7 +42,7 @@ class CandidatoController extends Controller
         }else if ($request->tipo == "Vacinado") {
             $query = Candidato::query()->where('aprovacao', Candidato::APROVACAO_ENUM[3]);
         }else{
-            $query = Candidato::query()->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1], Candidato::APROVACAO_ENUM[3]]);
+            $query = Candidato::query()->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1]]);
         }
 
         if ($request->nome_check && $request->nome != null) {
@@ -69,8 +69,9 @@ class CandidatoController extends Controller
             }elseif(count($request->mes) == 2 && $request->mes[1] != null){
                 $mes0 = (new Carbon($request->mes[0]))->format('m');
                 $mes1 = (new Carbon($request->mes[1]))->format('m');
-                $query->whereRaw('extract(month from chegada) = ?', [$mes0])
-                      ->orwhereRaw('extract(month from chegada) = ?', [$mes1]);
+                $query->whereMonth('chegada','=',$mes0)
+                      ->orwhereMonth('chegada','=',$mes1);
+
             }
         }
         if ($request->data_vacinado_check && $request->data_vacinado != null) {
