@@ -100,8 +100,7 @@
                                         <input type="date" class="form-control" name="data" id="data" @if($request->data != null) value="{{$request->data}}" @endif>
                                     </div>
                                     <div id="mes_check" class="col-md-3" style="@if($request->mes_check != null && $request->mes_check) display: block; @else display: none; @endif">
-                                        <input type="month" class="form-control" name="mes[]" id="mes" @if(array_key_exists(0,$request->mes ? $request->mes: []) != false) value="{{$request->mes[0]}}" @endif>
-                                        <input type="month" class="form-control" name="mes[]" id="mes" @if(array_key_exists(1,$request->mes ? $request->mes: []) != false) value="{{$request->mes[1]}}" @endif>
+                                        <input type="month" class="form-control" name="mes" id="mes" @if($request->mes != null) value="{{$request->mes}}" @endif>
                                     </div>
                                     <div id="data_vacinado_check" class="col-md-3" style="@if($request->data_vacinado_check != null && $request->data_vacinado_check) display: block; @else display: none; @endif">
                                         <input type="date" class="form-control" name="data_vacinado" id="data_vacinado" @if($request->data_vacinado != null) value="{{$request->data_vacinado}}" @endif>

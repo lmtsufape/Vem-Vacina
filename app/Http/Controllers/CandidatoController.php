@@ -63,19 +63,21 @@ class CandidatoController extends Controller
             $query->where([['chegada','>=',$hoje], ['chegada','<=', $amanha]]);
         }
         if ($request->mes_check && $request->mes != null) {
-            if(count($request->mes) == 2 && $request->mes[1] == null){
-                $mes0 = (new Carbon($request->mes[0]))->format('m');
-                $query->whereMonth('chegada', (new Carbon($request->mes[0]))->format('m'));
-            }elseif(count($request->mes) == 2 && $request->mes[1] != null){
-                $mes0 = (new Carbon($request->mes[0]))->format('m');
-                $mes1 = (new Carbon($request->mes[1]))->format('m');
-                // $query->whereRaw('extract(month from chegada) = ?', [$mes0])
-                //       ->orwhereRaw('extract(month from chegada) = ?', [$mes1]);
-                // $query->whereMonth('chegada', [(new Carbon($request->mes[0]))->format('m'), (new Carbon($request->mes[1]))->format('m')]);
-                $query->whereMonth('chegada','=',$mes0)
-                      ->orwhereMonth('chegada','=',$mes1);
+            $mes0 = (new Carbon($request->mes))->format('m');
+            $query->whereMonth('chegada',$mes0);
+            // if(count($request->mes) == 2 && $request->mes[1] == null){
+                //     $mes0 = (new Carbon($request->mes[0]))->format('m');
+                //     $query->whereMonth('chegada', (new Carbon($request->mes[0]))->format('m'));
+            // }elseif(count($request->mes) == 2 && $request->mes[1] != null){
+            //     $mes0 = (new Carbon($request->mes[0]))->format('m');
+            //     $mes1 = (new Carbon($request->mes[1]))->format('m');
+            //     // $query->whereRaw('extract(month from chegada) = ?', [$mes0])
+            //     //       ->orwhereRaw('extract(month from chegada) = ?', [$mes1]);
+            //     // $query->whereMonth('chegada', [(new Carbon($request->mes[0]))->format('m'), (new Carbon($request->mes[1]))->format('m')]);
+            //     $query->whereMonth('chegada','=',$mes0)
+            //           ->orwhereMonth('chegada','=',$mes1);
 
-            }
+            // }
         }
         if ($request->data_vacinado_check && $request->data_vacinado != null) {
             $amanha = (new Carbon($request->data_vacinado))->addDays(1);
