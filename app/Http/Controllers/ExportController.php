@@ -89,10 +89,10 @@ class ExportController extends Controller
             $query->where([['updated_at','>=',$hoje], ['updated_at','<=', $amanha]]);
         }
         if ($request->mes_check && $request->mes != null) {
-            if(count($request->mes) == 1){
+            if(count($request->mes) == 2 && $request->mes[1] == null){
                 $mes0 = (new Carbon($request->mes[0]))->format('m');
                 $query->whereMonth('chegada', (new Carbon($request->mes[0]))->format('m'));
-            }elseif(count($request->mes) == 2){
+            }elseif(count($request->mes) == 2 && $request->mes[1] != null){
                 $mes0 = (new Carbon($request->mes[0]))->format('m');
                 $mes1 = (new Carbon($request->mes[1]))->format('m');
                 $query->whereRaw('extract(month from chegada) = ?', [$mes0])
