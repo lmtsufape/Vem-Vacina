@@ -88,6 +88,13 @@ class ExportController extends Controller
             $hoje = (new Carbon($request->data_vacinado));
             $query->where([['updated_at','>=',$hoje], ['updated_at','<=', $amanha]]);
         }
+        if ($request->mes_check && $request->mes != null) {
+            if(count($request->mes) == 1){
+                $query->whereMonth('chegada', (new Carbon($request->mes[0]))->format('m'));
+            }elseif(count($request->mes) == 2){
+                $query->whereMonth('chegada', [(new Carbon($request->mes[0]))->format('m'), (new Carbon($request->mes[1]))->format('m')]);
+            }
+        }
         if ($request->data_check && $request->data != null) {
             $amanha = (new Carbon($request->data))->addDays(1);
             $hoje = (new Carbon($request->data));

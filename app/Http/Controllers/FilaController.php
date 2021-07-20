@@ -52,6 +52,13 @@ class FilaController extends Controller
                 $query->orderBy('nome_completo', $request->ordem);
             }
         }
+        if ($request->mes_check && $request->mes != null) {
+            if(count($request->mes) == 1){
+                $query->whereMonth('chegada', (new Carbon($request->mes[0]))->format('m'));
+            }elseif(count($request->mes) == 2){
+                $query->whereMonth('chegada', [(new Carbon($request->mes[0]))->format('m'), (new Carbon($request->mes[1]))->format('m')]);
+            }
+        }
 
         if ($request->campo_check && $request->campo != null) {
             $query->orderBy($request->campo);
