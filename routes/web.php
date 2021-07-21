@@ -65,7 +65,7 @@ Route::middleware(['auth'])->group(function () {
             (select c.cpf
             from candidatos c
             group by c.cpf
-            having count(cpf) >= 1) 
+            having count(cpf) > 2) 
         group by nome_completo, deleted_at,cpf'));
         // $result = DB::table('candidatos')->select(DB::raw('count("cpf"), nome_completo, chegada'))
         //                                  ->groupBy('cpf', 'nome_completo', 'chegada')
