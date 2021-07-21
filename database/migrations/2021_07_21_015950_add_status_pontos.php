@@ -15,7 +15,7 @@ class AddStatusPontos extends Migration
     {
         Schema::table('posto_vacinacaos', function (Blueprint $table) {
             $table->string('status') // Nome da coluna
-                    ->nullable() // Preenchimento não obrigatório
+                    ->default('ativo')// Preenchimento não obrigatório
                     ->after('padrao_no_formulario');
         });
     }

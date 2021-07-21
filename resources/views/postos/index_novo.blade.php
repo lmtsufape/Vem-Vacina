@@ -135,10 +135,21 @@
                                           </form>
                                       @endcan
                                   </td>
+                                  <td>
+                                      @can('apagar-posto')
+                                          <form action="{{ route('postos.arquivar', ['id' => $posto->id]) }}" method="post">
+                                              @csrf
+                                              
+                                              <button onclick="return confirm('Você tem certeza?')" type="submit" class=" bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mb-2">
+                                                  Arquivar
+                                              </button>
+                                          </form>
+                                      @endcan
+                                  </td>
                               </tr>
                               <tr id="demo{{ $posto->id }}" class="collapse @if($posto->id == old('posto_id') ) show @endif">
 
-                                      <td colspan="6" class="hiddenRow">
+                                      <td colspan="7" class="hiddenRow">
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-info">
                                               <thead>
