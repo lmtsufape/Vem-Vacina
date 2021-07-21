@@ -41,11 +41,11 @@ class PostoVacinacaoController extends Controller
         // }])->get();
         // $posto->candidatos()->where('lote_id', $lote_pivot->id)->count()
         $tipos = Etapa::TIPO_ENUM;
-        $todosPosto = PostoVacinacao::orderBy('nome')->get();
+        $todosPosto = PostoVacinacao::where('status', '!=', 'arquivado')->orderBy('nome')->get();
         if($request->posto == null){
-            $postos = PostoVacinacao::with(['lotes', 'etapas', 'candidatos'])->orderBy('nome')->simplePaginate(5);
+            $postos = PostoVacinacao::with(['lotes', 'etapas', 'candidatos'])->where('status', '!=', 'arquivado')->orderBy('nome')->simplePaginate(5);
         }else{
-            $postos = PostoVacinacao::whereIn('id', $request->posto)->orderBy('nome')->simplePaginate(10);
+            $postos = PostoVacinacao::where('status', '!=', 'arquivado')->whereIn('id', $request->posto)->orderBy('nome')->simplePaginate(10);
         }
         return view('postos.index_novo', compact('postos', 'lotes_pivot','tipos', 'todosPosto'));
     }
@@ -61,6 +61,16 @@ class PostoVacinacaoController extends Controller
         Gate::authorize('criar-posto');
         $etapas = Etapa::where([['atual', true], ['tipo', '!=', Etapa::TIPO_ENUM[3]]])->get();
         return view('postos.store')->with(['publicos' => $etapas, 'tipos' => Etapa::TIPO_ENUM]);
+    }
+
+    public function arquivar($id)
+    {
+        Gate::authorize('apagar-posto');
+        $posto = PostoVacinacao::find($id);
+        $posto->update([
+            'status' => "arquivado"
+        ]);
+        return back();
     }
 
     /**

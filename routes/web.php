@@ -152,6 +152,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/horarios/delete/{posto_id}/{dia_id}', [HorarioController::class, 'delete'])->name('horarios.delete');
 
     Route::get('/posto/gerador/{id?}', [PostoVacinacaoController::class, 'geradorHorarios'])->name('posto.geradorHorarios');
+    Route::post('/posto/arquivar/{id?}', [PostoVacinacaoController::class, 'arquivar'])->name('postos.arquivar');
 
     Route::get('/posto/dias-disponiveis', [PostoVacinacaoController::class, 'diasPorPosto'])->name('dias.posto.ajax');
     Route::post('/agentamento/{id}/reagendar', [CandidatoController::class, 'reagendar'])->name('agendamento.posto.update');
