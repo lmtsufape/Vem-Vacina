@@ -17,25 +17,25 @@
                         <div class="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
 
                                 <button class="btn btn-white btn-block text-left @if ($candidato->aprovacao != $candidato_enum[0]) text-white @elseif($candidato->aprovacao == $candidato_enum[0]) text-dark  @endif " type="button" data-toggle="collapse" data-target="#collapse{{ $i }}" aria-expanded="true" aria-controls="collapseOne">
-                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+                                    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1">
 
-                                        <div class="col col-sm col-md col-lg-3 col-xl-3">
+                                        <div class="col col-sm col-md-12 col-lg-3 col-xl-3">
                                             <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
                                                 <strong>    {{ " " }}   </strong> {{ $candidato->cpf }}
                                             </span>
                                         </div>
-                                        <div class="col col-sm col-md col-lg-2 col-xl-2">
+                                        <div class="col-8 col-sm-8 col-md-12 col-lg-2 col-xl-2">
                                             <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
                                                 <strong> {{ "" }}</strong> {{$candidato->dose}}
                                             </span>
                                         </div>
-                                        <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="col-8 col-sm-8 col-md-12 col-lg-6 col-xl-6">
                                             <span class="d-inline-block text-truncate text-capitalize font-weight-bolder" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="width: 23rem;">
                                                 <strong>   {{ "Nome: "}} </strong>  {{$candidato->nome_completo}}
                                                 </span>
                                         </div>
-                                        <div class="col col-sm col-md col-lg col-xl">
-                                            <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="width: 90%;">
+                                        <div class="col-8 col-sm-8 col-md-12 col-lg col-xl">
+                                            <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" >
                                                 <strong>   {{ ""}} </strong>  {{$candidato->posto ? $candidato->posto->nome : ""}}
                                                 </span>
                                         </div>
@@ -44,7 +44,7 @@
                                 </button>
 
                         </div>
-                        <div class="col col-sm col-md col-lg col-xl ">
+                        <div class="col-8 col-sm-8 col-md-8 col-lg-2 col-xl-2">
                             <div>
                                 @can('confirmar-vaga-candidato')
 
