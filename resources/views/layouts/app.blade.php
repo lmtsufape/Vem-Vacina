@@ -78,7 +78,7 @@
             @endauth
 
             <!-- Page Content -->
-            <main>
+            <main >
                 {{ $slot }}
             </main>
             <footer>
