@@ -25,9 +25,9 @@ class WelcomeController extends Controller
         $publicos = Etapa::with('candidatos')->orderBy('texto')->get();
         $pontos = PostoVacinacao::all();
         $ultimaAtualizacao = null;
-        $seconds = now()->addMinutes(1);
+        // $seconds = now()->addMinutes(1);
         // $seconds = now()->add(new DateInterval('PT1M'));
-        // $seconds = now()->addDays(1);
+        $seconds = now()->addDays(1);
 
         $ultimaAtualizacao      = Cache::remember('ultimaAtualizacao', $seconds, function () {
                                     return now();
