@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Etapa;
 use App\Models\Candidato;
-use App\Models\PostoVacinacao;
 use App\Models\Configuracao;
+use Illuminate\Http\Request;
+use App\Models\PostoVacinacao;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 
 class WelcomeController extends Controller
@@ -27,37 +28,31 @@ class WelcomeController extends Controller
         $ultimaAtualizacao = null;
         // $seconds = now()->addMinutes(1);
         // $seconds = now()->add(new DateInterval('PT1M'));
-        $seconds = now()->addDays(1);
-        \Log::info("estat");
+        $seconds = now()->addDays(5);
+
         $ultimaAtualizacao      = Cache::remember('ultimaAtualizacao', $seconds, function () {
                                     return now();
                                 });
 
-        $total  = Cache::remember('total', $seconds, function () use($publicos) {
-                                \Log::info("total");
-                                $total = [];
-                                
-                               
-                                $total['quantPessoasPriDose'] = DB::table('candidatos')->where('dose', "1ª Dose")->count();
-
-                                $total['quantPessoasSegDose'] =  DB::table('candidatos')->where('dose', "2ª Dose")->count();
-
-                                $total['quantPessoasDoseUnica'] = DB::table('candidatos')->where('dose', "Dose única")->count();
-
-                                $total['candidatosVacinados'] = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
-
-                                $total['quantPessoasCadastradas'] = Candidato::where('aprovacao', '!=',Candidato::APROVACAO_ENUM[2])->count();
-
-                                // $total['porcentagemVacinada'] = $this->porcentagemVacinada($quantPessoasPriDose);
-
-                                // $total['quantVacinadosPorBairro'] = $this->quantVacinadosPorBairro($total['candidatosVacinados']);
-
-                                // $total['quantVacinadosPorIdade'] = $this->quantVacinadosPorIdade($total['candidatosVacinados']);
-
-                                // $total['vacinadosPorSexo'] = $this->vacinadosPorSexo($total['candidatosVacinados']);
-
-                                return $total;
-                            });
+        $total['quantPessoasPriDose']       = Cache::remember('quantPessoasPriDose', $seconds, function () {
+                                                \Log::info("quantPessoasPriDose");
+                                                return DB::table('candidatos')->where('dose', "1ª Dose")->count();
+                                            });
+        $total['quantPessoasSegDose']       = Cache::remember('quantPessoasSegDose', $seconds, function () {
+                                                \Log::info("quantPessoasSegDose");
+                                                return DB::table('candidatos')->where('dose', "2ª Dose")->count();
+                                            });
+        $total['quantPessoasDoseUnica']     = Cache::remember('quantPessoasDoseUnica', $seconds, function () {
+                                                return DB::table('candidatos')->where('dose', "Dose única")->count();
+                                            });
+        // $total['candidatosVacinados']       = Cache::remember('candidatosVacinados', $seconds, function () use($pontos) {
+        //                                         return DB::table('candidatos')->where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
+        //                                     });
+        $total['quantPessoasCadastradas']   = Cache::remember('vacinasDisponiveis', $seconds, function () use($pontos) {
+                                                return DB::table('candidatos')->where('aprovacao', '!=',Candidato::APROVACAO_ENUM[2])->count();
+                                            });
+ 
+        
 
         return view('home_estatistica')->with(['publicos'                => $publicos,
                                                 'quantPessoasCadastradas' => $total['quantPessoasCadastradas'],
@@ -65,10 +60,6 @@ class WelcomeController extends Controller
                                                 'quantPessoasSegDose'     => $total['quantPessoasSegDose'],
                                                 'quantPessoasDoseUnica'   => $total['quantPessoasDoseUnica'],
                                                 'aprovacao_enum'          => Candidato::APROVACAO_ENUM,
-                                                // 'porcentagemVacinada'     => $total['porcentagemVacinada'],
-                                                // 'quantVacinadosPorBairro' => $total['quantVacinadosPorBairro'],
-                                                // 'quantVacinadosPorIdade'  => $total['quantVacinadosPorIdade'],
-                                                // 'vacinadosPorSexo'        => $total['vacinadosPorSexo'],
                                                 'config'                  => $config,
                                                 'ultimaAtt'               => $ultimaAtualizacao]);
     }
