@@ -18,12 +18,17 @@ class WelcomeController extends Controller
     
         return view('welcome')->with(['config'=> $config,]);
     }
+    public function manutencao() {
+
+    
+        return view('manutencao');
+    }
 
     public function estatisticas()
     {
         $config = Configuracao::first();
         set_time_limit(360);
-        $publicos = Etapa::with('candidatos')->orderBy('texto')->get();
+        $publicos = Etapa::orderBy('texto')->get();
         $pontos = PostoVacinacao::all();
         $ultimaAtualizacao = null;
         // $seconds = now()->addMinutes(1);

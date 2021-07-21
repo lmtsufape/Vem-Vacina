@@ -29,6 +29,7 @@ use App\Http\Controllers\PostoVacinacaoController;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('index');
 Route::get('/home/estatisticas', [WelcomeController::class, 'estatisticas'])->name('home.estatisticas');
+Route::get('/manutencao', [WelcomeController::class, 'manutencao'])->name('manutencao');
 
 
 

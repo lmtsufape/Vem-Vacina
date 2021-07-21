@@ -131,11 +131,20 @@
             </div>
         </div>
 
-        <div class="container" style="text-align: center; margin-top:2rem; margin-bottom: 4rem;">
-            <p style="color: #204788; font-weight: bold;">
-                <a href="{{route('home.estatisticas')}}">Mais informações</a>
-            </p>
-        </div>
+        @auth
+            <div class="container" style="text-align: center; margin-top:2rem; margin-bottom: 4rem;">
+                <p style="color: #204788; font-weight: bold;">
+                    <a href="{{route('home.estatisticas')}}">Seção de Estatísticas</a>
+                </p>
+            </div>
+        @endauth
+        @guest
+            <div class="container" style="text-align: center; margin-top:2rem; margin-bottom: 4rem;">
+                <p style="color: #204788; font-weight: bold;">
+                    <a href="{{route('manutencao')}}">Seção de Estatísticas</a>
+                </p>
+            </div>
+        @endguest
         
         <!-- rodapé -->
         <div style="background-color:#313561; display: flex; flex-wrap: wrap;">
