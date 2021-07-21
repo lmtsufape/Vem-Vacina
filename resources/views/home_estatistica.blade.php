@@ -115,7 +115,7 @@
             </div>
 
 
-            {{-- <div class="container">
+            <div class="container">
                 <div class="row justify-content-center">
                     <!-- pessoas vacinadas -->
                     <div class="card_media2">
@@ -181,9 +181,9 @@
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
-            {{-- <div class="container">
+            <div class="container">
                 <div class="row justify-content-center">
                     <!-- vacinados por idade -->
                     <div class="card_media2">
@@ -233,23 +233,9 @@
                         </div>
                     </div>
 
-                    <!-- Imunizados (Nº de pessoas x dia) -->
-                    <div class="card_media2">
-                        <div class="card_menor3">
-                            <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">IMUNIZADOS (Nº DE PESSOAS X DIA)</div>
-                            <div class="container" style="padding-top: 10px; padding-bottom: 5px;">
-                                <div style="position: relative;
-                                margin-bottom: 2rem;
-                                overflow: auto;">
-
-                                <!-- grafico -->
-                                <canvas id="graficoImunizados"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
-            </div> --}}
+            </div>
 
             <div class="container" style="text-align: center; margin-top:2rem; margin-bottom: 4rem;">
                 <p style="color: #204788; font-weight: bold;">Última atualização dos dados: {{date('d/m/Y \à\s  H:i\h', strtotime($ultimaAtt))}}</p>
@@ -435,6 +421,33 @@
                 }]
             }
         }); */
+        let graficoSexo = document.getElementById("graficoSexo").getContext("2d");
+        let chart2 = new Chart(graficoSexo, {
+                @if(count($vacinadosPorSexo) > 2)
+                    type: 'doughnut',
+                    data:{
+                    labels:['{{$vacinadosPorSexo[0]['sexo']}}', '{{$vacinadosPorSexo[1]['sexo']}}', '{{$vacinadosPorSexo[2]['sexo']}}'],
+                    datasets:[{
+                        label:"Sexo",
+                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}', '{{$vacinadosPorSexo[2]['quantidade']}}'],
+                        backgroundColor:['#2396F3', '#F5C900','#F50057'],
+                    }]
+                @elseif(count($vacinadosPorSexo) > 1)
+                    type: 'doughnut',
+                    data:{
+                    labels:['{{$vacinadosPorSexo[0]['sexo']}}', '{{$vacinadosPorSexo[1]['sexo']}}'],
+                    datasets:[{
+                        label:"Sexo",
+                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}'],
+                        backgroundColor:['#F50057', '#2396F3'],
+                    }]
+                @endif
+            }, options:{
+                animation:{
+                    animateScale: true
+                }
+            }
+        });
 
         
     </script>
