@@ -92,7 +92,7 @@
                         </div>
                     </div>
                     
-                    <!-- imunizacao -->
+                    {{-- <!-- imunizacao -->
                     <div class="style_card_menor">
                         <div class="card_menor">
                             <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">IMUNIZAÇÃO *</div>
@@ -110,12 +110,12 @@
                         <div style="text-align: center; margin-top: 10px;">
                             <a style="color: #01487E; font-weight: bold; cursor: pointer" data-toggle="modal" data-target="#imunizacao">Clique aqui para saber mais</a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
 
-            <div class="container">
+            {{-- <div class="container">
                 <div class="row justify-content-center">
                     <!-- pessoas vacinadas -->
                     <div class="card_media2">
@@ -181,9 +181,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="container">
+            {{-- <div class="container">
                 <div class="row justify-content-center">
                     <!-- vacinados por idade -->
                     <div class="card_media2">
@@ -233,7 +233,7 @@
                         </div>
                     </div>
 
-                    {{-- <!-- Imunizados (Nº de pessoas x dia) -->
+                    <!-- Imunizados (Nº de pessoas x dia) -->
                     <div class="card_media2">
                         <div class="card_menor3">
                             <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px;border-top-right-radius: 12px;">IMUNIZADOS (Nº DE PESSOAS X DIA)</div>
@@ -247,9 +247,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="container" style="text-align: center; margin-top:2rem; margin-bottom: 4rem;">
                 <p style="color: #204788; font-weight: bold;">Última atualização dos dados: {{date('d/m/Y \à\s  H:i\h', strtotime($ultimaAtt))}}</p>
@@ -317,7 +317,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
     </body>
 
-    <!-- Modal -->
+    {{-- <!-- Modal -->
     <div class="modal fade" id="imunizacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="border-radius: 12px;">
@@ -345,7 +345,7 @@
             </div>
         </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Modal checar agendamento -->
     <div class="modal fade" id="modalChecarAgendamento" tabindex="-1" aria-labelledby="modalChecarAgendamentoLabel" aria-hidden="true">
@@ -436,35 +436,6 @@
             }
         }); */
 
-        let graficoSexo = document.getElementById("graficoSexo").getContext("2d");
-        let chart2 = new Chart(graficoSexo, {
-                @if(count($vacinadosPorSexo) > 2)
-                    type: 'doughnut',
-                    data:{
-                    labels:['{{$vacinadosPorSexo[0]['sexo']}}', '{{$vacinadosPorSexo[1]['sexo']}}', '{{$vacinadosPorSexo[2]['sexo']}}'],
-
-                    datasets:[{
-                        label:"Sexo",
-                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}', '{{$vacinadosPorSexo[2]['quantidade']}}'],
-                        backgroundColor:['#2396F3', '#F5C900','#F50057'],
-                    }]
-                @elseif(count($vacinadosPorSexo) > 1)
-                    type: 'doughnut',
-                    data:{
-                    labels:['{{$vacinadosPorSexo[0]['sexo']}}', '{{$vacinadosPorSexo[1]['sexo']}}'],
-
-                    datasets:[{
-                        label:"Sexo",
-                        data:['{{$vacinadosPorSexo[0]['quantidade']}}', '{{$vacinadosPorSexo[1]['quantidade']}}'],
-                        backgroundColor:['#F50057', '#2396F3'],
-                    }]
-                @endif
-
-            }, options:{
-                animation:{
-                    animateScale: true
-                }
-            }
-        });
+        
     </script>
 </x-guest-layout>

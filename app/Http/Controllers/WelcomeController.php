@@ -37,36 +37,24 @@ class WelcomeController extends Controller
                                 \Log::info("total");
                                 $total = [];
                                 
-                                $quantPessoasPriDose = 0;
-                                foreach ($publicos as $publico) {
-                                    $quantPessoasPriDose += $publico->total_pessoas_vacinadas_pri_dose;
-                                }
-                                $total['quantPessoasPriDose'] = $quantPessoasPriDose;
+                               
+                                $total['quantPessoasPriDose'] = DB::table('candidatos')->where('dose', "1ª Dose")->count();
 
-                                
-                                $quantPessoasSegDose = 0;
-                                foreach ($publicos as $publico) {
-                                    $quantPessoasSegDose += $publico->total_pessoas_vacinadas_seg_dose;
-                                }
-                                $total['quantPessoasSegDose'] =  $quantPessoasSegDose;
+                                $total['quantPessoasSegDose'] =  DB::table('candidatos')->where('dose', "2ª Dose")->count();
 
-                                $quantPessoasDoseUnica = 0;
-                                foreach ($publicos as $publico) {
-                                    $quantPessoasDoseUnica += $publico->dose_unica;
-                                }
-                                $total['quantPessoasDoseUnica'] = $quantPessoasDoseUnica;
+                                $total['quantPessoasDoseUnica'] = DB::table('candidatos')->where('dose', "Dose única")->count();
 
                                 $total['candidatosVacinados'] = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
 
                                 $total['quantPessoasCadastradas'] = Candidato::where('aprovacao', '!=',Candidato::APROVACAO_ENUM[2])->count();
 
-                                $total['porcentagemVacinada'] = $this->porcentagemVacinada($quantPessoasPriDose);
+                                // $total['porcentagemVacinada'] = $this->porcentagemVacinada($quantPessoasPriDose);
 
-                                $total['quantVacinadosPorBairro'] = $this->quantVacinadosPorBairro($total['candidatosVacinados']);
+                                // $total['quantVacinadosPorBairro'] = $this->quantVacinadosPorBairro($total['candidatosVacinados']);
 
-                                $total['quantVacinadosPorIdade'] = $this->quantVacinadosPorIdade($total['candidatosVacinados']);
+                                // $total['quantVacinadosPorIdade'] = $this->quantVacinadosPorIdade($total['candidatosVacinados']);
 
-                                $total['vacinadosPorSexo'] = $this->vacinadosPorSexo($total['candidatosVacinados']);
+                                // $total['vacinadosPorSexo'] = $this->vacinadosPorSexo($total['candidatosVacinados']);
 
                                 return $total;
                             });
@@ -77,10 +65,10 @@ class WelcomeController extends Controller
                                                 'quantPessoasSegDose'     => $total['quantPessoasSegDose'],
                                                 'quantPessoasDoseUnica'   => $total['quantPessoasDoseUnica'],
                                                 'aprovacao_enum'          => Candidato::APROVACAO_ENUM,
-                                                'porcentagemVacinada'     => $total['porcentagemVacinada'],
-                                                'quantVacinadosPorBairro' => $total['quantVacinadosPorBairro'],
-                                                'quantVacinadosPorIdade'  => $total['quantVacinadosPorIdade'],
-                                                'vacinadosPorSexo'        => $total['vacinadosPorSexo'],
+                                                // 'porcentagemVacinada'     => $total['porcentagemVacinada'],
+                                                // 'quantVacinadosPorBairro' => $total['quantVacinadosPorBairro'],
+                                                // 'quantVacinadosPorIdade'  => $total['quantVacinadosPorIdade'],
+                                                // 'vacinadosPorSexo'        => $total['vacinadosPorSexo'],
                                                 'config'                  => $config,
                                                 'ultimaAtt'               => $ultimaAtualizacao]);
     }
