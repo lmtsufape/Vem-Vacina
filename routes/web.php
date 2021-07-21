@@ -91,6 +91,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/posicao/fila',  [AdminController::class, 'posicaoFila'])->name('admin.posicao.fila');
     Route::get('/admin/lista/editar',  [AdminController::class, 'editarListaData'])->name('admin.editar.lista.data');
     Route::post('/admin/lista/update',  [AdminController::class, 'updateListaData'])->name('admin.update.lista.data');
+    Route::get('/admin/arquivados/index', function(){ return view('admin.arquivados'); })->name('admin.arquivados.index');
+    Route::get('/admin/arquivados/ponto',  [AdminController::class, 'arquivadosPonto'])->name('admin.ponto.arquivados');
 
     Route::get('/dashboard',  [CandidatoController::class, 'show'])->name('dashboard');
     Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento");
@@ -152,7 +154,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/horarios/delete/{posto_id}/{dia_id}', [HorarioController::class, 'delete'])->name('horarios.delete');
 
     Route::get('/posto/gerador/{id?}', [PostoVacinacaoController::class, 'geradorHorarios'])->name('posto.geradorHorarios');
-    Route::post('/posto/arquivar/{id?}', [PostoVacinacaoController::class, 'arquivar'])->name('postos.arquivar');
+    Route::post('/posto/arquivar/{id}/{status}', [PostoVacinacaoController::class, 'arquivar'])->name('postos.arquivar');
 
     Route::get('/posto/dias-disponiveis', [PostoVacinacaoController::class, 'diasPorPosto'])->name('dias.posto.ajax');
     Route::post('/agentamento/{id}/reagendar', [CandidatoController::class, 'reagendar'])->name('agendamento.posto.update');

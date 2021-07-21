@@ -63,14 +63,14 @@ class PostoVacinacaoController extends Controller
         return view('postos.store')->with(['publicos' => $etapas, 'tipos' => Etapa::TIPO_ENUM]);
     }
 
-    public function arquivar($id)
+    public function arquivar($id, $status)
     {
         Gate::authorize('apagar-posto');
         $posto = PostoVacinacao::find($id);
         $posto->update([
-            'status' => "arquivado"
+            'status' => $status
         ]);
-        return back();
+        return back()->with('message', 'Ponto '.$posto->nome.' atualizado com status \''.$status.'\'!');
     }
 
     /**

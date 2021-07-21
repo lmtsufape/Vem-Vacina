@@ -85,6 +85,11 @@
                                 {{ __('Editar data') }}
                             </x-dropdown-link>
                         @endcan
+                        @can('reagendar-data')
+                            <x-dropdown-link :href="route('admin.arquivados.index')">
+                                {{ __('Arquivados') }}
+                            </x-dropdown-link>
+                        @endcan
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -165,6 +170,11 @@
                 @can('reagendar-data')
                     <x-dropdown-link :href="route('admin.editar.lista.data')">
                         {{ __('Editar data') }}
+                    </x-dropdown-link>
+                @endcan
+                @can('reagendar-data')
+                    <x-dropdown-link :href="route('admin.editar.lista.data')">
+                        {{ __('Arquivados') }}
                     </x-dropdown-link>
                 @endcan
 
