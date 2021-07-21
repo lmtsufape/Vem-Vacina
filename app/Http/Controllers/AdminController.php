@@ -219,5 +219,11 @@ class AdminController extends Controller
         return redirect()->route('dashboard')->with(['mensagem' => "Usuário criado!"]);
     }
 
+    public function arquivadosPonto()
+    {
+        $pontos = PostoVacinacao::where('status', 'arquivado')->get();
+        return view('admin.pontos.arquivados', compact('pontos'));
+    }
+
 
 }

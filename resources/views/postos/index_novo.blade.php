@@ -137,7 +137,7 @@
                                   </td>
                                   <td>
                                       @can('apagar-posto')
-                                          <form action="{{ route('postos.arquivar', ['id' => $posto->id]) }}" method="post">
+                                          <form action="{{ route('postos.arquivar', ['id' => $posto->id, 'status' => 'arquivado']) }}" method="post">
                                               @csrf
                                               
                                               <button onclick="return confirm('Você tem certeza?')" type="submit" class=" bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mb-2">
