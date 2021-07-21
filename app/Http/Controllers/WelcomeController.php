@@ -34,12 +34,13 @@ class WelcomeController extends Controller
                                     return now();
                                 });
 
+        \Log::info("Inicio");
         $total['quantPessoasPriDose']       = Cache::remember('quantPessoasPriDose', $seconds, function () {
                                                 \Log::info("quantPessoasPriDose");
                                                 return DB::table('candidatos')->where('dose', "1ª Dose")->count();
                                             });
         $total['quantPessoasSegDose']       = Cache::remember('quantPessoasSegDose', $seconds, function () {
-                                                \Log::info("quantPessoasSegDose");
+                                                
                                                 return DB::table('candidatos')->where('dose', "2ª Dose")->count();
                                             });
         $total['quantPessoasDoseUnica']     = Cache::remember('quantPessoasDoseUnica', $seconds, function () {
@@ -48,11 +49,12 @@ class WelcomeController extends Controller
         // $total['candidatosVacinados']       = Cache::remember('candidatosVacinados', $seconds, function () use($pontos) {
         //                                         return DB::table('candidatos')->where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
         //                                     });
-        $total['quantPessoasCadastradas']   = Cache::remember('vacinasDisponiveis', $seconds, function () use($pontos) {
+        $total['quantPessoasCadastradas']   = Cache::remember('quantPessoasCadastradas', $seconds, function () use($pontos) {
+                                                \Log::info("quantPessoasCadastradas");
                                                 return DB::table('candidatos')->where('aprovacao', '!=',Candidato::APROVACAO_ENUM[2])->count();
                                             });
  
-        
+        \Log::info("Fim");
 
         return view('home_estatistica')->with(['publicos'                => $publicos,
                                                 'quantPessoasCadastradas' => $total['quantPessoasCadastradas'],
