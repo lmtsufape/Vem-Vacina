@@ -36,7 +36,7 @@
                                         </div>
                                         <div class="col col-sm col-md col-lg col-xl">
                                             <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="width: 90%;">
-                                                <strong>   {{ ""}} </strong>  {{$candidato->posto->nome}}
+                                                <strong>   {{ ""}} </strong>  {{$candidato->posto ? $candidato->posto->nome : ""}}
                                                 </span>
                                         </div>
                                     </div>
