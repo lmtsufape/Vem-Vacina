@@ -28,6 +28,7 @@ use App\Http\Controllers\PostoVacinacaoController;
 */
 
 Route::get('/', [WelcomeController::class, 'index'])->name('index');
+Route::get('/home/estatisticas', [WelcomeController::class, 'estatisticas'])->name('home.estatisticas');
 
 
 
@@ -58,14 +59,14 @@ Route::middleware(['auth'])->group(function () {
         // inner join candidatos c
         // on c.lote_id = lp.id
         // group by lp.id, "qtdVacina", lp.posto_vacinacao_id, p.nome;'));
-        $result = DB::select(DB::raw('select   nome_completo, count(nome_completo) as "QUANTIDAD DE REGISTROS" ,cpf
+        $result = DB::select(DB::raw('select   nome_completo, deleted_at, count(nome_completo) as "QUANTIDAD DE REGISTROS" ,cpf
         from candidatos
         where cpf in
             (select c.cpf
             from candidatos c
             group by c.cpf
-            having count(cpf) > 2)
-        group by nome_completo, cpf'));
+            having count(cpf) >= 1) 
+        group by nome_completo, deleted_at,cpf'));
         // $result = DB::table('candidatos')->select(DB::raw('count("cpf"), nome_completo, chegada'))
         //                                  ->groupBy('cpf', 'nome_completo', 'chegada')
         //                                  ->having('cpf', '>=', 2)
