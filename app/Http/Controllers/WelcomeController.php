@@ -44,6 +44,8 @@ class WelcomeController extends Controller
                                                 \Log::info("quantPessoasPriDose");
                                                 return DB::table('candidatos')->where('dose', "1ª Dose")->count();
                                             });
+        $quantPessoasPriDose                = $total['quantPessoasPriDose'];
+        
         $total['quantPessoasSegDose']       = Cache::remember('quantPessoasSegDose', $seconds, function () {
                                                 
                                                 return DB::table('candidatos')->where('dose', "2ª Dose")->count();
@@ -51,12 +53,29 @@ class WelcomeController extends Controller
         $total['quantPessoasDoseUnica']     = Cache::remember('quantPessoasDoseUnica', $seconds, function () {
                                                 return DB::table('candidatos')->where('dose', "Dose única")->count();
                                             });
-        // $total['candidatosVacinados']       = Cache::remember('candidatosVacinados', $seconds, function () use($pontos) {
-        //                                         return DB::table('candidatos')->where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
-        //                                     });
+        $total['candidatosVacinados']       = Cache::remember('candidatosVacinados', $seconds, function () use($pontos) {
+                                                return DB::table('candidatos')->where('aprovacao', Candidato::APROVACAO_ENUM[3])->get();
+                                            });
+        $candidatosVacinados                = $total['candidatosVacinados'];
         $total['quantPessoasCadastradas']   = Cache::remember('quantPessoasCadastradas', $seconds, function () use($pontos) {
                                                 \Log::info("quantPessoasCadastradas");
                                                 return DB::table('candidatos')->where('aprovacao', '!=',Candidato::APROVACAO_ENUM[2])->count();
+                                            });
+        $total['porcentagemVacinada']       = Cache::remember('porcentagemVacinada', $seconds, function () use($quantPessoasPriDose) {
+                                                
+                                                return $this->porcentagemVacinada($quantPessoasPriDose);
+                                            });
+        $total['quantVacinadosPorBairro']   = Cache::remember('quantVacinadosPorBairro', $seconds, function () use($candidatosVacinados) {
+                                                
+                                                return $this->quantVacinadosPorBairro($candidatosVacinados);
+                                            });
+        $total['quantVacinadosPorIdade']    = Cache::remember('quantVacinadosPorIdade', $seconds, function () use($candidatosVacinados) {
+                                                
+                                                return $this->quantVacinadosPorIdade($candidatosVacinados);
+                                            });
+        $total['vacinadosPorSexo']          = Cache::remember('vacinadosPorSexo', $seconds, function () use($candidatosVacinados) {
+                                                
+                                                return $this->vacinadosPorSexo($candidatosVacinados);
                                             });
  
         \Log::info("Fim");
@@ -67,6 +86,10 @@ class WelcomeController extends Controller
                                                 'quantPessoasSegDose'     => $total['quantPessoasSegDose'],
                                                 'quantPessoasDoseUnica'   => $total['quantPessoasDoseUnica'],
                                                 'aprovacao_enum'          => Candidato::APROVACAO_ENUM,
+                                                'porcentagemVacinada'     => $total['porcentagemVacinada'],
+                                                'quantVacinadosPorBairro' => $total['quantVacinadosPorBairro'],
+                                                'quantVacinadosPorIdade'  => $total['quantVacinadosPorIdade'],
+                                                'vacinadosPorSexo'        => $total['vacinadosPorSexo'],
                                                 'config'                  => $config,
                                                 'ultimaAtt'               => $ultimaAtualizacao]);
     }
