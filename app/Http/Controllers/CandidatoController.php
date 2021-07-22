@@ -42,7 +42,7 @@ class CandidatoController extends Controller
         }else if ($request->tipo == "Vacinado") {
             $query = Candidato::query()->where('aprovacao', Candidato::APROVACAO_ENUM[3]);
         }else{
-            $query = Candidato::query()->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1]]);
+            $query = Candidato::query()->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[3] , Candidato::APROVACAO_ENUM[1]]);
         }
 
         if ($request->nome_check && $request->nome != null) {
