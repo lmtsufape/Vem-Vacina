@@ -323,7 +323,7 @@ class PostoVacinacaoController extends Controller
                 set_time_limit(40);
                 $postos = Etapa::find($request->publico_id)->pontos;
                 $candidato_count = Candidato::where('etapa_id', $request->publico_id)->where('aprovacao',Candidato::APROVACAO_ENUM[0])->count();
-                if($candidato_count == 0){
+                if($candidato_count <= 20){
                     $postos_disponiveis = collect([]);
                     foreach ($postos as $key => $posto) {
                         $lote_bool = false;
