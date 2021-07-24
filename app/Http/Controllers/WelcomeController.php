@@ -33,7 +33,7 @@ class WelcomeController extends Controller
         $ultimaAtualizacao = null;
         // $seconds = now()->addMinutes(1);
         // $seconds = now()->add(new DateInterval('PT1M'));
-        $seconds = now()->addDays(5);
+        $seconds = 345600;
 
         $ultimaAtualizacao      = Cache::remember('ultimaAtualizacao', $seconds, function () {
                                     return now();
