@@ -25,6 +25,7 @@ class HorarioController extends Controller
     {
         $posto = PostoVacinacao::find($posto_id);
         $posto->dias()->where('id', $dia_id)->forceDelete();
-        return back()->with(['message'=> "Dia apagado com sucesso"]);
+        // session(['posto_id' => $request->fullUrl()]);
+        return back()->with(['message'=> "Dia apagado do ponto '". $posto->nome. "'!", 'posto_id' => $posto_id]);
     }
 }

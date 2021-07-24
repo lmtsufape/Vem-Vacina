@@ -18,7 +18,7 @@
 
             </div>
 
-            <div id="collapse{{ $posto->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionHorario">
+            <div id="collapse{{ $posto->id }}" class="collapse @if($posto->id == session('posto_id', false) ) show @endif" aria-labelledby="headingOne" data-parent="#accordionHorario">
                 @include('horarios.collapse_horario')
             </div>
         </div>
