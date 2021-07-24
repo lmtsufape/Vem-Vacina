@@ -34,7 +34,7 @@ class EtapaController extends Controller
     public function create()
     {
         Gate::authorize('criar-etapa');
-        $pontos = PostoVacinacao::all();
+        $pontos = PostoVacinacao::where('status', '!=', 'arquivado')->get();
         return view('etapas.create')->with(['tipos' => Etapa::TIPO_ENUM,
                                             'pontos' => $pontos]);
     }
@@ -169,7 +169,7 @@ class EtapaController extends Controller
     public function edit($id)
     {
         $publico = Etapa::find($id);
-        $pontos = PostoVacinacao::all();
+        $pontos = PostoVacinacao::where('status', '!=', 'arquivado')->get();
         return view('etapas.edit')->with(['publico' => $publico,
                                           'tipos' => Etapa::TIPO_ENUM,
                                           'pontos' => $pontos]);

@@ -321,9 +321,9 @@ class PostoVacinacaoController extends Controller
                 return response()->json($pontos);
             } else {
                 set_time_limit(40);
-                $postos = Etapa::find($request->publico_id)->pontos;
                 $candidato_count = Candidato::where('etapa_id', $request->publico_id)->where('aprovacao',Candidato::APROVACAO_ENUM[0])->count();
-                if($candidato_count <= 20){
+                if($candidato_count <= 15){
+                    $postos = Etapa::find($request->publico_id)->pontos->where('status', '!=', 'arquivado');
                     $postos_disponiveis = collect([]);
                     foreach ($postos as $key => $posto) {
                         $lote_bool = false;
@@ -371,7 +371,7 @@ class PostoVacinacaoController extends Controller
         set_time_limit(720);
         \Log::info('geradorHorarios');
         if ($id == null) {
-            $postos = PostoVacinacao::all();
+            $postos = PostoVacinacao::where('status', '!=', 'arquivado')->get();
         }else{
             $postos = PostoVacinacao::where('id', $id)->get();
         }

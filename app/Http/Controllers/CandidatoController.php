@@ -152,7 +152,7 @@ class CandidatoController extends Controller
         return view('dashboard2')->with(['candidatos' => $agendamentos,
                                         'candidato_enum' => Candidato::APROVACAO_ENUM,
                                         'tipos' => Etapa::TIPO_ENUM,
-                                        'postos' => PostoVacinacao::all(),
+                                        'postos' => PostoVacinacao::where('status', '!=', 'arquivado')->get(),
                                         'doses' => Candidato::DOSE_ENUM,
                                         'publicos' => Etapa::orderBy('texto_home')->get(),
                                         'request' => $request]);

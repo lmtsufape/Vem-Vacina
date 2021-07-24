@@ -11,11 +11,11 @@ class HorarioController extends Controller
     public function index(Request $request)
     {
         // dd( array_values($request->posto) );
-        $todosPosto = PostoVacinacao::orderBy('nome')->get();
+        $todosPosto = PostoVacinacao::where('status', '!=', 'arquivado')->orderBy('nome')->get();
         if($request->posto == null){
-            $postos = PostoVacinacao::orderBy('nome')->get();
+            $postos = PostoVacinacao::where('status', '!=', 'arquivado')->orderBy('nome')->get();
         }else{
-            $postos = PostoVacinacao::whereIn('id', $request->posto)->orderBy('nome')->get();
+            $postos = PostoVacinacao::where('status', '!=', 'arquivado')->whereIn('id', $request->posto)->orderBy('nome')->get();
         }
         // dd($postos);
         return view('horarios.index', compact('postos', 'todosPosto'));

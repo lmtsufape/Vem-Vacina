@@ -52,7 +52,7 @@ class FilaDistribuir extends Component
 
     public function mount()
     {
-        $this->pontos = PostoVacinacao::orderBy('nome')->get();
+        $this->pontos = PostoVacinacao::where('status', '!=', 'arquivado')->orderBy('nome')->get();
         $this->postos = $this->pontos;
         $this->etapas = Etapa::orderBy('texto_home')->get();
         $this->tipos = Etapa::TIPO_ENUM;
