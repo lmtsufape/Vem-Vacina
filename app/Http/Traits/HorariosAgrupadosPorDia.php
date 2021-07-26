@@ -11,7 +11,7 @@ trait HorariosAgrupadosPorDia {
 
         $posto = PostoVacinacao::find($posto_id);
 
-        $postoDias = $posto->dias->whereBetween('dia', [now(), now()->addDays(7)]);
+        $postoDias = $posto->dias->sort()->whereBetween('dia', [now(), now()->addDays(7)]);
 
         $horarios_agrupados_por_dia = [];
         foreach ($postoDias as $key => $value) {

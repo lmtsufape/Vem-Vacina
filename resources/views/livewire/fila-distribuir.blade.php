@@ -95,7 +95,7 @@
 
                         <div id="collapse{{ $posto->id }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionHorario">
                             <div class="row ml-4">
-                                @foreach ($posto->dias as $dia)
+                                @foreach ($posto->dias->sort() as $dia)
                                     <div class="col-6">
                                         {{ date('d/m/Y ', strtotime($dia->dia )) }}
                                         {{ " - Nº:".$dia->horarios->count() }}
