@@ -93,6 +93,13 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        @if ($request != null && $request->outro == false)
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    {{ $candidatos->links() }}
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
                 </form>
