@@ -15,6 +15,7 @@ use App\Models\Candidato;
 use App\Models\PostoVacinacao;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Notifications\CandidatoAprovado;
 use App\Notifications\ReportNotification;
@@ -132,7 +133,7 @@ class FilaDistribuir extends Component
                     }
             }
             $this->reset('cpf');
-            Notification::send(Auth::user(), new ReportNotification($contadorAprovado, $this->etapa_id, $posto->nome));
+            Notification::send(Auth::user(), new ReportNotification($contadorAprovado, Etapa::find( $this->etapa_id)->texto_home, $posto->nome));
             \Log::info("acabou");
             if ($aprovado) {
                 session()->flash('message', 'Distribuição concluída com sucesso.');
