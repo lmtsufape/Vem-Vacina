@@ -16,6 +16,7 @@ use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\EstatisticaController;
 use App\Http\Controllers\ConfiguracaoController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostoVacinacaoController;
 
 /*
@@ -155,7 +156,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/configuracoes/aprovar', [ConfiguracaoController::class, 'aprovarAgendamentos'])->name('config.agendados.aprovados');
     Route::post('/importar/vacinados', [ImportController::class, 'storeVacinados'])->name('candidato.import.store.vacinados');
     
-    Route::get('/relatorios/index', [RelatorioController::class, 'index'])->name('config.index');
+    Route::get('/relatorios/index', [RelatorioController::class, 'index'])->name('relatorios.index');
     Route::get('/relatorios/pdf', [PDFController::class, 'gerarPdf'])->name('config.gerar.pdf');
 
     Route::get('/horarios', [HorarioController::class, 'index'])->name('horarios.index');
@@ -174,6 +175,8 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/fila/distribuir', [FilaController::class, 'distribuirJob'])->name('fila.distribuir');
 
     Route::get('/estatisticas', [EstatisticaController::class, 'index'])->name('estatistica.index');
+    
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 });
 
 

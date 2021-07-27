@@ -22,8 +22,17 @@
         @endif
         <div class="row">
             <div class="col">
-                <a href="{{ route('config.index') }}" class="btn btn-primary">
+                <a href="{{ route('relatorios.index') }}" class="btn btn-primary">
                     Relatórios
+                </a>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <a href="{{ route('notifications.index') }}" class="btn btn-primary">
+                    Notificaticações
                 </a>
             </div>
         </div>

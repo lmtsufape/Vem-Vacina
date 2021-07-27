@@ -74,7 +74,7 @@ class CandidatoAtualizado extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Atualizado por'. Auth::user()->email .' Condidato ID:'. $this->candidato1->cpf. ' Aprovado'
+            'message' => 'Atualizado por '. Auth::user()->email .' Condidato ID:'. $this->candidato1->cpf. ' Aprovado'
         ];
     }
 }

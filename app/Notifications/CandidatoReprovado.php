@@ -64,7 +64,7 @@ class CandidatoReprovado extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message' => 'Condidato de CPF:'. $this->candidato->cpf. ' Reprovado'
+            'message' => 'Condidato de CPF:'. $this->candidato->cpf. ' Reprovado por' . Auth::user()->email
         ];
     }
 }
