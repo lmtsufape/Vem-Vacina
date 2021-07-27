@@ -22,8 +22,8 @@
         @endif
         <div class="row">
             <div class="col">
-                <a href="{{ route('config.gerar.horarios') }}" class="btn btn-primary">
-                    Gerar horários
+                <a href="{{ route('config.index') }}" class="btn btn-primary">
+                    Relatórios
                 </a>
             </div>
         </div>

@@ -3,6 +3,7 @@
 use App\Models\Candidato;
 use App\Http\Livewire\StoreLote;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\FilaController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\AdminController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\ImportController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\CandidatoController;
+use App\Http\Controllers\RelatorioController;
 use App\Http\Controllers\EstatisticaController;
 use App\Http\Controllers\ConfiguracaoController;
 use App\Http\Controllers\PostoVacinacaoController;
@@ -144,11 +146,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('exportar/listaCandidato', [ExportController::class, 'listarCandidato'])->name('export.candidatos');
     Route::post('exportar/gerar', [ExportController::class, 'gerar'])->name('export.gerar');
     Route::get('/exportar/agendamentos/posto/{id}', [ExportController::class,'agendamentosDoPosto'])->name('export.agendamentos.posto');
+
     Route::get('/configuracoes', [ConfiguracaoController::class, 'index'])->name('config.index');
+    Route::get('/configuracoes/relatorios', [ConfiguracaoController::class, 'relatorios'])->name('config.relatorios');
+
     Route::get('/configuracoes/gerar', [ConfiguracaoController::class, 'gerar'])->name('config.gerar.horarios');
     Route::get('/configuracoes/salvar', [ConfiguracaoController::class, 'update'])->name('config.update');
     Route::post('/configuracoes/aprovar', [ConfiguracaoController::class, 'aprovarAgendamentos'])->name('config.agendados.aprovados');
     Route::post('/importar/vacinados', [ImportController::class, 'storeVacinados'])->name('candidato.import.store.vacinados');
+    
+    Route::get('/relatorios/index', [RelatorioController::class, 'index'])->name('config.index');
+    Route::get('/relatorios/pdf', [PDFController::class, 'gerarPdf'])->name('config.gerar.pdf');
 
     Route::get('/horarios', [HorarioController::class, 'index'])->name('horarios.index');
     Route::get('/horarios/delete/{posto_id}/{dia_id}', [HorarioController::class, 'delete'])->name('horarios.delete');
