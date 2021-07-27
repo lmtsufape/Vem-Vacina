@@ -19,7 +19,7 @@
             </div>
         @endif
 
-        <form method="GET" action={{ route('config.index') }}>
+        <form method="GET" action={{ route('relatorios.index') }}>
             <div class="row">
                 <div class="col-sm-10">
                     <div class="row">
@@ -31,18 +31,18 @@
                             <input type="checkbox" name="data_fim_check" id="data_fim_check_input" onclick="mostrarFiltro(this, 'data_fim_check')" @if($request->data_fim_check != null && $request->data_fim_check) checked @endif>
                             <label>Por data fim</label>
                         </div>
-                        <div class="col-md-3">
+                        {{-- <div class="col-md-3">
                             <input type="checkbox" name="mes_check" id="mes_check_input" onclick="mostrarFiltro(this, 'mes_check')" @if($request->mes_check != null && $request->mes_check) checked @endif>
                             <label>Por mês</label>
-                        </div>
+                        </div> --}}
                         <div class="col-md-3">
                             <input type="checkbox" name="ponto_check" id="ponto_check_input" @if($request->ponto_check != null && $request->ponto_check) checked @endif onclick="mostrarFiltro(this, 'ponto_check')">
                             <label>Ponto</label>
                         </div>
-                        <div class="col-md-3">
+                        {{-- <div class="col-md-3">
                             <input type="checkbox" name="publico_check" id="publico_check_input" @if($request->publico_check != null && $request->publico_check) checked @endif onclick="mostrarFiltro(this, 'publico_check')">
                             <label>Público</label>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="row">
                         <div id="data_inicio_check" class="col-md-3" style="@if($request->data_inicio_check != null && $request->data_inicio_check) display: block; @else display: none; @endif">
@@ -85,7 +85,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <a href={{ route('config.index') }}><button type="button" class="btn btn-secondary" style="width: 100%;">Limpar filtros</button></a>
+                            <a href={{ route('relatorios.index') }}><button type="button" class="btn btn-secondary" style="width: 100%;">Limpar filtros</button></a>
                         </div>
                     </div>
                 </div>
