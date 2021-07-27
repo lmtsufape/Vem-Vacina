@@ -24,7 +24,7 @@ class RelatorioController extends Controller
         if ($request->ponto_check && $request->ponto != null) {
             $pontos = PostoVacinacao::where('id',$request->ponto )->get();
         }else{
-            $pontos = PostoVacinacao::all();
+            $pontos = PostoVacinacao::where('status', '!=', 'arquivado')->get();
         }
         $data = [
             'pontos' => $pontos,
