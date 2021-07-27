@@ -353,11 +353,11 @@
           </div>
         </tbody>
     </table>
-    @if ($request != null && $request->outro == false)
+    {{-- @if ($request != null && $request->outro == false)
         <div class="row">
             <div class="col-sm-12">
                 {{ $candidatos->links() }}
             </div>
         </div>
-    @endif
+    @endif --}}
 </div>

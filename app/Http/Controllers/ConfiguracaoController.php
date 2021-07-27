@@ -71,4 +71,17 @@ class ConfiguracaoController extends Controller
         $postos = PostoVacinacao::all();
         return view('config.gerar_horarios', compact('postos'));
     }
+
+    public function relatorios(Request $request)
+    {
+        if ($request->ponto_check && $request->ponto != null) {
+            $pontos = PostoVacinacao::where('id',$request->ponto )->get();
+        }else{
+            $pontos = PostoVacinacao::all();
+        }
+
+
+        
+        return view('relatorios.pdf', compact('pontos', 'request'))->with(['request' => $request]);
+    }
 }

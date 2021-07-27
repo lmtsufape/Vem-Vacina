@@ -128,7 +128,7 @@ class AdminController extends Controller
         if ($request->outro) {
             $agendamentos = $query->get();
         } else {
-            $agendamentos = $query->orderBy('created_at')->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate($request->qtd)->withQueryString();
+            $agendamentos = $query->orderBy('created_at')->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->withQueryString();
         }
         if ($request->outro) {
             $agendamentosComOutrasInfo = collect();
@@ -225,5 +225,6 @@ class AdminController extends Controller
         return view('admin.pontos.arquivados', compact('pontos'));
     }
 
+    
 
 }
