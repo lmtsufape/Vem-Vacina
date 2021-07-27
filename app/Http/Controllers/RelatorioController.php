@@ -18,7 +18,7 @@ class RelatorioController extends Controller
         if ($request->data_inicio_check && $request->data_fim_check && $request->data_inicio != null && $request->data_fim != null) {
             $data_inicio = (new Carbon($request->data_inicio));
             $data_fim = (new Carbon($request->data_fim));
-            $query->where([['chegada','>=',$data_inicio], ['chegada','<=', $data_fim]]);
+            $query->where([['created_at','>=',$data_inicio], ['created_at','<=', $data_fim]]);
         }
         
         if ($request->ponto_check && $request->ponto != null) {
