@@ -10,7 +10,7 @@ class NotificationController extends Controller
     public function index()
     {
 
-        $notifications = DB::table('notifications')->orderBy('created_at')->paginate(50);
+        $notifications = DB::table('notifications')->orderBy('created_at', "DESC")->paginate(50);
 
         return view('notifications.index', compact('notifications'));
     }
