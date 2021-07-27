@@ -114,6 +114,7 @@ class FilaDistribuir extends Component
 
             $aprovado = false;
             $contadorAprovado = 0;
+            $$contadorParada = 0;
             foreach ($candidatos as $key => $candidato) {
                     $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato, $posto );
 
