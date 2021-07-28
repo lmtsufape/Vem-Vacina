@@ -15,14 +15,16 @@ class CandidatoReprovado extends Notification implements ShouldQueue
     use Queueable;
 
     public $candidato;
+    public $email;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Candidato $candidato)
+    public function __construct(Candidato $candidato, $email)
     {
         $this->candidato = $candidato;
+        $this->email = $email;
 
     }
 
@@ -71,7 +73,7 @@ class CandidatoReprovado extends Notification implements ShouldQueue
            $user = Auth::user()->email;
         }
         return [
-            'message' => 'Condidato de CPF:'. $this->candidato->cpf. ' Reprovado por' . $user
+            'message' => 'Condidato de CPF:'. $this->candidato->cpf. ' Reprovado por' . $this->email
         ];
     }
 }
