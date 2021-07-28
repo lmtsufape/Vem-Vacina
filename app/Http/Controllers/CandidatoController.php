@@ -17,13 +17,14 @@ use App\Notifications\Reagendado;
 use App\Models\LotePostoVacinacao;
 use Illuminate\Support\Facades\DB;
 use App\Notifications\CandidatoFila;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Notifications\CandidatoAprovado;
 use Illuminate\Support\Facades\Response;
-use App\Notifications\CandidatoAtualizado;
 use App\Notifications\CandidatoReprovado;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\CandidatoAtualizado;
 use Illuminate\Support\Facades\Notification;
 
 class CandidatoController extends Controller
@@ -559,7 +560,7 @@ class CandidatoController extends Controller
                         ->update(['aprovacao' => "Reprovado"]);
 
                 if($candidato->email != null){
-                    Notification::send($candidato, new CandidatoReprovado($candidato));
+                    Notification::send($candidato, new CandidatoReprovado($candidato, Auth::user()->email));
                 }
                 Candidato::where('cpf',$candidato->cpf)->where('nome_completo',$candidato->nome_completo)->delete();
 
