@@ -128,7 +128,7 @@ class AdminController extends Controller
         if ($request->outro) {
             $agendamentos = $query->get();
         } else {
-            $agendamentos = $query->orderBy('created_at')->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->withQueryString();
+            $agendamentos = $query->orderBy('created_at')->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate(200);
         }
         if ($request->outro) {
             $agendamentosComOutrasInfo = collect();
