@@ -144,6 +144,11 @@
             <x-responsive-nav-link :href="route('fila.index')" :active="request()->routeIs('fila.*')">
                 {{ __('Fila de Espera') }}
             </x-responsive-nav-link>
+            @can('horarios')
+            <x-responsive-nav-link :href="route('horarios.index')" :active="request()->routeIs('horarios.*')">
+                {{ __('Horários') }}
+            </x-responsive-nav-link>
+            @endcan
             @can('ver-export')
             <x-responsive-nav-link :href="route('export.index')" :active="request()->routeIs('export.*')">
                 {{ __('Exportar/Importar') }}
