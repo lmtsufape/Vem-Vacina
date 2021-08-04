@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\Etapa;
 use App\Models\Candidato;
+use Illuminate\Http\Request;
+use App\Models\PostoVacinacao;
+use Illuminate\Support\Facades\Auth;
 
 class EstatisticaController extends Controller
 {
@@ -17,5 +20,35 @@ class EstatisticaController extends Controller
             $etapas = Etapa::whereIn('id', $request->publicos)->orderBy('texto')->get();
         }
         return view('estatistica.index')->with(['publicos' => $etapas, 'aprovacao' => Candidato::APROVACAO_ENUM, 'todosPublicos' =>$todosPublicos]);
+    }
+
+    public function showStats(Request $request)
+    {
+        $todosPublicos = Etapa::orderBy('texto')->get();
+
+        if(Auth::user()->pontos->count() == 0){
+            return back()->with(['mensagem' => "Usuário sem Ponto associado"]);
+        }
+        $ponto = Auth::user()->pontos->first();
+        
+
+        $publicos = Etapa::orderBy('texto_home')->get();
+        if ($request->publico_check) {
+            $publico_id = $request->publico;
+            if ($request->publico != null) {
+                $publicos = Etapa::whereIn('id', $request->publico)->orderBy('texto_home')->get();
+            }
+        }
+
+        
+
+        return view('estatistica.show_stats')->with(['candidato_enum' => Candidato::APROVACAO_ENUM,
+                                        'tipos' => Etapa::TIPO_ENUM,
+                                        'postos' => PostoVacinacao::where('status', '!=', 'arquivado')->get(),
+                                        'doses' => Candidato::DOSE_ENUM,
+                                        'publicos' => $publicos,
+                                        'todosPublicos' =>$todosPublicos,
+                                        'ponto' =>$ponto,
+                                        'request' => $request]);
     }
 }

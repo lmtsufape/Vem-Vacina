@@ -74,8 +74,10 @@ class PostoVacinacao extends Model
         return $this->hasMany(Candidato::class);
     }
 
-    public function dias()
+    public function users()
     {
-        return $this->hasMany(Dia::class, 'posto_vacinacao_id');
+        return $this->belongsToMany(User::class, 'posto_vacinacao_user', 'posto_vacinacao_id', 'user_id');
     }
+
+
 }
