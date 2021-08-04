@@ -133,7 +133,7 @@
                                     {{$ponto->nome}}
                                 </td>
                                 <td>
-                                    {{$publico->candidatos->where('updated_at','>=',$hoje)
+                                    {{$publico->candidatos->where('aprovacao', 'Vacinado')->where('updated_at','>=',$hoje)
                                         ->where('updated_at','<', $amanha)->where('posto_vacinacao_id', $ponto->id)->count()}}
                                 </td>
                             </tr>

@@ -35,7 +35,7 @@
                         {{ __('Estatísticas') }}
                     </x-nav-link>
                     @endcan
-                    @can('ver-estatistica')
+                    @can('ver-estatistica-ponto')
                     <x-nav-link :href="route('estatistica.showStats')" :active="request()->routeIs('estatistica.*')">
                         {{ __('Estatísticas Ponto') }}
                     </x-nav-link>

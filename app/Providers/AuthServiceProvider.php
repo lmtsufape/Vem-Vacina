@@ -253,6 +253,13 @@ class AuthServiceProvider extends ServiceProvider
             return $user->tipo == User::TIPO_ENUM['gerente'] ||
                 $user->tipo == User::TIPO_ENUM['admin'];
         });
+
+        Gate::define('ver-estatistica-ponto', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['secretaria'] ||
+                    $user->tipo == User::TIPO_ENUM['colaborador'] ||
+                    $user->tipo == User::TIPO_ENUM['gerente'] ||
+                    $user->tipo == User::TIPO_ENUM['admin'];
+        });
         //config
         Gate::define('ver-config', function (User $user) {
             return $user->tipo == User::TIPO_ENUM['secretaria'] ||
