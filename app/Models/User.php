@@ -49,4 +49,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function pontos()
+    {
+        return $this->belongsToMany(PostoVacinacao::class, 'posto_vacinacao_user');
+    }
 }

@@ -34,8 +34,6 @@ Route::get('/', [WelcomeController::class, 'index'])->name('index');
 Route::get('/home/estatisticas', [WelcomeController::class, 'estatisticas'])->name('home.estatisticas');
 Route::get('/manutencao', [WelcomeController::class, 'manutencao'])->name('manutencao');
 
-
-
 Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
 // Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");
@@ -91,6 +89,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/form',  [AdminController::class, 'userForm'])->name('admin.form.user');
     Route::post('/admin/create/user',  [AdminController::class, 'createUser'])->name('admin.create.user');
+    Route::get('/admin/edit/user/{id}',  [AdminController::class, 'editUser'])->name('admin.edit.user');
+    Route::post('/admin/update/user/{id}',  [AdminController::class, 'updateUser'])->name('admin.update.user');
+    Route::get('/admin/list/user',  [AdminController::class, 'listUser'])->name('admin.list.user');
     Route::get('/admin/posicao/fila',  [AdminController::class, 'posicaoFila'])->name('admin.posicao.fila');
     Route::get('/admin/lista/editar',  [AdminController::class, 'editarListaData'])->name('admin.editar.lista.data');
     Route::post('/admin/lista/update',  [AdminController::class, 'updateListaData'])->name('admin.update.lista.data');
@@ -175,6 +176,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/fila/distribuir', [FilaController::class, 'distribuirJob'])->name('fila.distribuir');
 
     Route::get('/estatisticas', [EstatisticaController::class, 'index'])->name('estatistica.index');
+    Route::get('/estatisticas/show', [EstatisticaController::class, 'showStats'])->name('estatistica.showStats');
     
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 });

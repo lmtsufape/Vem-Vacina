@@ -218,6 +218,43 @@ class AdminController extends Controller
 
         return redirect()->route('dashboard')->with(['mensagem' => "Usuário criado!"]);
     }
+    
+    public function listUser(Request $request)
+    {
+        Gate::authorize('criar-user');
+        
+        $users = User::all();
+
+        return view('admin.users', compact('users'));
+    }
+    public function editUser($id)
+    {
+        Gate::authorize('criar-user');
+        
+        $user = User::find($id);
+        $pontos = PostoVacinacao::where('status', '!=', 'arquivado')->orderBy('nome')->get();
+
+        return view('admin.edit_user', compact('user', 'pontos'));
+    }
+    public function updateUser(Request $request, $id)
+    {
+        Gate::authorize('criar-user'); 
+
+        $user = User::find($id);
+        $pontos = PostoVacinacao::whereIn('id', $request->pontos)->pluck('id');
+        
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        $user->pontos()->sync($pontos->toArray());
+
+        // dd($user->pontos);
+
+        return redirect()->route('admin.list.user')->with(['mensagem' => "Usuário atualizado!"]);
+        // return redirect()->route('dashboard')->with(['mensagem' => "Usuário atualizado!"]);
+    }
 
     public function arquivadosPonto()
     {
