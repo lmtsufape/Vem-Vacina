@@ -132,11 +132,7 @@
                                     </div>
                                 @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
                                     <div class="row" style="text-align: justify;">
-                                        <div class="col-md-12">Lembramos que para que seja realizada a aplicação da vacina, o idoso deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência.</div>
-                                    </div>
-                                    <br>
-                                    <div class="row" style="text-align: justify;">
-                                        <div class="col-md-12">Reforçamos a importância de que o idoso esteja de posse de todos os documentos! Eles são necessários para que a vacina possa ser aplicada.</div>
+                                        <div class="col-md-12">Lembramos que para que seja realização a aplicação da vacina, deve-se apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência no nome da pessoa que vai ser vacinada.</div>
                                     </div>
                                 @endif
                                 <br>
