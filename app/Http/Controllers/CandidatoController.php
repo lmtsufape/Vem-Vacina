@@ -536,7 +536,7 @@ class CandidatoController extends Controller
             $candidato = Candidato::find($id);
             if ($candidato != null) {
                 if($candidato->email != null){
-                    Notification::send($candidato, new CandidatoReprovado($candidato, Auth::user()->email));
+                    // Notification::send($candidato, new CandidatoReprovado($candidato, Auth::user()->email));
                 }
                 Candidato::where('id',$id)->update(['aprovacao' => "Reprovado"]);
                 Candidato::where('id',$id)->delete();
