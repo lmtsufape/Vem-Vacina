@@ -366,10 +366,12 @@
                                             </div>
 
                                             @foreach ($publico->outrasInfo()->orderBy('campo')->get() as $outra)
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="defaultCheck{{ $outra->id }}" name="opcao_etapa_{{$publico->id}}[]" value="{{$outra->id}}" @if(old('opcao_etapa_'.$publico->id) != null && in_array($outra->id, old('opcao_etapa_'.$publico->id))) checked @endif>
-                                                    <label class="form-check-label style_titulo_input" for="defaultCheck0">{{mb_strtoupper($outra->campo)}}</label>
-                                                </div>
+                                                @if (mb_strtoupper($outra->campo) != 'É ACAMADO?')
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="defaultCheck{{ $outra->id }}" name="opcao_etapa_{{$publico->id}}[]" value="{{$outra->id}}" @if(old('opcao_etapa_'.$publico->id) != null && in_array($outra->id, old('opcao_etapa_'.$publico->id))) checked @endif>
+                                                        <label class="form-check-label style_titulo_input" for="defaultCheck0">{{mb_strtoupper($outra->campo)}}</label>
+                                                    </div>
+                                                @endif
                                             @endforeach
 
                                             @error('outras_infor_obg_'.$publico->id)
