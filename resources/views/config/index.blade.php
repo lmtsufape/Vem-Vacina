@@ -42,6 +42,17 @@
             <br>
             <hr>
         @endcan
+        @can('ver-notificacoes')
+            <div class="row">
+                <div class="col">
+                    <a href="{{ route('admin.feed.index') }}" class="btn btn-primary">
+                        Feed
+                    </a>
+                </div>
+            </div>
+            <br>
+            <hr>
+        @endcan
         <br>
         <form action="{{route('config.update')}}" method="GET">
             <div class="row">
