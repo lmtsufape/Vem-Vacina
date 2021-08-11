@@ -54,6 +54,25 @@
                             <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
                                 <div class="container">
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                              <h3 class="panel-title">
+                                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#feedCollapse" aria-expanded="true" aria-controls="feedCollapse">
+                                                    Cronograma de antecipação da 2ª dose das vacinas AstraZeneca
+                                                </a>
+                                              </h3>
+                                            </div>
+                                            <div id="feedCollapse" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
+                                              <div class="panel-body px-3 mb-4">
+                                                <p style="text-align: justify">
+                                                    Cronograma de antecipação da 2ª dose das vacinas AstraZeneca, para pessoas que foram vacinadas com a primeira dose em Garanhuns.
+                                                </p>
+                                                <button type="button"  class="btn btn-success" data-toggle="modal" data-target="#feed">
+                                                    Ver
+                                                </button>
+                                              </div>
+                                            </div>
+                                        </div>
                                       <div class="panel panel-default">
                                         <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
                                           <h3 class="panel-title">
@@ -62,7 +81,7 @@
                                             </a>
                                           </h3>
                                         </div>
-                                        <div id="anexos3" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
+                                        <div id="anexos3" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading0">
                                           <div class="panel-body px-3 mb-4">
                                             <p style="text-align: justify">
                                                 Relação contendo a documentação necessária, e que deve ser apresentada no ato da vacinação, de acordo com cada grupo prioritário.
@@ -122,6 +141,7 @@
                                           </div>
                                         </div>
                                       </div>
+                                      
                                     </div>
                                 </div>
                               </section>
@@ -255,12 +275,53 @@
         </div>
     </div>
     <!-- Fim modal checar agendamento -->
+    <!-- Modal feed agendamento -->
+    <div class="modal fade" id="feed" tabindex="-1" aria-labelledby="feedAdiatamento" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 12px;">
+            <div class="modal-header" style="background-color: #FF545A; color: #fff; border-top-left-radius: 12px; border-top-right-radius: 12px; ">
+                <h5 class="modal-title" id="feedAdiatamento">Cronograma de Antecipação da 2ª Dose</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    @foreach ($feeds as $feed)
+                        <div class="row justify-content-center mb-4">
+                            <div class="col-10 align-self-center">
+                                <div class="card mb-3">
+                                    <img style="height: 100%;width:100%;" src="{{ asset('storage/'.$feed->path) }}" alt="Teste">
+                                    <div class="card-body">
+                                      {{-- <h5 class="card-title">Card title</h5>
+                                      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> --}}
+                                      <p class="card-text"><small class="text-muted">{{ 'Postado ' .$feed->created_at->diffForHumans() }}</small></p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Fim feed checar agendamento -->
     @if (old('consulta') != null)
         <script>
             $(document).ready(function() {
                 $("#modalChecarAgendamento").modal('show');
             });
+            
+            
         </script>
     @endif
+
+    <script>
+            $(window).on('load', function() {
+                $('#feed').modal('show');
+            });
+    </script>
    
 </x-guest-layout>

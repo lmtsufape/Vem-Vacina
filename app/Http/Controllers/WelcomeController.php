@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feed;
 use App\Models\Etapa;
 use App\Models\Candidato;
 use App\Models\Configuracao;
@@ -15,8 +16,9 @@ class WelcomeController extends Controller
     public function index() {
 
         $config = Configuracao::first();
+        $feeds = Feed::all();
     
-        return view('welcome')->with(['config'=> $config,]);
+        return view('welcome')->with(['config'=> $config, 'feeds' => $feeds]);
     }
     public function manutencao() {
 

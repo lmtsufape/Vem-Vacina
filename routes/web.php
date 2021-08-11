@@ -4,6 +4,7 @@ use App\Models\Candidato;
 use App\Http\Livewire\StoreLote;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FilaController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\AdminController;
@@ -97,6 +98,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/lista/update',  [AdminController::class, 'updateListaData'])->name('admin.update.lista.data');
     Route::get('/admin/arquivados/index', function(){ return view('admin.arquivados'); })->name('admin.arquivados.index');
     Route::get('/admin/arquivados/ponto',  [AdminController::class, 'arquivadosPonto'])->name('admin.ponto.arquivados');
+    Route::get('/admin/feed/index',  [FeedController::class, 'index'])->name('admin.feed.index');
+    Route::get('/admin/feed/create',  [FeedController::class, 'create'])->name('admin.feed.create');
+    Route::post('/admin/feed/store',  [FeedController::class, 'store'])->name('admin.feed.store');
+    Route::get('/admin/feed/delete/{id}',  [FeedController::class, 'delete'])->name('admin.feed.delete');
+    Route::get('/admin/feed/edit/{id}',  [FeedController::class, 'edit'])->name('admin.feed.edit');
+    Route::post('/admin/feed/update/{id}',  [FeedController::class, 'update'])->name('admin.feed.update');
 
     Route::get('/dashboard',  [CandidatoController::class, 'show'])->name('dashboard');
     Route::post("/agendamento/{id}/confirmacao", [CandidatoController::class, 'update'])->name("update.agendamento");
