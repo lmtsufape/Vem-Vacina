@@ -316,12 +316,19 @@
             
             
         </script>
+    @else
+    <script>
+        $(document).ready(function() {
+            $("#feed").modal('show');
+        });
+        
+        
+    </script>
+        
     @endif
 
     <script>
-            $(window).on('load', function() {
-                $('#feed').modal('show');
-            });
+            
     </script>
    
 </x-guest-layout>
