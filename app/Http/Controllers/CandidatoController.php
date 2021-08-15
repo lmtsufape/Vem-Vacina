@@ -668,6 +668,14 @@ class CandidatoController extends Controller
                       ->get();
 
         if ($agendamentos->count() == 0) {
+            $caracteres = array(".", "-");
+            $cpf = str_replace($caracteres, "", $request->cpf);
+            $agendamentos = Candidato::where([['cpf', $cpf], ['data_de_nascimento', $request->data_de_nascimento]])
+                      ->orderBy("dose") // Mostra primeiro o agendamento mais recente
+                      ->get();
+        }              
+
+        if ($agendamentos->count() == 0) {
             return redirect()->back()->withErrors([
                 "cpf" => "Dados não encontrados"
             ])->withInput($validated);
