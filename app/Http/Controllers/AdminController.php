@@ -41,9 +41,12 @@ class AdminController extends Controller
         $posicao = 0;
         $total = $query->oldest()->count();
         $agendamento = null;
+        
         foreach ($agendamentos as $key => $value) {
             $posicao++;
-            if($request->cpf == $value->cpf || $request->nome ==  $value->nome_completo ){
+            $caracteres = array(".", "-");
+            $cpf = str_replace($caracteres, "", $request->cpf);
+            if($cpf == $value->cpf ||$request->cpf == $value->cpf || $request->nome ==  $value->nome_completo ){
                 $agendamento = $value;
                 break;
             }
