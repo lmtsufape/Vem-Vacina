@@ -22,6 +22,7 @@ use App\Models\LotePostoVacinacao;
         <th>Nome da vacinador (a)</th>
         <th>Digitado por</th>
         <th>Idade</th>
+        <th>Enderenço</th>
         {{-- <th>Digitado por</th>
         <th>dose</th>
         <th>chegada</th>
@@ -53,17 +54,19 @@ use App\Models\LotePostoVacinacao;
                 @if ($candidato->etapa->tipo == $tipos[0] || $candidato->etapa->tipo == $tipos[1] )
                     <td>{{$candidato->etapa->texto}}</td>
                     <td>{{ $candidato->posto->nome ?? "posto" }}</td>
-                    <td> {{$candidato->etapa->texto}}</td>
+                    <td>{{ $candidato->observacao }}</td>
+                    {{-- <td> {{$candidato->etapa->texto}}</td> --}}
                 @elseif($candidato->etapa->tipo == $tipos[2])
                     <td>{{$candidato->etapa->texto}}</td>
                     <td>{{ $candidato->posto->nome ?? "posto" }}</td>
-                    <td>
+                    <td>{{ $candidato->observacao }}</td>
+                    {{-- <td>
                     @if(App\Models\OpcoesEtapa::find($candidato->etapa_resultado) != null)
                         {{App\Models\OpcoesEtapa::find($candidato->etapa_resultado)->opcao}}
                     @else
                         {{$candidato->etapa->texto}}
                     @endif
-                    </td>
+                    </td> --}}
                 @endif
                 <td>{{ $candidato->cpf }}</td>
                 @php
@@ -82,7 +85,10 @@ use App\Models\LotePostoVacinacao;
                 <td>{{  "Nome do vacinador"  }}</td>
                 <td>{{  "Digitado por"  }}</td>
                 <td>{{ $candidato->idade }}</td>
-                <td>{{ $candidato->observacao }}</td>
+                <td>{{ $candidato->logradouro . $candidato->numero_residencia . $candidato->bairro . $candidato->cidade }}</td>
+                {{-- <td>{{ $candidato->bairro }}</td>
+                <td>{{ $candidato->logradouro }}</td>
+                <td>{{ $candidato->numero_residencia }}</td> --}}
                 <td>
                     @if ($candidato->outrasInfo != null && count($candidato->outrasInfo) > 0)
                         @foreach ($candidato->etapa->outrasInfo as $outraInfo)
