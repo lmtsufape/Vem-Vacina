@@ -85,7 +85,7 @@ use App\Models\LotePostoVacinacao;
                 <td>{{  "Nome do vacinador"  }}</td>
                 <td>{{  "Digitado por"  }}</td>
                 <td>{{ $candidato->idade }}</td>
-                <td>{{ $candidato->logradouro . '-' . $candidato->numero_residencia . '-' . $candidato->bairro . '-' . $candidato->cidade }}</td>
+                <td>{{ $candidato->logradouro . ' - ' . $candidato->numero_residencia . ' - ' . $candidato->bairro . ' - ' . $candidato->cidade }}</td>
                 {{-- <td>{{ $candidato->bairro }}</td>
                 <td>{{ $candidato->logradouro }}</td>
                 <td>{{ $candidato->numero_residencia }}</td> --}}
