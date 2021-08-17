@@ -74,7 +74,7 @@ use App\Models\LotePostoVacinacao;
                 <td>{{ date('d/m/Y', strtotime($candidato->data_de_nascimento)) }}</td>
                 <td>{{ $candidato->sexo }}</td>
                 <td>{{ $candidato->nome_da_mae }}</td>
-                <td>{{ date('d/m/Y \à\s H:i\h', strtotime($candidato->updated_at)) }}</td>
+                <td>{{ date('d/m/Y \à\s H:i\h', strtotime($candidato->chegada)) }}</td>
                 <td>{{  $lote ? $lote->fabricante : "Erro"  }}</td>
                 <td>{{ $candidato->dose }}</td>
                 <td>{{  $lote ? $lote->numero_lote : "Erro"  }} </td>
