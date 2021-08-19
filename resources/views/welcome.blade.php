@@ -57,12 +57,29 @@
                                         <div class="panel panel-default">
                                             <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
                                               <h3 class="panel-title">
+                                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos2" aria-expanded="true" aria-controls="anexos2">
+                                                    Formulário para adolescentes de 12 a 17 anos com comorbidades
+                                                </a>
+                                              </h3>
+                                            </div>
+                                            <div id="anexos2" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
+                                              <div class="panel-body px-3 mb-4">
+                                                <p style="text-align: justify">
+                                                    A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria de Saúde produziu um modelo de atestado, onde o profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.
+                                                </p>
+                                                <a href="{{route('baixar.anexo', ['name'=> 'anexo3.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Formulário </a>
+                                              </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                              <h3 class="panel-title">
                                                 <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#feedCollapse" aria-expanded="true" aria-controls="feedCollapse">
                                                     Cronograma de antecipação da 2ª dose das vacinas AstraZeneca
                                                 </a>
                                               </h3>
                                             </div>
-                                            <div id="feedCollapse" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
+                                            <div id="feedCollapse" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading0">
                                               <div class="panel-body px-3 mb-4">
                                                 <p style="text-align: justify">
                                                     Cronograma de antecipação da 2ª dose das vacinas AstraZeneca, para pessoas que foram vacinadas com a primeira dose em Garanhuns.
