@@ -434,7 +434,7 @@ class PostoVacinacaoController extends Controller
                 }
 
                 $contador++;
-                if($contador == 3){
+                if($contador == 7){
                     break;
                 }
             }
