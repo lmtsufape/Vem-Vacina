@@ -411,7 +411,7 @@ class PostoVacinacaoController extends Controller
                 if(!($posto->funciona_quinta) && $dia->isThursday()) {continue;}
                 if(!($posto->funciona_sexta) && $dia->isFriday()) {continue;}
                 if(!($posto->funciona_sabado) && $dia->isSaturday()) {continue;}
-
+                //->addMinutes(61)
                 if($posto->inicio_atendimento_manha && $posto->intervalo_atendimento_manha && $posto->fim_atendimento_manha) {
                     $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_manha);
                     $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_manha);
