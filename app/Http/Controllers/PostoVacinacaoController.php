@@ -227,15 +227,21 @@ class PostoVacinacaoController extends Controller
                 "inicio_atendimento_manha" => "required|integer",
                 "intervalo_atendimento_manha" => "required|integer",
                 "fim_atendimento_manha" => "required|integer|gt:inicio_atendimento_manha",
+                "minutos_inicio_atendimento_manha" => "required|integer",
+                "minutos_fim_atendimento_manha" => "required|integer",
             ]);
 
             $posto->inicio_atendimento_manha = $request->inicio_atendimento_manha;
+            $posto->minutos_inicio_atendimento_manha = $request->minutos_inicio_atendimento_manha;
             $posto->intervalo_atendimento_manha = $request->intervalo_atendimento_manha;
             $posto->fim_atendimento_manha = $request->fim_atendimento_manha;
+            $posto->minutos_fim_atendimento_manha = $request->minutos_fim_atendimento_manha;
         } else {
             $posto->inicio_atendimento_manha = NULL;
             $posto->intervalo_atendimento_manha = NULL;
             $posto->fim_atendimento_manha = NULL;
+            $posto->minutos_inicio_atendimento_manha = NULL;
+            $posto->minutos_fim_atendimento_manha = NULL;
         }
 
         if($request->funcionamento_tarde == "on") {
@@ -243,15 +249,21 @@ class PostoVacinacaoController extends Controller
                 "inicio_atendimento_tarde" => "required|integer",
                 "intervalo_atendimento_tarde" => "required|integer",
                 "fim_atendimento_tarde" => "required|integer|gt:inicio_atendimento_tarde",
+                "minutos_inicio_atendimento_tarde" => "required|integer",
+                "minutos_fim_atendimento_tarde" => "required|integer",
             ]);
 
             $posto->inicio_atendimento_tarde = $request->inicio_atendimento_tarde;
+            $posto->minutos_inicio_atendimento_tarde = $request->minutos_inicio_atendimento_tarde;
             $posto->intervalo_atendimento_tarde = $request->intervalo_atendimento_tarde;
             $posto->fim_atendimento_tarde = $request->fim_atendimento_tarde;
+            $posto->minutos_fim_atendimento_tarde = $request->minutos_fim_atendimento_tarde;
         } else {
             $posto->inicio_atendimento_tarde = NULL;
             $posto->intervalo_atendimento_tarde = NULL;
             $posto->fim_atendimento_tarde = NULL;
+            $posto->minutos_inicio_atendimento_tarde = NULL;
+            $posto->minutos_fim_atendimento_tarde = NULL;
         }
 
         if($request->funcionamento_noite == "on") {
@@ -259,15 +271,21 @@ class PostoVacinacaoController extends Controller
                 "inicio_atendimento_noite" => "required|integer",
                 "intervalo_atendimento_noite" => "required|integer",
                 "fim_atendimento_noite" => "required|integer|gt:inicio_atendimento_noite",
+                "minutos_inicio_atendimento_noite" => "required|integer",
+                "minutos_fim_atendimento_noite" => "required|integer",
             ]);
 
             $posto->inicio_atendimento_noite = $request->inicio_atendimento_noite;
+            $posto->minutos_inicio_atendimento_noite = $request->minutos_inicio_atendimento_noite;
             $posto->intervalo_atendimento_noite = $request->intervalo_atendimento_noite;
             $posto->fim_atendimento_noite = $request->fim_atendimento_noite;
+            $posto->minutos_fim_atendimento_noite = $request->minutos_fim_atendimento_noite;
         } else {
             $posto->inicio_atendimento_noite = NULL;
             $posto->intervalo_atendimento_noite = NULL;
             $posto->fim_atendimento_noite = NULL;
+            $posto->minutos_inicio_atendimento_noite = NULL;
+            $posto->minutos_fim_atendimento_noite = NULL;
         }
 
         $posto->update();
@@ -411,24 +429,24 @@ class PostoVacinacaoController extends Controller
                 if(!($posto->funciona_quinta) && $dia->isThursday()) {continue;}
                 if(!($posto->funciona_sexta) && $dia->isFriday()) {continue;}
                 if(!($posto->funciona_sabado) && $dia->isSaturday()) {continue;}
-                //->addMinutes(61)
+                //->addMinutes($posto->minutos_inicio_atendimento_manha)
                 if($posto->inicio_atendimento_manha && $posto->intervalo_atendimento_manha && $posto->fim_atendimento_manha) {
-                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_manha);
-                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_manha);
+                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_manha)->addMinutes($posto->minutos_inicio_atendimento_manha);
+                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_manha)->addMinutes($posto->minutos_fim_atendimento_manha);
                     $periodos_da_manha = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_manha . " minutes", $fim_do_dia);
                     array_push($todos_os_horarios_por_dia, $periodos_da_manha);
                 }
 
                 if($posto->inicio_atendimento_tarde && $posto->intervalo_atendimento_tarde && $posto->fim_atendimento_tarde) {
-                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_tarde);
-                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_tarde);
+                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_tarde)->addMinutes($posto->minutos_inicio_atendimento_tarde);
+                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_tarde)->addMinutes($posto->minutos_fim_atendimento_tarde);
                     $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_tarde . " minutes", $fim_do_dia);
                     array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
                 }
 
                 if($posto->inicio_atendimento_noite && $posto->intervalo_atendimento_noite && $posto->fim_atendimento_noite) {
-                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_noite);
-                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_noite);
+                    $inicio_do_dia = $dia->copy()->addHours($posto->inicio_atendimento_noite)->addMinutes($posto->minutos_inicio_atendimento_noite);
+                    $fim_do_dia = $dia->copy()->addHours($posto->fim_atendimento_noite)->addMinutes($posto->minutos_fim_atendimento_noite);
                     $periodos_da_tarde = CarbonPeriod::create($inicio_do_dia, $posto->intervalo_atendimento_noite . " minutes", $fim_do_dia);
                     array_push($todos_os_horarios_por_dia, $periodos_da_tarde);
                 }

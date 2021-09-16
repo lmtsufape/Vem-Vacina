@@ -126,7 +126,7 @@
                     </div>
 
                     <div id="seletores_funcionamento_manha" class="row"  @if(!(old('funcionamento_manha') || (old('funcionamento_manha') == null && $posto->inicio_atendimento_manha && $posto->intervalo_atendimento_manha && $posto->fim_atendimento_manha))) style="display: none;" @endif >
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label style="margin-right: 8%;">Inicio:</label>
                             <select name="inicio_atendimento_manha" class="form-control">
                                 <option disabled selected> -- hrs</option>
@@ -136,8 +136,18 @@
                             </select>
                             @error('inicio_atendimento_manha') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
+                        <div class="col-md-3">
+                            <label style="margin-right: 8%;">Minutos:</label>
+                            <select name="minutos_inicio_atendimento_manha" class="form-control">
+                                <option disabled selected> -- hrs</option>
+                                @for($i = 0; $i <= 60; $i++)
+                                   <option value="{{$i}}" @if(old('minutos_inicio_atendimento_manha', $posto->minutos_inicio_atendimento_manha) == $i) selected @endif >{{$i}} min</option>
+                                @endfor
+                            </select>
+                        </div>
 
-                        <div class="col-md-4">
+                        
+                        <div class="col-md-3">
                             <label style="margin-right: 8%;">Fim:</label>
                             <select name="fim_atendimento_manha" class="form-control">
                                 <option disabled selected> -- hrs</option>
@@ -147,6 +157,16 @@
                             </select>
                             @error('fim_atendimento_manha') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
+                        <div class="col-md-3">
+                            <label style="margin-right: 8%;">Minutos:</label>
+                            <select name="minutos_fim_atendimento_manha" class="form-control">
+                                <option disabled selected> -- min</option>
+                                @for($i = 0; $i <= 60; $i++)
+                                   <option value="{{$i}}" @if(old('minutos_fim_atendimento_manha', $posto->minutos_fim_atendimento_manha) == $i) selected @endif>{{$i}} min</option>
+                                @endfor
+                            </select>
+                        </div>
+
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Intervalo (mins):</label>
                             <input min="1" max="60" type="number" class="form-control" style="width: 75%;" name="intervalo_atendimento_manha" value="{{old('intervalo_atendimento_manha', $posto->intervalo_atendimento_manha)}}">
@@ -171,7 +191,7 @@
                     </div>
 
                     <div id="seletores_funcionamento_tarde" class="row" @if(!(old('funcionamento_tarde') || (old('funcionamento_tarde') == null && $posto->inicio_atendimento_tarde && $posto->intervalo_atendimento_tarde && $posto->fim_atendimento_tarde))) style="display: none;" @endif>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label style="margin-right: 8%;">Inicio:</label>
                             <select name="inicio_atendimento_tarde" class="form-control">
                                 <option disabled selected> -- hrs</option>
@@ -181,8 +201,18 @@
                             </select>
                             @error('inicio_atendimento_tarde') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
+                        <div class="col-md-3">
+                            <label style="margin-right: 8%;">Minutos:</label>
+                            <select name="minutos_inicio_atendimento_tarde" class="form-control">
+                                <option disabled selected> -- min</option>
+                                @for($i = 0; $i <= 60; $i++)
+                                   <option value="{{$i}}" @if(old('minutos_inicio_atendimento_tarde', $posto->minutos_inicio_atendimento_tarde) == $i) selected @endif >{{$i}} min</option>
+                                @endfor
+                            </select>
+                            @error('minutos_inicio_atendimento_tarde') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label style="margin-right: 8%;">Fim:</label>
                             <select name="fim_atendimento_tarde"class="form-control">
                                 <option disabled selected> -- hrs</option>
@@ -191,6 +221,16 @@
                                 @endfor
                             </select>
                             @error('fim_atendimento_tarde') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md-3">
+                            <label style="margin-right: 8%;">Minutos:</label>
+                            <select name="minutos_fim_atendimento_tarde"class="form-control">
+                                <option disabled selected> -- min</option>
+                                @for($i = 0; $i <= 60; $i++)
+                                   <option value="{{$i}}" @if(old('minutos_fim_atendimento_tarde', $posto->minutos_fim_atendimento_tarde) == $i) selected @endif>{{$i}} min</option>
+                                @endfor
+                            </select>
+                            @error('minutos_fim_atendimento_tarde') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Intervalo (mins):</label>
@@ -213,7 +253,7 @@
                     </div>
 
                     <div id="seletores_funcionamento_noite" class="row" @if(!(old('funcionamento_noite') || (old('funcionamento_noite') == null && $posto->inicio_atendimento_noite && $posto->inicio_atendimento_noite && $posto->fim_atendimento_noite))) style="display: none;" @endif>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label style="margin-right: 8%;">Inicio:</label>
                             <select name="inicio_atendimento_noite" class="form-control">
                                 <option disabled selected> -- hrs</option>
@@ -223,16 +263,36 @@
                             </select>
                             @error('inicio_atendimento_noite') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
+                        <div class="col-md-3">
+                            <label style="margin-right: 8%;">Minutos:</label>
+                            <select name="minutos_inicio_atendimento_noite" class="form-control">
+                                <option disabled selected> -- min</option>
+                                @for($i = 0; $i <= 23; $i++)
+                                   <option value="{{$i}}" @if(old('minutos_inicio_atendimento_noite', $posto->minutos_inicio_atendimento_noite) == $i) selected @endif >{{$i}} min</option>
+                                @endfor
+                            </select>
+                            @error('minutos_inicio_atendimento_noite') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label style="margin-right: 8%;">Fim:</label>
                             <select name="fim_atendimento_noite"class="form-control">
                                 <option disabled selected> -- hrs</option>
-                                @for($i = 17; $i <= 23; $i++)
+                                @for($i = 0; $i <= 23; $i++)
                                    <option value="{{$i}}" @if(old('fim_atendimento_noite', $posto->fim_atendimento_noite) == $i) selected @endif>{{$i}} hrs</option>
                                 @endfor
                             </select>
                             @error('fim_atendimento_noite') <div class="alert alert-danger">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md-3">
+                            <label style="margin-right: 8%;">Minutos:</label>
+                            <select name="minutos_fim_atendimento_noite"class="form-control">
+                                <option disabled selected> -- min</option>
+                                @for($i = 0; $i <= 60; $i++)
+                                   <option value="{{$i}}" @if(old('minutos_fim_atendimento_noite', $posto->minutos_fim_atendimento_noite) == $i) selected @endif>{{$i}} min</option>
+                                @endfor
+                            </select>
+                            @error('minutos_fim_atendimento_noite') <div class="alert alert-danger">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-md-4">
                             <label style="margin-right: 8%;">Intervalo (mins):</label>
