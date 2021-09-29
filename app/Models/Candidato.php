@@ -90,16 +90,16 @@ class Candidato extends Model
             $mensagem = $mensagem."Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!";
         } else if ($this->aprovacao == $this::APROVACAO_ENUM[1]) {
             $mensagem = "Sr(a). ".$this->nome_completo.",\n";
-            $mensagem = $mensagem."a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE.\n";
-            $mensagem = $mensagem."A seguir, encontram-se o dia, horário e local de aplicação da ".$this->dose.":\n";
+            $mensagem = $mensagem."a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE.\n\n";
+            $mensagem = $mensagem."A seguir, encontram-se o dia, horário e local de aplicação da ".$this->dose.":\n\n";
             $mensagem = $mensagem."Dia: ".date('d/m/Y \à\s  H:i\h', strtotime($this->chegada)).".\n";
             $mensagem = $mensagem."Local: ".$this->posto->nome.".\n";
-            $mensagem = $mensagem."Endereço: ".$this->posto->endereco.".\n";
-            $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência constando o nome da pessoa a ser vacinada.\n";
-            $mensagem = $mensagem."Para os agendamentos de comorbidades é necessário o formulário que atesta a comorbidade, previamente preenchido por um profissional de saúde (exceto pessoas com Síndrome de Down).\n";
-            $mensagem = $mensagem."Os demais grupos prioritários deverão comprovar esta condição através um destes documentos: declaração de vínculo profissional, contracheque, ou outro documento que comprove o exercício da função e/ou vinculação com o serviço.\n";
-            $mensagem = $mensagem."Reforçamos a importância de que a pessoa esteja de posse de todos os documentos! A pessoa cadastrada será imunizada com a dose disponível, de acordo com o grupo escolhido, não sendo permitida a escolha de outro grupo no ato da vacinação. Agradecemos a sua atenção!";
-
+            $mensagem = $mensagem."Endereço: ".$this->posto->endereco.".\n\n";
+            $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência constando o nome da pessoa a ser vacinada.\n\n";
+            $mensagem = $mensagem."Para os agendamentos de comorbidades é necessário o formulário que atesta a comorbidade, preenchido por um profissional de saúde.\n\n";
+            $mensagem = $mensagem."No caso de menores de 18 anos deve ser apresentado documento de identificação com foto ou certidão de nascimento, CPF, cartão do SUS e comprovante de residência constando o nome dos pais ou responsável legal.\n\n";
+            $mensagem = $mensagem."IMPORTANTE: No momento da vacinação o adolescente deve estar acompanhado dos pais. No caso de responsável legal, a condição de tutela deve ser comprovada através de documento emitido em cartório.\n\n";
+            $mensagem = $mensagem."Reforçamos a importância de que a pessoa esteja de posse de todos os documentos! A pessoa cadastrada será imunizada com a dose disponível, de acordo com o grupo escolhido. Agradecemos a sua atenção!";
         } else if ($this->aprovacao == $this::APROVACAO_ENUM[2]) {
             $mensagem = "Seu agendamento foi reprovado.";
         }
