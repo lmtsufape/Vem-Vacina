@@ -192,6 +192,7 @@ class CandidatoController extends Controller
         return view("ver_agendamento", ["agendamento" => Candidato::find($id)]);
     }
 
+    
     public function enviar_solicitacao(Request $request) {
 
         
@@ -201,9 +202,15 @@ class CandidatoController extends Controller
         }
         if($request->dose_tres){
             $validate = $request->session()->get('validate');
-            // dd($validate);
+            if (Candidato::where('cpf', $request->cpf)->where('dose', '3ª Dose')->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
+                ->count() > 0) {
+                return redirect()->back()->withErrors([
+                    "dose" => "Existe um agendamento para a 3ª dose para esse cadastro."
+                ]);
+            }
         }
         
+        // dd($request->all());
         $request->validate([
             "voltou"                => "nullable",
             "público"               => "required",
@@ -227,20 +234,22 @@ class CandidatoController extends Controller
             "horario_vacinacao"     => Rule::requiredIf(!$request->has('fila')),
             "opcao_etapa_".$request->input('público') => 'nullable',
         ]);
+
+        
         
         
         
         DB::beginTransaction();
 
         try {
-            if (Candidato::where('cpf',$request->cpf)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
-            ->count() > 0) {
-                return redirect()->back()->withErrors([
-                    "cpf" => "Existe um agendamento pendente para esse CPF."
-                ]);
+            if(!$request->cadastro){
+                if (Candidato::where('cpf',$request->cpf)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
+                    ->count() > 0) {
+                    return redirect()->back()->withErrors([
+                        "cpf" => "Existe um agendamento pendente para esse CPF."
+                    ]);
+                }
             }
-            
-
             $candidato = new Candidato;
             $candidato->nome_completo           = $request->nome_completo;
             $candidato->data_de_nascimento      = $request->data_de_nascimento;
@@ -264,6 +273,8 @@ class CandidatoController extends Controller
             }else{
                 $candidato->dose                    = Candidato::DOSE_ENUM[0];
             }
+            
+
 
             // Se não foi passado CEP, o preg_replace retorna string vazia, mas no bd é uint nulavel, então anula
             if ($candidato->cep == "") {
@@ -509,11 +520,11 @@ class CandidatoController extends Controller
             ])->withInput();
         }
 
-        if(!Candidato::where('cpf', $candidato->cpf)->count()){
-            return redirect()->back()->withErrors([
-                "message" => "Houve algum erro, entre em contato com a administração do site.",
-            ])->withInput();
-        }
+        // if(!Candidato::where('cpf', $candidato->cpf)->count()){
+        //     return redirect()->back()->withErrors([
+        //         "message" => "Houve algum erro, entre em contato com a administração do site.",
+        //     ])->withInput();
+        // }
 
         $agendamentos = Candidato::where('cpf', $candidato->cpf)->orderBy('dose')->get();
 

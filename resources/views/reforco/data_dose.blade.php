@@ -1,11 +1,8 @@
 <x-guest-layout>
 
-    @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-    @endif
+    
     {{-- @dd($validate) --}}
+    
     <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;">
         <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%">
         <div class="container">
@@ -31,7 +28,13 @@
                             </div>
                             <div class="col-md-12 style_titulo_campo">Solicitar Vacinação da Dose de Reforço</div>
                             <div class="col-md-12"><hr class="style_linha_campo"></div>
+                            
                             <div class="container">
+                                @if (session('status'))
+                                    <div class="alert alert-danger">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="inputData_um" class="style_titulo_input">Data 1ª Dose <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>

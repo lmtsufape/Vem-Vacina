@@ -176,12 +176,20 @@ class FilaDistribuir extends Component
                 // if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
                 //     continue;
                 // }
-
-                if (Candidato::where('cpf',$candidato->cpf)->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1],Candidato::APROVACAO_ENUM[3]])
-                ->count() > 0) {
-                    \Log::info("1");
-                    break 2;
+                if($candidato->dose != "3ª Dose"){
+                    if (Candidato::where('cpf',$candidato->cpf)->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1],Candidato::APROVACAO_ENUM[3]])
+                    ->count() > 0 && $candidato->dose != "3ª Dose") {
+                        \Log::info("0");
+                        break 2;
+                    }
+                }else{
+                    if (Candidato::where('cpf',$candidato->cpf)->where('dose', "3ª Dose")->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1],Candidato::APROVACAO_ENUM[3]])
+                    ->count() > 0 ) {
+                        \Log::info("0");
+                        break 2;
+                    }
                 }
+                
 
                 $etapa = $candidato->etapa;
 
