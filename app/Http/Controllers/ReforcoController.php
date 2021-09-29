@@ -103,12 +103,14 @@ class ReforcoController extends Controller
         $datetime2 = new DateTime($request->data_dois);
 
         $difference = $datetime1->diff($datetime2);
-        // $request->session()->forget('status');
-        // if($difference->m < 6){
-        //     // $request->session()->flash('status', 'Intervalo entre a segunda dose ainda não completou 6 meses!');
-        //     return redirect()->route('reforco.verificar');
-        //     dd("teste");
-        // }
+        $request->session()->forget('status');
+        if($difference->m < 6){
+            // $request->session()->flash('status', 'Intervalo entre a segunda dose ainda não completou 6 meses!');
+            return redirect()->back()->with([
+                "status" => "Intervalo entre a segunda dose ainda não completou 6 meses!."
+            ]);
+            dd("teste");
+        }
         // dd("passou");
         $request->session()->put('validate', $validate);
 

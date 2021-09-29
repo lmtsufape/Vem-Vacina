@@ -38,7 +38,7 @@ Route::get('/manutencao', [WelcomeController::class, 'manutencao'])->name('manut
 
 Route::prefix('reforco')->group(function () {
     Route::get('/', [ReforcoController::class, 'index'])->name('reforco.index');
-    Route::post('/verificar', [ReforcoController::class, 'verificar'])->name('reforco.verificar');
+    Route::get('/verificar', [ReforcoController::class, 'verificar'])->name('reforco.verificar');
     Route::post('/solicitar-dose-tres', [ReforcoController::class, 'solicitarDoseTres'])->name('reforco.dose.tres');
     Route::get("/solicitar/reforco/{candidato}", [ReforcoController::class, 'solicitarReforco'])->name("solicitacao.reforco");
     Route::get("/form", [ReforcoController::class, 'solicitarReforcoForm'])->name("reforco.solicitar.form");

@@ -28,8 +28,8 @@
             <!-- cadastro -->
             <div class="col-md-9 style_card_apresentacao">
                 <div class="container" style="padding-top: 10px;">
-                    <form action="{{ route('reforco.verificar') }}" method="post">
-                        @csrf
+                    <form action="{{ route('reforco.verificar') }}" method="get">
+                        {{-- @csrf --}}
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row" style="text-align: center;">
