@@ -186,16 +186,24 @@ class CandidatoController extends Controller
         ]);
 
     }
+
+    
     public function ver($id) {
         return view("ver_agendamento", ["agendamento" => Candidato::find($id)]);
     }
 
     public function enviar_solicitacao(Request $request) {
 
+        
+
         if(env('ATIVAR_FILA', false) == true){
             $request->merge(['fila' => "true"]);
         }
-        // dd($request->all());
+        if($request->dose_tres){
+            $validate = $request->session()->get('validate');
+            // dd($validate);
+        }
+        
         $request->validate([
             "voltou"                => "nullable",
             "público"               => "required",
@@ -219,8 +227,9 @@ class CandidatoController extends Controller
             "horario_vacinacao"     => Rule::requiredIf(!$request->has('fila')),
             "opcao_etapa_".$request->input('público') => 'nullable',
         ]);
-
-        // dd($request->all());
+        
+        
+        
         DB::beginTransaction();
 
         try {
@@ -228,9 +237,9 @@ class CandidatoController extends Controller
             ->count() > 0) {
                 return redirect()->back()->withErrors([
                     "cpf" => "Existe um agendamento pendente para esse CPF."
-                ])->withInput();
+                ]);
             }
-
+            
 
             $candidato = new Candidato;
             $candidato->nome_completo           = $request->nome_completo;
@@ -250,7 +259,11 @@ class CandidatoController extends Controller
             $candidato->numero_residencia       = $request->input("número_residencial");
             $candidato->complemento_endereco    = $request->complemento_endereco;
             $candidato->aprovacao               = Candidato::APROVACAO_ENUM[1];
-            $candidato->dose                    = Candidato::DOSE_ENUM[0];
+            if($request->dose_tres){
+                $candidato->dose                    = "3ª Dose";
+            }else{
+                $candidato->dose                    = Candidato::DOSE_ENUM[0];
+            }
 
             // Se não foi passado CEP, o preg_replace retorna string vazia, mas no bd é uint nulavel, então anula
             if ($candidato->cep == "") {
@@ -439,34 +452,36 @@ class CandidatoController extends Controller
 
 
             $candidato->save();
-            $candidatoSegundaDose = null;
-
-            $lote = Lote::find($chave_estrangeiro_lote);
-
-            if (!$lote->dose_unica) {
-                $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
-                if($datetime_chegada_segunda_dose->format('l') == "Sunday" || $datetime_chegada_segunda_dose->format('l') == "Saturday"){
-                    $datetime_chegada_segunda_dose->add(new DateInterval('P2D'));
-                }
-                $candidatoSegundaDose = $candidato->replicate()->fill([
-                    'chegada' =>  $datetime_chegada_segunda_dose,
-                    'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
-                    'dose'   =>  Candidato::DOSE_ENUM[1],
-                ]);
-
-                $candidatoSegundaDose->save();
-
-                if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
-                    if ($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0) {
-                        foreach ($request->input("opcao_etapa_".$etapa->id) as $outra_info_id) {
-                            $candidatoSegundaDose->outrasInfo()->attach($outra_info_id);
+            if(!$request->dose_tres){
+                $candidatoSegundaDose = null;
+    
+                $lote = Lote::find($chave_estrangeiro_lote);
+    
+                if (!$lote->dose_unica) {
+                    $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
+                    if($datetime_chegada_segunda_dose->format('l') == "Sunday" || $datetime_chegada_segunda_dose->format('l') == "Saturday"){
+                        $datetime_chegada_segunda_dose->add(new DateInterval('P2D'));
+                    }
+                    $candidatoSegundaDose = $candidato->replicate()->fill([
+                        'chegada' =>  $datetime_chegada_segunda_dose,
+                        'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
+                        'dose'   =>  Candidato::DOSE_ENUM[1],
+                    ]);
+    
+                    $candidatoSegundaDose->save();
+    
+                    if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+                        if ($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0) {
+                            foreach ($request->input("opcao_etapa_".$etapa->id) as $outra_info_id) {
+                                $candidatoSegundaDose->outrasInfo()->attach($outra_info_id);
+                            }
                         }
                     }
                 }
-            }
-
-            if($candidato->email != null){
-                Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
+    
+                if($candidato->email != null){
+                    Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
+                }
             }
 
 
@@ -483,7 +498,7 @@ class CandidatoController extends Controller
 
         } catch (\Throwable $e) {
             DB::rollback();
-
+            
             if(env('APP_DEBUG')){
                 return redirect()->back()->withErrors([
                     "message" => $e->getMessage(),

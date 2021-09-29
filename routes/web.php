@@ -19,6 +19,7 @@ use App\Http\Controllers\EstatisticaController;
 use App\Http\Controllers\ConfiguracaoController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostoVacinacaoController;
+use App\Http\Controllers\ReforcoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,11 +36,20 @@ Route::get('/', [WelcomeController::class, 'index'])->name('index');
 Route::get('/home/estatisticas', [WelcomeController::class, 'estatisticas'])->name('home.estatisticas');
 Route::get('/manutencao', [WelcomeController::class, 'manutencao'])->name('manutencao');
 
-Route::get("/solicitar", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
+Route::prefix('reforco')->group(function () {
+    Route::get('/', [ReforcoController::class, 'index'])->name('reforco.index');
+    Route::post('/verificar', [ReforcoController::class, 'verificar'])->name('reforco.verificar');
+    Route::post('/solicitar-dose-tres', [ReforcoController::class, 'solicitarDoseTres'])->name('reforco.dose.tres');
+    Route::get("/solicitar/reforco/{candidato}", [ReforcoController::class, 'solicitarReforco'])->name("solicitacao.reforco");
+    Route::get("/form", [ReforcoController::class, 'solicitarReforcoForm'])->name("reforco.solicitar.form");
+});
+
+Route::get("/solicitar/{bool?}", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
 // Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");
 Route::post("/consultar-agendamento", [CandidatoController::class, 'consultar'])->name("agendamento.consultar");
 Route::get("/todos-os-postos", [PostoVacinacaoController::class, 'todosOsPostos'])->name("postos");
+
 
 // Não mudar horarios e cep sem testar tudo no form de solicitar
 Route::get("/horarios/{id_posto}", [PostoVacinacaoController::class, 'horarios'] )->name("posto.horarios");
@@ -186,6 +196,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/estatisticas/show', [EstatisticaController::class, 'showStats'])->name('estatistica.showStats');
     
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
+    
 });
 
 

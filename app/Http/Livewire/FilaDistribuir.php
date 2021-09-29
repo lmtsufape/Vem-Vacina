@@ -254,21 +254,23 @@ class FilaDistribuir extends Component
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
                 $candidato->update();
                 $candidatoSegundaDose = null;
-                if (!$lote->dose_unica) {
-                    \Log::info("candidato segundo");
-                    $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
-                    if($datetime_chegada_segunda_dose->format('l') == "Sunday" || $datetime_chegada_segunda_dose->format('l') == "Saturday"){
-                        $datetime_chegada_segunda_dose->add(new DateInterval('P2D'));
+                if($candidato->dose != "3ª Dose"){
+                    if (!$lote->dose_unica) {
+                        \Log::info("candidato segundo");
+                        $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
+                        if($datetime_chegada_segunda_dose->format('l') == "Sunday" || $datetime_chegada_segunda_dose->format('l') == "Saturday"){
+                            $datetime_chegada_segunda_dose->add(new DateInterval('P2D'));
+                        }
+                        $candidatoSegundaDose = $candidato->replicate()->fill([
+                            'aprovacao' =>  Candidato::APROVACAO_ENUM[1],
+                            'chegada' =>  $datetime_chegada_segunda_dose,
+                            'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
+                            'dose'   =>  Candidato::DOSE_ENUM[1],
+                        ]);
+    
+                        $candidatoSegundaDose->save();
+    
                     }
-                    $candidatoSegundaDose = $candidato->replicate()->fill([
-                        'aprovacao' =>  Candidato::APROVACAO_ENUM[1],
-                        'chegada' =>  $datetime_chegada_segunda_dose,
-                        'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
-                        'dose'   =>  Candidato::DOSE_ENUM[1],
-                    ]);
-
-                    $candidatoSegundaDose->save();
-
                 }
                 if($candidato->email != null || $candidato->email != ""  || $candidato->email != " "){
                     Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));

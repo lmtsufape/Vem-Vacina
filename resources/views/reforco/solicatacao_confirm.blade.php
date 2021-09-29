@@ -1,22 +1,15 @@
 <x-guest-layout>
-
-    {{-- @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif --}}
-
-
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
         </div>
     @endif
-
+    @if (session('candidato'))
+        <div class="alert alert-success">
+            {{ session('candidato') }}
+        </div>
+    @endif
+        
     <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;">
         <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%">
         <div class="container">
@@ -53,8 +46,7 @@
                             <form method="POST" id="formSolicitar" class="needs-validation" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
-                                <input type="hidden" name="dose_tres" value="{{ session('bool') ?? 0 }}">
-                                {{-- @dd(session('bool') ?? "Erro"); --}}
+                                <input type="hidden" name="dose_tres" value="{{ $bool ?? 0 }}">
 
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -78,113 +70,21 @@
 
                                 @endif
 
-                                @if (old('público') != null)
-                                    @foreach ($publicos as $publico)
-                                        @auth
-                                            @if ($publico->tipo == $tipos[0])
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
-                                                    <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
-                                                </div>
-                                            @elseif ($publico->tipo == $tipos[1])
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
-                                                    <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
-                                                </div>
-                                            @elseif ($publico->tipo == $tipos[2])
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
-                                                    <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
-
-                                                    <div id="divPublico_{{$publico->id}}" @if (old('público') == $publico->id) style="display: block;" @else style="display: none;" @endif>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}</label>
-                                                                <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
-                                                                    <option value="" seleceted disabled>-- Selecione o tipo --</option>
-                                                                    @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
-                                                                        <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                                @error('publico_opcao_'.$publico->id)
-                                                                <div id="validationServer05Feedback" class="invalid-feedback">
-                                                                    <strong>{{$message}}</strong>
-                                                                </div>
-                                                                @enderror
-                                                                {{-- <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small> --}}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        @else
-                                            @if ($publico->exibir_no_form)
-                                                @if ($publico->tipo == $tipos[0])
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
-                                                        <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
-                                                    </div>
-                                                @elseif ($publico->tipo == $tipos[1])
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
-                                                        <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
-                                                    </div>
-                                                @elseif ($publico->tipo == $tipos[2])
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" @if(old('público') == $publico->id) checked @endif required>
-                                                        <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
-
-                                                        <div id="divPublico_{{$publico->id}}" @if (old('público') == $publico->id) style="display: block;" @else style="display: none;" @endif>
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}</label>
-                                                                    <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
-                                                                        <option value="" seleceted disabled>-- Selecione o tipo --</option>
-                                                                        @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
-                                                                        @if($publico->inicio_intervalo == 18)
-                                                                            @if ($opcao->opcao != "Gestantes e puérperas" )
-                                                                                <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
-                                                                            @endif
-                                                                        @else
-                                                                            <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
-                                                                        @endif
-                                                                        @endforeach
-                                                                    </select>
-                                                                    @error('publico_opcao_'.$publico->id)
-                                                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                                                        <strong>{{$message}}</strong>
-                                                                    </div>
-                                                                    @enderror
-                                                                    {{-- <small>Obs.: Lista conforme OFÍCIO CIRCULAR Nº 57/2021/SVS/MS do Ministério da Saúde, de 12 de março de 2021.</small> --}}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            @endif
-                                        @endauth
-                                    @endforeach
-                                    @error('público')
-                                    <div id="validationServer05Feedback" class="invalid-feedback">
-                                        <strong>{{$message}}</strong>
-                                    </div>
-                                    @enderror
-                                @else
                                 @foreach ($publicos as $publico)
                                     @auth
                                         @if ($publico->tipo == $tipos[0])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
                                                 <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                             </div>
                                         @elseif ($publico->tipo == $tipos[1])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
                                                 <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                             </div>
                                         @elseif ($publico->tipo == $tipos[2])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
                                                 <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
 
                                                 <div id="divPublico_{{$publico->id}}" @if (old('publico_'.$publico->id)) style="display: block;" @else style="display: none;" @endif>
@@ -207,17 +107,17 @@
                                         @if ($publico->exibir_no_form)
                                             @if ($publico->tipo == $tipos[0])
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                        <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
                                                         <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                                     </div>
                                                 @elseif ($publico->tipo == $tipos[1])
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                        <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
                                                         <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                                     </div>
                                                 @elseif ($publico->tipo == $tipos[2])
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" required>
+                                                    <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
                                                     <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
 
                                                     <div id="divPublico_{{$publico->id}}" @if (old('publico_'.$publico->id)) style="display: block;" @else style="display: none;" @endif>
@@ -245,12 +145,11 @@
                                         @endif
                                     @endauth
                                 @endforeach
-                                @endif
                                 <br>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="inputNome" class="style_titulo_input">NOME COMPLETO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input apenasLetras @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{old('nome_completo')}}" maxlength="65">
+                                        <input type="text" class="form-control style_input apenasLetras @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{ $candidato->nome_completo }}" maxlength="65" disabled  >
 
                                         @error('nome_completo')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -262,7 +161,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
+                                        <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{ $candidato->data_de_nascimento }}" disabled >
 
                                         @error('data_de_nascimento')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -272,7 +171,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputCPF" class="style_titulo_input">CPF<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
+                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{ $candidato->cpf }}" disabled >
 
                                         @error('cpf')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -284,7 +183,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCartaoSUS" class="style_titulo_input">NÚMERO DO CARTÃO SUS<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input sus @error('número_cartão_sus') is-invalid @enderror" id="inputCartaoSUS" placeholder="000 0000 0000 0000" name="número_cartão_sus" value="{{old('número_cartão_sus')}}">
+                                        <input type="text" class="form-control style_input sus @error('número_cartão_sus') is-invalid @enderror" id="inputCartaoSUS" placeholder="000 0000 0000 0000" name="número_cartão_sus" value="{{ $candidato->numero_cartao_sus }}" disabled >
 
                                         @error('número_cartão_sus')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -294,10 +193,10 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputSexo" class="style_titulo_input">SEXO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <select id="inputSexo" class="form-control style_input @error('sexo') is-invalid @enderror" name="sexo">
-                                            <option selected disabled>-- Selecione o sexo --</option>
+                                        <select id="inputSexo" class="form-control style_input @error('sexo') is-invalid @enderror" name="sexo" disabled>
+                                            {{-- <option selected disabled>-- Selecione o sexo --</option> --}}
                                             @foreach($sexos as $sexo)
-                                                <option value="{{$sexo}}" @if (old('sexo') == $sexo) selected @endif>{{$sexo}}</option>
+                                                <option value="{{$sexo}}" @if ($candidato->sexo == $sexo) selected @endif>{{$sexo}}</option>
                                             @endforeach
                                         </select>
 
@@ -311,7 +210,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="inputNomeMae" class="style_titulo_input">NOME COMPLETO DA MÃE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input apenasLetras @error('nome_da_mãe') is-invalid @enderror" id="inputNomeMae" placeholder="Digite o nome completo da mãe" name="nome_da_mãe" value="{{old('nome_da_mãe')}}" maxlength="65">
+                                        <input type="text" class="form-control style_input apenasLetras @error('nome_da_mãe') is-invalid @enderror" id="inputNomeMae" placeholder="Digite o nome completo da mãe" name="nome_da_mãe" value="{{ $candidato->nome_da_mae }}" maxlength="65" disabled >
 
                                         @error('nome_da_mãe')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -329,7 +228,7 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="inputTelefone" class="style_titulo_input">TELEFONE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
-                                        <input type="text" class="form-control style_input celular @error('telefone') is-invalid @enderror" id="inputTelefone" placeholder="Digite o número do seu telefone" name="telefone" value="{{old('telefone')}}">
+                                        <input type="text" class="form-control style_input celular @error('telefone') is-invalid @enderror" id="inputTelefone" placeholder="Digite o número do seu telefone" name="telefone" value="{{ $candidato->telefone }}" disabled >
 
                                         @error('telefone')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -339,7 +238,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputCelular" class="style_titulo_input">WHATSAPP<span class="style_titulo_campo"></span></label>
-                                        <input type="text" class="form-control style_input celular @error('whatsapp') is-invalid @enderror" id="inputCelular" placeholder="Digite o número do seu whatsapp" name="whatsapp" value="{{old('whatsapp')}}">
+                                        <input type="text" class="form-control style_input celular @error('whatsapp') is-invalid @enderror" id="inputCelular" placeholder="Digite o número do seu whatsapp" name="whatsapp" value="{{ $candidato->whatsapp }}" disabled >
 
                                         @error('whatsapp')
                                             <div id="validationServer05Feedback" class="invalid-feedback">
@@ -351,7 +250,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputEmail" class="style_titulo_input">E-MAIL</label>
-                                        <input type="email" class="form-control style_input" id="inputEmail" placeholder="Digite o seu e-mail" name="email" value="{{old('email')}}">
+                                        <input type="email" class="form-control style_input" id="inputEmail" placeholder="Digite o seu e-mail" name="email" value="{{ $candidato->email }}" disabled >
                                         @error('email')
                                             <div id="validationServer05Feedback" class="invalid-feedback">
                                                 <strong>{{$message}}</strong>
@@ -370,7 +269,7 @@
                                             @foreach ($publico->outrasInfo()->orderBy('campo')->get() as $outra)
                                                 @if (mb_strtoupper($outra->campo) != 'É ACAMADO?')
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="defaultCheck{{ $outra->id }}" name="opcao_etapa_{{$publico->id}}[]" value="{{$outra->id}}" @if(old('opcao_etapa_'.$publico->id) != null && in_array($outra->id, old('opcao_etapa_'.$publico->id))) checked @endif>
+                                                        <input class="form-check-input" type="checkbox" id="defaultCheck{{ $outra->id }}" name="opcao_etapa_{{$publico->id}}[]" value="{{$outra->id}}" @if(old('opcao_etapa_'.$publico->id) != null && in_array($outra->id, old('opcao_etapa_'.$publico->id))) checked @endif disabled>
                                                         <label class="form-check-label style_titulo_input" for="defaultCheck0">{{mb_strtoupper($outra->campo)}}</label>
                                                     </div>
                                                 @endif
@@ -395,7 +294,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCEP" class="style_titulo_input">CEP</label>
-                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{old('cep')}}" >
+                                        <input type="text" class="form-control style_input cep @error('cep') is-invalid @enderror" id="inputCEP" placeholder="Digite o CEP" name="cep" value="{{ $candidato->cep }}" disabled >
                                         {{-- onchange="requisitar_preenchimento_cep(this.value)" --}}
                                         @error('cep')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -409,7 +308,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCidade" class="style_titulo_input">CIDADE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="@if(old('cidade') != null){{old('cidade')}}@else{{"Garanhuns"}}@endif" disabled>
+                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="{{ $candidato->cidade }}" disabled>
 
                                         @error('cidade')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -420,10 +319,10 @@
                                     <div class="form-group col-md-6">
                                         <label for="inputBairro" class="style_titulo_input">BAIRRO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
 
-                                        <select id="inputBairro" class="form-control style_input @error('bairro') is-invalid @enderror" name="bairro">
-                                            <option selected disabled>-- Selecione o bairro --</option>
+                                        <select id="inputBairro" class="form-control style_input @error('bairro') is-invalid @enderror" name="bairro" disabled>
+                                            {{-- <option selected disabled>-- Selecione o bairro --</option> --}}
                                             @foreach($bairros as $bairro)
-                                                <option value="{{$bairro}}" @if (old('bairro') == $bairro) selected @endif>{{$bairro}}</option>
+                                                <option value="{{$bairro}}" @if ($candidato->bairro == $bairro) selected @endif>{{$bairro}}</option>
                                             @endforeach
                                         </select>
 
@@ -437,7 +336,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputrua" class="style_titulo_input">RUA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
-                                        <input type="text" class="form-control style_input @error('rua') is-invalid @enderror" id="inputrua" placeholder="Digite o nome da rua, avenida, travessa..." name="rua" value="{{old('rua')}}">
+                                        <input type="text" class="form-control style_input @error('rua') is-invalid @enderror" id="inputrua" placeholder="Digite o nome da rua, avenida, travessa..." name="rua" value="{{$candidato->logradouro}}" disabled >
 
                                         @error('rua')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -447,7 +346,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputNumeroResidencia" class="style_titulo_input">NÚMERO DA RESIDÊNCIA<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span></label>
-                                        <input type="text" class="form-control style_input @error('número_residencial') is-invalid @enderror" id="inputNumeroResidencia" placeholder="Digite o número da residência" name="número_residencial" value="{{old('número_residencial')}}">
+                                        <input type="text" class="form-control style_input @error('número_residencial') is-invalid @enderror" id="inputNumeroResidencia" placeholder="Digite o número da residência" name="número_residencial" value="{{ $candidato->numero_residencia }}" disabled >
 
                                         @error('número_residencial')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -460,7 +359,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="inputComplemento" class="style_titulo_input">COMPLEMENTO </label>
-                                        <textarea type="text" class="form-control style_input @error('complemento_endereco') is-invalid @enderror" id="inputComplemento" placeholder="" rows="3" name="complemento_endereco">{{old('complemento_endereco')}}</textarea>
+                                        <textarea type="text" class="form-control style_input @error('complemento_endereco') is-invalid @enderror" id="inputComplemento" placeholder="" rows="3" name="complemento_endereco" disabled >{{ $candidato->complemento_endereco }}</textarea>
 
                                         @error('complemento_endereco')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -521,11 +420,11 @@
                                                      </div>-->
                                                 @if (env('ATIVAR_FILA', false) == true)
                                                     <div class="col-md-12" style="padding:3px">
-                                                        <button class="btn btn-success"  style="width: 100%;">Enviar</button>
+                                                        <button class="btn btn-success"  style="width: 100%;">Confirmar</button>
                                                     </div>
                                                 @else
                                                     <div class="col-md-12" style="padding:3px">
-                                                        <button class="btn btn-success" id="buttonSend" style="width: 100%;">Enviar</button>
+                                                        <button class="btn btn-success" id="buttonSend" style="width: 100%;">Confirmar</button>
                                                     </div>
 
                                                 @endif
@@ -583,10 +482,10 @@
     </div>
 
     <!--x rodapé x-->
-    @if ( old('público') != null)
+    @if ( $candidato->etapa->id != null)
         <script>
             $(document).ready(function() {
-                var radio = document.getElementById('publico_{{old('público')}}');
+                var radio = document.getElementById('publico_{{$candidato->etapa->id}}');
                 postoPara(radio, radio.value);
             });
         </script>
@@ -828,7 +727,7 @@
          let id_posto = posto_selecionado.value;
          let div_seletor_horararios = document.getElementById("seletor_horario");
          div_seletor_horararios.innerHTML = "Buscando horários disponíveis...";
-         let url = window.location.toString().replace("solicitar", "horarios/" + id_posto);
+         let url = window.location.toString().replace("solicitar/reforco/" + "{{$candidato->id}}", "horarios/" + id_posto);
         //  console.log(url);
 
          /* Mágia de programação funcional */
@@ -920,7 +819,7 @@
                     if(data.length <= 0 && data != null){
                         console.log('posto');
                         const buttonSend = document.getElementById('buttonSend');
-                        buttonSend.innerText = "Enviar para fila de Espera";
+                        buttonSend.innerText = "Confirmar e enviar para fila de Espera";
                         divLocal.style.display = "none";
                         const input = '<input id="input_fila" type="hidden" name="fila" value="true">';
                         $("#formSolicitar").append(input);
@@ -932,7 +831,7 @@
                         if(document.getElementById("input_fila") != null){
                             document.getElementById("input_fila").remove();
                         }
-                        buttonSend.innerText = "Enviar";
+                        buttonSend.innerText = "Confirmar";
                         document.getElementById("div_local").style.display = "block";
                         loading.style.display = "none";
                     }

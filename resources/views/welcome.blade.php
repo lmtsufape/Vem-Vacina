@@ -20,24 +20,35 @@
                                     <div class="col-md-12 style_card_apresentacao_subtitulo">A plataforma “Vem Vacina Garanhuns” é a ferramenta oficial da Secretaria de Saúde de Garanhuns, desenvolvida em parceria com a Universidade Federal do Agreste de Pernambuco, para cadastro e agendamento da vacinação contra a Covid-19.</div>
                                 </div>
                             </div>
+                            <div class="col-md-12" style="margin-bottom: 32px;">
+                                <div class="row ">
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina text-center">SOLICITAR MINHA 3ª DOSE DE REFORÇO</div>
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
+                                    @auth
+                                        <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white;">SOLICITAR MINHA 3ª DOSE DE REFORÇO </a>
+                                    @else
+                                        <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white; @if($config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else SOLICITAR MINHA 3ª DOSE DE REFORÇO @endif</a>
+                                    @endauth
+                                </div>
+                            </div>
                             <div class="col-md-6" style="margin-bottom: 32px;">
                                 <div class="row">
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina">CONSULTAR AGENDAMENTO</div>
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify; padding-bottom: 19px;">Clique para saber se o seu agendamento já foi aprovado ou encontra-se na fila de espera.</div>
-                                    <a type="button" class="btn btn-primary style_card_apresentacao_botao" style="color: white;"data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR</a>
+                                    <a type="button" class="btn btn-primary style_card_apresentacao_botao" style="color: white;margin-top:1.8rem;"data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR</a>
                                 </div>
                             </div>
                             <div class="col-md-6" style="margin-bottom: 32px;">
                                 <div class="row">
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
-                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação de 1ª e 2ª dose, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
                                     @auth
                                         <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white;">QUERO SOLICITAR MINHA VACINA </a>
                                     @else
                                         <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else QUERO SOLICITAR MINHA VACINA @endif</a>
                                     @endauth
                                 </div>
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
