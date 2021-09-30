@@ -48,7 +48,7 @@ class EtapaController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('criar-etapa');
-        // dd($request);
+        
         $validated = $request->validate([
             'tipo'                => 'required',
             'texto_do_agendamento'=> 'required|max:100',
@@ -81,6 +81,11 @@ class EtapaController extends Controller
             $etapa->atual = false;
         }
 
+        if ($request->dose_tres != null) {
+            $etapa->dose_tres = true;
+        } else {
+            $etapa->dose_tres = false;
+        }
         if ($request->exibir_no_form != null) {
             $etapa->exibir_no_form = true;
         } else {
@@ -185,7 +190,7 @@ class EtapaController extends Controller
     public function update(Request $request, $id)
     {
         Gate::authorize('editar-etapa');
-
+        // dd($request->all());
         $validated = $request->validate([
             'tipo'                => 'required',
             'texto_do_agendamento'=> 'required|max:100',
@@ -261,6 +266,12 @@ class EtapaController extends Controller
             $etapa->atual = true;
         } else {
             $etapa->atual = false;
+        }
+
+        if ($request->dose_tres != null) {
+            $etapa->dose_tres = true;
+        } else {
+            $etapa->dose_tres = false;
         }
 
         if ($request->exibir_no_form != null) {

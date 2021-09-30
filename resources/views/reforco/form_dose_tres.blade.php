@@ -1,22 +1,13 @@
 <x-guest-layout>
 
-    {{-- @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif --}}
-
-
+    {{-- @dd($errors->any()) --}}
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
         </div>
     @endif
 
+    
     <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;">
         <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%">
         <div class="container">
@@ -53,8 +44,8 @@
                             <form method="POST" id="formSolicitar" class="needs-validation" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
-                                <input type="hidden" name="dose_tres" value="{{ session('bool') ?? 0 }}">
-                                {{-- @dd(session('bool') ?? "Erro"); --}}
+                                <input type="hidden" name="dose_tres" value="1">
+                                <input type="hidden" name="cadastro" value="0">
 
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -262,7 +253,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
+                                        <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{$validate['data_de_nascimento']}}" disabled>
 
                                         @error('data_de_nascimento')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -272,7 +263,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputCPF" class="style_titulo_input">CPF<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">
+                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{$validate['cpf']}}" disabled>
 
                                         @error('cpf')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -514,18 +505,26 @@
                                 <div class="col-md-12" style="margin-bottom: 30px;">
                                     <div class="row">
                                         <div class="col-md-6"></div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="row">
                                                 <!--<div class="col-md-6" style="padding:3px">
                                                      <button class="btn btn-light" style="width: 100%;margin: 0px;">Cancelar</button>
                                                      </div>-->
+                                                <div class="col-md-12" style="padding:3px">
+                                                    <p class="alert alert-warning"  id="alerta_vacinas">
+                                                        
+                                                        ATENÇÃO! A dose de reforço será aplicada exclusivamente para: idosos acima de 70 anos que completaram o esquema vacinal há seis meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
+                                                    </p>
+                                                </div>
                                                 @if (env('ATIVAR_FILA', false) == true)
+                                                    
                                                     <div class="col-md-12" style="padding:3px">
-                                                        <button class="btn btn-success"  style="width: 100%;">Enviar</button>
+                                                        <button class="btn btn-success" type="submit"  style="width: 100%;">Enviar</button>
                                                     </div>
                                                 @else
+                                                    
                                                     <div class="col-md-12" style="padding:3px">
-                                                        <button class="btn btn-success" id="buttonSend" style="width: 100%;">Enviar</button>
+                                                        <button class="btn btn-success" type="submit" id="buttonSend" style="width: 100%;">Enviar</button>
                                                     </div>
 
                                                 @endif
@@ -694,16 +693,16 @@
 
 
     <script>
-        const buttonSend = document.getElementById('buttonSend');
-        const formSolicitar = document.getElementById('formSolicitar');
-        if(buttonSend){
-            buttonSend.addEventListener('click', (e)=>{
-                e.target.innerText = "Aguarde...";
-                e.target.setAttribute("disabled", "disabled");
+        // const buttonSend = document.getElementById('buttonSend');
+        // const formSolicitar = document.getElementById('formSolicitar');
+        // if(buttonSend){
+        //     buttonSend.addEventListener('click', (e)=>{
+        //         e.target.innerText = "Aguarde...";
+        //         e.target.setAttribute("disabled", "disabled");
 
-                formSolicitar.submit()
-            })
-        }
+        //         formSolicitar.submit()
+        //     })
+        // }
 
 
 
@@ -828,7 +827,7 @@
          let id_posto = posto_selecionado.value;
          let div_seletor_horararios = document.getElementById("seletor_horario");
          div_seletor_horararios.innerHTML = "Buscando horários disponíveis...";
-         let url = window.location.toString().replace("solicitar", "horarios/" + id_posto);
+         let url = window.location.toString().replace("reforco/form", "horarios/" + id_posto);
         //  console.log(url);
 
          /* Mágia de programação funcional */
