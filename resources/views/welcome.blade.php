@@ -20,7 +20,7 @@
                                     <div class="col-md-12 style_card_apresentacao_subtitulo">A plataforma “Vem Vacina Garanhuns” é a ferramenta oficial da Secretaria de Saúde de Garanhuns, desenvolvida em parceria com a Universidade Federal do Agreste de Pernambuco, para cadastro e agendamento da vacinação contra a Covid-19.</div>
                                 </div>
                             </div>
-                            {{-- <div class="col-md-12" style="margin-bottom: 32px;">
+                            <div class="col-md-12" style="margin-bottom: 32px;">
                                 <div class="row ">
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina text-center">SOLICITAR MINHA DOSE DE REFORÇO</div>
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
@@ -30,7 +30,7 @@
                                         <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white; @if($config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else SOLICITAR MINHA 3ª DOSE DE REFORÇO @endif</a>
                                     @endauth
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="col-md-6" style="margin-bottom: 32px;">
                                 <div class="row">
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina">CONSULTAR AGENDAMENTO</div>
@@ -65,7 +65,7 @@
                             <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
                                 <div class="container">
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                        {{-- <div class="panel panel-default">
+                                        <div class="panel panel-default">
                                             <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
                                                 <h3 class="panel-title">
                                                 <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos5" aria-expanded="true" aria-controls="anexos5">
@@ -139,7 +139,7 @@
                                                 </p>
                                                
                                             </div>
-                                        </div> --}}
+                                        </div>
                                         <div class="panel panel-default">
                                             <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
                                                 <h3 class="panel-title">
