@@ -115,7 +115,7 @@ class CandidatoController extends Controller
         if ($request->outro) {
             $agendamentos = $query->get();
         } else {
-            $agendamentos = $query->orderBy('created_at')->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto'])->paginate($request->qtd)->withQueryString();
+            $agendamentos = $query->orderBy('created_at')->with(['etapa','outrasInfo', 'lote', 'resultado', 'posto', 'dataDose'])->paginate($request->qtd)->withQueryString();
         }
 
         if ($request->outro) {
@@ -198,7 +198,7 @@ class CandidatoController extends Controller
             $candidatoTerceiraDose = Candidato::where('cpf', $validate['cpf'])->where('data_de_nascimento', $validate['data_de_nascimento'])->first();
         }
         
-        // dd($validate);
+        // dd($request->all());
         if($request->dose_tres){
             $request->validate([
                 "voltou"                => "nullable",
@@ -418,15 +418,15 @@ class CandidatoController extends Controller
                     "telefone" => "Número de telefone inválido"
                 ])->withInput();
             }
-
+            
             if($request->has('fila')){
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
 
-                if($request->cadastro == 0){
+                // dd($request->cadastro === '0');
+                if($request->cadastro === '0'){
                     $candidato->dataDose()->create($validate);
                 }
-
                 Notification::send($candidato, new CandidatoFila($candidato));
                 DB::commit();
                 if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {

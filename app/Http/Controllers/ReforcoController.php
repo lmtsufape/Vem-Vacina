@@ -26,18 +26,24 @@ class ReforcoController extends Controller
         $request->session()->put('validate', $validate);
 
         if (Candidato::where('cpf', $validate['cpf'])->where('dose', '3ª Dose')->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
-                ->count() > 0) {
-                return redirect()->back()->with([
-                        "status" => "Existe um agendamento para a 3ª dose para esse cpf."
-        ]);
-    }
+                    ->count() > 0) {
+                    return redirect()->back()->with([
+                            "status" => "Existe um agendamento para a 3ª dose para esse cpf."
+            ]);
+        }
         
         $candidatos = Candidato::where('cpf', $validate['cpf'])
                                 ->where('data_de_nascimento', $validate['data_de_nascimento'])
                                 ->orderBy('dose')
                                 ->take(2)->get();
-        
+                                
+                                
         if (count($candidatos) > 0 ) {
+            if (Etapa::where('atual', true)->where('dose_tres', true)->where('id', $candidatos[0]->etapa_id)->get()->count() == 0) {
+                        return redirect()->back()->with([
+                                                        "status" => "Público ou etapa indisponível para a dose de reforço no momento."
+                                                        ]);
+            }
             return redirect()->route('solicitacao.reforco',[ 'candidato' => $candidatos[0]->id]);
         }else{
             return view('reforco.data_dose', compact('validate'));
@@ -47,7 +53,7 @@ class ReforcoController extends Controller
     public function solicitarDoseTres($candidato) {
 
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
-        $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
+        $etapasAtuais   =  Etapa::where('atual', true)->where('dose_tres', true)->orderBy('texto')->get();
         $config = Configuracao::first();
 
         $bairrosOrdenados = Candidato::bairros;
@@ -67,7 +73,7 @@ class ReforcoController extends Controller
     public function solicitarReforco($candidato) {
 
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
-        $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
+        $etapasAtuais   =  Etapa::where('atual', true)->where('dose_tres', true)->orderBy('texto')->get();
         $config = Configuracao::first();
         
         $candidato = Candidato::find($candidato);
@@ -100,7 +106,7 @@ class ReforcoController extends Controller
         $request->session()->put('validate', $validate);
 
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
-        $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
+        $etapasAtuais   =  Etapa::where('atual', true)->where('dose_tres', true)->orderBy('texto')->get();
         $config = Configuracao::first();
 
        

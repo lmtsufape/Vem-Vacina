@@ -18,6 +18,10 @@
                     </div>
                 @endif
                 <div class="row">
+                    <div class="col-md-12">
+                        <label for="exibir_no_form" >Exibir público no agendamento na dose de Reforço</label>
+                        <input id="dose_tres" type="checkbox" name="dose_tres" @if(old('dose_tres') || (old('dose_tres') == null && $publico->dose_tres)) checked @endif>
+                    </div>
                     <div class="col-md-4">
                         <label for="tipo">Classficação do público</label>
                         <select name="tipo" id="tipo" class="form-control" onchange="selecionarDiv(this)">
@@ -51,6 +55,7 @@
                         <input id="exibir_no_form" type="checkbox" name="exibir_no_form" @if(old('exibir_no_form') || (old('exibir_no_form') == null && $publico->exibir_no_form)) checked @endif>
                         <label for="exibir_no_form" >Exibir público no agendamento</label>
                     </div>
+                    
                     <div class="col-md-4">
                         <label for="texto_da_home">Texto exibido na home</label>
                         <input id="texto_da_home" type="text" class="form-control @error('texto_da_home') is-invalid @enderror" name="texto_da_home" value="@if(old('texto_da_home')!=null){{old('texto_da_home')}}@else{{$publico->texto_home}}@endif">

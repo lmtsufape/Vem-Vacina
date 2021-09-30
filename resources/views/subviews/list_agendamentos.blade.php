@@ -187,6 +187,24 @@
                                     @endif
                                 </div>
                                 <br>
+                                {{-- @dd($candidato) --}}
+                                @if ($candidato->dataDose)
+                                    <div class="row">
+                                        <h4>Informações da Data de Segunda Dose</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="">Data 1ª Dose</label>
+                                            <input type="text" class="form-control" value="{{ date('d/m/Y', strtotime($candidato->dataDose->data_um)) }}" disabled>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="">Data 2ª Dose</label>
+                                            <input type="text" class="form-control" value="{{date('d/m/Y', strtotime($candidato->dataDose->data_dois))}}" disabled>
+                                        </div>
+                                    
+                                    </div>
+
+                                @endif
                                 @php
                                     $lote = App\Models\LotePostoVacinacao::find($candidato->lote_id);
                                     if($lote != null){
