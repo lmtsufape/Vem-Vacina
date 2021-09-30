@@ -1,21 +1,5 @@
 <x-guest-layout>
-
-    {{-- @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif --}}
-
-
-    @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-    @endif
+    
 
     <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;">
         <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%">
@@ -42,6 +26,13 @@
                             <div class="col-md-12"><hr class="style_linha_campo"></div>
                             <div class="container">
                                 <div class="row">
+                                    <div class="col-md-12">
+                                        @if (session('status'))
+                                            <div class="alert alert-danger">
+                                                {{ session('status') }}
+                                            </div>
+                                        @endif
+                                    </div>
                                     <div class="col-md-6">
                                         <label for="inputCPF" class="style_titulo_input">CPF <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                         <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{old('cpf')}}">

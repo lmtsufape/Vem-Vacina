@@ -13,15 +13,24 @@ class ReforcoController extends Controller
 {
     public function index()
     {
-        return view('reforco.index');
+        return view('reforco.consultar_cadastro');
     }
 
-    public function verificar(Request $request)
+    public function verificarCadastro(Request $request)
     {
         $validate = $request->validate([
             'cpf' => 'required',
             'data_de_nascimento' => 'required|date',
         ]);
+
+        $request->session()->put('validate', $validate);
+
+        if (Candidato::where('cpf', $validate['cpf'])->where('dose', '3ª Dose')->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
+                ->count() > 0) {
+                return redirect()->back()->with([
+                        "status" => "Existe um agendamento para a 3ª dose para esse cpf."
+        ]);
+    }
         
         $candidatos = Candidato::where('cpf', $validate['cpf'])
                                 ->where('data_de_nascimento', $validate['data_de_nascimento'])
@@ -37,18 +46,11 @@ class ReforcoController extends Controller
 
     public function solicitarDoseTres($candidato) {
 
-        // TODO: pegar só os postos com vacinas disponiveis
-
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
         $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
         $config = Configuracao::first();
 
-        if ($config->botao_solicitar_agendamento && auth()->user() == null) {
-            abort(403);
-        }
-
         $bairrosOrdenados = Candidato::bairros;
-        // sort($bairrosOrdenados);
 
         return view("reforco.form_dose_tres")->with([
             "sexos" => Candidato::SEXO_ENUM,
@@ -67,14 +69,10 @@ class ReforcoController extends Controller
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
         $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
         $config = Configuracao::first();
-
-        if ($config->botao_solicitar_agendamento && auth()->user() == null) {
-            abort(403);
-        }
+        
         $candidato = Candidato::find($candidato);
         $bairrosOrdenados = Candidato::bairros;
-        // sort($bairrosOrdenados);
-
+        
         return view("reforco.solicatacao_confirm")->with([
             "sexos" => Candidato::SEXO_ENUM,
             "postos" => $postos_com_vacina,
@@ -90,37 +88,22 @@ class ReforcoController extends Controller
 
     }
 
-    public function solicitarReforcoForm(Request $request)
+    public function reforcoSolicitaForm(Request $request)
     {
-        // dd($request->all());
         $validate = $request->validate([
             'cpf' => 'required',
             'data_de_nascimento' => 'required|date',
             'data_um' => 'required|date',
             'data_dois' => 'required|date',
         ]);
-        $datetime1 = new DateTime(now());
-        $datetime2 = new DateTime($request->data_dois);
-
-        $difference = $datetime1->diff($datetime2);
-        $request->session()->forget('status');
-        if($difference->m < 6){
-            // $request->session()->flash('status', 'Intervalo entre a segunda dose ainda não completou 6 meses!');
-            return redirect()->back()->with([
-                "status" => "Intervalo entre a segunda dose ainda não completou 6 meses!."
-            ]);
-            dd("teste");
-        }
-        // dd("passou");
+        
         $request->session()->put('validate', $validate);
 
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
         $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
         $config = Configuracao::first();
 
-        // if ($config->botao_solicitar_agendamento && auth()->user() == null) {
-        //     abort(403);
-        // }
+       
         $bairrosOrdenados = Candidato::bairros;
 
         return view("reforco.form_dose_tres")->with([

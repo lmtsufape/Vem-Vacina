@@ -45,6 +45,7 @@
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
                                 <input type="hidden" name="dose_tres" value="1">
+                                <input type="hidden" name="cadastro" value="0">
 
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -252,7 +253,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{$validate['data_de_nascimento']}}">
+                                        <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{$validate['data_de_nascimento']}}" disabled>
 
                                         @error('data_de_nascimento')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -262,7 +263,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputCPF" class="style_titulo_input">CPF<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{$validate['cpf']}}">
+                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{$validate['cpf']}}" disabled>
 
                                         @error('cpf')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
