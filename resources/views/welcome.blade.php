@@ -25,7 +25,7 @@
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina text-center">SOLICITAR MINHA DOSE DE REFORÇO</div>
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
                                     @auth
-                                        <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white;">SOLICITAR MINHA 3ª DOSE DE REFORÇO </a>
+                                        <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white;">SOLICITAR MINHA DOSE DE REFORÇO </a>
                                     @else
                                         <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white; @if($config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else SOLICITAR MINHA 3ª DOSE DE REFORÇO @endif</a>
                                     @endauth
@@ -128,7 +128,17 @@
                                                         <li>Pacientes com doenças imunomediadas inflamatórias crônicas.</li>
                                                     </ul>
                                                 </p>
-                                               
+                                                <p>DOCUMENTAÇÃO NECESSÁRIA:</p>
+                                                <p>
+                                                    <ul>
+                                                        <li>Documento oficial com foto</li>
+                                                        <li>CPF</li>
+                                                        <li>Cartão do SUS</li>
+                                                        <li>Cartão de vacina constando a 2ª dose ou dose única</li>
+                                                        <li>Comprovante de residência constando o nome da pessoa a ser vacinada</li>
+                                                        <li>Laudo médico ou receita de medicamentos imunossupressores</li>
+                                                    </ul>
+                                                </p>
                                                
                                             </div>
                                         </div>
