@@ -101,7 +101,6 @@ class Candidato extends Model
             $mensagem = $mensagem."No caso de menores de 18 anos deve ser apresentado documento de identificação com foto ou certidão de nascimento, CPF, cartão do SUS e comprovante de residência constando o nome dos pais ou responsável legal.\n\n";
             $mensagem = $mensagem."IMPORTANTE: No momento da vacinação o adolescente deve estar acompanhado dos pais. No caso de responsável legal, a condição de tutela deve ser comprovada através de documento emitido em cartório.\n\n";
             $mensagem = $mensagem."Reforçamos a importância de que a pessoa esteja de posse de todos os documentos! A pessoa cadastrada será imunizada com a dose disponível, de acordo com o grupo escolhido. Agradecemos a sua atenção!";
-
         } else if ($this->aprovacao == $this::APROVACAO_ENUM[2]) {
             $mensagem = "Seu agendamento foi reprovado.";
         }
