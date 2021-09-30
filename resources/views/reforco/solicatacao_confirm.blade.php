@@ -411,16 +411,23 @@
                                 <div class="col-md-12" style="margin-bottom: 30px;">
                                     <div class="row">
                                         <div class="col-md-6"></div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="row">
                                                 <!--<div class="col-md-6" style="padding:3px">
                                                      <button class="btn btn-light" style="width: 100%;margin: 0px;">Cancelar</button>
                                                      </div>-->
+                                                <div class="col-md-12" style="padding:3px">
+                                                    <p class="alert alert-warning"  id="alerta_vacinas">
+                                                        
+                                                        ATENÇÃO! A dose de reforço será aplicada exclusivamente para: idosos acima de 70 anos que completaram o esquema vacinal há seis meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
+                                                    </p>
+                                                </div>
                                                 @if (env('ATIVAR_FILA', false) == true)
                                                     <div class="col-md-12" style="padding:3px">
                                                         <button class="btn btn-success"  style="width: 100%;">Confirmar</button>
                                                     </div>
                                                 @else
+                                                    
                                                     <div class="col-md-12" style="padding:3px">
                                                         <button class="btn btn-success" id="buttonSend" style="width: 100%;">Confirmar</button>
                                                     </div>

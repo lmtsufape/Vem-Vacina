@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 style_titulo_campo">Solicitar vacinação 3</div>
+                        <div class="col-md-12 style_titulo_campo">Solicitar vacinação</div>
                         <div class="col-md-12"><hr class="style_linha_campo"></div>
                         <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">
                             {{-- Por meio desta ferramenta será efetuado o cadastro e agendamento da vacinação para o público-alvo. Idosos acamados devem realizar esta indicação no ato de cadastro, para aplicação da vacina em domicílio. Caso não haja mais vacinas disponíveis para sua faixa etária, você deve realizar seu cadastro na fila de espera para agendamento, no link a seguir: <br> --}}
@@ -505,16 +505,24 @@
                                 <div class="col-md-12" style="margin-bottom: 30px;">
                                     <div class="row">
                                         <div class="col-md-6"></div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="row">
                                                 <!--<div class="col-md-6" style="padding:3px">
                                                      <button class="btn btn-light" style="width: 100%;margin: 0px;">Cancelar</button>
                                                      </div>-->
+                                                <div class="col-md-12" style="padding:3px">
+                                                    <p class="alert alert-warning"  id="alerta_vacinas">
+                                                        
+                                                        ATENÇÃO! A dose de reforço será aplicada exclusivamente para: idosos acima de 70 anos que completaram o esquema vacinal há seis meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
+                                                    </p>
+                                                </div>
                                                 @if (env('ATIVAR_FILA', false) == true)
+                                                    
                                                     <div class="col-md-12" style="padding:3px">
                                                         <button class="btn btn-success" type="submit"  style="width: 100%;">Enviar</button>
                                                     </div>
                                                 @else
+                                                    
                                                     <div class="col-md-12" style="padding:3px">
                                                         <button class="btn btn-success" type="submit" id="buttonSend" style="width: 100%;">Enviar</button>
                                                     </div>

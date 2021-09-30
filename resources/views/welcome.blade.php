@@ -22,7 +22,7 @@
                             </div>
                             <div class="col-md-12" style="margin-bottom: 32px;">
                                 <div class="row ">
-                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina text-center">SOLICITAR MINHA 3ª DOSE DE REFORÇO</div>
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina text-center">SOLICITAR MINHA DOSE DE REFORÇO</div>
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
                                     @auth
                                         <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white;">SOLICITAR MINHA 3ª DOSE DE REFORÇO </a>
@@ -67,19 +67,86 @@
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                         <div class="panel panel-default">
                                             <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
-                                              <h3 class="panel-title">
+                                                <h3 class="panel-title">
+                                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos5" aria-expanded="true" aria-controls="anexos5">
+                                                    DOSE DE REFORÇO - Nota Técnica SIDI 23
+                                                </a>
+                                                </h3>
+                                            </div>
+                                            <div id="anexos5" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
+                                                <div class="panel-body px-3 mb-4">
+                                                <p style="text-align: justify">
+                                                    Nota Técnica do Governo do Estado de Pernambuco com orientações referentes a aplicação das doses de reforço para a população de idosos acima de 70 anos (que tenham completado o esquema vacinal há seis meses), e imunossuprimidos (com o esquema vacinal completo há 28 dias ou mais).
+                                                </p>
+                                                <a href="{{route('baixar.anexo', ['name'=> 'anexo4.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Nota Técnica</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                                <h3 class="panel-title">
+                                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos4" aria-expanded="true" aria-controls="anexos4">
+                                                    Quem são os idosos que podem tomar a dose de reforço?
+                                                </a>
+                                                </h3>
+                                            </div>
+                                            <div id="anexos4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+                                                <div class="panel-body px-3 mb-4">
+                                                <p style="text-align: justify">
+                                                    Os IDOSOS COM 70 ANOS OU MAIS que tenham completado o esquema vacinal há seis meses ou mais, independentemente do imunizante aplicado anteriormente.
+                                                </p>
+                                                {{-- <a href="{{route('baixar.anexo', ['name'=> 'anexo3.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Formulário </a>
+                                                </div> --}}
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                                <h3 class="panel-title">
+                                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos3" aria-expanded="true" aria-controls="anexos3">
+                                                    Quem são os imunossuprimidos que podem tomar a dose de reforço? 
+                                                </a>
+                                                </h3>
+                                            </div>
+                                            <div id="anexos3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+                                                <div class="panel-body px-3 mb-4">
+                                                <p style="text-align: justify">
+                                                    Os IMUNOSSUPRIMIDOS, que tenham completado o esquema vacinal há 28 dias ou mais.
+                                                </p>
+                                                <p style="text-align: justify">
+                                                    São considerados imunossuprimidos as pessoas com quadro de:
+                                                </p>
+                                                <p style="text-align: justify">
+                                                    <ul>
+                                                        <li>Imunodeficiência primária grave</li>
+                                                        <li>Quimioterapia para câncer</li>
+                                                        <li>Transplantados de órgão sólido ou de células tronco hematopoiéticas (TCTH) uso de drogas imunossupressoras.</li>
+                                                        <li>Pessoas vivendo com HIV/AIDS. </li>
+                                                        <li>Uso de corticóides em doses ≥20 mg/dia de prednisona, ou equivalente, por ≥14 dias.</li>
+                                                        <li>Uso de drogas modificadoras da resposta imune (De acordo com Nota Técnica SIDI 23).</li>
+                                                        <li>Auto inflamatórias, doenças intestinais inflamatórias. </li>
+                                                        <li>Pacientes em hemodiálise.</li>
+                                                        <li>Pacientes com doenças imunomediadas inflamatórias crônicas.</li>
+                                                    </ul>
+                                                </p>
+                                               
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                                <h3 class="panel-title">
                                                 <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos2" aria-expanded="true" aria-controls="anexos2">
                                                     Formulário para adolescentes de 12 a 17 anos com comorbidades
                                                 </a>
-                                              </h3>
+                                                </h3>
                                             </div>
-                                            <div id="anexos2" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
-                                              <div class="panel-body px-3 mb-4">
+                                            <div id="anexos2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+                                                <div class="panel-body px-3 mb-4">
                                                 <p style="text-align: justify">
                                                     A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria de Saúde produziu um modelo de atestado, onde o profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.
                                                 </p>
                                                 <a href="{{route('baixar.anexo', ['name'=> 'anexo3.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Formulário </a>
-                                              </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="panel panel-default">
@@ -101,84 +168,122 @@
                                               </div>
                                             </div>
                                         </div>
-                                      <div class="panel panel-default">
-                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
-                                          <h3 class="panel-title">
-                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos3" aria-expanded="true" aria-controls="anexos1">
-                                                Documentação necessária para vacinação dos grupos prioritários
-                                            </a>
-                                          </h3>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                            <h3 class="panel-title">
+                                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos3" aria-expanded="true" aria-controls="anexos1">
+                                                    Documentação necessária para vacinação dos grupos prioritários
+                                                </a>
+                                            </h3>
+                                            </div>
+                                            <div id="anexos3" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading0">
+                                            <div class="panel-body px-3 mb-4">
+                                                <p style="text-align: justify">
+                                                    Relação contendo a documentação necessária, e que deve ser apresentada no ato da vacinação, de acordo com cada grupo prioritário.
+                                                </p>
+                                                <a href="{{route('baixar.anexo', ['name'=> 'anexo2.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Anexo </a>
+                                            </div>
+                                            </div>
                                         </div>
-                                        <div id="anexos3" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading0">
-                                          <div class="panel-body px-3 mb-4">
-                                            <p style="text-align: justify">
-                                                Relação contendo a documentação necessária, e que deve ser apresentada no ato da vacinação, de acordo com cada grupo prioritário.
-                                            </p>
-                                            <a href="{{route('baixar.anexo', ['name'=> 'anexo2.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Anexo </a>
-                                          </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                            <h3 class="panel-title">
+                                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos2" aria-expanded="true" aria-controls="anexos2">
+                                                    Formulário com informações para gestantes e puérperas para vacinação contra a covid-19
+                                                </a>
+                                            </h3>
+                                            </div>
+                                            <div id="anexos2" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading0">
+                                            <div class="panel-body px-3 mb-4">
+                                                <p style="text-align: justify">
+                                                    Através deste documento, a gestante ou puérpera poderá ter acesso as informações necessárias sobre a vacinação. No mesmo deverão ser preenchidos os dados de identificação, além da autorização para que a vacina seja administrada.
+                                                </p>
+                                                <a href="{{route('baixar.anexo', ['name'=> 'Termo de Ciência e Consentimento Vacinação contra a Covid - GESTANTE.docx'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Formulário </a>
+                                            </div>
+                                            </div>
                                         </div>
-                                      </div>
-                                      <div class="panel panel-default">
-                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
-                                          <h3 class="panel-title">
-                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos2" aria-expanded="true" aria-controls="anexos2">
-                                                Formulário com informações para gestantes e puérperas para vacinação contra a covid-19
-                                            </a>
-                                          </h3>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                            <h3 class="panel-title">
+                                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos0" aria-expanded="true" aria-controls="anexos0">
+                                                    Pessoas com comorbidades
+                                                </a>
+                                            </h3>
+                                            </div>
+                                            <div id="anexos0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+                                            <div class="panel-body px-3 mb-4">
+                                                <p style="text-align: justify">
+                                                    A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.
+                                                </p>
+                                                <a href="{{route('baixar.anexo', ['name'=> 'anexo1.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar anexo </a>
+                                            </div>
+                                            </div>
                                         </div>
-                                        <div id="anexos2" class="panel-collapse collapse " role="tabpanel" aria-labelledby="heading0">
-                                          <div class="panel-body px-3 mb-4">
-                                            <p style="text-align: justify">
-                                                Através deste documento, a gestante ou puérpera poderá ter acesso as informações necessárias sobre a vacinação. No mesmo deverão ser preenchidos os dados de identificação, além da autorização para que a vacina seja administrada.
-                                            </p>
-                                            <a href="{{route('baixar.anexo', ['name'=> 'Termo de Ciência e Consentimento Vacinação contra a Covid - GESTANTE.docx'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Formulário </a>
-                                          </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                            <h3 class="panel-title">
+                                                <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos1" aria-expanded="true" aria-controls="anexos1">
+                                                    Nota técnica SIDI 11/2021
+                                                </a>
+                                            </h3>
+                                            </div>
+                                            <div id="anexos1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+                                            <div class="panel-body px-3 mb-4">
+                                                <p style="text-align: justify">
+                                                    Trata das orientações da estratégia de vacinação dos grupos de pessoas com comorbidades, pessoas com deficiência permanente, gestantes e puérperas na Campanha Nacional de Vacinação contra a COVID-19, 2021.
+                                                </p>
+                                                <a href="{{route('baixar.anexo', ['name'=> 'nota.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Nota Técnica </a>
+                                            </div>
+                                            </div>
                                         </div>
-                                      </div>
-                                      <div class="panel panel-default">
-                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
-                                          <h3 class="panel-title">
-                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos0" aria-expanded="true" aria-controls="anexos0">
-                                                Pessoas com comorbidades
-                                            </a>
-                                          </h3>
-                                        </div>
-                                        <div id="anexos0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
-                                          <div class="panel-body px-3 mb-4">
-                                            <p style="text-align: justify">
-                                                A comprovação das comorbidades deve ser feita no ato da vacinação. Para isso, a Secretaria Estadual de Saúde produziu um modelo de atestado aonde um profissional de saúde poderá indicar a doença preexistente do paciente. É obrigatório o carimbo, matrícula e/ou registro do conselho de classe do profissional.
-                                            </p>
-                                            <a href="{{route('baixar.anexo', ['name'=> 'anexo1.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar anexo </a>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="panel panel-default">
-                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
-                                          <h3 class="panel-title">
-                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos1" aria-expanded="true" aria-controls="anexos1">
-                                                Nota técnica SIDI 11/2021
-                                            </a>
-                                          </h3>
-                                        </div>
-                                        <div id="anexos1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
-                                          <div class="panel-body px-3 mb-4">
-                                            <p style="text-align: justify">
-                                                Trata das orientações da estratégia de vacinação dos grupos de pessoas com comorbidades, pessoas com deficiência permanente, gestantes e puérperas na Campanha Nacional de Vacinação contra a COVID-19, 2021.
-                                            </p>
-                                            <a href="{{route('baixar.anexo', ['name'=> 'nota.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Nota Técnica </a>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      
                                     </div>
                                 </div>
                               </section>
                         </div>
                     </div>
                 </div>
+                <!-- Pergunta e resposta -->
+                {{-- <div class="card_media2" style="margin-top: 1rem;">
+                    <div class="card_menor3">
+                        <div class="card-header style_card_menor_titulo" style=" border-top-left-radius: 12px; border-top-right-radius: 12px; ">PERGUNTAS FREQUENTES</div>
+                        <div class="container" style="padding-top: 15px; padding-bottom: 14px;">
+                            <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
+                                <div class="container">
+                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading p-3 mb-3" role="tab" id="heading1" style="border-radius: 8px;">
+                                        <h3 class="panel-title">
+                                            <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                                Fiz meu cadastro na fila de espera e ainda não tive retorno.
+                                            </a>
+                                        </h3>
+                                        </div>
+                                        <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+                                        <div class="panel-body px-3 mb-4">
+                                            <p style="text-align: justify">
+                                                Olá! A equipe da Secretaria de Saúde está diariamente entrando em contato com as pessoas cadastradas na fila de espera para confirmação dos agendamentos; informando data, local e horário para vacinação.
+                                            </p>
+                                            <p style="text-align: justify">
+                                                Esta população está sendo convocada de acordo com a ordem de inscrição e disponibilizada de doses. Você também pode verificar o status do agendamento, para saber quando ele for aprovado, informando número do CPF e data de nascimento, por meio da plataforma <a href="#">vemvacinagaranhuns.site</a>
+                                            </p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    
+                                    </div>
+
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div> --}}
             </div>
         </div>
 
+        
+        
         @auth
             <div class="container" style="text-align: center; margin-top:2rem; margin-bottom: 4rem;">
                 <p style="color: #204788; font-weight: bold;">

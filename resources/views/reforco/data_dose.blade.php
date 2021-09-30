@@ -35,6 +35,13 @@
                                         {{ session('status') }}
                                     </div>
                                 @endif
+                                <p class="alert alert-warning"  id="alerta_vacinas">
+                                    Preencher com a data da primeira e segunda dose. A veracidade das informações preenchidas na Plataforma Vem Vacina será verificada no ato da vacinação! 
+                                    {{-- Preencher com a data da sua dose única ou com a data da primeira e segunda dose. A veracidade das informações preenchidas na Plataforma Vem Vacina será verificada no ato da vacinação!  --}}
+                                    <br>
+                                    <br>
+                                    ATENÇÃO! A dose de reforço será aplicada exclusivamente para: idosos acima de 70 anos que completaram o esquema vacinal há seis meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
+                                </p>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="inputData_um" class="style_titulo_input">Data 1ª Dose <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
@@ -61,7 +68,10 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-md-12">
-        
+                                        {{-- <p class="alert alert-warning"  id="alerta_vacinas">
+                                            
+                                           
+                                        </p> --}}
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <button type="submit" class="btn btn-success" style="width: 100%;" >Cadastro da 3ª Dose</button>
