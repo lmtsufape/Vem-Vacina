@@ -27,7 +27,7 @@
                                     @auth
                                         <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white;">SOLICITAR MINHA DOSE DE REFORÇO </a>
                                     @else
-                                        <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white; @if($config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else SOLICITAR MINHA 3ª DOSE DE REFORÇO @endif</a>
+                                        <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white; @if($config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else SOLICITAR MINHA DOSE DE REFORÇO @endif</a>
                                     @endauth
                                 </div>
                             </div>
