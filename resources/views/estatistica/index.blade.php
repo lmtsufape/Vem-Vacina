@@ -39,6 +39,7 @@
                             <th scope="col">Público</th>
                             <th scope="col">Aprovados</th>
                             <th scope="col">Fila de espera</th>
+                            <th scope="col">Fila de espera(3ª dose)</th>
                             <th scope="col">Vacinados com 1ª dose</th>
                             <th scope="col">Vacinados com 2ª dose</th>
                         </tr>
@@ -59,6 +60,11 @@
                                 <td>
                                     <a href="{{route('fila.index')}}?publico_check=on&publico={{$publico->id}}">
                                         {{count($publico->candidatos()->where('aprovacao', $aprovacao[0])->get())}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{route('fila.index')}}?publico_check=on&publico={{$publico->id}}">
+                                        {{count($publico->candidatos()->where('aprovacao', $aprovacao[0])->where('dose', "3ª Dose")->get())}}
                                     </a>
                                 </td>
                                 <td>
