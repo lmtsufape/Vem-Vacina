@@ -152,7 +152,7 @@ class CandidatoController extends Controller
         // TODO: pegar só os postos com vacinas disponiveis
 
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
-        $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
+        $etapasAtuais   =  Etapa::where('atual', true)->where('dose_tres', false)->orderBy('texto')->get();
         $config = Configuracao::first();
 
         if ($config->botao_solicitar_agendamento && auth()->user() == null) {
