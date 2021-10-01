@@ -110,6 +110,7 @@
                                             <option value="">-- Dose --</option>
                                             <option @if($request->dose == $doses[0]) selected @endif value="{{$doses[0]}}">1ª dose</option>
                                             <option @if($request->dose == $doses[1]) selected @endif value="{{$doses[1]}}">2ª dose</option>
+                                            <option @if($request->dose == $doses[3]) selected @endif value="{{$doses[3]}}">3ª dose</option>
                                         </select>
                                     </div>
                                     <div id="campo_check" class="col-md-3" @if($request->campo_check != null && $request->campo_check) style="display: block;" @else style="display: none;" @endif >
