@@ -238,7 +238,11 @@ class FilaDistribuir extends Component
                         if ($qtdCandidato < $lote->qtdVacina) {
                             $id_lote = $lote->id;
                             $chave_estrangeiro_lote = $lote->lote_id;
-                            $candidato->dose = "Dose única";
+                            if($candidato->dose == "3ª Dose"){
+                                $candidato->dose = "3ª Dose";
+                            }else{
+                                $candidato->dose = "Dose única";
+                            }
                             \Log::info("5");
                             break;
                         }
