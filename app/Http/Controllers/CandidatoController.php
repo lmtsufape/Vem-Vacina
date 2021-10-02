@@ -245,7 +245,7 @@ class CandidatoController extends Controller
         DB::beginTransaction();
 
         try {
-            if(!$request->cadastro){
+            if($request->cadastro == "0"){
                 if (Candidato::where('cpf',$request->cpf)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
                     ->count() > 0) {
                     return redirect()->back()->withErrors([
@@ -253,7 +253,7 @@ class CandidatoController extends Controller
                     ]);
                 }
             }
-            if($request->dose_tres && (bool)$request->cadastro ){
+            if($request->dose_tres && $request->cadastro == "1" ){
                 $candidato = new Candidato;
                 $candidato->nome_completo           = $candidatoTerceiraDose->nome_completo;
                 $candidato->data_de_nascimento      = $validate['data_de_nascimento'];
@@ -274,7 +274,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao               = Candidato::APROVACAO_ENUM[1];
                 $candidato->dose                    = "3ª Dose";
                 $candidato->etapa_id                = $candidatoTerceiraDose->etapa_id;
-            }elseif($request->dose_tres && !$request->cadastro){
+            }elseif($request->dose_tres && $request->cadastro == "0"){
                 $candidato = new Candidato;
                 $candidato->nome_completo           = $request->nome_completo;
                 $candidato->data_de_nascimento      = $validate['data_de_nascimento'];
@@ -423,8 +423,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
 
-                // dd($request->cadastro === '0');
-                if($request->cadastro === '0'){
+                if($request->cadastro == 0){
                     $candidato->dataDose()->create($validate);
                 }
                 Notification::send($candidato, new CandidatoFila($candidato));

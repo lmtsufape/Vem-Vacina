@@ -53,7 +53,8 @@
                             <form method="POST" id="formSolicitar" class="needs-validation" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
-                                <input type="hidden" name="dose_tres" value="{{ session('bool') ?? 0 }}">
+                                <input type="hidden" name="dose_tres" value="0">
+                                <input type="hidden" name="cadastro" value="0">
                                 {{-- @dd(session('bool') ?? "Erro"); --}}
 
                                 @if ($errors->any())

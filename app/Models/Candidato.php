@@ -130,21 +130,15 @@ class Candidato extends Model
 
     public function getMessagemTerceiraDose() {
         $mensagem = "";
-        $mensagem = "Sr(a). ".$this->nome_completo.", \n\n";
-        $mensagem = $mensagem."Esta é uma mensagem da equipe de vacinação contra a Covid-19 da Secretaria de Saúde de Garanhuns. Estamos realizando a busca ativa de pessoas que ainda não receberam sua segunda dose contra a Covid-19,com o intuito de garantir que a população tenha o seu esquema vacinal completo.\n";
-        $mensagem = $mensagem."Se você ainda não recebeu sua segunda dose, pedimos que por favor, responda essa mensagem com o seu nome completo e foto do cartão de vacina entregue após a primeira dose. Caso já tenha recebido a segunda dose, você pode desconsiderar esta mensagem. \n\n";
-        $mensagem = $mensagem."*Campanha de Vacinação contra a Covid-19* \n";
-        $mensagem = $mensagem."*Setor de Agendamento* \n";
-        $mensagem = $mensagem."*(87) 3762-1252 / 9 8835-4998*  \n";
-        // $mensagem = $mensagem."A seguir, encontram-se o dia, horário e local de aplicação da ".$this->dose.":\n";
-        // $mensagem = $mensagem."Dia: ".date('d/m/Y \à\s  H:i\h', strtotime($this->chegada)).".\n";
-        // $mensagem = $mensagem."Local: ".$this->posto->nome.".\n";
-        // $mensagem = $mensagem."Endereço: ".$this->posto->endereco.".\n";
-        // $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve apresentar documento de identificação com foto (RG/CPF), cartão do SUS e comprovante de residência constando o nome da pessoa a ser vacinada.\n";
-        // $mensagem = $mensagem."Para os agendamentos de comorbidades é necessário o formulário que atesta a comorbidade, previamente preenchido por um profissional de saúde (exceto pessoas com Síndrome de Down).\n";
-        // $mensagem = $mensagem."Os demais grupos prioritários deverão comprovar esta condição através um destes documentos: declaração de vínculo profissional, contracheque, ou outro documento que comprove o exercício da função e/ou vinculação com o serviço.\n";
-        // $mensagem = $mensagem."Reforçamos a importância de que a pessoa esteja de posse de todos os documentos! A pessoa cadastrada será imunizada com a dose disponível, de acordo com o grupo escolhido, não sendo permitida a escolha de outro grupo no ato da vacinação. Agradecemos a sua atenção!";
-
+        $mensagem = "Sr(a). ".$this->nome_completo.",\n";
+            $mensagem = $mensagem."a sua solicitação de agendamento para vacinação foi aprovada pela Secretaria Municipal de Saúde de Garanhuns - PE.\n\n";
+            $mensagem = $mensagem."A seguir, encontram-se o dia, horário e local de aplicação da DOSE DE REFORÇO:\n\n";
+            $mensagem = $mensagem."Dia: ".date('d/m/Y \à\s  H:i\h', strtotime($this->chegada)).".\n";
+            $mensagem = $mensagem."Local: ".$this->posto->nome.".\n";
+            $mensagem = $mensagem."Endereço: ".$this->posto->endereco.".\n\n";
+            $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve estar de acordo com os critérios estabelecidos para a dose de reforço. Neste momento serão contemplados apenas: os idosos de 70 anos ou mais que completaram o esquema vacinal há pelo menos seis meses; e imunossuprimidos que completaram o esquema vacinal há pelo menos 28 dias.\n\n";
+            $mensagem = $mensagem."Para aplicação da dose de reforço, a Secretaria de Saúde vai exigir a apresentação de documento oficial com foto, CPF, cartão do SUS (CNS), comprovante de residência no nome da pessoa que será vacinada, e cartão de vacina Covid-19 com a 2ª dose (D2) ou dose única. Para os imunossuprimidos também será obrigatório o laudo médico ou receita de medicamentos imunossupressores.\n\n";
+            $mensagem = $mensagem."Reforçamos a importância de que você esteja de posse de todos os documentos! A pessoa cadastrada será imunizada com a dose disponível, de acordo com o grupo escolhido. Agradecemos a sua atenção!";
         return urlencode($mensagem);
     }
 
