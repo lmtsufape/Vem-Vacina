@@ -422,8 +422,7 @@ class CandidatoController extends Controller
             if($request->has('fila')){
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
-
-                if($request->cadastro == 0){
+                if($request->cadastro == 0 && $request->dose_tres == 1){
                     $candidato->dataDose()->create($validate);
                 }
                 Notification::send($candidato, new CandidatoFila($candidato));
