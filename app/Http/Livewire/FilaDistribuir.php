@@ -91,9 +91,11 @@ class FilaDistribuir extends Component
         set_time_limit(900);
         $posto = PostoVacinacao::find($this->ponto_id);
 
-        $qtdVacinaPorPonto = $this->quantidadeVacinaPorPonto($posto);
+        // $qtdVacinaPorPonto = $this->quantidadeVacinaPorPonto($posto);
         if ($this->qtdFila == null) {
-            $this->qtdFila = $qtdVacinaPorPonto;
+            // $this->qtdFila = $qtdVacinaPorPonto;
+            session()->flash('message',  "Sem quantidade de pessoas para andar");
+            return;
         }
         // dd($this->cpf);
         if ($this->cpf != null) {
