@@ -37,6 +37,7 @@ class FilaDistribuir extends Component
     public $qtdFila;
     public $cpf;
     public $bool;
+    public $dose;
 
     protected $rules = [
         'etapa_id' => 'required',
@@ -59,6 +60,7 @@ class FilaDistribuir extends Component
         $this->etapas = Etapa::orderBy('texto_home')->get();
         $this->tipos = Etapa::TIPO_ENUM;
         $this->bool = false;
+        $this->qtdFila = 1;
 
     }
 
@@ -98,13 +100,20 @@ class FilaDistribuir extends Component
             return;
         }
         // dd($this->cpf);
+        $dose = ["1ª Dose", '2ª Dose', "Dose única"];
+        if ($this->dose != null) {
+            $dose = ["3ª Dose"];
+        }
+       
         if ($this->cpf != null) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->where('cpf', $this->cpf)->get();
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->whereIn('dose', $dose)->where('cpf', $this->cpf)->get();
         }else{
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->oldest()->take($this->qtdFila)->get();
+            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])
+                                    ->where('etapa_id', $this->etapa_id)
+                                    ->whereIn('dose', $dose)->oldest()
+                                    ->take($this->qtdFila)->get();
 
         }
-
 
         $horarios_agrupados_por_dia = $this->traitHorarios($posto->id);
 
@@ -139,7 +148,7 @@ class FilaDistribuir extends Component
             Notification::send(Auth::user(), new ReportNotification($contadorAprovado, Etapa::find( $this->etapa_id)->texto_home, $posto->nome));
             \Log::info("acabou");
             if ($aprovado) {
-                session()->flash('message', 'Distribuição concluída com sucesso.');
+                session()->flash('message', 'Distribuição concluída com sucesso. Quantidade Aprovado:' . $contadorAprovado);
                 return;
             }else{
                 session()->flash('message', 'Ninguém foi distribuído.');
