@@ -113,7 +113,7 @@ class ReforcoController extends Controller
 
         if ($interval->invert == 0 && $interval->days < 188) {
                     return redirect()->back()->with([
-                                                    "status" => "O intervalo para a dose de reforço ainda não completou o tempo nécessário meses."
+                                                    "status" => "O intervalo para a dose de reforço ainda não completou o tempo nécessário."
                                                     ]);
         }
 
