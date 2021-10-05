@@ -48,12 +48,21 @@
                 <br>
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="qtdFila">Quantidade de pessoas da fila para aprovar:</label><br>
-                        <input wire:model="qtdFila" type="number">
+                        <label for="qtdFila">Quantidade de pessoas da fila para aprovar(se for cpf, deixa a quantidade com o valor "1"):</label><br>
+                        <input wire:model="qtdFila" type="number" min="1" >
                         @error('qtdFila')<div class="alert alert-danger">{{ $message }}</div> @enderror
                     </div>
+                    <div class="col-md-6">
+                        <label for="qtdFila">Dose:</label><br>
+                        <select name="dose" wire:model="dose">
+                            <option value="Outras">Outras</option>
+                            <option value="3ª Dose">3ª Dose</option>
+    
+                        </select>
+                        @error('dose')<div class="alert alert-danger">{{ $message }}</div> @enderror
+                    </div>
                 </div>
-                <br>
+                
                 <div class="row">
                     <div class="col-md-6">
                         <label for="cpf">CPF:</label><br>
