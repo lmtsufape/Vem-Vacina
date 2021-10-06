@@ -59,7 +59,7 @@
                                 </td>
                                 <td>
                                     <a href="{{route('fila.index')}}?publico_check=on&publico={{$publico->id}}">
-                                        {{count($publico->candidatos()->where('aprovacao', $aprovacao[0])->get())}}
+                                        {{count($publico->candidatos()->where('aprovacao', $aprovacao[0])->whereIn('dose', ["1ª Dose", '2ª Dose', "Dose única"])->get())}}
                                     </a>
                                 </td>
                                 <td>
