@@ -421,7 +421,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="border-radius: 12px;">
             <div class="modal-header" style="background-color: #FF545A; color: #fff; border-top-left-radius: 12px; border-top-right-radius: 12px; ">
-                <h5 class="modal-title" id="feedAdiatamento">Cronograma de Antecipação da 2ª Dose</h5>
+                <h5 class="modal-title" id="feedAdiatamento">Informações para vacinação de adolescentes</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
