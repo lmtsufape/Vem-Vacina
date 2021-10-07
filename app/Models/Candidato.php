@@ -136,9 +136,9 @@ class Candidato extends Model
             $mensagem = $mensagem."Dia: ".date('d/m/Y \à\s  H:i\h', strtotime($this->chegada)).".\n";
             $mensagem = $mensagem."Local: ".$this->posto->nome.".\n";
             $mensagem = $mensagem."Endereço: ".$this->posto->endereco.".\n\n";
-            $mensagem = $mensagem."Lembramos que para que seja realizada a aplicação da vacina, a pessoa deve estar de acordo com os critérios estabelecidos para a dose de reforço. Neste momento serão contemplados apenas: os idosos de 70 anos ou mais que completaram o esquema vacinal há pelo menos seis meses; e imunossuprimidos que completaram o esquema vacinal há pelo menos 28 dias.\n\n";
-            $mensagem = $mensagem."Para aplicação da dose de reforço, a Secretaria de Saúde vai exigir a apresentação de documento oficial com foto, CPF, cartão do SUS (CNS), comprovante de residência no nome da pessoa que será vacinada, e cartão de vacina Covid-19 com a 2ª dose (D2) ou dose única. Para os imunossuprimidos também será obrigatório o laudo médico ou receita de medicamentos imunossupressores.\n\n";
-            $mensagem = $mensagem."Reforçamos a importância de que você esteja de posse de todos os documentos! A pessoa cadastrada será imunizada com a dose disponível, de acordo com o grupo escolhido. Agradecemos a sua atenção!";
+            $mensagem = $mensagem."Neste momento serão contemplados apenas: pessoas com 60 anos ou mais que completaram o esquema vacinal há pelo menos seis meses; e imunossuprimidos que completaram o esquema vacinal há pelo menos 28 dias. Além dos trabalhadores da saúde que completaram o esquema vacinal até o dia 31/03.\n\n";
+            $mensagem = $mensagem."A Secretaria de Saúde vai exigir a apresentação de documento oficial com foto, CPF, cartão do SUS (CNS), comprovante de residência no nome da pessoa que será vacinada, e cartão de vacina Covid-19 com a 2ª dose (D2) ou dose única. Para os imunossuprimidos também será obrigatório o laudo médico ou receita de medicamentos imunossupressores. Os trabalhadores de saúde devem apresentar declaração de vínculo da instituição onde atua em Garanhuns.\n\n";
+            $mensagem = $mensagem."Reforçamos a importância de que você esteja de posse de todos os documentos! Agradecemos a sua atenção!";
         return urlencode($mensagem);
     }
 
