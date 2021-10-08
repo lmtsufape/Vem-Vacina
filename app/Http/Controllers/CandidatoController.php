@@ -419,12 +419,16 @@ class CandidatoController extends Controller
             }
 
             if($request->dose_tres == 1 ){
-                $etapa = Etapa::find($candidato->etapa_id);
-                $datetime2 = new DateTime($etapa->intervalo_reforco);
+                $datetime2 = new DateTime(now());
                 $datetime1 = new DateTime($validate->data_dois);
                 $interval = $datetime1->diff($datetime2);
-                // dd($interval->invert);
-                
+                $etapa = Etapa::find($candidato->etapa_id);
+                dd($interval->days <= $etapa->numero_dias);
+                if ($interval->days <= $etapa->numero_dias) {
+                            return redirect()->back()->with([
+                                "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
+                            ]);
+                }
                 if ($interval->invert == 1) {
                     return redirect()->back()->with([
                         "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."

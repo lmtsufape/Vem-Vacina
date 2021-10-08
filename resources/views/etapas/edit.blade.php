@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <label for="numero_dias" >Intervalo de tempo para a dose de reforço</label>
-                        <input id="intervalo_reforco" class="form-control" type="date"  name="intervalo_reforco" value="{{ date('Y-m-d',strtotime($publico->intervalo_reforco)) }}" >
+                        <input id="numero_dias" class="form-control" type="number"  name="numero_dias" value="{{$publico->numero_dias}}" >
                         
                     </div>
                     <div class="col-md-8 mt-2 mb-5">

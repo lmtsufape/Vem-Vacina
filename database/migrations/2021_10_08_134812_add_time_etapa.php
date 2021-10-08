@@ -14,7 +14,9 @@ class AddTimeEtapa extends Migration
     public function up()
     {
         Schema::table('etapas', function (Blueprint $table) {
+            $table->integer('numero_dias')->default(0); 
             $table->date('intervalo_reforco')->nullable(true)->default(null); 
+            $table->boolean('isDias')->default(false);
         });
     }
 
@@ -26,7 +28,9 @@ class AddTimeEtapa extends Migration
     public function down()
     {
         Schema::table('etapas', function (Blueprint $table) {
+            $table->dropColumn('numero_dias');
             $table->dropColumn('intervalo_reforco');
+            $table->dropColumn('isDias');
         });
     }
 }
