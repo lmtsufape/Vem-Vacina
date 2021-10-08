@@ -105,17 +105,7 @@ class ReforcoController extends Controller
         
         $request->session()->put('validate', $validate);
 
-        $datetime2 = new DateTime(now());
-        $datetime1 = new DateTime($request->data_dois);
-        $interval = $datetime1->diff($datetime2);
-        // dd($interval);
-        // dd($interval->invert == 0);
-
-        if ($interval->invert == 0 && $interval->days < 188) {
-                    return redirect()->back()->with([
-                                                    "status" => "O intervalo para a dose de reforço ainda não completou o tempo nécessário."
-                                                    ]);
-        }
+        
 
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
         $etapasAtuais   =  Etapa::where('atual', true)->where('dose_tres', true)->orderBy('texto')->get();

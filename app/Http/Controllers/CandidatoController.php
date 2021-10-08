@@ -186,17 +186,22 @@ class CandidatoController extends Controller
             $request->merge(['fila' => "true"]);
         }
         $candidatoTerceiraDose = null;
-        
         if($request->dose_tres){
             $validate = $request->session()->get('validate');
-            if (Candidato::where('cpf', $validate['cpf'])->where('dose', '3ª Dose')->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
+            $validate = (object) $validate;
+            if( $request->cadastro == "1" ){
+    
+                if (Candidato::where('cpf', $validate->cpf)->where('dose', '3ª Dose')->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
                 ->count() > 0) {
-                return redirect()->back()->withErrors([
-                    "dose" => "Existe um agendamento para a 3ª dose para esse cadastro."
-                ]);
+                    return redirect()->back()->withErrors([
+                        "dose" => "Existe um agendamento para a 3ª dose para esse cadastro."
+                    ]);
+                }
+                $candidatoTerceiraDose = Candidato::where('cpf', $validate->cpf)->where('data_de_nascimento', $validate->data_de_nascimento)->first();
             }
-            $candidatoTerceiraDose = Candidato::where('cpf', $validate['cpf'])->where('data_de_nascimento', $validate['data_de_nascimento'])->first();
         }
+        
+        
         
         // dd($request->all());
         if($request->dose_tres){
@@ -256,8 +261,8 @@ class CandidatoController extends Controller
             if($request->dose_tres && $request->cadastro == "1" ){
                 $candidato = new Candidato;
                 $candidato->nome_completo           = $candidatoTerceiraDose->nome_completo;
-                $candidato->data_de_nascimento      = $validate['data_de_nascimento'];
-                $candidato->cpf                     = $validate['cpf'];
+                $candidato->data_de_nascimento      = $validate->data_de_nascimento;
+                $candidato->cpf                     = $validate->cpf;
                 $candidato->numero_cartao_sus       = $candidatoTerceiraDose->numero_cartao_sus;
                 $candidato->sexo                    = $candidatoTerceiraDose->sexo;
                 $candidato->nome_da_mae             = $candidatoTerceiraDose->nome_da_mae;
@@ -277,8 +282,8 @@ class CandidatoController extends Controller
             }elseif($request->dose_tres && $request->cadastro == "0"){
                 $candidato = new Candidato;
                 $candidato->nome_completo           = $request->nome_completo;
-                $candidato->data_de_nascimento      = $validate['data_de_nascimento'];
-                $candidato->cpf                     = $validate['cpf'];
+                $candidato->data_de_nascimento      = $validate->data_de_nascimento;
+                $candidato->cpf                     = $validate->cpf;
                 $candidato->numero_cartao_sus       = $request->input("número_cartão_sus");
                 $candidato->sexo                    = $request->sexo;
                 $candidato->nome_da_mae             = $request->input("nome_da_mãe");
@@ -412,6 +417,20 @@ class CandidatoController extends Controller
                 }
     
             }
+
+            if($request->dose_tres == 1 ){
+                $etapa = Etapa::find($candidato->etapa_id);
+                $datetime2 = new DateTime($etapa->intervalo_reforco);
+                $datetime1 = new DateTime($validate->data_dois);
+                $interval = $datetime1->diff($datetime2);
+                // dd($interval->invert);
+                
+                if ($interval->invert == 1) {
+                    return redirect()->back()->with([
+                        "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
+                    ]);
+                }
+            }
             
             if (!$this->validar_telefone($request->telefone)) {
                 return redirect()->back()->withErrors([
@@ -423,7 +442,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
                 if($request->cadastro == 0 && $request->dose_tres == 1){
-                    $candidato->dataDose()->create($validate);
+                    $candidato->dataDose()->create( (array) $validate);
                 }
                 Notification::send($candidato, new CandidatoFila($candidato));
                 DB::commit();
