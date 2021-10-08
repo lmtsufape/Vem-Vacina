@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBoolEtapa extends Migration
+class AddTimeEtapa extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddBoolEtapa extends Migration
     public function up()
     {
         Schema::table('etapas', function (Blueprint $table) {
-            $table->boolean('dose_tres')->default(false); 
+            $table->date('intervalo_reforco')->nullable(true)->default(null); 
         });
     }
 
@@ -26,7 +26,7 @@ class AddBoolEtapa extends Migration
     public function down()
     {
         Schema::table('etapas', function (Blueprint $table) {
-            $table->dropColumn('dose_tres');
+            $table->dropColumn('intervalo_reforco');
         });
     }
 }

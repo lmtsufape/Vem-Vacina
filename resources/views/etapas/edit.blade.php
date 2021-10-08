@@ -18,9 +18,17 @@
                     </div>
                 @endif
                 <div class="row">
-                    <div class="col-md-12">
-                        <label for="exibir_no_form" >Exibir público no agendamento na dose de Reforço</label>
-                        <input id="dose_tres" type="checkbox" name="dose_tres" @if(old('dose_tres') || (old('dose_tres') == null && $publico->dose_tres)) checked @endif>
+                    <div class="col-md-4">
+                        <label for="numero_dias" >Intervalo de tempo para a dose de reforço</label>
+                        <input id="intervalo_reforco" class="form-control" type="date"  name="intervalo_reforco" value="{{ date('Y-m-d',strtotime($publico->intervalo_reforco)) }}" >
+                        
+                    </div>
+                    <div class="col-md-8 mt-2 mb-5">
+                        <div class="mb-2 mt-4">
+                            <label for="dose_tres" >Exibir público no agendamento na dose de Reforço</label>
+                            <input id="dose_tres" type="checkbox" name="dose_tres" @if(old('dose_tres') || (old('dose_tres') == null && $publico->dose_tres)) checked @endif>
+                        </div>
+                        
                     </div>
                     <div class="col-md-4">
                         <label for="tipo">Classficação do público</label>

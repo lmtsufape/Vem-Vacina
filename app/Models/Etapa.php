@@ -25,6 +25,11 @@ class Etapa extends Model
         'total_pessoas_vacinadas_pri_dose',
         'total_pessoas_vacinadas_seg_dose',
         'texto_outras_informacoes',
+        'intervalo_reforco',
+    ];
+
+    protected $casts = [
+        'intervalo_reforco' => 'datetime',
     ];
 
     public function candidatos() {

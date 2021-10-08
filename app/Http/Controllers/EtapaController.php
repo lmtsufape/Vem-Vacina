@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use DateTime;
 use App\Models\Etapa;
 use App\Models\Candidato;
-use App\Models\PostoVacinacao;
 use App\Models\OpcoesEtapa;
+use Illuminate\Http\Request;
+use App\Models\PostoVacinacao;
 use App\Models\OutrasInfoEtapa;
 use Illuminate\Support\Facades\Gate;
 
@@ -260,6 +261,9 @@ class EtapaController extends Controller
 
         if ($request->texto_das_outras_informações != null) {
             $etapa->texto_outras_informacoes = $request->texto_das_outras_informações;
+        }
+        if ($request->intervalo_reforco != null) {
+            $etapa->intervalo_reforco = new DateTime($request->intervalo_reforco); ;
         }
 
         if ($request->atual != null) {
