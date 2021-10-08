@@ -419,16 +419,30 @@ class CandidatoController extends Controller
             }
 
             if($request->dose_tres == 1 ){
-                $etapa = Etapa::find($candidato->etapa_id);
-                $datetime2 = new DateTime($etapa->intervalo_reforco);
-                $datetime1 = new DateTime($validate->data_dois);
-                $interval = $datetime1->diff($datetime2);
-                // dd($interval->invert);
                 
-                if ($interval->invert == 1) {
-                    return redirect()->back()->with([
-                        "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
-                    ]);
+                $etapa = Etapa::find($candidato->etapa_id);
+                // dd($etapa->numero_dias);
+                if($etapa->isDias){
+                    $datetime2 = new DateTime(now());
+                    $datetime1 = new DateTime($validate->data_dois);
+                    $interval = $datetime1->diff($datetime2);
+                    // dd($interval->days < $etapa->numero_dias);
+                    // dd($interval->days);
+                    if ($interval->days < $etapa->numero_dias) {
+                                return redirect()->back()->with([
+                                    "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
+                                ]);
+                    }
+                }else{
+                    $datetime2 = new DateTime($etapa->intervalo_reforco);
+                    $datetime1 = new DateTime($validate->data_dois);
+                    $interval = $datetime1->diff($datetime2);
+                    // dd($interval->invert);
+                    if ($interval->invert == 1) {
+                        return redirect()->back()->with([
+                            "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
+                        ]);
+                    }
                 }
             }
             

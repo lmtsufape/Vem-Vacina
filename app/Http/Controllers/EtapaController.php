@@ -262,8 +262,17 @@ class EtapaController extends Controller
         if ($request->texto_das_outras_informações != null) {
             $etapa->texto_outras_informacoes = $request->texto_das_outras_informações;
         }
+        if ($request->numero_dias != null) {
+            $etapa->numero_dias = $request->numero_dias;
+        }
         if ($request->intervalo_reforco != null) {
-            $etapa->intervalo_reforco = new DateTime($request->intervalo_reforco); ;
+            $etapa->intervalo_reforco = new DateTime($request->intervalo_reforco);
+        }
+        
+        if ($request->isDias != null) {
+            $etapa->isDias = true;
+        } else {
+            $etapa->isDias = false;
         }
 
         if ($request->atual != null) {
