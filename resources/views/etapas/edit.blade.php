@@ -25,17 +25,16 @@
                         </div>
                         
                     </div>
-                    <div class="col-md-6">
-                        <label for="intervalo_reforco" >Definir data limite para segunda dose</label>
-                        <input id="intervalo_reforco" class="form-control" type="date"  name="intervalo_reforco" value="{{date('Y-m-d',strtotime($publico->intervalo_reforco) )}}" >
-                        
-                    </div>
-                    <div class="col-md-6 ">
+                    <div class="col-md-6 " id="numero_dias" @if (!$publico->isDias) style="display:none" @endif>
                         <label for="numero_dias" >Número de dias entre a D2 e D3</label>
-                        <input id="numero_dias" class="form-control" type="number"  name="numero_dias" value="{{$publico->numero_dias}}" >
+                        <input  class="form-control" type="number"  name="numero_dias" value="{{$publico->numero_dias}}" >
                         
                     </div>
-                    
+                    <div class="col-md-6" id="intervalo_reforco" @if ($publico->isDias) style="display:none" @endif>
+                        <label for="intervalo_reforco" >Definir data limite para segunda dose</label>
+                        <input  class="form-control" type="date"  name="intervalo_reforco" value="{{date('Y-m-d',strtotime($publico->intervalo_reforco) )}}" >
+                        
+                    </div>
                     <div class="col-md-12 mt-2 mb-5">
                         <div class="mb-2 mt-4">
                             <label for="dose_tres" >Exibir público no agendamento na dose de Reforço</label>
@@ -350,6 +349,16 @@
         </form>
     </div>
     <script>
+        $(document).ready(function(){
+
+            $("#isDias").click(function(){
+                $("#numero_dias").toggle();
+                $("#intervalo_reforco").toggle();
+            });
+
+        }); 
+        
+
         function adicionarOpcao() {
             html = `<div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
                                     padding: 15px;
