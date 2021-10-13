@@ -152,7 +152,7 @@ class CandidatoController extends Controller
         // TODO: pegar só os postos com vacinas disponiveis
 
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
-        $etapasAtuais   =  Etapa::where('atual', true)->where('dose_tres', false)->orderBy('texto')->get();
+        $etapasAtuais   =  Etapa::where('atual', true)->orderBy('texto')->get();
         $config = Configuracao::first();
 
         if ($config->botao_solicitar_agendamento && auth()->user() == null) {
@@ -197,7 +197,9 @@ class CandidatoController extends Controller
                         "dose" => "Existe um agendamento para a 3ª dose para esse cadastro."
                     ]);
                 }
-                $candidatoTerceiraDose = Candidato::where('cpf', $validate->cpf)->where('data_de_nascimento', $validate->data_de_nascimento)->first();
+                $candidatoTerceiraDose = Candidato::where('cpf', $validate->cpf)
+                                            ->where('data_de_nascimento', $validate->data_de_nascimento)
+                                            ->whereIn('dose', ['2ª Dose', "Dose única"])->first();
             }
         }
         
@@ -424,7 +426,11 @@ class CandidatoController extends Controller
                 // dd($etapa->numero_dias);
                 if($etapa->isDias){
                     $datetime2 = new DateTime(now());
-                    $datetime1 = new DateTime($validate->data_dois);
+                    if($request->cadastro == "1"){
+                        $datetime1 = new DateTime($candidatoTerceiraDose->saida);
+                    }else{
+                        $datetime1 = new DateTime($validate->data_dois);
+                    }
                     $interval = $datetime1->diff($datetime2);
                     // dd($interval->days < $etapa->numero_dias);
                     // dd($interval->days);
@@ -435,7 +441,11 @@ class CandidatoController extends Controller
                     }
                 }else{
                     $datetime2 = new DateTime($etapa->intervalo_reforco);
-                    $datetime1 = new DateTime($validate->data_dois);
+                    if($request->cadastro == "1"){
+                        $datetime1 = new DateTime($candidatoTerceiraDose->saida);
+                    }else{
+                        $datetime1 = new DateTime($validate->data_dois);
+                    }
                     $interval = $datetime1->diff($datetime2);
                     // dd($interval->invert);
                     if ($interval->invert == 1) {
