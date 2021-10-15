@@ -40,7 +40,7 @@
                                     {{-- Preencher com a data da sua dose única ou com a data da primeira e segunda dose. A veracidade das informações preenchidas na Plataforma Vem Vacina será verificada no ato da vacinação!  --}}
                                     <br>
                                     <br>
-                                    ATENÇÃO! A dose de reforço será aplicada exclusivamente para: idosos acima de 70 anos que completaram o esquema vacinal há seis meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
+                                    ATENÇÃO! A dose de reforço será aplicada exclusivamente para: idosos acima de 60 anos que completaram o esquema vacinal há seis meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
                                 </p>
                                 <div class="row">
                                     <div class="col-md-6">

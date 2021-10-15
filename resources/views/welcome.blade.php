@@ -76,7 +76,7 @@
                                             <div id="anexos5" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
                                                 <div class="panel-body px-3 mb-4">
                                                 <p style="text-align: justify">
-                                                    Nota Técnica do Governo do Estado de Pernambuco com orientações referentes a aplicação das doses de reforço para a população de idosos acima de 70 anos (que tenham completado o esquema vacinal há seis meses), e imunossuprimidos (com o esquema vacinal completo há 28 dias ou mais).
+                                                    Nota Técnica do Governo do Estado de Pernambuco com orientações referentes a aplicação das doses de reforço para a população de idosos acima de 60 anos (que tenham completado o esquema vacinal há seis meses), e imunossuprimidos (com o esquema vacinal completo há 28 dias ou mais).
                                                 </p>
                                                 <a href="{{route('baixar.anexo', ['name'=> 'anexo4.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Nota Técnica</a>
                                                 </div>
@@ -93,7 +93,7 @@
                                             <div id="anexos4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
                                                 <div class="panel-body px-3 mb-4">
                                                 <p style="text-align: justify">
-                                                    Os IDOSOS COM 70 ANOS OU MAIS que tenham completado o esquema vacinal há seis meses ou mais, independentemente do imunizante aplicado anteriormente.
+                                                    Os IDOSOS COM 60 ANOS OU MAIS que tenham completado o esquema vacinal há seis meses ou mais, independentemente do imunizante aplicado anteriormente.
                                                 </p>
                                             </div>
                                         </div>
