@@ -9,7 +9,7 @@
 
 # Project Members
 
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Gabriel-31415&show_icons=true&theme=dark)
+![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Gabriel-31415&show_icons=true&theme=dark&include_all_commits=false&count_private=true)
 ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=carlos1270&show_icons=true&theme=gruvbox)
 ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=Sekva&show_icons=true&theme=gruvbox)
 ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=danillobion&show_icons=true&theme=gruvbox)
