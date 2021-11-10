@@ -200,6 +200,11 @@ class CandidatoController extends Controller
                 $candidatoTerceiraDose = Candidato::where('cpf', $validate->cpf)
                                             ->where('data_de_nascimento', $validate->data_de_nascimento)
                                             ->whereIn('dose', ['2ª Dose', "Dose única"])->first();
+                if ($candidatoTerceiraDose == null) {
+                    return redirect()->back()->withErrors([
+                        "dose" => "Não existe cadastro aprovado no sistema para esse cpf."
+                    ]);
+                }
             }
         }
         
@@ -260,7 +265,9 @@ class CandidatoController extends Controller
                     ]);
                 }
             }
+            
             if($request->dose_tres && $request->cadastro == "1" ){
+                $idade              = $this->idade($validate->data_de_nascimento);
                 $candidato = new Candidato;
                 $candidato->nome_completo           = $candidatoTerceiraDose->nome_completo;
                 $candidato->data_de_nascimento      = $validate->data_de_nascimento;
@@ -280,6 +287,43 @@ class CandidatoController extends Controller
                 $candidato->complemento_endereco    = $request->complemento_endereco;
                 $candidato->aprovacao               = Candidato::APROVACAO_ENUM[1];
                 $candidato->dose                    = "3ª Dose";
+                $etapa = Etapa::find($candidatoTerceiraDose->etapa_id);
+    
+                if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
+                    if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                        return redirect()->back()->withErrors([
+                            "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                        ])->withInput();
+                    }
+                } else if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+                    if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                        return redirect()->back()->withErrors([
+                            "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                        ])->withInput();
+                    }
+    
+                    if ($request->input("publico_opcao_" . $request->input('público')) == null) {
+                        return redirect()->back()->withErrors([
+                            "publico_opcao_" . $request->input('público') => "Esse campo é obrigatório para público marcado."
+                        ])->withInput();
+                    }
+                    $candidato->etapa_resultado = $request->input("publico_opcao_" . $request->input('público'));
+                }
+    
+                if ($etapa->outras_opcoes_obrigatorio != null && $etapa->outras_opcoes_obrigatorio) {
+                    if (!($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0)) {
+                        return redirect()->back()->withErrors([
+                            "outras_infor_obg_" . $request->input('público') => "Você deve marcar pelo menos uma informação para esse público."
+                        ])->withInput();
+                    }
+                }
+    
+                //TODO: mover pro service provider
+                if (!$this->validar_cpf($candidato->cpf)) {
+                    return redirect()->back()->withErrors([
+                        "cpf" => "Número de CPF inválido"
+                    ])->withInput();
+                }
                 $candidato->etapa_id                = $candidatoTerceiraDose->etapa_id;
             }elseif($request->dose_tres && $request->cadastro == "0"){
                 $candidato = new Candidato;
