@@ -21,7 +21,7 @@ class EtapaController extends Controller
     public function index()
     {
         Gate::authorize('ver-etapa');
-        $etapas = Etapa::where('tipo', '!=', Etapa::TIPO_ENUM[3])->orderBy('id', 'DESC')->get();
+        $etapas = Etapa::where('tipo', '!=', Etapa::TIPO_ENUM[3])->orderBy('texto_home')->get();
         $pontos = PostoVacinacao::all();
         return view('etapas.index')->with(['etapas' => $etapas,
                                            'tipos' => Etapa::TIPO_ENUM,]);
