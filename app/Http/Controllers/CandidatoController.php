@@ -867,6 +867,7 @@ class CandidatoController extends Controller
         }
 
         $agendamentos = Candidato::where([['cpf', $request->cpf], ['data_de_nascimento', $request->data_de_nascimento]])
+                      ->where('aprovacao', '!=', "Reprovado")
                       ->orderBy("dose") // Mostra primeiro o agendamento mais recente
                       ->get();
 
@@ -874,6 +875,7 @@ class CandidatoController extends Controller
             $caracteres = array(".", "-");
             $cpf = str_replace($caracteres, "", $request->cpf);
             $agendamentos = Candidato::where([['cpf', $cpf], ['data_de_nascimento', $request->data_de_nascimento]])
+                      ->where('aprovacao', '!=', "Reprovado")
                       ->orderBy("dose") // Mostra primeiro o agendamento mais recente
                       ->get();
         }              
