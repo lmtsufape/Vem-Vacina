@@ -64,7 +64,11 @@
                                     <div class="justify-content-center destaque-pri-dose">
                                         <div class="row">
                                             @if(count($agendamentos) == 1)
-                                                <div class="col-md-12">DOSE ÚNICA </div>
+                                                @if($agendamentos[0]->dose == "3ª Dose")
+                                                    <div class="col-md-12">DOSE DE REFORÇO </div>
+                                                @else
+                                                    <div class="col-md-12">DOSE ÚNICA </div>
+                                                @endif
                                             @else
                                                 <div class="col-md-12">1ª Dose</div>
                                             @endif
@@ -89,7 +93,7 @@
                                     </div>
                                 @endif
                                 @if(count($agendamentos) > 1 && $agendamentos[1]->chegada != null)
-                                    <div class="justify-content-center destaque-seg-dose">
+                                    <div class="justify-content-center destaque-pri-dose">
                                         <div class="row">
                                             <div class="col-md-12">2ª Dose</div>
                                             {{-- <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div> --}}
@@ -107,6 +111,29 @@
                                             <div class="col-md-3">
                                                 Hora<br>
                                                 {{date('H:i',strtotime($agendamentos[1]->chegada))}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if(count($agendamentos) > 2 && $agendamentos[2]->chegada != null)
+                                    <div class="justify-content-center destaque-pri-dose">
+                                        <div class="row">
+                                            <div class="col-md-12">3ª Dose</div>
+                                            {{-- <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div> --}}
+                                            <div class="col-md-12"><hr class="style_linha_dose"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                Local<br>
+                                                {{$agendamentos[2]->posto->nome}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Data<br>
+                                                {{date('d/m/Y',strtotime($agendamentos[2]->chegada))}}
+                                            </div>
+                                            <div class="col-md-3">
+                                                Hora<br>
+                                                {{date('H:i',strtotime($agendamentos[2]->chegada))}}
                                             </div>
                                         </div>
                                     </div>
