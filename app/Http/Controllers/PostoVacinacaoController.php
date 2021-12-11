@@ -404,7 +404,7 @@ class PostoVacinacaoController extends Controller
             $qtdDias = $posto->dias()->whereDate('dia', '>=', now())->count();
 
             if ($qtdDias >= 3) {
-                $contador = 3;
+                $contador = 1;
             } elseif ($qtdDias == 0) {
                 $contador = 0;
             }else{
