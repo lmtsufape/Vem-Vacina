@@ -190,9 +190,10 @@ class CandidatoController extends Controller
             $validate = $request->session()->get('validate');
             $validate = (object) $validate;
             if( $request->cadastro == "1" ){
-    
-                if (Candidato::where('cpf', $validate->cpf)->where('dose', '3ª Dose')->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
-                ->count() > 0) {
+                $repetido = Candidato::where('cpf', $validate->cpf)
+                                    ->where('dose', '3ª Dose')
+                                    ->count();
+                if ($repetido > 0) {
                     return redirect()->back()->withErrors([
                         "dose" => "Existe um agendamento para a 3ª dose para esse cadastro."
                     ]);
