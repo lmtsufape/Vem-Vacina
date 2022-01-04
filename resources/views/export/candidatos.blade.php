@@ -23,6 +23,8 @@ use App\Models\LotePostoVacinacao;
         <th>Digitado por</th>
         <th>Idade</th>
         <th>Enderenço</th>
+        <th>Telefone</th>
+        <th>Whatsapp</th>
         {{-- <th>Digitado por</th>
         <th>dose</th>
         <th>chegada</th>
@@ -86,6 +88,8 @@ use App\Models\LotePostoVacinacao;
                 <td>{{  "Digitado por"  }}</td>
                 <td>{{ $candidato->idade }}</td>
                 <td>{{ $candidato->logradouro . ' - ' . $candidato->numero_residencia . ' - ' . $candidato->bairro . ' - ' . $candidato->cidade }}</td>
+                <td>{{ $candidato->telefone }}</td>
+                <td>{{ $candidato->whatsapp }}</td>
                 {{-- <td>{{ $candidato->bairro }}</td>
                 <td>{{ $candidato->logradouro }}</td>
                 <td>{{ $candidato->numero_residencia }}</td> --}}
@@ -107,9 +111,7 @@ use App\Models\LotePostoVacinacao;
                 <td>{{  "Erro"  }} </td>
             @endif
 
-            {{-- <td>{{ $candidato->telefone }}</td>
-            <td>{{ $candidato->whatsapp }}</td>
-            <td>{{ $candidato->email }}</td>
+            {{-- <td>{{ $candidato->email }}</td>
             <td>{{ $candidato->cidade }}</td>
             <td>{{ $candidato->bairro }}</td>
             <td>{{ $candidato->logradouro }}</td>
