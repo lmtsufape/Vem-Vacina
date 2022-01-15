@@ -174,13 +174,13 @@ class CandidatoController extends Controller
 
     }
 
-    
+
     public function ver($id) {
         return view("ver_agendamento", ["agendamento" => Candidato::find($id)]);
     }
 
-    
-    public function enviar_solicitacao(Request $request) 
+
+    public function enviar_solicitacao(Request $request)
     {
         if(env('ATIVAR_FILA', false) == true){
             $request->merge(['fila' => "true"]);
@@ -190,27 +190,49 @@ class CandidatoController extends Controller
             $validate = $request->session()->get('validate');
             $validate = (object) $validate;
             if( $request->cadastro == "1" ){
-                $repetido = Candidato::where('cpf', $validate->cpf)
-                                    ->where('dose', '3ª Dose')
-                                    ->count();
+                #CPF ou Numero do cartão SUS
+                if($request->cpf != null){
+                    $repetido = Candidato::where('cpf', $validate->cpf)
+                        ->where('dose', '3ª Dose')
+                        ->count();
+                }else{
+                    $repetido = Candidato::where('numero_cartao_sus', $validate->número_cartão_sus)
+                        ->where('dose', '3ª Dose')
+                        ->count();
+                }
+                # --- Final ---
                 if ($repetido > 0) {
                     return redirect()->back()->withErrors([
                         "dose" => "Existe um agendamento para a 3ª dose para esse cadastro."
                     ]);
                 }
-                $candidatoTerceiraDose = Candidato::where('cpf', $validate->cpf)
-                                            ->where('data_de_nascimento', $validate->data_de_nascimento)
-                                            ->whereIn('dose', ['2ª Dose', "Dose única"])->first();
-                if ($candidatoTerceiraDose == null) {
-                    return redirect()->back()->withErrors([
-                        "dose" => "Não existe cadastro aprovado no sistema para esse cpf."
-                    ]);
+
+                #CPF ou Numero cartao do SUS
+                if($request->cpf != null) {
+                    $candidatoTerceiraDose = Candidato::where('cpf', $validate->cpf)
+                        ->where('data_de_nascimento', $validate->data_de_nascimento)
+                        ->whereIn('dose', ['2ª Dose', "Dose única"])->first();
+                    if ($candidatoTerceiraDose == null) {
+                        return redirect()->back()->withErrors([
+                            "dose" => "Não existe cadastro aprovado no sistema para esse cpf."
+                        ]);
+                    }
+                }else{
+                    $candidatoTerceiraDose = Candidato::where('numero_cartao_sus', $validate->número_cartão_sus)
+                        ->where('data_de_nascimento', $validate->data_de_nascimento)
+                        ->whereIn('dose', ['2ª Dose', "Dose única"])->first();
+                    if ($candidatoTerceiraDose == null) {
+                        return redirect()->back()->withErrors([
+                            "dose" => "Não existe cadastro aprovado no sistema para esse número do cartão do SUS."
+                        ]);
+                    }
                 }
+                # --- Final ---
             }
         }
-        
-        
-        
+
+
+
         // dd($request->all());
         if($request->dose_tres){
             $request->validate([
@@ -235,7 +257,7 @@ class CandidatoController extends Controller
                 "público"               => "required",
                 "nome_completo"         => "required|string|min:8|max:65|regex:/^[\pL\s]+$/u",
                 "data_de_nascimento"    => "required|date|before:today",
-                "cpf"                   => "required",
+                //"cpf"                   => "required", // Deixando de ser obrigatorio não necessita do required
                 "número_cartão_sus"     => "required",
                 "sexo"                  => "required",
                 "nome_da_mãe"           => "required|string|min:8|max:65|regex:/^[\pL\s]+$/u",
@@ -258,21 +280,39 @@ class CandidatoController extends Controller
         DB::beginTransaction();
 
         try {
-            if($request->cadastro == "0"){
-                if (Candidato::where('cpf',$request->cpf)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])
-                    ->count() > 0) {
-                    return redirect()->back()->withErrors([
-                        "cpf" => "Existe um agendamento pendente para esse CPF."
-                    ]);
+            # CPF ou numero cartao do SUS
+            if($request->cpf !=null) {
+                if ($request->cadastro == "0") {
+                    if (Candidato::where('cpf', $request->cpf)->where('aprovacao', '!=', Candidato::APROVACAO_ENUM[2])
+                            ->count() > 0) {
+                        return redirect()->back()->withErrors([
+                            "cpf" => "Existe um agendamento pendente para esse CPF."
+                        ]);
+                    }
                 }
             }
-            
+            else{
+                if ($request->cadastro == "0") {
+                    if (Candidato::where('numero_cartao_sus', $request->número_cartão_sus)->where('aprovacao', '!=', Candidato::APROVACAO_ENUM[2])
+                            ->count() > 0) {
+                        return redirect()->back()->withErrors([
+                            "número_cartão_sus" => "Existe um agendamento pendente para esse número de cartão do SUS."
+                        ]);
+                    }
+                }
+            }
+            # --- Final ---
             if($request->dose_tres && $request->cadastro == "1" ){
                 $idade              = $this->idade($validate->data_de_nascimento);
                 $candidato = new Candidato;
                 $candidato->nome_completo           = $candidatoTerceiraDose->nome_completo;
                 $candidato->data_de_nascimento      = $validate->data_de_nascimento;
-                $candidato->cpf                     = $validate->cpf;
+                #CPF ou Numero do cartao SUS
+                if($request->cpf != null) {
+                    $candidato->cpf = $validate->cpf; //Olhar
+                }else{
+                    $candidato->cpf = $candidatoTerceiraDose->numero_cartao_sus;
+                }
                 $candidato->numero_cartao_sus       = $candidatoTerceiraDose->numero_cartao_sus;
                 $candidato->sexo                    = $candidatoTerceiraDose->sexo;
                 $candidato->nome_da_mae             = $candidatoTerceiraDose->nome_da_mae;
@@ -289,7 +329,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao               = Candidato::APROVACAO_ENUM[1];
                 $candidato->dose                    = "3ª Dose";
                 $etapa = Etapa::find($candidatoTerceiraDose->etapa_id);
-    
+
                 if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
                     if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
                         return redirect()->back()->withErrors([
@@ -302,7 +342,7 @@ class CandidatoController extends Controller
                             "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
                         ])->withInput();
                     }
-    
+
                     if ($request->input("publico_opcao_" . $request->input('público')) == null) {
                         return redirect()->back()->withErrors([
                             "publico_opcao_" . $request->input('público') => "Esse campo é obrigatório para público marcado."
@@ -310,7 +350,7 @@ class CandidatoController extends Controller
                     }
                     $candidato->etapa_resultado = $request->input("publico_opcao_" . $request->input('público'));
                 }
-    
+
                 if ($etapa->outras_opcoes_obrigatorio != null && $etapa->outras_opcoes_obrigatorio) {
                     if (!($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0)) {
                         return redirect()->back()->withErrors([
@@ -318,19 +358,27 @@ class CandidatoController extends Controller
                         ])->withInput();
                     }
                 }
-    
+
                 //TODO: mover pro service provider
-                if (!$this->validar_cpf($candidato->cpf)) {
-                    return redirect()->back()->withErrors([
-                        "cpf" => "Número de CPF inválido"
-                    ])->withInput();
+                //Olhar
+                if($request->cpf != null) {
+                    if (!$this->validar_cpf($candidato->cpf)) {
+                        return redirect()->back()->withErrors([
+                            "cpf" => "Número de CPF inválido"
+                        ])->withInput();
+                    }
                 }
                 $candidato->etapa_id                = $candidatoTerceiraDose->etapa_id;
             }elseif($request->dose_tres && $request->cadastro == "0"){
                 $candidato = new Candidato;
                 $candidato->nome_completo           = $request->nome_completo;
                 $candidato->data_de_nascimento      = $validate->data_de_nascimento;
-                $candidato->cpf                     = $validate->cpf;
+                # CPF ou Numero Cartao SUS
+                if($request->cpf != null) {
+                    $candidato->cpf = $validate->cpf; //Olhar
+                }else{
+                    $candidato->cpf = $request->input("número_cartão_sus");;
+                }
                 $candidato->numero_cartao_sus       = $request->input("número_cartão_sus");
                 $candidato->sexo                    = $request->sexo;
                 $candidato->nome_da_mae             = $request->input("nome_da_mãe");
@@ -350,7 +398,12 @@ class CandidatoController extends Controller
                 $candidato = new Candidato;
                 $candidato->nome_completo           = $request->nome_completo;
                 $candidato->data_de_nascimento      = $request->data_de_nascimento;
-                $candidato->cpf                     = $request->cpf;
+                #CPF ou Numero Cartao Sus
+                if($request->cpf != null) {
+                    $candidato->cpf = $request->cpf; //Olhar
+                }else{
+                    $candidato->cpf = $request->input("número_cartão_sus");
+                }
                 $candidato->numero_cartao_sus       = $request->input("número_cartão_sus");
                 $candidato->sexo                    = $request->sexo;
                 $candidato->nome_da_mae             = $request->input("nome_da_mãe");
@@ -367,7 +420,7 @@ class CandidatoController extends Controller
                 $candidato->aprovacao               = Candidato::APROVACAO_ENUM[1];
                 $candidato->dose                    = Candidato::DOSE_ENUM[0];
             }
-            
+
 
 
             // Se não foi passado CEP, o preg_replace retorna string vazia, mas no bd é uint nulavel, então anula
@@ -382,7 +435,7 @@ class CandidatoController extends Controller
             // dd($idade);
             if($request->dose_tres == 0){
                 $etapa = Etapa::find($request->input('público'));
-    
+
                 if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
                     if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
                         return redirect()->back()->withErrors([
@@ -395,7 +448,7 @@ class CandidatoController extends Controller
                             "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
                         ])->withInput();
                     }
-    
+
                     if ($request->input("publico_opcao_" . $request->input('público')) == null) {
                         return redirect()->back()->withErrors([
                             "publico_opcao_" . $request->input('público') => "Esse campo é obrigatório para público marcado."
@@ -403,7 +456,7 @@ class CandidatoController extends Controller
                     }
                     $candidato->etapa_resultado = $request->input("publico_opcao_" . $request->input('público'));
                 }
-    
+
                 if ($etapa->outras_opcoes_obrigatorio != null && $etapa->outras_opcoes_obrigatorio) {
                     if (!($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0)) {
                         return redirect()->back()->withErrors([
@@ -411,20 +464,23 @@ class CandidatoController extends Controller
                         ])->withInput();
                     }
                 }
-    
+
                 $candidato->etapa_id = $etapa->id;
 
                 //TODO: mover pro service provider
-                if (!$this->validar_cpf($candidato->cpf)) {
-                    return redirect()->back()->withErrors([
-                        "cpf" => "Número de CPF inválido"
-                    ])->withInput();
+                //Olhar
+                if($request->cpf != null) {
+                    if (!$this->validar_cpf($candidato->cpf)) {
+                        return redirect()->back()->withErrors([
+                            "cpf" => "Número de CPF inválido"
+                        ])->withInput();
+                    }
                 }
-    
+
             }
             if($request->cadastro == 0){
                 $etapa = Etapa::find($request->input('público'));
-    
+
                 if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
                     if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
                         return redirect()->back()->withErrors([
@@ -437,7 +493,7 @@ class CandidatoController extends Controller
                             "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
                         ])->withInput();
                     }
-    
+
                     if ($request->input("publico_opcao_" . $request->input('público')) == null) {
                         return redirect()->back()->withErrors([
                             "publico_opcao_" . $request->input('público') => "Esse campo é obrigatório para público marcado."
@@ -445,7 +501,7 @@ class CandidatoController extends Controller
                     }
                     $candidato->etapa_resultado = $request->input("publico_opcao_" . $request->input('público'));
                 }
-    
+
                 if ($etapa->outras_opcoes_obrigatorio != null && $etapa->outras_opcoes_obrigatorio) {
                     if (!($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0)) {
                         return redirect()->back()->withErrors([
@@ -453,20 +509,23 @@ class CandidatoController extends Controller
                         ])->withInput();
                     }
                 }
-    
+
                 $candidato->etapa_id = $etapa->id;
 
                 //TODO: mover pro service provider
-                if (!$this->validar_cpf($candidato->cpf)) {
-                    return redirect()->back()->withErrors([
-                        "cpf" => "Número de CPF inválido"
-                    ])->withInput();
+                //Olhar
+                if($request->cpf != null) {
+                    if (!$this->validar_cpf($candidato->cpf)) {
+                        return redirect()->back()->withErrors([
+                            "cpf" => "Número de CPF inválido"
+                        ])->withInput();
+                    }
                 }
-    
+
             }
 
             if($request->dose_tres == 1 ){
-                
+
                 $etapa = Etapa::find($candidato->etapa_id);
                 // dd($etapa->numero_dias);
                 if($etapa->isDias){
@@ -500,13 +559,13 @@ class CandidatoController extends Controller
                     }
                 }
             }
-            
+
             if (!$this->validar_telefone($request->telefone)) {
                 return redirect()->back()->withErrors([
                     "telefone" => "Número de telefone inválido"
                 ])->withInput();
             }
-            
+
             if($request->has('fila')){
                 $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                 $candidato->save();
@@ -643,9 +702,9 @@ class CandidatoController extends Controller
             $candidato->save();
             if(!$request->dose_tres){
                 $candidatoSegundaDose = null;
-    
+
                 $lote = Lote::find($chave_estrangeiro_lote);
-    
+
                 if (!$lote->dose_unica) {
                     $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P'.$lote->inicio_periodo.'D'));
                     if($datetime_chegada_segunda_dose->format('l') == "Sunday" || $datetime_chegada_segunda_dose->format('l') == "Saturday"){
@@ -656,9 +715,9 @@ class CandidatoController extends Controller
                         'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
                         'dose'   =>  Candidato::DOSE_ENUM[1],
                     ]);
-    
+
                     $candidatoSegundaDose->save();
-    
+
                     if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
                         if ($request->input("opcao_etapa_".$etapa->id) != null && count($request->input("opcao_etapa_".$etapa->id)) > 0) {
                             foreach ($request->input("opcao_etapa_".$etapa->id) as $outra_info_id) {
@@ -667,7 +726,7 @@ class CandidatoController extends Controller
                         }
                     }
                 }
-    
+
                 if($candidato->email != null){
                     Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose,$lote));
                 }
@@ -687,7 +746,7 @@ class CandidatoController extends Controller
 
         } catch (\Throwable $e) {
             DB::rollback();
-            
+
             if(env('APP_DEBUG')){
                 return redirect()->back()->withErrors([
                     "message" => $e->getMessage(),
@@ -879,11 +938,41 @@ class CandidatoController extends Controller
                       ->where('aprovacao', '!=', "Reprovado")
                       ->orderBy("dose") // Mostra primeiro o agendamento mais recente
                       ->get();
-        }              
+        }
 
         if ($agendamentos->count() == 0) {
             return redirect()->back()->withErrors([
                 "cpf" => "Dados não encontrados"
+            ])->withInput($validated);
+        }
+
+        return view("comprovante")->with(["status" => "Resultado da consulta", "agendamentos" => $agendamentos, 'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
+    }
+
+    public function consultarNumSus(Request $request) {
+        $validated = $request->validate([
+            'consulta'              => "required",
+            'numSus'                   => 'required',
+            'data_de_nascimento'    => 'required'
+        ]);
+
+        $agendamentos = Candidato::where([['numero_cartao_sus', $request->numSus], ['data_de_nascimento', $request->data_de_nascimento]])
+            ->where('aprovacao', '!=', "Reprovado")
+            ->orderBy("dose") // Mostra primeiro o agendamento mais recente
+            ->get();
+
+        if ($agendamentos->count() == 0) {
+            $caracteres = array(".", "-");
+            $numSus = str_replace($caracteres, "", $request->numSus);
+            $agendamentos = Candidato::where([['numero_cartao_sus', $numSus], ['data_de_nascimento', $request->data_de_nascimento]])
+                ->where('aprovacao', '!=', "Reprovado")
+                ->orderBy("dose") // Mostra primeiro o agendamento mais recente
+                ->get();
+        }
+
+        if ($agendamentos->count() == 0) {
+            return redirect()->back()->withErrors([
+                "numSus" => "Dados não encontrados"
             ])->withInput($validated);
         }
 
