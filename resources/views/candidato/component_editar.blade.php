@@ -53,7 +53,11 @@
             </div>
             <div class="col-md-6">
                 <label for="cpf_{{$candidato->id}}">CPF</label>
-                <input id="cpf_{{$candidato->id}}" type="text" class="form-control"  name="cpf" disabled value="{{ $candidato->cpf }}" >
+                @if( $candidato->cpf !=  $candidato->numero_cartao_sus)
+                    <input id="cpf_{{$candidato->id}}" type="text" class="form-control cpf"  name="cpf" disabled value="{{ $candidato->cpf }}">
+                @else
+                    <input id="cpf_{{$candidato->id}}" type="text" class="form-control cpf"  name="cpf" disabled placeholder="Não Informado">
+                @endif
             </div>
         </div>
 
