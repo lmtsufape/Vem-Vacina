@@ -20,9 +20,15 @@
                                     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-1">
 
                                         <div class="col col-sm col-md-12 col-lg-3 col-xl-3">
-                                            <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
-                                                <strong>    {{ " " }}   </strong> {{ $candidato->cpf }}
-                                            </span>
+                                            @if ($candidato->cpf != $candidato->numero_cartao_sus )
+                                                <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
+                                                    <strong>    {{ " " }}   </strong> {{ $candidato->cpf }}
+                                                </span>
+                                            @else
+                                                <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
+                                                    <strong>    {{ " " }}   </strong> CPF não informado
+                                                </span>
+                                            @endif
                                         </div>
                                         <div class="col-8 col-sm-8 col-md-12 col-lg-2 col-xl-2">
                                             <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
@@ -76,7 +82,7 @@
                         <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-xl-1  text-center">
                             @can('whatsapp-candidato')
                                 @if ($candidato->dose == "1ª Dose" &&  $candidato->aprovacao != null && $candidato->aprovacao != $candidato_enum[3])
-                                    <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center text-white"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>  
+                                    <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemWhatsapp()}}" class="text-center text-white"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
                                 @elseif($candidato->dose == "2ª Dose")
                                     <a href="https://api.whatsapp.com/send?phone=55{{$candidato->getWhatsapp()}}&text={{$candidato->getMessagemSegundaDose()}}" class="text-center text-white"  target="_blank"><i class="fab fa-whatsapp fa-2x"></i></a>
                                 @elseif($candidato->dose == "3ª Dose" && $candidato->aprovacao != null && $candidato->aprovacao != $candidato_enum[3] && $candidato->aprovacao != $candidato_enum[0])
@@ -203,7 +209,7 @@
                                             <label for="">Data 2ª Dose</label>
                                             <input type="text" class="form-control" value="{{date('d/m/Y', strtotime($candidato->dataDose->data_dois))}}" disabled>
                                         </div>
-                                    
+
                                     </div>
 
                                 @endif

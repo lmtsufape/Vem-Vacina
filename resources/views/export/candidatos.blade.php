@@ -51,8 +51,8 @@ use App\Models\LotePostoVacinacao;
                 }
             @endphp
             @if ($candidato->lote_id)
-                
-                
+
+
                 @if ($candidato->etapa->tipo == $tipos[0] || $candidato->etapa->tipo == $tipos[1] )
                     <td>{{$candidato->etapa->texto}}</td>
                     <td>{{ $candidato->posto->nome ?? "posto" }}</td>
@@ -70,7 +70,11 @@ use App\Models\LotePostoVacinacao;
                     @endif
                     </td> --}}
                 @endif
-                <td>{{ $candidato->cpf }}</td>
+                @if($candidato->cpf != $candidato->numero_cartao_sus)
+                    <td>{{ $candidato->cpf }}</td>
+                @else
+                    <td>Não Informado</td>
+                @endif
                 @php
                     $sus = explode(" ", $candidato->numero_cartao_sus);
                 @endphp
@@ -119,7 +123,7 @@ use App\Models\LotePostoVacinacao;
             <td>{{ $candidato->aprovacao }}</td>
             <td>{{ date('d/m/Y', strtotime($candidato->chegada)) }}</td>
             <td>{{ date('d/m/Y', strtotime($candidato->saida)) }}</td>
-            
+
             <td>{{ $candidato->created_at }}</td>
             <td>{{ $candidato->updated_at }}</td>
             <td>{{ $candidato->deleted_at }}</td> --}}
