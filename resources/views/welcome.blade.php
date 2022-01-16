@@ -530,15 +530,14 @@
                 });
             </script>
         @enderror
-    @else
-    <script>
+   <!-- Modal de info inicial ao entrar no site
+        <script>
         $(document).ready(function() {
             $("#feed").modal('show');
         });
 
 
-    </script>
-
+    </script> -->
     @endif
 
     <!-- Alternancia do tipo da consulta do agendamento -->
