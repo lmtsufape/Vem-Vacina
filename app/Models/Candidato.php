@@ -136,7 +136,7 @@ class Candidato extends Model
             $mensagem = $mensagem."Dia: ".date('d/m/Y \à\s  H:i\h', strtotime($this->chegada)).".\n";
             $mensagem = $mensagem."Local: ".$this->posto->nome.".\n";
             $mensagem = $mensagem."Endereço: ".$this->posto->endereco.".\n\n";
-            $mensagem = $mensagem."Neste momento serão contemplados apenas: pessoas com 60 anos ou mais que completaram o esquema vacinal há pelo menos seis meses; e imunossuprimidos que completaram o esquema vacinal há pelo menos 28 dias. Além dos trabalhadores da saúde que completaram o esquema vacinal até o dia 31/03.\n\n";
+            $mensagem = $mensagem."Neste momento serão contemplados pessoas acima de 18 anos de idade com quatro meses da segunda dose e imunossuprimidos que completaram o esquema vacinal há pelo menos 28 dias.\n\n";
             $mensagem = $mensagem."A Secretaria de Saúde vai exigir a apresentação de documento oficial com foto, CPF, cartão do SUS (CNS), comprovante de residência no nome da pessoa que será vacinada, e cartão de vacina Covid-19 com a 2ª dose (D2) ou dose única. Para os imunossuprimidos também será obrigatório o laudo médico ou receita de medicamentos imunossupressores. Os trabalhadores de saúde devem apresentar declaração de vínculo da instituição onde atua em Garanhuns.\n\n";
             $mensagem = $mensagem."Reforçamos a importância de que você esteja de posse de todos os documentos! Agradecemos a sua atenção!";
         return urlencode($mensagem);
