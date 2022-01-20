@@ -68,12 +68,28 @@
                                         <div class="panel panel-default">
                                             <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
                                                 <h3 class="panel-title">
+                                                    <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos6" aria-expanded="true" aria-controls="anexos6">
+                                                        NOTA TÉCNICA SIDI 3 - 2022 PARA VACINAÇÃO DE CRIANÇAS DE 5 A 11 ANOS
+                                                    </a>
+                                                </h3>
+                                            </div>
+                                            <div id="anexos6" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
+                                                <div class="panel-body px-3 mb-4">
+                                                    <p style="text-align: justify">
+                                                    </p>
+                                                    <a href="{{route('baixar.anexo', ['name'=> 'NOTA_TECNICA_SIDI_3-2022.pdf'])}}"  class="btn btn-success "  target="_blank" style="color:white;">Baixar Nota Técnica</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0"  style="border-radius: 8px;">
+                                                <h3 class="panel-title">
                                                 <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos5" aria-expanded="true" aria-controls="anexos5">
                                                     DOSE DE REFORÇO - Nota Técnica SIDI 23
                                                 </a>
                                                 </h3>
                                             </div>
-                                            <div id="anexos5" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading0">
+                                            <div id="anexos5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
                                                 <div class="panel-body px-3 mb-4">
                                                 <p style="text-align: justify">
                                                     Nota Técnica do Governo do Estado de Pernambuco com orientações referentes a aplicação das doses de reforço para a população de idosos acima de 60 anos (que tenham completado o esquema vacinal há seis meses), e imunossuprimidos (com o esquema vacinal completo há 28 dias ou mais).
