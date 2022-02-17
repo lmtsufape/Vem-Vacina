@@ -185,7 +185,9 @@ class CandidatoController extends Controller
         if(env('ATIVAR_FILA', false) == true){
             $request->merge(['fila' => "true"]);
         }
+        $candidatoRec = Candidato::find($request->candidato_id);
         $candidatoTerceiraDose = null;
+
         if($request->dose_tres){
             $validate = $request->session()->get('validate');
             $validate = (object) $validate;
@@ -196,7 +198,7 @@ class CandidatoController extends Controller
                         ->where('dose', '3ª Dose')
                         ->count();
                 }else{
-                    $repetido = Candidato::where('numero_cartao_sus', $validate->número_cartão_sus)
+                    $repetido = Candidato::where('numero_cartao_sus', $candidatoRec->numero_cartao_sus)
                         ->where('dose', '3ª Dose')
                         ->count();
                 }
@@ -218,7 +220,7 @@ class CandidatoController extends Controller
                         ]);
                     }
                 }else{
-                    $candidatoTerceiraDose = Candidato::where('numero_cartao_sus', $validate->número_cartão_sus)
+                    $candidatoTerceiraDose = Candidato::where('numero_cartao_sus', $candidatoRec->numero_cartao_sus)
                         ->where('data_de_nascimento', $validate->data_de_nascimento)
                         ->whereIn('dose', ['2ª Dose', "Dose única"])->first();
                     if ($candidatoTerceiraDose == null) {
