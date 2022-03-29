@@ -72,7 +72,7 @@
                                         <input type="checkbox" name="ponto_check" id="ponto_check_input" @if($request->ponto_check != null && $request->ponto_check) checked @endif onclick="mostrarFiltro(this, 'ponto_check')">
                                         <label>Ponto</label>
                                     </div>
-                                    
+
                                     <div class="col-md-3">
                                         <input type="checkbox" name="tipo_check" id="ponto_check_input" @if($request->tipo_check != null && $request->tipo_check) checked @endif onclick="mostrarFiltro(this, 'tipo_check')">
                                         <label>Tipo</label>
@@ -111,6 +111,8 @@
                                             <option @if($request->dose == $doses[0]) selected @endif value="{{$doses[0]}}">1ª dose</option>
                                             <option @if($request->dose == $doses[1]) selected @endif value="{{$doses[1]}}">2ª dose</option>
                                             <option @if($request->dose == $doses[3]) selected @endif value="{{$doses[3]}}">3ª dose</option>
+                                            <option @if($request->dose == $doses[4]) selected @endif value="{{$doses[4]}}">4ª dose</option>
+
                                         </select>
                                     </div>
                                     <div id="campo_check" class="col-md-3" @if($request->campo_check != null && $request->campo_check) style="display: block;" @else style="display: none;" @endif >
