@@ -277,7 +277,6 @@ class CandidatoController extends Controller
         }
 
 
-
         // dd($request->all());
         if($request->dose_tres){
             $request->validate([
@@ -481,7 +480,7 @@ class CandidatoController extends Controller
                 $candidato->numero_residencia       = $request->input("número_residencial");
                 $candidato->complemento_endereco    = $request->complemento_endereco;
                 $candidato->aprovacao               = Candidato::APROVACAO_ENUM[1];
-                $candidato->dose                    = "3ª Dose";
+                $candidato->dose                    = "4ª Dose";
                 $etapa = Etapa::find($candidatoQuartaDose->etapa_id);
 
                 if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
@@ -547,7 +546,7 @@ class CandidatoController extends Controller
                 $candidato->numero_residencia       = $request->input("número_residencial");
                 $candidato->complemento_endereco    = $request->complemento_endereco;
                 $candidato->aprovacao               = Candidato::APROVACAO_ENUM[1];
-                $candidato->dose                    = "3ª Dose";;
+                $candidato->dose                    = "4ª Dose";;
             }
             else{
                 $candidato = new Candidato;

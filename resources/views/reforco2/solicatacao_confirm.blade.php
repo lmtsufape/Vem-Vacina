@@ -4,8 +4,8 @@
             {{ session('status') }}
         </div>
     @endif
-    
-        
+
+
     <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;">
         <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%">
         <div class="container">
@@ -42,7 +42,7 @@
                             <form method="POST" id="formSolicitar" class="needs-validation" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
-                                <input type="hidden" name="dose_tres" value="1">
+                                <input type="hidden" name="dose_quatro" value="1">
                                 <input type="hidden" name="cadastro" value="1">
                                 <input type="hidden" name="candidato_id" value="{{ $candidato->id }}">
 
@@ -76,17 +76,17 @@
                                     @auth
                                         @if ($publico->tipo == $tipos[0])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
+                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
                                                 <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                             </div>
                                         @elseif ($publico->tipo == $tipos[1])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
+                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
                                                 <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                             </div>
                                         @elseif ($publico->tipo == $tipos[2])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
+                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
                                                 <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
 
                                                 <div id="divPublico_{{$publico->id}}" @if (old('publico_'.$publico->id)) style="display: block;" @else style="display: none;" @endif>
@@ -109,17 +109,17 @@
                                         @if ($publico->exibir_no_form)
                                             @if ($publico->tipo == $tipos[0])
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
+                                                        <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
                                                         <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                                     </div>
                                                 @elseif ($publico->tipo == $tipos[1])
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
+                                                        <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
                                                         <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                                     </div>
                                                 @elseif ($publico->tipo == $tipos[2])
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" disabled >
+                                                    <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
                                                     <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
 
                                                     <div id="divPublico_{{$publico->id}}" @if (old('publico_'.$publico->id)) style="display: block;" @else style="display: none;" @endif>
@@ -151,7 +151,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="inputNome" class="style_titulo_input">NOME COMPLETO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input apenasLetras @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{ $candidato->nome_completo }}" maxlength="65"  disabled >
+                                        <input type="text" class="form-control style_input apenasLetras @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{ $candidato->nome_completo }}" maxlength="65"  readonly >
 
                                         @error('nome_completo')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -163,7 +163,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{ $candidato->data_de_nascimento }}"  disabled>
+                                        <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{ $candidato->data_de_nascimento }}"  readonly>
 
                                         @error('data_de_nascimento')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -173,7 +173,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputCPF" class="style_titulo_input">CPF<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{ $candidato->cpf }}"  disabled>
+                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{ $candidato->cpf }}"  readonly>
 
                                         @error('cpf')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -185,7 +185,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCartaoSUS" class="style_titulo_input">NÚMERO DO CARTÃO SUS<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input sus @error('número_cartão_sus') is-invalid @enderror" id="inputCartaoSUS" placeholder="000 0000 0000 0000" name="número_cartão_sus" value="{{ $candidato->numero_cartao_sus }}" disabled >
+                                        <input type="text" class="form-control style_input sus @error('número_cartão_sus') is-invalid @enderror" id="inputCartaoSUS" placeholder="000 0000 0000 0000" name="número_cartão_sus" value="{{ $candidato->numero_cartao_sus }}" readonly >
 
                                         @error('número_cartão_sus')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -195,7 +195,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputSexo" class="style_titulo_input">SEXO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <select id="inputSexo" class="form-control style_input @error('sexo') is-invalid @enderror" name="sexo" disabled >
+                                        <select id="inputSexo" class="form-control style_input @error('sexo') is-invalid @enderror" name="sexo" readonly >
                                             {{-- <option selected >-- Selecione o sexo --</option> --}}
                                             @foreach($sexos as $sexo)
                                                 <option value="{{$sexo}}" @if ($candidato->sexo == $sexo) selected @endif>{{$sexo}}</option>
@@ -212,7 +212,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="inputNomeMae" class="style_titulo_input">NOME COMPLETO DA MÃE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input apenasLetras @error('nome_da_mãe') is-invalid @enderror" id="inputNomeMae" placeholder="Digite o nome completo da mãe" name="nome_da_mãe" value="{{ $candidato->nome_da_mae }}" maxlength="65" disabled >
+                                        <input type="text" class="form-control style_input apenasLetras @error('nome_da_mãe') is-invalid @enderror" id="inputNomeMae" placeholder="Digite o nome completo da mãe" name="nome_da_mãe" value="{{ $candidato->nome_da_mae }}" maxlength="65" readonly >
 
                                         @error('nome_da_mãe')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -310,7 +310,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputCidade" class="style_titulo_input">CIDADE<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="{{ $candidato->cidade }}" disabled >
+                                        <input id="inputCidade" class="form-control style_input @error('cidade') is-invalid @enderror" name="cidade" value="{{ $candidato->cidade }}" readonly >
 
                                         @error('cidade')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -422,7 +422,7 @@
                                                      </div>-->
                                                 <div class="col-md-12" style="padding:3px">
                                                     <p class="alert alert-warning"  id="alerta_vacinas">
-                                                        
+
                                                         ATENÇÃO! A dose de reforço será aplicada exclusivamente para: pessoas com 55 anos ou mais e trabalhadores da saúde que completaram o esquema vacinal há quatro meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
                                                     </p>
                                                 </div>
@@ -431,7 +431,7 @@
                                                         <button class="btn btn-success"  style="width: 100%;">Confirmar</button>
                                                     </div>
                                                 @else
-                                                    
+
                                                     <div class="col-md-12" style="padding:3px">
                                                         <button class="btn btn-success" id="buttonSend" style="width: 100%;">Confirmar</button>
                                                     </div>

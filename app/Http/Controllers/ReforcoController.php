@@ -83,7 +83,7 @@ class ReforcoController extends Controller
                     "status" => "Público ou etapa indisponível para a segunda dose de reforço no momento."
                 ]);
             }
-            return redirect()->route('solicitacao.reforco',[ 'candidato' => $candidatos[0]->id]);
+            return redirect()->route('solicitacao.reforco2',[ 'candidato' => $candidatos[0]->id]);
         }else{
             return view('reforco2.data_dose', compact('validate'));
         }

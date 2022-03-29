@@ -23,24 +23,28 @@
                             <label for="isDias" >Marque para caso seja número de dias e desmarque caso seja por data:</label>
                             <input id="isDias" type="checkbox" name="isDias" @if(old('isDias') || (old('isDias') == null && $publico->isDias)) checked @endif>
                         </div>
-                        
+
                     </div>
                     <div class="col-md-6 " id="numero_dias" @if (!$publico->isDias) style="display:none" @endif>
                         <label for="numero_dias" >Número de dias entre a D2 e D3</label>
                         <input  class="form-control" type="number"  name="numero_dias" value="{{$publico->numero_dias}}" >
-                        
+
                     </div>
                     <div class="col-md-6" id="intervalo_reforco" @if ($publico->isDias) style="display:none" @endif>
                         <label for="intervalo_reforco" >Definir data limite para segunda dose</label>
                         <input  class="form-control" type="date"  name="intervalo_reforco" value="{{date('Y-m-d',strtotime($publico->intervalo_reforco) )}}" >
-                        
+
                     </div>
                     <div class="col-md-12 mt-2 mb-5">
                         <div class="mb-2 mt-4">
                             <label for="dose_tres" >Exibir público no agendamento na dose de Reforço</label>
                             <input id="dose_tres" type="checkbox" name="dose_tres" @if(old('dose_tres') || (old('dose_tres') == null && $publico->dose_tres)) checked @endif>
                         </div>
-                        
+                        <div class="mb-2 mt-4">
+                            <label for="dose_quatro" >Exibir público no agendamento na segunda dose de Reforço</label>
+                            <input id="dose_quatro" type="checkbox" name="dose_quatro" @if(old('dose_quatro') || (old('dose_quatro') == null && $publico->dose_quatro)) checked @endif>
+                        </div>
+
                     </div>
                     <div class="col-md-4">
                         <label for="tipo">Classficação do público</label>
@@ -50,7 +54,7 @@
                                 <option value="{{$tipos[0]}}" @if(old('tipo') == $tipos[0]) selected @endif>Por idade</option>
                                 <option value="{{$tipos[1]}}" @if(old('tipo') == $tipos[1]) selected @endif>Texto livre</option>
                                 <option value="{{$tipos[2]}}" @if(old('tipo') == $tipos[2]) selected @endif>Texto livre com campo extra selecionável</option>
-                            @else 
+                            @else
                                 <option value="{{$tipos[0]}}" @if($publico->tipo == $tipos[0]) selected @endif>Por idade</option>
                                 <option value="{{$tipos[1]}}" @if($publico->tipo == $tipos[1]) selected @endif>Texto livre</option>
                                 <option value="{{$tipos[2]}}" @if($publico->tipo == $tipos[2]) selected @endif>Texto livre com campo extra selecionável</option>
@@ -75,7 +79,7 @@
                         <input id="exibir_no_form" type="checkbox" name="exibir_no_form" @if(old('exibir_no_form') || (old('exibir_no_form') == null && $publico->exibir_no_form)) checked @endif>
                         <label for="exibir_no_form" >Exibir público no agendamento</label>
                     </div>
-                    
+
                     <div class="col-md-4">
                         <label for="texto_da_home">Texto exibido na home</label>
                         <input id="texto_da_home" type="text" class="form-control @error('texto_da_home') is-invalid @enderror" name="texto_da_home" value="@if(old('texto_da_home')!=null){{old('texto_da_home')}}@else{{$publico->texto_home}}@endif">
@@ -95,7 +99,7 @@
                         <div class="col-md-6">
                             <label for="inicio_faixa_etaria">Inicio da faixa etaria</label>
                             <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etária') is-invalid @enderror" type="number" name="inicio_faixa_etária" placeholder="80" value="@if(old('inicio_faixa_etária') != null){{old('inicio_faixa_etária')}}@else{{$publico->inicio_intervalo}}@endif" min="0" max="1000">
-                        
+
                             @error('inicio_faixa_etária')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
                                     <strong>{{$message}}</strong>
@@ -105,7 +109,7 @@
                         <div class="col-md-6">
                             <label for="fim_faixa_etaria">Fim da faixa etaria</label>
                             <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etária') is-invalid @enderror" type="number" name="fim_faixa_etária" placeholder="85" value="@if(old('fim_faixa_etária') != null){{old('fim_faixa_etária')}}@else{{$publico->fim_intervalo}}@endif" min="0" max="1000">
-                            
+
                             @error('fim_faixa_etária')
                                 <div id="validationServer05Feedback" class="invalid-feedback">
                                     <strong>{{$message}}</strong>
@@ -115,13 +119,13 @@
                     </div>
                     <br>
                 </div>
-                <div id="divOpcoes" style="@if(old('tipo') == $tipos[2] || (old('tipo') == null && $publico->tipo == $tipos[2])) display: block; @else display: none; @endif 
+                <div id="divOpcoes" style="@if(old('tipo') == $tipos[2] || (old('tipo') == null && $publico->tipo == $tipos[2])) display: block; @else display: none; @endif
                                         border: 1px solid rgb(196, 196, 196);
                                         padding: 15px;
                                         border-radius: 10px;">
                     <label>Opções do campo selecionável</label>
                     <div id="divTodasOpcoes" class="row">
-                        @if (old('opcoes') != null) 
+                        @if (old('opcoes') != null)
                             @foreach (old('opcoes') as $i => $textoOpcao)
                                 <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
                                             padding: 15px;
@@ -267,7 +271,7 @@
                                  border-radius: 10px;">
                                 <label>Opções de outras informações</label>
                                 <div id="divTodasOutrasInfo" class="row">
-                                    @if (old('outrasInfo') != null) 
+                                    @if (old('outrasInfo') != null)
                                         @foreach (old('outrasInfo') as $i => $textoOutraInfo)
                                             <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
                                                         padding: 15px;
@@ -294,9 +298,9 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                        
-                                    @else 
-                                        @foreach($publico->outrasInfo as $outra) 
+
+                                    @else
+                                        @foreach($publico->outrasInfo as $outra)
                                             <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
                                                         padding: 15px;
                                                         border-radius: 10px;
@@ -326,7 +330,7 @@
                                         </div>
                                     @enderror
                                 </div>
-                                
+
                                 <br>
                                 <div class="row" style="text-align: right">
                                     <div class="col-md-12">
@@ -356,8 +360,8 @@
                 $("#intervalo_reforco").toggle();
             });
 
-        }); 
-        
+        });
+
 
         function adicionarOpcao() {
             html = `<div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
@@ -387,7 +391,7 @@
         }
 
         function selecionarDiv(select) {
-            
+
             valor = select.children[select.selectedIndex].textContent;
             if (valor == "Por idade") {
                 document.getElementById('divIdade').style.display = "block";
@@ -411,9 +415,9 @@
         }
 
         function excluirOpcoes() {
-            
+
             var todasOpcoes = document.getElementById('divTodasOpcoes');
-            
+
             while (todasOpcoes.firstChild) {
                 todasOpcoes.removeChild(todasOpcoes.lastChild);
             }
@@ -451,7 +455,7 @@
                         </div>`
             $('#divTodasOutrasInfo').append(html);
         }
-        
+
         function excluirOutrasInfo() {
             var todasOutrasInfos = document.getElementById('divTodasOutrasInfo');
             while (todasOutrasInfos.firstChild) {

@@ -96,7 +96,7 @@
                                                             <div class="col-md-12">
                                                                 <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}</label>
                                                                 <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
-                                                                    <option value="" seleceted disabled>-- Selecione o tipo --</option>
+                                                                    <option value="" selected disabled>-- Selecione o tipo --</option>
                                                                     @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
                                                                         <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
                                                                     @endforeach
@@ -187,7 +187,7 @@
                                                         <div class="col-md-12">
                                                             <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}</label>
                                                             <select class="form-control" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
-                                                                <option value="" seleceted disabled>-- Selecione o tipo --</option>
+                                                                <option value="" selected disabled>-- Selecione o tipo --</option>
                                                                 @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
                                                                     <option value="{{$opcao->id}}">{{$opcao->opcao}}</option>
                                                                 @endforeach
@@ -220,7 +220,7 @@
                                                             <div class="col-md-12">
                                                                 <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}</label>
                                                                 <select class="form-control" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
-                                                                    <option value="" seleceted disabled>-- Selecione o tipo --</option>
+                                                                    <option value="" selected disabled>-- Selecione o tipo --</option>
                                                                     @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
                                                                         @if($publico->inicio_intervalo == 18)
                                                                             @if ($opcao->opcao != "Gestantes e puérperas" )
@@ -361,7 +361,6 @@
                                                 <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
                                                 <div style="font-size: 15px; margin-bottom: 15px;">@if($publico->texto_outras_informacoes!=null)({{$publico->texto_outras_informacoes}})@endif</div>
                                             </div>
-
                                             @foreach ($publico->outrasInfo()->orderBy('campo')->get() as $outra)
                                                 @if (mb_strtoupper($outra->campo) != 'É ACAMADO?')
                                                     <div class="form-check">
