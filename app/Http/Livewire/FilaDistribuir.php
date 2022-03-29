@@ -92,6 +92,7 @@ class FilaDistribuir extends Component
         Gate::authorize('distribuir-fila');
         set_time_limit(900);
         $posto = PostoVacinacao::find($this->ponto_id);
+        dd($this->dose);
 
         // $qtdVacinaPorPonto = $this->quantidadeVacinaPorPonto($posto);
         if ($this->qtdFila == null) {
@@ -102,9 +103,13 @@ class FilaDistribuir extends Component
         // dd($this->cpf);
         $dose = ["1ª Dose", '2ª Dose', "Dose única"];
         if ($this->dose != null) {
-            $dose = ["3ª Dose"];
+            if($this->dose == "3ª Dose") {
+                $dose = ["3ª Dose"];
+            }else{
+                $dose = ["4ª Dose"];
+            }
         }
-       
+
         if ($this->cpf != null) {
             $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->whereIn('dose', $dose)->where('cpf', $this->cpf)->get();
         }else{
@@ -200,7 +205,7 @@ class FilaDistribuir extends Component
                         break 2;
                     }
                 }
-                
+
 
                 $etapa = $candidato->etapa;
 
@@ -290,9 +295,9 @@ class FilaDistribuir extends Component
                             'saida'   =>  $datetime_chegada_segunda_dose->copy()->addMinutes(10),
                             'dose'   =>  Candidato::DOSE_ENUM[1],
                         ]);
-    
+
                         $candidatoSegundaDose->save();
-    
+
                     }
                 }
                 if($candidato->email != null || $candidato->email != ""  || $candidato->email != " "){
