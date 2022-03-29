@@ -48,7 +48,7 @@
                             <form method="POST" id="formSolicitar" class="needs-validation" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
-                                <input type="hidden" name="dose_tres" value="1">
+                                <input type="hidden" name="dose_quatro" value="1">
                                 <input type="hidden" name="cadastro" value="0">
 
                                 @if ($errors->any())
@@ -267,7 +267,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputCPF" class="style_titulo_input">CPF<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" name="cpf" placeholder="Ex.: 000.000.000-00" value="{{$validate['cpf']}}" readonly>
+                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{$validate['cpf']}}" readonly>
 
                                         @error('cpf')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
