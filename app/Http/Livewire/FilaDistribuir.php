@@ -92,7 +92,6 @@ class FilaDistribuir extends Component
         Gate::authorize('distribuir-fila');
         set_time_limit(900);
         $posto = PostoVacinacao::find($this->ponto_id);
-        dd($this->dose);
 
         // $qtdVacinaPorPonto = $this->quantidadeVacinaPorPonto($posto);
         if ($this->qtdFila == null) {
@@ -256,7 +255,10 @@ class FilaDistribuir extends Component
                             $chave_estrangeiro_lote = $lote->lote_id;
                             if($candidato->dose == "3ª Dose"){
                                 $candidato->dose = "3ª Dose";
-                            }else{
+                            } elseif($candidato->dose == "4ª Dose"){
+                                $candidato->dose = "4ª Dose";
+                            }
+                            else{
                                 $candidato->dose = "Dose única";
                             }
                             \Log::info("5");

@@ -76,17 +76,17 @@
                                     @auth
                                         @if ($publico->tipo == $tipos[0])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
+                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" checked >
                                                 <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                             </div>
                                         @elseif ($publico->tipo == $tipos[1])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
+                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" checked >
                                                 <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                             </div>
                                         @elseif ($publico->tipo == $tipos[2])
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
+                                                <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" checked >
                                                 <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
 
                                                 <div id="divPublico_{{$publico->id}}" @if (old('publico_'.$publico->id)) style="display: block;" @else style="display: none;" @endif>
@@ -109,17 +109,17 @@
                                         @if ($publico->exibir_no_form)
                                             @if ($publico->tipo == $tipos[0])
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
+                                                        <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" checked >
                                                         <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                                     </div>
                                                 @elseif ($publico->tipo == $tipos[1])
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
+                                                        <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" checked >
                                                         <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
                                                     </div>
                                                 @elseif ($publico->tipo == $tipos[2])
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" readonly >
+                                                    <input class="form-check-input" type="radio" @if ($candidato->etapa->id == $publico->id) checked  @endif id="publico_{{$publico->id}}" name="público" value="{{$publico->id}}" checked >
                                                     <label class="form-check-label style_titulo_input" for="publico_{{$publico->id}}">{{mb_strtoupper($publico->texto)}}</label>
 
                                                     <div id="divPublico_{{$publico->id}}" @if (old('publico_'.$publico->id)) style="display: block;" @else style="display: none;" @endif>

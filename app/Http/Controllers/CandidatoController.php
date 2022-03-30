@@ -257,18 +257,30 @@ class CandidatoController extends Controller
                     $candidatoQuartaDose = Candidato::where('cpf', $validate->cpf)
                         ->where('data_de_nascimento', $validate->data_de_nascimento)
                         ->whereIn('dose', ['3ª Dose'])->first();
-                    if ($candidatoQuartaDose == null) {
+                    $data_saida = date_create_from_format('Y-m-d H:i:s', $candidatoQuartaDose->saida);
+                    $data_agora = date_create_from_format('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+                    if ($candidatoQuartaDose == null || ($candidatoQuartaDose->aprovacao != Candidato::APROVACAO_ENUM[1] && $candidatoQuartaDose->aprovacao != Candidato::APROVACAO_ENUM[3])) {
                         return redirect()->back()->withErrors([
-                            "dose" => "Não existe cadastro aprovado no sistema para esse cpf."
+                            "dose" => "Não existe cadastro aprovado ou vacinado no sistema para esse cpf."
+                        ]);
+                    } elseif((date_diff($data_saida, $data_agora)->m < 4)){
+                        return redirect()->back()->withErrors([
+                            "dose" => "Você precisa aguardar 4 meses desde a terceira dose para solicitar a quarta."
                         ]);
                     }
                 }else{
                     $candidatoQuartaDose = Candidato::where('numero_cartao_sus', $candidatoRec->numero_cartao_sus)
                         ->where('data_de_nascimento', $validate->data_de_nascimento)
                         ->whereIn('dose', ['3ª Dose'])->first();
-                    if ($candidatoQuartaDose == null) {
+                    $data_saida = date_create_from_format('Y-m-d H:i:s', $candidatoQuartaDose->saida);
+                    $data_agora = date_create_from_format('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+                    if ($candidatoQuartaDose == null || ($candidatoQuartaDose->aprovacao != Candidato::APROVACAO_ENUM[1] && $candidatoQuartaDose->aprovacao != Candidato::APROVACAO_ENUM[3])) {
                         return redirect()->back()->withErrors([
-                            "dose" => "Não existe cadastro aprovado no sistema para esse número do cartão do SUS."
+                            "dose" => "Não existe cadastro aprovado ou vacinado no sistema para esse número do cartão do SUS."
+                        ]);
+                    } elseif((date_diff($data_saida, $data_agora)->m < 4)){
+                        return redirect()->back()->withErrors([
+                            "dose" => "Você precisa aguardar 4 meses desde a terceira dose para solicitar a quarta."
                         ]);
                     }
                 }
