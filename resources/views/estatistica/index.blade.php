@@ -54,7 +54,8 @@
                                 <td>
                                     <a href="{{route('dashboard')}}?aprovado=on&publico_check=on&publico={{$publico->id}}">
                                         {{
-                                            intval(count($publico->candidatos()->where('aprovacao', $aprovacao[1])->get())/2)
+                                            intval(count($publico->candidatos()->where('aprovacao', $aprovacao[1])->whereIn('dose', ['2ª Dose',"Dose única","3ª Dose", '4ª Dose'])->get()))
+
                                         }}
                                     </a>
                                 </td>
