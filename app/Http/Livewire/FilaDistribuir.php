@@ -131,9 +131,7 @@ class FilaDistribuir extends Component
             $contadorAprovado = 0;
             $contadorParada = 0;
             foreach ($candidatos as $key => $candidato) {
-                    $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato, $posto );
-
-
+                    $resultado = $this->agendar($horarios_agrupados_por_dia, $candidato, $posto);
                     if ($resultado) {
                         Log::info($key);
                         $contadorAprovado++;
@@ -174,7 +172,6 @@ class FilaDistribuir extends Component
     }
 
     public function agendar($horarios_agrupados_por_dia, $candidato, $posto) {
-
         // var_dump($horarios_agrupados_por_dia);
         foreach ($horarios_agrupados_por_dia as $key1 => $dia) {
 
@@ -191,15 +188,23 @@ class FilaDistribuir extends Component
                 // if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
                 //     continue;
                 // }
-                if($candidato->dose != "3ª Dose"){
+                if($candidato->dose != Candidato::DOSE_ENUM[3] && $candidato->dose != Candidato::DOSE_ENUM[4]){
                     if (Candidato::where('cpf',$candidato->cpf)->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1],Candidato::APROVACAO_ENUM[3]])
-                    ->count() > 0 && $candidato->dose != "3ª Dose") {
+                    ->count() > 0) {
                         \Log::info("0");
                         break 2;
                     }
-                }else{
-                    if (Candidato::where('cpf',$candidato->cpf)->where('dose', "3ª Dose")->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1],Candidato::APROVACAO_ENUM[3]])
+                } elseif($candidato->dose == Candidato::DOSE_ENUM[4]){
+                    if (Candidato::where('cpf',$candidato->cpf)->where('dose', Candidato::DOSE_ENUM[4])->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1],Candidato::APROVACAO_ENUM[3]])
+                            ->count() > 0 ) {
+                        \Log::info("0");
+                        break 2;
+                    }
+                }
+                else{
+                    if (Candidato::where('cpf',$candidato->cpf)->where('dose', Candidato::DOSE_ENUM[3])->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1],Candidato::APROVACAO_ENUM[3]])
                     ->count() > 0 ) {
+
                         \Log::info("0");
                         break 2;
                     }
