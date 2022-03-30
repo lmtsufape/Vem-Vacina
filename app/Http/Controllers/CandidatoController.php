@@ -600,6 +600,11 @@ class CandidatoController extends Controller
             // dd($idade);
             if($request->dose_tres == 0){
                 $etapa = Etapa::find($request->input('público'));
+                if($etapa == null){
+                    return redirect()->back()->withErrors([
+                        "message" => "Por favor selecione um público, caso não apareça, ele não está diponibilizado para esta dose."
+                    ])->withInput();
+                }
 
                 if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
                     if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
@@ -644,7 +649,11 @@ class CandidatoController extends Controller
 
             }elseif($request->dose_quatro == 0){
                 $etapa = Etapa::find($request->input('público'));
-
+                if($etapa == null){
+                    return redirect()->back()->withErrors([
+                        "message" => "Por favor selecione um público, caso não apareça, ele não está diponibilizado para esta dose."
+                    ])->withInput();
+                }
                 if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
                     if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
                         return redirect()->back()->withErrors([

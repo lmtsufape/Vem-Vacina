@@ -212,6 +212,15 @@ class ReforcoController extends Controller
             'data_de_nascimento' => 'required|date',
             'data_dois' => 'required|date',
         ]);
+        $data_agora = date_create_from_format('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $data_recebida = new DateTime($request->data_dois);
+
+
+        if($data_recebida > $data_agora){
+            return redirect()->back()->withErrors([
+                "data_dois" => "A data só pode ser anterior ou igual a atual (". date_format($data_agora,"d/m/Y").")"
+            ])->withInput();
+        }
 
         $request->session()->put('validate', $validate);
 
