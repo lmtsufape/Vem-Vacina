@@ -26,7 +26,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 style_titulo_campo">Solicitar Vacinação da Dose de Reforço</div>
+                            <div class="col-md-12 style_titulo_campo">Solicitar Vacinação da Segunda Dose de Reforço</div>
                             <div class="col-md-12"><hr class="style_linha_campo"></div>
 
                             <div class="container">
