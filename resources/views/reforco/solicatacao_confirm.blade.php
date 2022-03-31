@@ -423,7 +423,7 @@
                                                 <div class="col-md-12" style="padding:3px">
                                                     <p class="alert alert-warning"  id="alerta_vacinas">
 
-                                                        ATENÇÃO! A primeira dose de reforço será aplicada para: pessoas com 18 anos ou mais que completaram o esquema vacinal há quatro meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.                                </p>
+                                                        ATENÇÃO! A primeira dose de reforço será aplicada para: pessoas com 18 anos ou mais que completaram o esquema vacinal há quatro meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
                                                     </p>
                                                 </div>
                                                 @if (env('ATIVAR_FILA', false) == true)
