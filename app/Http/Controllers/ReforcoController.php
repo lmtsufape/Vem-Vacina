@@ -73,16 +73,17 @@ class ReforcoController extends Controller
 
         $candidatos = Candidato::where('cpf', $validate['cpf'])
             ->where('data_de_nascimento', $validate['data_de_nascimento'])
-            ->orderBy('dose')
-            ->take(3)->get();
+            ->where('dose','3ª Dose')
+            ->get();
 
 
         if (count($candidatos) > 0 ) {
-            if (Etapa::where('atual', true)->where('dose_tres', true)->where('id', $candidatos[0]->etapa_id)->get()->count() == 0) {
+            if (Etapa::where('atual', true)->where('dose_quatro', true)->where('id', $candidatos[0]->etapa_id)->get()->count() == 0) {
                 return redirect()->back()->with([
                     "status" => "Público ou etapa indisponível para a segunda dose de reforço no momento."
                 ]);
             }
+
             return redirect()->route('solicitacao.reforco2',[ 'candidato' => $candidatos[0]->id]);
         }else{
             return view('reforco2.data_dose', compact('validate'));
