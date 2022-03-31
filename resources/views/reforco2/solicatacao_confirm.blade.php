@@ -423,7 +423,7 @@
                                                 <div class="col-md-12" style="padding:3px">
                                                     <p class="alert alert-warning"  id="alerta_vacinas">
 
-                                                        ATENÇÃO! A dose de reforço será aplicada exclusivamente para: pessoas com 55 anos ou mais e trabalhadores da saúde que completaram o esquema vacinal há quatro meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
+                                                        ATENÇÃO! A segunda dose de reforço será aplicada exclusivamente para pessoas com 65 anos ou mais que completaram o esquema vacinal há quatro meses ou mais.                                                    </p>
                                                     </p>
                                                 </div>
                                                 @if (env('ATIVAR_FILA', false) == true)

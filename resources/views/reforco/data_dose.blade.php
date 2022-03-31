@@ -1,8 +1,8 @@
 <x-guest-layout>
 
-    
+
     {{-- @dd($validate) --}}
-    
+
     <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;">
         <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%">
         <div class="container">
@@ -28,7 +28,7 @@
                             </div>
                             <div class="col-md-12 style_titulo_campo">Solicitar Vacinação da Dose de Reforço</div>
                             <div class="col-md-12"><hr class="style_linha_campo"></div>
-                            
+
                             <div class="container">
                                 @if (session('status'))
                                     <div class="alert alert-danger">
@@ -36,17 +36,16 @@
                                     </div>
                                 @endif
                                 <p class="alert alert-warning"  id="alerta_vacinas">
-                                    Preencher com a data da primeira e segunda dose. A veracidade das informações preenchidas na Plataforma Vem Vacina será verificada no ato da vacinação! 
+                                    Preencher com a data da primeira e segunda dose. A veracidade das informações preenchidas na Plataforma Vem Vacina será verificada no ato da vacinação!
                                     {{-- Preencher com a data da sua dose única ou com a data da primeira e segunda dose. A veracidade das informações preenchidas na Plataforma Vem Vacina será verificada no ato da vacinação!  --}}
                                     <br>
                                     <br>
-                                    ATENÇÃO! A dose de reforço será aplicada exclusivamente para: pessoas com 55 anos ou mais e trabalhadores da saúde que completaram o esquema vacinal há quatro meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
-                                </p>
+                                    ATENÇÃO! A primeira dose de reforço será aplicada para: pessoas com 18 anos ou mais que completaram o esquema vacinal há quatro meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.                                </p>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="inputData_um" class="style_titulo_input">Data 1ª Dose <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                         <input type="date" class="form-control style_input @error('data_um') is-invalid @enderror"  name="data_um" value="{{old('data_um')}}">
-        
+
                                         @error('data_um')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
                                             <strong>{{$message}}</strong>
@@ -54,10 +53,10 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6">
-                                        
+
                                         <label for="inputData" class="style_titulo_input">Data 2ª Dose <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
                                         <input type="date" class="form-control style_input @error('data_dois') is-invalid @enderror" placeholder="dd/mm/aaaa" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_dois" value="{{old('data_dois')}}">
-        
+
                                         @error('data_dois')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
                                             <strong>{{$message}}</strong>
@@ -69,8 +68,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         {{-- <p class="alert alert-warning"  id="alerta_vacinas">
-                                            
-                                           
+
+
                                         </p> --}}
                                     </div>
                                     <div class="mb-3 col-md-12">
@@ -127,7 +126,7 @@
     </div>
 
     <!--x rodapé x-->
-    
+
 
 
 </x-guest-layout>

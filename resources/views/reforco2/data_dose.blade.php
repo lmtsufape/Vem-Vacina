@@ -40,8 +40,7 @@
                                     {{-- Preencher com a data da sua dose única ou com a data da primeira e segunda dose. A veracidade das informações preenchidas na Plataforma Vem Vacina será verificada no ato da vacinação!  --}}
                                     <br>
                                     <br>
-                                    ATENÇÃO! A dose de reforço será aplicada exclusivamente para: pessoas com 55 anos ou mais e trabalhadores da saúde que completaram o esquema vacinal há quatro meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
-                                </p>
+                                    ATENÇÃO! A segunda dose de reforço será aplicada exclusivamente para pessoas com 65 anos ou mais que completaram o esquema vacinal há quatro meses ou mais.                                </p>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label for="inputDataDois" class="style_titulo_input">Data 3ª Dose <span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
