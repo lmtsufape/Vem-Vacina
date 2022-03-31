@@ -110,7 +110,7 @@
                             <div class="modal-body">
                                 @can('posicao-fila')
                                     <div class="row">
-                                        <h5> <strong>{{ "#" . ($candidatos->firstItem() + $loop->index) }}</strong> </h5>
+                                        <h5> <strong>{{ "#" . ($loop->index + 1) }}</strong> </h5>
                                     </div>
                                 @endcan
                                 @component('candidato.component_editar', ['candidato' => $candidato,'candidato_enum' =>$candidato_enum])

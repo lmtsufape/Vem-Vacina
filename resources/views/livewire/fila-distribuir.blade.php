@@ -57,12 +57,13 @@
                         <select name="dose" wire:model="dose">
                             <option value="Outras">Outras</option>
                             <option value="3ª Dose">3ª Dose</option>
-    
+                            <option value="4ª Dose">4ª Dose</option>
+
                         </select>
                         @error('dose')<div class="alert alert-danger">{{ $message }}</div> @enderror
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-md-6">
                         <label for="cpf">CPF:</label><br>

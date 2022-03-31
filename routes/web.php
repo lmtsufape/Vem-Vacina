@@ -37,11 +37,16 @@ Route::get('/home/estatisticas', [WelcomeController::class, 'estatisticas'])->na
 Route::get('/manutencao', [WelcomeController::class, 'manutencao'])->name('manutencao');
 
 Route::prefix('reforco')->group(function () {
-    Route::get('/', [ReforcoController::class, 'index'])->name('reforco.index');
+    Route::get('/reforco', [ReforcoController::class, 'index'])->name('reforco.index');
+    Route::get('/reforco2', [ReforcoController::class, 'index2'])->name('reforco2.index');
     Route::get('/verificar/cadastro', [ReforcoController::class, 'verificarCadastro'])->name('reforco.verificar');
+    Route::get('/verificar/cadastro2', [ReforcoController::class, 'verificarCadastro2'])->name('reforco2.verificar');
     Route::post('/solicitar-dose-tres', [ReforcoController::class, 'solicitarDoseTres'])->name('reforco.dose.tres');
+    Route::post('/solicitar-dose-quatro', [ReforcoController::class, 'solicitarDoseQuatro'])->name('reforco.dose.quatro');
     Route::get("/solicitar/reforco/{candidato}", [ReforcoController::class, 'solicitarReforco'])->name("solicitacao.reforco");
+    Route::get("/solicitar/reforco2/{candidato}", [ReforcoController::class, 'solicitarReforco2'])->name("solicitacao.reforco2");
     Route::get("/form", [ReforcoController::class, 'reforcoSolicitaForm'])->name("reforco.solicitar.form");
+    Route::get("/form2", [ReforcoController::class, 'reforcoSolicitaForm2'])->name("reforco2.solicitar.form");
 });
 
 Route::get("/solicitar/{bool?}", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");

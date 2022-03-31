@@ -11,6 +11,11 @@
             {{ session('tempo') }}
         </div>
     @endif
+    @if (session('message'))
+        <div class="alert alert-danger">
+            {{ session('message') }}
+        </div>
+    @endif
 
     <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;">
         <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%">
@@ -48,7 +53,7 @@
                             <form method="POST" id="formSolicitar" class="needs-validation" action="{{ route('solicitacao.candidato.enviar') }}" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
-                                <input type="hidden" name="dose_tres" value="1">
+                                <input type="hidden" name="dose_quatro" value="1">
                                 <input type="hidden" name="cadastro" value="0">
 
                                 @if ($errors->any())
@@ -96,7 +101,7 @@
                                                             <div class="col-md-12">
                                                                 <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}</label>
                                                                 <select class="form-control @error('publico_opcao_'.$publico->id) is-invalid @enderror" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
-                                                                    <option value="" seleceted disabled>-- Selecione o tipo --</option>
+                                                                    <option value="" selected disabled>-- Selecione o tipo --</option>
                                                                     @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
                                                                         <option value="{{$opcao->id}}" @if(old('publico_opcao_'.$publico->id) == $opcao->id) selected @endif>{{$opcao->opcao}}</option>
                                                                     @endforeach
@@ -187,7 +192,7 @@
                                                         <div class="col-md-12">
                                                             <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}</label>
                                                             <select class="form-control" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
-                                                                <option value="" seleceted disabled>-- Selecione o tipo --</option>
+                                                                <option value="" selected disabled>-- Selecione o tipo --</option>
                                                                 @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
                                                                     <option value="{{$opcao->id}}">{{$opcao->opcao}}</option>
                                                                 @endforeach
@@ -220,7 +225,7 @@
                                                             <div class="col-md-12">
                                                                 <label for="inputProfissao" class="style_titulo_input" style="font-weight: normal;">Qual tipo de {{mb_strtolower($publico->texto)}}</label>
                                                                 <select class="form-control" id="publico_opcao_{{$publico->id}}" name="publico_opcao_{{$publico->id}}">
-                                                                    <option value="" seleceted disabled>-- Selecione o tipo --</option>
+                                                                    <option value="" selected disabled>-- Selecione o tipo --</option>
                                                                     @foreach ($publico->opcoes()->orderBy('opcao')->get() as $opcao)
                                                                         @if($publico->inicio_intervalo == 18)
                                                                             @if ($opcao->opcao != "Gestantes e puérperas" )
@@ -267,7 +272,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputCPF" class="style_titulo_input">CPF<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" name="cpf" placeholder="Ex.: 000.000.000-00" value="{{$validate['cpf']}}" readonly>
+                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{$validate['cpf']}}" readonly>
 
                                         @error('cpf')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
@@ -361,7 +366,6 @@
                                                 <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras informações</div>
                                                 <div style="font-size: 15px; margin-bottom: 15px;">@if($publico->texto_outras_informacoes!=null)({{$publico->texto_outras_informacoes}})@endif</div>
                                             </div>
-
                                             @foreach ($publico->outrasInfo()->orderBy('campo')->get() as $outra)
                                                 @if (mb_strtoupper($outra->campo) != 'É ACAMADO?')
                                                     <div class="form-check">
