@@ -4,8 +4,8 @@
             {{ session('status') }}
         </div>
     @endif
-    
-        
+
+
     <div style="padding-bottom: 0rem;padding-top: 1rem; margin-top: -15%; background-color: #fff;">
         <img src="{{asset('img/cabecalho_1.png')}}" alt="Orientação" width="100%">
         <div class="container">
@@ -422,8 +422,8 @@
                                                      </div>-->
                                                 <div class="col-md-12" style="padding:3px">
                                                     <p class="alert alert-warning"  id="alerta_vacinas">
-                                                        
-                                                        ATENÇÃO! A dose de reforço será aplicada exclusivamente para: pessoas com 55 anos ou mais e trabalhadores da saúde que completaram o esquema vacinal há quatro meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.
+
+                                                        ATENÇÃO! A primeira dose de reforço será aplicada para: pessoas com 18 anos ou mais que completaram o esquema vacinal há quatro meses ou mais, ou imunossuprimidos que completaram o esquema vacinal há 28 dias ou mais.                                </p>
                                                     </p>
                                                 </div>
                                                 @if (env('ATIVAR_FILA', false) == true)
@@ -431,7 +431,7 @@
                                                         <button class="btn btn-success"  style="width: 100%;">Confirmar</button>
                                                     </div>
                                                 @else
-                                                    
+
                                                     <div class="col-md-12" style="padding:3px">
                                                         <button class="btn btn-success" id="buttonSend" style="width: 100%;">Confirmar</button>
                                                     </div>
