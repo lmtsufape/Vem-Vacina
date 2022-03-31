@@ -37,8 +37,8 @@ Route::get('/home/estatisticas', [WelcomeController::class, 'estatisticas'])->na
 Route::get('/manutencao', [WelcomeController::class, 'manutencao'])->name('manutencao');
 
 Route::prefix('reforco')->group(function () {
-    Route::get('/reforco', [ReforcoController::class, 'index'])->name('reforco.index');
-    Route::get('/reforco2', [ReforcoController::class, 'index2'])->name('reforco2.index');
+    Route::get('/', [ReforcoController::class, 'index'])->name('reforco.index');
+    Route::get('/quarta', [ReforcoController::class, 'index2'])->name('reforco2.index');
     Route::get('/verificar/cadastro', [ReforcoController::class, 'verificarCadastro'])->name('reforco.verificar');
     Route::get('/verificar/cadastro2', [ReforcoController::class, 'verificarCadastro2'])->name('reforco2.verificar');
     Route::post('/solicitar-dose-tres', [ReforcoController::class, 'solicitarDoseTres'])->name('reforco.dose.tres');
