@@ -135,13 +135,13 @@ class ExportController extends Controller
         }
 
         if ($request->outro) {
-            $agendamentos = $query->take(1000)->get();
+            $agendamentos = $query->get();
         } else {
             if($request->posicao_check) {
 
-                $agendamentos = $query->oldest()->take(1000)->get();
+                $agendamentos = $query->oldest()->get();
             }else{
-                $agendamentos = $query->take(1000)->get();
+                $agendamentos = $query->get();
             }
         }
 
@@ -183,7 +183,7 @@ class ExportController extends Controller
         $nome_arquivo = $request->nome_arquivo ? $request->nome_arquivo : 'agendamentos.xlsx';
         $caraceteres = array("-", "/", ".", "*", "@", "$", "%", "&", ")", "(");
         $nome_arquivo = str_replace($caraceteres, "", $nome_arquivo);
-        $candidatos = Candidato::withTrashed()->whereIn('id', $ids)->take(1000)->get();
+        $candidatos = Candidato::withTrashed()->whereIn('id', $ids)->get();
         return Excel::download(new PostoCandidatoExport( $candidatos), $nome_arquivo.'.xlsx' );
     }
     public function listarCandidato()
