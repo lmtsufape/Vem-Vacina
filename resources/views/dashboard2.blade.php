@@ -7,7 +7,7 @@
 
                 </h2>
                 <h2 class="font-semibold text-lg text-gray-800 leading-tight">
-                    {{ __('Resultados:') . $candidatos->total() }}
+                    {{ __('Resultados:') . $candidatos->count() }}
                 </h2>
 
             </div>
