@@ -113,7 +113,6 @@ class CandidatoController extends Controller
 
         if ($request->outro) {
             $agendamentos = $query->get();
-            dd('oi');
             //$agendamentos = $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
         } else {
             $agendamentos = $query->orderBy('created_at')->with(['etapa', 'outrasInfo', 'lote', 'resultado', 'posto', 'dataDose'])->paginate($request->qtd)->withQueryString();
@@ -129,6 +128,7 @@ class CandidatoController extends Controller
                     foreach ($outros as $outro) {
                         if (str_contains(mb_strtolower($outro->campo), 'acamado') || str_contains(mb_strtolower($outro->campo), 'acamada')) {
                             $is_acamado = true;
+                            break;
                         }
 
                     }
