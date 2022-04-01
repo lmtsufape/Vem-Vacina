@@ -154,8 +154,17 @@ class ExportController extends Controller
 
             foreach ($agendamentos as $agendamento) {
                 $outros = $agendamento->outrasInfo;
-                if($outros != null && count($outros) > 0) {
-                    $agendamentosComOutrasInfo->push($agendamento);
+                if ($outros != null && count($outros) > 0) {
+                    $is_acamado = false;
+                    foreach ($outros as $outro) {
+                        if (str_contains(mb_strtolower($outro->campo), 'acamado') || str_contains(mb_strtolower($outro->campo), 'acamada')) {
+                            $is_acamado = true;
+                        }
+
+                    }
+                    if ($is_acamado) {
+                        $agendamentosComOutrasInfo->push($agendamento);
+                    }
                 }
             }
 
