@@ -113,6 +113,7 @@ class CandidatoController extends Controller
 
         if ($request->outro) {
             $agendamentos = $query->get();
+            dd('oi');
             //$agendamentos = $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
         } else {
             $agendamentos = $query->orderBy('created_at')->with(['etapa', 'outrasInfo', 'lote', 'resultado', 'posto', 'dataDose'])->paginate($request->qtd)->withQueryString();
