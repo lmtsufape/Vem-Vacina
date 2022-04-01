@@ -250,7 +250,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label for="inputNome" class="style_titulo_input">NOME COMPLETO<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input apenasLetras @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{old('nome_completo')}}" maxlength="65">
+                                        <input type="text" class="form-control style_input apenasLetras @error('nome_completo') is-invalid @enderror" id="inputNome" placeholder="Digite seu nome completo" name="nome_completo" value="{{old('nome_completo')}}" maxlength="65" required>
 
                                         @error('nome_completo')
                                         <div id="validationServer05Feedback" class="invalid-feedback">
