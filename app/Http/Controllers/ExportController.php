@@ -185,6 +185,7 @@ class ExportController extends Controller
         $nome_arquivo = $request->nome_arquivo ? $request->nome_arquivo : 'agendamentos.xlsx';
         $caraceteres = array("-", "/", ".", "*", "@", "$", "%", "&", ")", "(");
         $nome_arquivo = str_replace($caraceteres, "", $nome_arquivo);
+        set_time_limit(300);
         $candidatos = Candidato::withTrashed()->whereIn('id', $ids)->get();
         return Excel::download(new PostoCandidatoExport( $candidatos), $nome_arquivo.'.xlsx' );
     }
