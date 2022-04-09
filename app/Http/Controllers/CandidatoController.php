@@ -116,7 +116,7 @@ class CandidatoController extends Controller
             //    ->rightJoin('agendamento_outras_infos', 'candidatos.id', '=', 'agendamento_outras_infos.candidato_id')
             //    ->select('candidatos.*')->groupBy('candidatos.id')->get();
             $agendamentos = $query->rightJoin('agendamento_outras_infos', 'candidatos.id', '=', 'agendamento_outras_infos.candidato_id')
-                ->select('candidatos.*')->groupBy('candidatos.id')->orderBy('created_at')->with(['etapa', 'outrasInfo', 'lote', 'resultado', 'posto', 'dataDose'])->paginate($request->qtd)->withQueryString();
+                ->select('candidatos.*')->groupBy('candidatos.id')->orderBy('created_at')->get();
             //dd($agendamentos);
         } else {
             $agendamentos = $query->orderBy('created_at')->with(['etapa', 'outrasInfo', 'lote', 'resultado', 'posto', 'dataDose'])->paginate($request->qtd)->withQueryString();
@@ -159,6 +159,7 @@ class CandidatoController extends Controller
             'doses' => Candidato::DOSE_ENUM,
             'publicos' => Etapa::orderBy('texto_home')->get(),
             'request' => $request]);
+
     }
 
 
