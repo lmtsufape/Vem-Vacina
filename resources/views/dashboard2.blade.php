@@ -6,9 +6,6 @@
                     {{ __('Lista de agendamentos') }}
 
                 </h2>
-                <h2 class="font-semibold text-lg text-gray-800 leading-tight">
-                    {{ __('Resultados:') . $candidatos->count() }}
-                </h2>
 
             </div>
             <div class="col-sm-3 pt-3" style="text-align: right;">
