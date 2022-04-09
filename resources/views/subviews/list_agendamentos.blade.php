@@ -383,7 +383,7 @@
           </div>
         </tbody>
     </table>
-    @if ($request != null)
+    @if ($request != null && isset($request->paginacao))
         <div class="row">
             <div class="col-sm-12">
                 {{ $candidatos->links() }}
