@@ -383,7 +383,7 @@
           </div>
         </tbody>
     </table>
-    @if ($request != null && $request->outro == false)
+    @if ($request != null)
         <div class="row">
             <div class="col-sm-12">
                 {{ $candidatos->links() }}
@@ -391,3 +391,28 @@
         </div>
     @endif
 </div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+<script>
+    $('#myTable').DataTable({
+        searching: true,
+
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por página",
+            "info": "Exibindo página _PAGE_ de _PAGES_",
+            "infoEmpty": "Nenhum registro disponível",
+            "zeroRecords": "Nenhum registro disponível",
+            "search": "",
+            "paginate": {
+                "previous": "Anterior",
+                "next": "Próximo",
+            }
+        },
+        "dom": '<"top"f>rt<"bottom"p><"clear">',
+        "order": [],
+        "columnDefs": [{
+            "targets": [2],
+            "orderable": false
+        }]
+    });
+</script>
