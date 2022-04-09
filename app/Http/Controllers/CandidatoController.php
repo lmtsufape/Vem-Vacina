@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AgendamentoOutrasInfo;
+use App\Models\OutrasInfoEtapa;
 use DateTime;
 use Throwable;
 use DateInterval;
@@ -26,6 +28,7 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\CandidatoAtualizado;
 use Illuminate\Support\Facades\Notification;
+use App\Support\Collection;
 
 class CandidatoController extends Controller
 {
@@ -112,42 +115,13 @@ class CandidatoController extends Controller
 
 
         if ($request->outro) {
-            //$agendamentos = Candidato::query()
-            //    ->rightJoin('agendamento_outras_infos', 'candidatos.id', '=', 'agendamento_outras_infos.candidato_id')
-            //    ->select('candidatos.*')->groupBy('candidatos.id')->get();
-            $agendamentos = $query->rightJoin('agendamento_outras_infos', 'candidatos.id', '=', 'agendamento_outras_infos.candidato_id')
-                ->select('candidatos.*')->groupBy('candidatos.id')->orderBy('created_at')->paginate(10);
-            //dd($agendamentos);
+            $agendamentos = $query
+                ->rightJoin('agendamento_outras_infos', 'candidatos.id', '=', 'agendamento_outras_infos.candidato_id')
+                ->rightJoin('outras_info_etapas', 'agendamento_outras_infos.outras_info_id', '=', 'outras_info_etapas.id')
+                ->where('outras_info_etapas.campo', 'ilike', '%acamad%')
+                ->select('candidatos.*')->groupBy('candidatos.id')->orderBy('created_at')->paginate($request->qtd)->withQueryString();
         } else {
             $agendamentos = $query->orderBy('created_at')->with(['etapa', 'outrasInfo', 'lote', 'resultado', 'posto', 'dataDose'])->paginate($request->qtd)->withQueryString();
-        }
-
-        if ($request->outro) {
-            $agendamentosComOutrasInfo = collect();
-
-            foreach ($agendamentos as $agendamento) {
-                $outros = $agendamento->outrasInfo;
-                if ($outros != null && count($outros) > 0) {
-                    $is_acamado = false;
-                    foreach ($outros as $outro) {
-                        if (str_contains(mb_strtolower($outro->campo), 'acamado') || str_contains(mb_strtolower($outro->campo), 'acamada')) {
-                            $is_acamado = true;
-                            break;
-                        }
-
-                    }
-                    if ($is_acamado) {
-                        $agendamentosComOutrasInfo->push($agendamento);
-                    }
-                }
-            }
-
-            if ($agendamentosComOutrasInfo->count() > 0) {
-                $agendamentos = $agendamentosComOutrasInfo;
-            } else {
-                $agendamentos = collect();
-            }
-
         }
 
         session(['candidato_url' => $request->fullUrl()]);
