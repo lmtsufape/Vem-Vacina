@@ -100,7 +100,7 @@ class FilaController extends Controller
                                         'doses' => Candidato::DOSE_ENUM,
                                         'publicos' => Etapa::orderBy('texto_home')->get(),
                                         'request' => $request,
-            'paginacao' => false]);
+                                        'paginacao' => 'não']);
     }
 
     public function agendar($horarios_agrupados_por_dia, $candidato_id, $posto_id) {
