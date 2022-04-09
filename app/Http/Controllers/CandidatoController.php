@@ -112,8 +112,12 @@ class CandidatoController extends Controller
 
 
         if ($request->outro) {
-            $agendamentos = $query->get();
-            //$agendamentos = $query->where('nome_completo', 'ilike', '%' . $request->nome . '%');
+            //$agendamentos = Candidato::query()
+            //    ->rightJoin('agendamento_outras_infos', 'candidatos.id', '=', 'agendamento_outras_infos.candidato_id')
+            //    ->select('candidatos.*')->groupBy('candidatos.id')->get();
+            $agendamentos = $query->rightJoin('agendamento_outras_infos', 'candidatos.id', '=', 'agendamento_outras_infos.candidato_id')
+                ->select('candidatos.*')->groupBy('candidatos.id')->get();
+            //dd($agendamentos);
         } else {
             $agendamentos = $query->orderBy('created_at')->with(['etapa', 'outrasInfo', 'lote', 'resultado', 'posto', 'dataDose'])->paginate($request->qtd)->withQueryString();
         }
@@ -815,7 +819,6 @@ class CandidatoController extends Controller
                         $datetime1 = new DateTime($validate->data_dois);
                     }
                     $interval = $datetime1->diff($datetime2);
-                    // dd($interval->invert);
                     if ($interval->invert == 1) {
                         return redirect()->back()->with([
                             "tempo" => "O intervalo para a segunda dose de reforço ainda não completou o tempo necessário."
