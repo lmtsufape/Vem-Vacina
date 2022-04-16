@@ -11,7 +11,12 @@ class Dose extends Model
 
     protected $fillable = [
         'nome',
-        'dose_anterior_id'
+        'dose_anterior_id',
     ];
+
+    public function etapas()
+    {
+        return $this->belongsToMany(Etapa::class, 'etapa_dose');
+    }
 
 }
