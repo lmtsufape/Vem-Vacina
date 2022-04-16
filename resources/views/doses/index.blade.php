@@ -18,7 +18,7 @@
             </div>
         </div>
     </x-slot>
-
+{{dd($doses)}}
     <div class="container" style="margin-top: 30px;">
         @if(session('mensagem'))
             <div class="row">

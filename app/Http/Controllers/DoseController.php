@@ -26,4 +26,23 @@ class DoseController extends Controller
             'tipos' => Etapa::TIPO_ENUM, 'doses' => $doses]);
     }
 
+    public function registrar(Request $request){
+        Gate::authorize('criar-dose');
+        $validatedData = $request->validate([
+            'nome'  => ['required', 'string']
+        ]);
+        $dose = Dose::create([
+            'nome' => $request->nome,
+            'dose_anterior' => $request->dose_anterior
+        ]);
+        $dose->save();
+        $dose->etapas()->sync($request->etapa_id);
+
+
+        Gate::authorize('ver-dose');
+        $doses = Dose::all();
+
+        return redirect()->route('doses.index')->with(['sucesso' => 'Dose registrada com sucesso', 'doses' => $doses]);
+    }
+
 }

@@ -28,13 +28,13 @@
                         </ul>
                     </div>
                 @endif --}}
-                <form action="{{ route('lotes.store') }}" method="post">
+                <form action="{{ route('doses.registrar') }}" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
                             <label for="nome">Nome da Dose</label>
-                            <input id="nome" type="text" class="form-control @error('numero_lote') is-invalid @enderror" name="nome" value="{{ old('nome') }}">
-                            @error('numero_lote')
+                            <input id="nome" type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" value="{{ old('nome') }}">
+                            @error('nome')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
