@@ -5,35 +5,26 @@
             <div class="col-span-5">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
 
-                    {{ __('Cadastrar Dose') }}
+                    {{ __('Editar Dose') }}
                 </h2>
             </div>
             <div class="...">
-
-
             </div>
-
-        </div>
+          </div>
 
     </x-slot>
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="container">
-                {{-- @if (count($errors) > 0)
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif --}}
-                <form action="{{ route('doses.registrar') }}" method="post">
+
+                <form action="{{ route('lotes.update', ['dose' => $dose->id]) }}" method="post">
                     @csrf
+                    @method("PUT")
+
                     <div class="row">
                         <div class="col-md-6">
                             <label for="nome">Nome da Dose</label>
-                            <input id="nome" type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" value="{{ old('nome') }}">
+                            <input id="nome" type="text" class="form-control @error('nome') is-invalid @enderror" name="nome" value="{{ $dose->nome }}">
                             @error('nome')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -41,10 +32,11 @@
                         <div class="col-md-6">
                             <label for="dose_anterior">Dose Anterior</label>
                             <select class="form-control" id="dose_anterior" name="dose_anterior">
-                                <option value="0">{{\App\Models\Candidato::DOSE_ENUM[4]}}</option>
+                                <option value="0" @if($dose->dose_anterior == 0) selected @endif>{{\App\Models\Candidato::DOSE_ENUM[4]}}</option>
                                 @foreach($doses as $dose)
-                                    <option value="{{$dose->id}}">{{$dose->nome}}</option>
+                                    <option value="{{$dose->id}}" @if($dose->dose_anterior_id == $dose->id) selected @endif>{{$dose->nome}}</option>
                                 @endforeach
+
                             </select>
                         </div>
                     </div>
@@ -58,17 +50,18 @@
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <input type="checkbox" name="etapa_id[]" value="{{ $etapa->id }}" aria-label="Checkbox for following text input">
+                                        <input type="checkbox" name="etapa_id[]" @if($lote->etapas()->find($etapa->id)) checked @endif value="{{ $etapa->id }}" aria-label="Checkbox for following text input">
                                         </div>
                                     </div>
-                                    <input type="hidden">
-                                    <input type="text" class="form-control" aria-label="Text input with checkbox"
-                                           @if ($etapa->tipo == $tipos[0])
-                                           value="{{ 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo}}"
-                                           @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
-                                           value="{{$etapa->texto}}"
-                                        @endif
-                                    >
+                                    <input type="hidden" >
+                                    <input type="text" class="form-control"  aria-label="Text input with checkbox"
+                                        {{-- @if ($etapa->tipo == $tipos[0])
+                                            placeholder="{{ 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo}}"
+                                        @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
+                                            placeholder="{{$etapa->texto}}"
+                                        @endif --}}
+                                        placeholder="{{$etapa->texto}}"
+                                        >
                                 </div>
                             @endforeach
                         </div>
@@ -83,4 +76,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+  </x-app-layout>

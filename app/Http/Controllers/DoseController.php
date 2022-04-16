@@ -26,10 +26,11 @@ class DoseController extends Controller
             'tipos' => Etapa::TIPO_ENUM, 'doses' => $doses]);
     }
 
-    public function registrar(Request $request){
+    public function registrar(Request $request)
+    {
         Gate::authorize('criar-dose');
         $validatedData = $request->validate([
-            'nome'  => ['required', 'string']
+            'nome' => ['required', 'string']
         ]);
         $dose = Dose::create([
             'nome' => $request->nome,
@@ -43,6 +44,16 @@ class DoseController extends Controller
         $doses = Dose::all();
 
         return redirect()->route('doses.index')->with(['sucesso' => 'Dose registrada com sucesso', 'doses' => $doses]);
+    }
+
+    public function edit($id)
+    {
+        Gate::authorize('editar-lote');
+
+        $dose = Dose::findOrFail($id);
+        $tipos = Etapa::TIPO_ENUM;
+        $etapas = Etapa::all();
+        return view('lotes.edit', compact('dose', 'tipos', 'etapas'));
     }
 
 }
