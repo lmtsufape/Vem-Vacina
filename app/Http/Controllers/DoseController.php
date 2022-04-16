@@ -26,4 +26,14 @@ class DoseController extends Controller
             'tipos' => Etapa::TIPO_ENUM, 'doses' => $doses]);
     }
 
+    public function edit($id)
+    {
+        Gate::authorize('editar-lote');
+
+        $dose = Dose::findOrFail($id);
+        $tipos = Etapa::TIPO_ENUM;
+        $etapas = Etapa::all();
+        return view('lotes.edit', compact('dose', 'tipos', 'etapas'));
+    }
+
 }
