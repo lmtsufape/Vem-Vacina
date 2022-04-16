@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Candidato;
+use App\Http\Controllers\DoseController;
 use App\Http\Livewire\StoreLote;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
@@ -162,6 +163,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/etapas/{id}/editar', [EtapaController::class, 'edit'])->name('etapas.edit');
     Route::post('/etapas/{id}/excluir', [EtapaController::class, 'destroy'])->name('etapas.destroy');
     Route::post('/etapas/{id}/atualizar', [EtapaController::class, 'update'])->name('etapas.update');
+
+    Route::get('/doses', [DoseController::class, 'index'])->name('doses.index');
+    Route::get('/doses/adicionar', [DoseController::class, 'create'])->name('doses.create');
 
     Route::get('exportar/candidato/', [ExportController::class, 'exportCandidato'])->name('export.candidato');
     Route::get('exportar/lote', [ExportController::class, 'exportLote'])->name('export.lote');

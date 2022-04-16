@@ -13,7 +13,7 @@ class CreateDosesTable extends Migration
      */
     public function up()
     {
-        Schema::create('Doses', function (Blueprint $table) {
+        Schema::create('doses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('dose_anterior_id')->nullable(true);
             $table->string('nome');

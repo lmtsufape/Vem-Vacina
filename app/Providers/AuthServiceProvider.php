@@ -161,6 +161,20 @@ class AuthServiceProvider extends ServiceProvider
                $user->tipo == User::TIPO_ENUM['admin'];
         });
 
+        //dose
+
+        Gate::define('ver-dose', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['secretaria'] ||
+                $user->tipo == User::TIPO_ENUM['colaborador'] ||
+                $user->tipo == User::TIPO_ENUM['gerente'] ||
+                $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
+        Gate::define('criar-dose', function (User $user) {
+            return $user->tipo == User::TIPO_ENUM['gerente'] ||
+                $user->tipo == User::TIPO_ENUM['admin'];
+        });
+
         //export
         Gate::define('ver-export', function (User $user) {
             return $user->tipo == User::TIPO_ENUM['secretaria'] ||
