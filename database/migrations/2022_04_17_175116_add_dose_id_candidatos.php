@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDosesTable extends Migration
+class AddDoseIdCandidatos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateDosesTable extends Migration
      */
     public function up()
     {
-        Schema::create('doses', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('dose_anterior_id')->nullable(true);
-            $table->string('nome');
-
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('candidatos', function (Blueprint $table) {
+            $table->unsignedBigInteger('dose_id')->nullable(true);
         });
     }
 
@@ -30,6 +25,8 @@ class CreateDosesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Doses');
+        Schema::table('candidatos', function (Blueprint $table) {
+            $table->dropColumn('dose_id');
+        });
     }
 }

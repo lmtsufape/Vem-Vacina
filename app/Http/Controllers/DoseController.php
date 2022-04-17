@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidato;
 use App\Models\Dose;
 use App\Models\Etapa;
 use Illuminate\Http\Request;
@@ -72,6 +73,37 @@ class DoseController extends Controller
         $doses = Dose::all();
 
         return redirect()->route('doses.index')->with(['sucesso' => $dose->nome.' atualizada com sucesso', 'doses' => $doses]);
+    }
+
+    public function destroy($id)
+    {
+        Gate::authorize('apagar-dose');
+        $dose = Dose::findOrFail($id);
+        //Verificar se existem doses associadas
+        $dosesAssociadas = Dose::where('dose_anterior_id',$dose->id)->get();
+
+        if($dosesAssociadas->count()){
+            return redirect()->back()
+                ->withErrors([
+                    "message" => "Existem doses associadas com a ".$dose->nome."."
+                ])->withInput();
+        }
+        //Verificar se existem candidatos associados
+        $candidatosAssociados = Candidato::where('dose_id',$dose->id)->get();
+        if($candidatosAssociados->count()){
+            return redirect()->back()
+                ->withErrors([
+                    "message" => "Existem candidatos associados com a ".$dose->nome."."
+                ])->withInput();
+        }
+
+        $nome =  $dose->nome;
+        $dose->etapas()->sync([]);
+        $dose->delete();
+        Gate::authorize('ver-dose');
+        $doses = Dose::all();
+
+        return redirect()->route('doses.index')->with(['sucesso' => $nome.' deletada com sucesso', 'doses' => $doses]);
     }
 
 }

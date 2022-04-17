@@ -63,6 +63,7 @@ class Candidato extends Model
         "etapa_resultado",
         "dose",
         "doses",
+        "dose_id",
         // "profissional_da_saude",
         // "pessoa_idosa",
     ];
