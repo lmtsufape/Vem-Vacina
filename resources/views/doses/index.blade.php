@@ -63,7 +63,7 @@
                         <th scope="col" style="width: 30%">Nome da Dose</th>
                         <th scope="col" style="width: 30%">Dose Anterior</th>
                         @can(['editar-dose', 'apagar-dose'])
-                            <th scope="col" colspan="3">Ações</th>
+                            <th scope="col" colspan="2" style="width: 5%">Ações</th>
                         @endcan
                     </tr>
                     </thead>
@@ -89,20 +89,11 @@
                             </td>
                             <td>
                                 @can('apagar-lote')
-                                    <form action="{{ route('lotes.destroy', ['lote' => $dose->id]) }}" method="post">
+                                    <form action="{{ route('doses.destroy', ['lote' => $dose->id]) }}" method="post">
                                         @csrf
                                         @method('delete')
                                         <button onclick="return confirm('Você tem certeza?')" type="submit" class=" bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2">
                                             Excluir
-                                        </button>
-                                    </form>
-                                @endcan
-                            </td>
-                            <td>
-                                @can('distribuir-lote')
-                                    <form action="{{ route('lotes.distribuir', ['lote' => $dose->id]) }}" method="get">
-                                        <button type="submit" @if($dose->numero_vacinas == 0) disabled @endif class="disabled:opacity-50 bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-2 rounded">
-                                            Distribuir
                                         </button>
                                     </form>
                                 @endcan
@@ -113,7 +104,7 @@
                                 <table class="table table-bordered table-info">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Públicos associados com esse lote</th>
+                                        <th scope="col">Públicos associados com essa dose</th>
                                         {{-- <th scope="col" colspan="2">Ações</th> --}}
                                     </tr>
                                     </thead>

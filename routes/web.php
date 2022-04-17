@@ -169,6 +169,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/doses/registrar', [DoseController::class, 'registrar'])->name('doses.registrar');
     Route::get('/doses/{id}/editar', [DoseController::class, 'edit'])->name('doses.edit');
     Route::post('/doses/{id}/atualizar', [DoseController::class, 'atualizar'])->name('doses.atualizar');
+    Route::post('/doses/{id}/excluir', [DoseController::class, 'destroy'])->name('doses.destroy');
 
     Route::get('exportar/candidato/', [ExportController::class, 'exportCandidato'])->name('export.candidato');
     Route::get('exportar/lote', [ExportController::class, 'exportLote'])->name('export.lote');
