@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Dose extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'nome',
@@ -17,6 +19,11 @@ class Dose extends Model
     public function etapas()
     {
         return $this->belongsToMany(Etapa::class, 'etapa_dose');
+    }
+
+    public function candidatos()
+    {
+        return $this->hasMany(Candidato::class, 'dose_id');
     }
 
 }
