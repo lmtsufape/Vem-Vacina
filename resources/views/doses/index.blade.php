@@ -88,7 +88,7 @@
                                 @endcan
                             </td>
                             <td>
-                                @can('apagar-lote')
+                                @can('apagar-dose')
                                     <form action="{{ route('doses.destroy', ['lote' => $dose->id]) }}" method="post">
                                         @csrf
                                         @method('delete')
