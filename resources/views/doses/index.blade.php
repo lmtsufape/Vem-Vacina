@@ -99,7 +99,7 @@
                                 @endcan
                             </td>
                         </tr>
-                        <tr id="demo{{ $dose->id }}" class="collapse">
+                        <tr id="demo{{$dose->id}}" class="collapse">
                             <td colspan="12" class="hiddenRow">
                                 <table class="table table-bordered table-info">
                                     <thead>
