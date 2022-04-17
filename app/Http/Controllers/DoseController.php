@@ -26,14 +26,52 @@ class DoseController extends Controller
             'tipos' => Etapa::TIPO_ENUM, 'doses' => $doses]);
     }
 
+    public function registrar(Request $request)
+    {
+        Gate::authorize('criar-dose');
+        $validatedData = $request->validate([
+            'nome' => ['required', 'string']
+        ]);
+        $dose = Dose::create([
+            'nome' => $request->nome,
+            'dose_anterior_id' => $request->dose_anterior
+        ]);
+        $dose->save();
+        $dose->etapas()->sync($request->etapa_id);
+
+
+        Gate::authorize('ver-dose');
+        $doses = Dose::all();
+
+        return redirect()->route('doses.index')->with(['sucesso' => $dose->nome.' registrada com sucesso', 'doses' => $doses]);
+    }
+
     public function edit($id)
     {
-        Gate::authorize('editar-lote');
+        Gate::authorize('editar-dose');
 
         $dose = Dose::findOrFail($id);
         $tipos = Etapa::TIPO_ENUM;
         $etapas = Etapa::all();
-        return view('lotes.edit', compact('dose', 'tipos', 'etapas'));
+        $doses = Dose::all();
+        return view('doses.edit', compact('dose', 'tipos', 'etapas','doses'));
+    }
+
+    public function atualizar(Request $request, $id){
+        Gate::authorize('editar-dose');
+        $validatedData = $request->validate([
+            'nome' => ['required', 'string']
+        ]);
+        $dose = Dose::find($id);
+        $dose->nome = $request->nome;
+        $dose->dose_anterior_id = $request->dose_anterior;
+        $dose->update();
+        $dose->etapas()->sync($request->etapa_id);
+
+        Gate::authorize('ver-dose');
+        $doses = Dose::all();
+
+        return redirect()->route('doses.index')->with(['sucesso' => $dose->nome.' atualizada com sucesso', 'doses' => $doses]);
     }
 
 }

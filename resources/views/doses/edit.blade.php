@@ -17,9 +17,8 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="container">
 
-                <form action="{{ route('lotes.update', ['dose' => $dose->id]) }}" method="post">
+                <form action="{{route('doses.atualizar', ['id' => $dose->id])}}" method="post">
                     @csrf
-                    @method("PUT")
 
                     <div class="row">
                         <div class="col-md-6">
@@ -33,9 +32,9 @@
                             <label for="dose_anterior">Dose Anterior</label>
                             <select class="form-control" id="dose_anterior" name="dose_anterior">
                                 <option value="0" @if($dose->dose_anterior_id == 0) selected @endif>{{\App\Models\Candidato::DOSE_ENUM[4]}}</option>
-                                @foreach($doses as $d)
-                                    @if($d->id != $dose->id)
-                                        <option value="{{$d->id}}" @if($d->dose_anterior_id == $d->id) selected @endif>{{$d->nome}}</option>
+                                @foreach($doses as $dose_temp)
+                                    @if($dose_temp->id != $dose->id)
+                                        <option value="{{$dose_temp->id}}" @if($dose_temp->dose_anterior_id == $dose_temp->id) selected @endif>{{$dose_temp->nome}}</option>
                                     @endif
                                 @endforeach
 
@@ -49,21 +48,23 @@
                         </div>
                         <div class="col-md-12 mt-2">
                             @foreach ($etapas as $etapa)
+
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <input type="checkbox" name="etapa_id[]" @if($lote->etapas()->find($etapa->id)) checked @endif value="{{ $etapa->id }}"
+
+                                            <input type="checkbox" name="etapa_id[]" @if($dose->etapas->find($etapa->id)) checked @endif value="{{ $etapa->id }}"
                                                    aria-label="Checkbox for following text input">
                                         </div>
                                     </div>
                                     <input type="hidden">
                                     <input type="text" class="form-control" aria-label="Text input with checkbox"
-                                           {{-- @if ($etapa->tipo == $tipos[0])
-                                               placeholder="{{ 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo}}"
-                                           @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
-                                               placeholder="{{$etapa->texto}}"
-                                           @endif --}}
-                                           placeholder="{{$etapa->texto}}"
+                                    placeholder="{{$etapa->texto}}"
+                                    @if ($etapa->tipo == $tipos[0])
+                                        value="{{ 'De '.$etapa->inicio_intervalo." às ".$etapa->fim_intervalo}}"
+                                    @elseif($etapa->tipo == $tipos[1] || $etapa->tipo == $tipos[2])
+                                        value="{{$etapa->texto}}"
+                                    @endif
                                     >
                                 </div>
                             @endforeach

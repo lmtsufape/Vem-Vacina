@@ -166,7 +166,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/doses', [DoseController::class, 'index'])->name('doses.index');
     Route::get('/doses/adicionar', [DoseController::class, 'create'])->name('doses.create');
+    Route::post('/doses/registrar', [DoseController::class, 'registrar'])->name('doses.registrar');
     Route::get('/doses/{id}/editar', [DoseController::class, 'edit'])->name('doses.edit');
+    Route::post('/doses/{id}/atualizar', [DoseController::class, 'atualizar'])->name('doses.atualizar');
 
     Route::get('exportar/candidato/', [ExportController::class, 'exportCandidato'])->name('export.candidato');
     Route::get('exportar/lote', [ExportController::class, 'exportLote'])->name('export.lote');
