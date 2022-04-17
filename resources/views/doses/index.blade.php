@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-10">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Doses') }}
                 </h2>
@@ -29,11 +29,15 @@
                 </div>
             </div>
         @endif
-        @if(session('error'))
+        @if(session('sucesso'))
             <div class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-danger" role="alert">
-                        <p>{{session('error')}}</p>
+                    <div class="alert alert-success" role="alert">
+                        <p>{{session('sucesso')}}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
 
     <div class="py-12">
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 ">
@@ -67,11 +71,15 @@
                     @foreach ($doses as $dose)
                         <tr  data-toggle="collapse" data-target="#demo{{ $dose->id }}" >
                             <td><i class="fas fa-angle-down  fa-2x"></i> </td>
-                            <td> {{ $dose->nome }}</td>
-                            <td> {{\App\Models\Dose::find($dose->dose_anterior_id)->nome }}</td>
+                            <td> {{ $dose->nome }}
+                            @if($dose->dose_anterior_id == 0)
+                                <td>{{\App\Models\Candidato::DOSE_ENUM[4]}}</td>
+                            @else
+                                <td> {{\App\Models\Dose::find($dose->dose_anterior_id)->nome }}</td>
+                            @endif
                             <td>
                                 @can('editar-dose')
-                                    <form action="{{ route('doses.edit', ['dose' => $dose->id]) }}" method="get">
+                                    <form action="{{ route('doses.edit', ['id' => $dose->id]) }}" method="get">
                                         @csrf
                                         <button type="submit" class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2">
                                             Editar
