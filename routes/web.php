@@ -57,6 +57,8 @@ Route::prefix('reforco')->group(function () {
 
 Route::get("/solicitar/{bool?}", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
+//Solicitacao Nova Dose
+Route::post("/solicitar/enviar/nova_dose", [CandidatoController::class, 'solicitacao_nova_dose'])->name("solicitacao.novadose.enviar");
 // Route::post("/solicitar/dose/tres", [CandidatoController::class, 'dose_tres_com_cadastro'])->name("solicitacao.dose.tres");
 // Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");
 Route::post("/consultar-agendamento", [CandidatoController::class, 'consultar'])->name("agendamento.consultar");

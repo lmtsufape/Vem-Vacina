@@ -72,7 +72,7 @@ class ReforcoController extends Controller
             return view("candidato_dose.solicatacao_confirm")->with([
                 "sexos" => Candidato::SEXO_ENUM,
                 "postos" => $postos_com_vacina,
-                "doses" => Candidato::DOSE_ENUM,
+                "dose" => $dose->id,
                 "publicos" => $etapasAtuais,
                 "tipos"    => Etapa::TIPO_ENUM,
                 "bairros" => $bairrosOrdenados,
@@ -83,7 +83,7 @@ class ReforcoController extends Controller
         return view("candidato_dose.solicatacao_confirm")->with([
             "sexos" => Candidato::SEXO_ENUM,
             "postos" => $postos_com_vacina,
-            "doses" => Candidato::DOSE_ENUM,
+            "dose" => $dose->id,
             "publicos" => $etapasAtuais,
             "tipos"    => Etapa::TIPO_ENUM,
             "bairros" => $bairrosOrdenados,

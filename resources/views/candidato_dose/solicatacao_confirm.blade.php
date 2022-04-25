@@ -50,11 +50,11 @@
                         <div class="col-md-12">
                             @if(isset($candidato))
                                 <form method="POST" id="formSolicitar" class="needs-validation"
-                                      action="{{ route('solicitacao.candidato.enviar') }}"
+                                      action="{{ route('solicitacao.novadose.enviar') }}"
                                       enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="voltou" value="1">
-                                    <input type="hidden" name="dose_tres" value="1">
+                                    <input type="hidden" name="dose" value="{{$dose}}">
                                     <input type="hidden" name="cadastro" value="1">
                                     <input type="hidden" name="candidato_id" value="{{ $candidato->id }}">
 
@@ -606,11 +606,11 @@
                                 </form>
                             @else
                                 <form method="POST" id="formSolicitar" class="needs-validation"
-                                      action="{{ route('solicitacao.candidato.enviar') }}"
+                                      action="{{ route('solicitacao.novadose.enviar') }}"
                                       enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="voltou" value="1">
-                                    <input type="hidden" name="dose_tres" value="1">
+                                    <input type="hidden" name="dose" value="{{$dose}}">
                                     <input type="hidden" name="cadastro" value="0">
 
                                     @if ($errors->any())
