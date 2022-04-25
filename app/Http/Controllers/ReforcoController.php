@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dose;
 use DateTime;
 use App\Models\Etapa;
 use App\Models\Candidato;
 use App\Models\Configuracao;
 use Illuminate\Http\Request;
 use App\Models\PostoVacinacao;
+use function PHPUnit\Framework\isEmpty;
 
 class ReforcoController extends Controller
 {
@@ -19,6 +21,77 @@ class ReforcoController extends Controller
     public function index2()
     {
         return view('reforco2.consultar_cadastro');
+    }
+
+    public function novaDoseCpf($id){
+        return view('candidato_dose.consultar_cadastro', compact('id'));
+    }
+
+    public function verificarDose(Request $request){
+        $validate = $request->validate([
+            'cpf' => 'required',
+            'data_de_nascimento' => 'required|date',
+        ]);
+
+        $request->session()->put('validate', $validate);
+        $dose = Dose::find($request->dose_id);
+        // verificação de dose atual
+        if(Candidato::where('cpf',$request->cpf)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])->where('dose_id',$request->dose_id)->
+            count() > 0){
+            return redirect()->back()->with([
+                "status" => "Existe um agendamento para a ". $dose->nome." para esse cpf."]);
+        }
+        // verificação de dose anterior
+        if($dose->dose_anterior_id == 0) {
+            $candidato = Candidato::where('cpf', $validate['cpf'])->where('dose', '4ª Dose')->where('aprovacao', '!=', Candidato::APROVACAO_ENUM[2])->first();
+        }else {
+            $candidato = Candidato::where('cpf', $validate['cpf'])->where('dose_id', $dose->dose_anterior_id)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])->first();
+        }
+
+        // Verificação para existencia do candidato
+        if($candidato != null){
+            return redirect()->route('solicitacao.reforcoDose',[ 'candidato' => $candidato, 'dose' => $dose]);
+        }
+        return view('candidato_dose.data_dose', compact('dose','validate'));
+
+    }
+    // Passagem de dados para o formulário de doses
+    public function solicitarReforcoDose(Request $request) {
+        $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
+        $dose = Dose::find($request->dose);
+        $etapasAtuais = [];
+        foreach($dose->etapas as $etapa){
+            if($etapa->atual){
+                array_push($etapasAtuais,$etapa);
+            }
+        }
+        $config = Configuracao::first();
+        $bairrosOrdenados = Candidato::bairros;
+        if($request->candidato != null){
+            $candidato = Candidato::find($request->candidato);
+            return view("candidato_dose.solicatacao_confirm")->with([
+                "sexos" => Candidato::SEXO_ENUM,
+                "postos" => $postos_com_vacina,
+                "doses" => Candidato::DOSE_ENUM,
+                "publicos" => $etapasAtuais,
+                "tipos"    => Etapa::TIPO_ENUM,
+                "bairros" => $bairrosOrdenados,
+                "config"    => $config,
+                "candidato"    => $candidato ,
+            ]);
+        }
+        return view("candidato_dose.solicatacao_confirm")->with([
+            "sexos" => Candidato::SEXO_ENUM,
+            "postos" => $postos_com_vacina,
+            "doses" => Candidato::DOSE_ENUM,
+            "publicos" => $etapasAtuais,
+            "tipos"    => Etapa::TIPO_ENUM,
+            "bairros" => $bairrosOrdenados,
+            "config"    => $config,
+            "cpf"       => $request->cpf,
+            "data_de_nascimento" => $request->data_de_nascimento,
+        ]);
+
     }
 
     public function verificarCadastro(Request $request)

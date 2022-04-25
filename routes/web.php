@@ -48,6 +48,11 @@ Route::prefix('reforco')->group(function () {
     Route::get("/solicitar/reforco2/{candidato}", [ReforcoController::class, 'solicitarReforco2'])->name("solicitacao.reforco2");
     Route::get("/form", [ReforcoController::class, 'reforcoSolicitaForm'])->name("reforco.solicitar.form");
     Route::get("/form2", [ReforcoController::class, 'reforcoSolicitaForm2'])->name("reforco2.solicitar.form");
+    //Novas doses
+    Route::get('/{id}', [ReforcoController::class, 'novaDoseCpf'])->name('dose.cpf');
+    Route::post('/verificar/cadastro/dose', [ReforcoController::class, 'verificarDose'])->name('reforco.verificar_dose');
+    Route::get("/solicitar/dose", [ReforcoController::class, 'solicitarReforcoDose'])->name("solicitacao.reforcoDose");
+
 });
 
 Route::get("/solicitar/{bool?}", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
