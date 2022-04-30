@@ -348,6 +348,32 @@ class CandidatoController extends Controller
                     }
                 }
                 $candidato->etapa_id = $candidatoDoseAnterior->etapa_id;
+            } elseif($request->cadastro == "0") {
+                $candidato = new Candidato;
+                $candidato->nome_completo = $request->nome_completo;
+                $candidato->data_de_nascimento = $validate->data_de_nascimento;
+                # CPF ou Numero Cartao SUS
+                if ($request->cpf != null) {
+                    $candidato->cpf = $validate->cpf; //Olhar
+                } else {
+                    $candidato->cpf = $request->input("número_cartão_sus");;
+                }
+                $candidato->numero_cartao_sus = $request->input("número_cartão_sus");
+                $candidato->sexo = $request->sexo;
+                $candidato->nome_da_mae = $request->input("nome_da_mãe");
+                $candidato->telefone = $request->telefone;
+                $candidato->whatsapp = $request->whatsapp;
+                $candidato->email = $request->email;
+                $candidato->cep = preg_replace('/[^0-9]/', '', $request->cep);
+                // $candidato->cidade                  = $request->cidade;
+                $candidato->cidade = "Garanhuns";
+                $candidato->bairro = $request->bairro;
+                $candidato->logradouro = $request->rua;
+                $candidato->numero_residencia = $request->input("número_residencial");
+                $candidato->complemento_endereco = $request->complemento_endereco;
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
+                $candidato->dose = $dose->nome;
+                $candidato->dose_id = $dose->id;
             }
 
 

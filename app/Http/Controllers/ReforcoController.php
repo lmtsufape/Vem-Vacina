@@ -80,6 +80,15 @@ class ReforcoController extends Controller
                 "candidato"    => $candidato ,
             ]);
         }
+
+        $validate = $request->validate([
+            'cpf' => 'required',
+            'data_de_nascimento' => 'required|date',
+            'data_dois' => 'required|date',
+        ]);
+
+        $request->session()->put('validate', $validate);
+
         return view("candidato_dose.solicatacao_confirm")->with([
             "sexos" => Candidato::SEXO_ENUM,
             "postos" => $postos_com_vacina,
@@ -88,8 +97,41 @@ class ReforcoController extends Controller
             "tipos"    => Etapa::TIPO_ENUM,
             "bairros" => $bairrosOrdenados,
             "config"    => $config,
+            "validate" => $validate,
             "cpf"       => $request->cpf,
             "data_de_nascimento" => $request->data_de_nascimento,
+        ]);
+
+    }
+
+    public function reforcoSolicitaForm(Request $request)
+    {
+        $validate = $request->validate([
+            'cpf' => 'required',
+            'data_de_nascimento' => 'required|date',
+            'data_um' => 'required|date',
+            'data_dois' => 'required|date',
+        ]);
+
+
+        $request->session()->put('validate', $validate);
+
+        $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
+        $etapasAtuais = Etapa::where('atual', true)->where('dose_tres', true)->orderBy('texto')->get();
+        $config = Configuracao::first();
+
+
+        $bairrosOrdenados = Candidato::bairros;
+
+        return view("reforco.form_dose_tres")->with([
+            "sexos" => Candidato::SEXO_ENUM,
+            "postos" => $postos_com_vacina,
+            "doses" => Candidato::DOSE_ENUM,
+            "publicos" => $etapasAtuais,
+            "tipos"    => Etapa::TIPO_ENUM,
+            "bairros" => $bairrosOrdenados,
+            "config"    => $config,
+            "validate"    => $validate,
         ]);
 
     }
@@ -249,36 +291,6 @@ class ReforcoController extends Controller
 
     }
 
-    public function reforcoSolicitaForm(Request $request)
-    {
-        $validate = $request->validate([
-            'cpf' => 'required',
-            'data_de_nascimento' => 'required|date',
-            'data_um' => 'required|date',
-            'data_dois' => 'required|date',
-        ]);
-
-        $request->session()->put('validate', $validate);
-
-        $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
-        $etapasAtuais = Etapa::where('atual', true)->where('dose_tres', true)->orderBy('texto')->get();
-        $config = Configuracao::first();
-
-
-        $bairrosOrdenados = Candidato::bairros;
-
-        return view("reforco.form_dose_tres")->with([
-            "sexos" => Candidato::SEXO_ENUM,
-            "postos" => $postos_com_vacina,
-            "doses" => Candidato::DOSE_ENUM,
-            "publicos" => $etapasAtuais,
-            "tipos"    => Etapa::TIPO_ENUM,
-            "bairros" => $bairrosOrdenados,
-            "config"    => $config,
-            "validate"    => $validate,
-        ]);
-
-    }
     public function reforcoSolicitaForm2(Request $request)
     {
         $validate = $request->validate([
