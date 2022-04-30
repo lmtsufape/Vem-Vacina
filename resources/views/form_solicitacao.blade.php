@@ -60,6 +60,7 @@
                                 @csrf
                                 <input type="hidden" name="voltou" value="1">
                                 <input type="hidden" name="dose_tres" value="0">
+                                <input type="hidden" name="dose_quatro" value="0">
                                 <input type="hidden" name="cadastro" value="0">
                                 {{-- @dd(session('bool') ?? "Erro"); --}}
 
