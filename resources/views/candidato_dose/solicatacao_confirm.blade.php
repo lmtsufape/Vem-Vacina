@@ -249,7 +249,7 @@
                                             <input type="text"
                                                    class="form-control style_input cpf @error('cpf') is-invalid @enderror"
                                                    id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf"
-                                                   value="{{ $candidato->cpf }}" readonlyph>
+                                                   value="{{ $candidato->cpf }}" readonly>
 
                                             @error('cpf')
                                             <div id="validationServer05Feedback" class="invalid-feedback">
