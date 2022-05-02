@@ -372,8 +372,9 @@
                                     @foreach ($publicos as $publico)
                                         @if ($publico->outrasInfo != null && count($publico->outrasInfo) > 0)
                                             <div id="divOutrasInformacoes_{{$publico->id}}"
-                                                 @if(old('público') == $publico->id) style="display: block;"
-                                                 @else style="display: none;" @endif>
+                                                 @if(old('público') == $publico->id || $candidato->etapa->id == $publico->id) style="display: block;"
+                                                 @else style="display: none;" @endif
+                                                 style="display: block">
                                                 <div class="form-group">
                                                     <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras
                                                         informações
@@ -1064,7 +1065,8 @@
                                         @if ($publico->outrasInfo != null && count($publico->outrasInfo) > 0)
                                             <div id="divOutrasInformacoes_{{$publico->id}}"
                                                  @if(old('público') == $publico->id) style="display: block;"
-                                                 @else style="display: none;" @endif>
+                                                 @else style="display: none;" @endif
+                                                 style="display:block;">
                                                 <div class="form-group">
                                                     <div class="style_titulo_campo" style="margin-bottom: -2px;">Outras
                                                         informações
