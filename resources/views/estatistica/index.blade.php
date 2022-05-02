@@ -38,7 +38,7 @@
                     <tr>
                         <th scope="col">Público</th>
                         <th scope="col">Aprovados</th>
-                        <th scope="col">Fila de espera</th>
+                        <th scope="col">Fila de espera (1ª e 2ª dose)</th>
                         <th scope="col">Fila de espera(3ª dose)</th>
                         <th scope="col">Fila de espera(4ª dose)</th>
                         @foreach($doses as $dose)
@@ -57,7 +57,7 @@
                             <td>
                                 <a href="{{route('dashboard')}}?aprovado=on&publico_check=on&publico={{$publico->id}}">
                                     {{
-                                        intval(count($publico->candidatos()->where('aprovacao', $aprovacao[1])->whereIn('dose', ['2ª Dose',"Dose única","3ª Dose", '4ª Dose'])->get()))
+                                        intval(count($publico->candidatos()->where('aprovacao', $aprovacao[1])->get()))
 
                                     }}
                                 </a>

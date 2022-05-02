@@ -34,7 +34,7 @@
                                 <option value="0" @if($dose->dose_anterior_id == 0) selected @endif>{{\App\Models\Candidato::DOSE_ENUM[4]}}</option>
                                 @foreach($doses as $dose_temp)
                                     @if($dose_temp->id != $dose->id)
-                                        <option value="{{$dose_temp->id}}" @if($dose_temp->dose_anterior_id == $dose_temp->id) selected @endif>{{$dose_temp->nome}}</option>
+                                        <option value="{{$dose_temp->id}}" @if($dose_temp->id == $dose->dose_anterior_id) selected @endif>{{$dose_temp->nome}}</option>
                                     @endif
                                 @endforeach
 
