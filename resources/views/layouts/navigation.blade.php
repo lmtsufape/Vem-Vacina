@@ -10,7 +10,7 @@
                         {{ __('Página inicial') }}
                     </x-nav-link>
                     @can('ver-dose')
-                    <x-nav-link :href="route('doses.index')" :active="request()->routeIs('etapas.*')">
+                    <x-nav-link :href="route('doses.index')" :active="request()->routeIs('doses.*')">
                         {{ __('Doses') }}
                     </x-nav-link>
                     @endcan
