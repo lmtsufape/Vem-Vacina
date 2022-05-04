@@ -43,8 +43,15 @@ class ReforcoController extends Controller
             return redirect()->back()->with([
                 "status" => "Existe um agendamento para a " . $dose->nome . " para esse cpf."]);
         }
+        // verificação de dose anterior
+        if($dose->dose_anterior_id == 0) {
+            $candidato = Candidato::where('cpf', $validate['cpf'])->where('dose', '4ª Dose')->where('aprovacao', '!=', Candidato::APROVACAO_ENUM[2])->first();
+        }else {
+            $candidato = Candidato::where('cpf', $validate['cpf'])->where('dose_id', $dose->dose_anterior_id)->where('aprovacao','!=', Candidato::APROVACAO_ENUM[2])->first();
+        }
+
         // verificação de cadastro
-        $candidato = Candidato::where('cpf', $validate['cpf'])->where('aprovacao', '!=', Candidato::APROVACAO_ENUM[2])->orderByDesc('created_at')->first();
+        //$candidato = Candidato::where('cpf', $validate['cpf'])->where('aprovacao', '!=', Candidato::APROVACAO_ENUM[2])->orderByDesc('created_at')->first();
 
         // Verificação para existencia do candidato
         if ($candidato != null) {
