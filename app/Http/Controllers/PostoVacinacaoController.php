@@ -23,6 +23,32 @@ class PostoVacinacaoController extends Controller
     use HorariosAgrupadosPorDia {
         horarios as protected traitHorarios;
     }
+
+    public function domicilio()
+    {
+        $domicilio = PostoVacinacao::where('nome', 'Domicílio')->first();
+        if($domicilio == null) {
+            $domicilio = new PostoVacinacao();
+            $domicilio->nome = 'Domicílio';
+            $domicilio->endereco = 'Endereço do candidato';
+
+            $domicilio->padrao_no_formulario = false;
+            $domicilio->funciona_domingo = false;
+            $domicilio->funciona_segunda = false;
+            $domicilio->funciona_terca = false;
+            $domicilio->funciona_quarta = false;
+            $domicilio->funciona_quinta = false;
+            $domicilio->funciona_sexta = false;
+            $domicilio->funciona_sabado = false;
+
+            $domicilio->save();
+            return redirect()->back()->with('success', 'Domicílio cadastrado com sucesso!');
+        } else
+        {
+            return redirect()->back()->with('fail', 'Domicílio já cadastrado no sistema');
+        }
+    }
+
     public function horarios($posto_id) {
 
         $horarios_agrupados_por_dia = $this->traitHorarios($posto_id);

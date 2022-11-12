@@ -36,8 +36,9 @@ class EtapaController extends Controller
     {
         Gate::authorize('criar-etapa');
         $pontos = PostoVacinacao::where('status', '!=', 'arquivado')->get();
+        $domicilio = PostoVacinacao::where('nome', 'Domicílio')->first();
         return view('etapas.create')->with(['tipos' => Etapa::TIPO_ENUM,
-                                            'pontos' => $pontos]);
+                                            'pontos' => $pontos, 'domicilio' => $domicilio]);
     }
 
     /**
@@ -181,9 +182,11 @@ class EtapaController extends Controller
     {
         $publico = Etapa::find($id);
         $pontos = PostoVacinacao::where('status', '!=', 'arquivado')->get();
+        $domicilio = PostoVacinacao::where('nome', 'Domicílio')->first();
         return view('etapas.edit')->with(['publico' => $publico,
                                           'tipos' => Etapa::TIPO_ENUM,
-                                          'pontos' => $pontos]);
+                                          'pontos' => $pontos,
+            'domicilio' => $domicilio]);
     }
 
     /**
