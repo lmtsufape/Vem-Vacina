@@ -20,10 +20,15 @@
                                     <div class="col-md-12 style_card_apresentacao_subtitulo">A plataforma “Vem Vacina Garanhuns” é a ferramenta oficial da Secretaria de Saúde de Garanhuns, desenvolvida em parceria com a Universidade Federal do Agreste de Pernambuco, para cadastro e agendamento da vacinação contra a Covid-19.</div>
                                 </div>
                             </div>
+
                             <div class="col-md-12" style="margin-bottom: 32px;">
                                 <div class="row ">
+
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina text-center">SOLICITAR MINHA DOSE DE REFORÇO</div>
+
+
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
+                                    <!--
                                     @auth
                                         <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white;">SOLICITAR MINHA PRIMEIRA DOSE DE REFORÇO </a>
                                         <a href="{{route('reforco2.index')}}" class="btn btn-secondary style_card_apresentacao_botao" style="color:white;">SOLICITAR MINHA SEGUNDA DOSE DE REFORÇO </a>
@@ -32,8 +37,32 @@
                                         <a href="{{route('reforco.index')}}" class="btn btn-info style_card_apresentacao_botao" style="color:white; @if($config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else SOLICITAR MINHA <b style="color: black">PRIMEIRA</b> DOSE DE REFORÇO @endif</a>
                                         <a href="{{route('reforco2.index')}}" class="btn btn-secondary style_card_apresentacao_botao" style="color:white; @if($config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else SOLICITAR MINHA <b style="color: black">SEGUNDA</b> DOSE DE REFORÇO @endif</a>
                                     @endauth
+                                    -->
                                 </div>
                             </div>
+                            <!-- Novas Doses -->
+                            <div class="col-sm-6">
+                                @php
+                                    $doses = \App\Models\Dose::all();
+                                @endphp
+                                <select class="form-control" id="tipoDoseReforço">
+                                    <option value="" disabled selected hidden>Selecione a Dose de reforço</option>
+                                    <option value="{{route('reforco.index')}}">Terceira Dose</option>
+                                    <option value="{{route('reforco2.index')}}">Quarta Dose</option>
+                                    @foreach($doses as $dose)
+                                        <option value="{{route('dose.cpf', ['id' => $dose->id])}}">{{$dose->nome}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-sm-6 text-center">
+                                @auth
+                                    <a href="" class="btn btn-info style_card_apresentacao_botao" style="color:white; margin: auto" id="doseReforço">SOLICITAR MINHA DOSE DE REFORÇO</a>
+                                @else
+                                    <a href="" class="btn btn-info style_card_apresentacao_botao" style="color:white; margin: auto" id="doseReforço">
+                                        @if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else SOLICITAR MINHA DOSE DE REFORÇO @endif</a>
+                                @endauth
+                            </div>
+
                             <div class="col-md-6" style="margin-bottom: 32px;">
                                 <div class="row">
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina">CONSULTAR AGENDAMENTO</div>
@@ -263,6 +292,8 @@
                                             </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
                                     </div>
                                 </div>
                               </section>
@@ -575,8 +606,11 @@
     </script>
     <!-- Fim do Script de Altenancia -->
 
+    <!-- Seleção da dose de reforço-->
     <script>
-
+        $('#tipoDoseReforço').change(function (){
+            document.getElementById("doseReforço").href =$('#tipoDoseReforço').val();
+        });
     </script>
 
 </x-guest-layout>

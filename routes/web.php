@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Candidato;
+use App\Http\Controllers\DoseController;
 use App\Http\Livewire\StoreLote;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
@@ -47,10 +48,17 @@ Route::prefix('reforco')->group(function () {
     Route::get("/solicitar/reforco2/{candidato}", [ReforcoController::class, 'solicitarReforco2'])->name("solicitacao.reforco2");
     Route::get("/form", [ReforcoController::class, 'reforcoSolicitaForm'])->name("reforco.solicitar.form");
     Route::get("/form2", [ReforcoController::class, 'reforcoSolicitaForm2'])->name("reforco2.solicitar.form");
+    //Novas doses
+    Route::get('/{id}', [ReforcoController::class, 'novaDoseCpf'])->name('dose.cpf');
+    Route::post('/verificar/cadastro/dose', [ReforcoController::class, 'verificarDose'])->name('reforco.verificar_dose');
+    Route::get("/solicitar/dose", [ReforcoController::class, 'solicitarReforcoDose'])->name("solicitacao.reforcoDose");
+
 });
 
 Route::get("/solicitar/{bool?}", [CandidatoController::class, 'solicitar'])->name("solicitacao.candidato");
 Route::post("/solicitar/enviar", [CandidatoController::class, 'enviar_solicitacao'])->name("solicitacao.candidato.enviar");
+//Solicitacao Nova Dose
+Route::post("/solicitar/enviar/nova_dose", [CandidatoController::class, 'solicitacao_nova_dose'])->name("solicitacao.novadose.enviar");
 // Route::post("/solicitar/dose/tres", [CandidatoController::class, 'dose_tres_com_cadastro'])->name("solicitacao.dose.tres");
 // Route::get("/agendamento/{id}", [CandidatoController::class, 'ver'])->name("agendamento.ver");
 Route::post("/consultar-agendamento", [CandidatoController::class, 'consultar'])->name("agendamento.consultar");
@@ -162,6 +170,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/etapas/{id}/editar', [EtapaController::class, 'edit'])->name('etapas.edit');
     Route::post('/etapas/{id}/excluir', [EtapaController::class, 'destroy'])->name('etapas.destroy');
     Route::post('/etapas/{id}/atualizar', [EtapaController::class, 'update'])->name('etapas.update');
+
+    Route::get('/doses', [DoseController::class, 'index'])->name('doses.index');
+    Route::get('/doses/adicionar', [DoseController::class, 'create'])->name('doses.create');
+    Route::post('/doses/registrar', [DoseController::class, 'registrar'])->name('doses.registrar');
+    Route::get('/doses/{id}/editar', [DoseController::class, 'edit'])->name('doses.edit');
+    Route::post('/doses/{id}/atualizar', [DoseController::class, 'atualizar'])->name('doses.atualizar');
+    Route::post('/doses/{id}/excluir', [DoseController::class, 'destroy'])->name('doses.destroy');
 
     Route::get('exportar/candidato/', [ExportController::class, 'exportCandidato'])->name('export.candidato');
     Route::get('exportar/lote', [ExportController::class, 'exportLote'])->name('export.lote');

@@ -9,6 +9,11 @@
                     <x-nav-link :href="route('index')" :active="request()->routeIs('index')">
                         {{ __('Página inicial') }}
                     </x-nav-link>
+                    @can('ver-dose')
+                    <x-nav-link :href="route('doses.index')" :active="request()->routeIs('doses.*')">
+                        {{ __('Doses') }}
+                    </x-nav-link>
+                    @endcan
                     @can('ver-etapa')
                     <x-nav-link :href="route('etapas.index')" :active="request()->routeIs('etapas.*')">
                         {{ __('Públicos') }}

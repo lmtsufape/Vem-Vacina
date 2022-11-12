@@ -51,4 +51,9 @@ class Etapa extends Model
     public function lotes() {
         return $this->belongsToMany(Lote::class, 'lote_etapas', 'etapa_id', 'lote_id');
     }
+
+    public function doses()
+    {
+        return $this->belongsToMany(Dose::class, 'etapa_dose', 'etapa_id', 'dose_id');
+    }
 }

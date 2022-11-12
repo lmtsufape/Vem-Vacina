@@ -173,7 +173,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputCPF" class="style_titulo_input">CPF<span class="style_titulo_campo">*</span><span class="style_subtitulo_input"> (obrigatório)</span> </label>
-                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{ $candidato->cpf }}"  readonly>
+                                        <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf" value="{{ $candidato->cpf }}"  readonlyph>
 
                                         @error('cpf')
                                         <div id="validationServer05Feedback" class="invalid-feedback">

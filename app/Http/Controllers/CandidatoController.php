@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgendamentoOutrasInfo;
+use App\Models\Dose;
 use App\Models\OutrasInfoEtapa;
 use DateTime;
 use Throwable;
@@ -169,6 +170,579 @@ class CandidatoController extends Controller
     public function ver($id)
     {
         return view("ver_agendamento", ["agendamento" => Candidato::find($id)]);
+    }
+
+    public function solicitacao_nova_dose(Request $request)
+    {
+        if (env('ATIVAR_FILA', false) == true) {
+            $request->merge(['fila' => "true"]);
+        }
+
+        $candidatoRec = Candidato::find($request->candidato_id);
+        $candidatoDoseAnterior = null;
+
+        $validate = $request->session()->get('validate');
+        $validate = (object)$validate;
+        $dose = Dose::find($request->dose);
+
+        //Verifica se o usuário já tem cadastro no sistema novamente
+        if ($request->cadastro == "1") {
+            #CPF ou Numero do cartão SUS
+            if ($request->cpf != null) {
+                $repetido = Candidato::where('cpf', $validate->cpf)
+                    ->where('dose_id', $request->dose)
+                    ->count();
+            } else {
+                $repetido = Candidato::where('numero_cartao_sus', $candidatoRec->numero_cartao_sus)
+                    ->where('dose_id', $request->dose)
+                    ->count();
+            }
+            # --- Final ---
+            if ($repetido > 0) {
+                return redirect()->back()->withErrors([
+                    "dose" => "Existe um agendamento para " . $dose->nome . " para esse cadastro."
+                ]);
+            }
+
+            #CPF ou Numero cartao do SUS
+            if ($request->cpf != null) {
+                $candidatoDoseAnterior = Candidato::where('cpf', $validate->cpf)
+                    ->where('data_de_nascimento', $validate->data_de_nascimento)
+                    ->where('dose_id', $dose->dose_anterior_id)->first();
+                $candidatoQuartaDose = Candidato::where('cpf', $validate->cpf)
+                    ->where('data_de_nascimento', $validate->data_de_nascimento)
+                    ->where('dose', Candidato::DOSE_ENUM[4])->first();
+                if($candidatoDoseAnterior == null){
+                    $candidatoDoseAnterior = $candidatoQuartaDose;
+                }
+                if ($candidatoDoseAnterior == null && $candidatoQuartaDose == null) {
+                    return redirect()->back()->withErrors([
+                        "dose" => "Não existe cadastro aprovado no sistema para esse cpf."
+                    ]);
+                }
+                $data_saida = date_create_from_format('Y-m-d H:i:s', $candidatoDoseAnterior->saida);
+                $data_agora = date_create_from_format('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+                if ($candidatoDoseAnterior == null || ($candidatoDoseAnterior->aprovacao != Candidato::APROVACAO_ENUM[1] && $candidatoDoseAnterior->aprovacao != Candidato::APROVACAO_ENUM[3])) {
+                    return redirect()->back()->withErrors([
+                        "dose" => "Não existe cadastro aprovado ou vacinado no sistema para esse cpf."
+                    ]);
+                } elseif ((date_diff($data_saida, $data_agora)->m < 4)) {
+                    return redirect()->back()->withErrors([
+                        "dose" => "Você precisa aguardar 4 meses desde a ".$candidatoDoseAnterior->dose." para solicitar a ".$dose->nome. "."
+                    ]);
+                }
+            } else {
+                $candidatoDoseAnterior = Candidato::where('numero_cartao_sus', $candidatoRec->numero_cartao_sus)
+                    ->where('data_de_nascimento', $validate->data_de_nascimento)
+                    ->where('dose_id', $dose->dose_anterior_id)->first();
+
+                $candidatoQuartaDose = Candidato::where('numero_cartao_sus', $validate->numero_cartao_sus)
+                    ->where('data_de_nascimaneto', $validate->data_de_nascimento)
+                    ->where('dose', Candidato::DOSE_ENUM[4])->first();
+                if ($candidatoDoseAnterior == null || $candidatoQuartaDose == null) {
+                    return redirect()->back()->withErrors([
+                        "dose" => "Não existe cadastro aprovado no sistema para esse número do cartão do SUS."
+                    ]);
+                }
+            }
+            # --- Final ---
+        }
+
+        $request->validate([
+            "voltou" => "nullable",
+            "telefone" => "required",
+            "whatsapp" => "nullable",
+            "email" => "nullable|email",
+            "cep" => "nullable",
+            "bairro" => "required",
+            "rua" => "required|regex:/[a-zA-Z0-9\s]+/|min:5", // Na cohab 2, as pessoas não sabem os nomes das ruas, só os numeros, então tem gente que vai por "Rua 2"
+            "número_residencial" => "required|regex:/[a-zA-Z0-9\s]+/",
+            "complemento_endereco" => "nullable",
+            "posto_vacinacao" => Rule::requiredIf(!$request->has('fila')),
+            "dia_vacinacao" => Rule::requiredIf(!$request->has('fila')),
+            "horario_vacinacao" => Rule::requiredIf(!$request->has('fila')),
+            "opcao_etapa_" . $request->input('público') => 'nullable',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            # Verifica para o CPF ou numero cartao do SUS a se existe um registro do candidato para a dose imediatamente anterior
+            if ($request->cpf != null) {
+                if ($request->cadastro == "0") {
+                    if (Candidato::where('cpf', $request->cpf)
+                            ->where('aprovacao', '!=', Candidato::APROVACAO_ENUM[2])
+                            ->where('dose_id', '=', $dose->dose_anterior_id)
+                            ->count() > 0) {
+                        return redirect()->back()->withErrors([
+                            "cpf" => "Existe um agendamento pendente para esse CPF."
+                        ]);
+                    }
+                }
+            } else {
+                if ($request->cadastro == "0") {
+                    if (Candidato::where('numero_cartao_sus', $request->número_cartão_sus)
+                            ->where('aprovacao', '!=', Candidato::APROVACAO_ENUM[2])
+                            ->where('dose_id', '=', $dose->dose_anterior_id)
+                            ->count() > 0) {
+                        return redirect()->back()->withErrors([
+                            "número_cartão_sus" => "Existe um agendamento pendente para esse número de cartão do SUS."
+                        ]);
+                    }
+                }
+            }
+            # --- Final ---
+            if ($request->cadastro == "1") {
+                $idade = $this->idade($validate->data_de_nascimento);
+                $candidato = new Candidato;
+                $candidato->nome_completo = $candidatoDoseAnterior->nome_completo;
+                $candidato->data_de_nascimento = $validate->data_de_nascimento;
+                #CPF ou Numero do cartao SUS
+                if ($request->cpf != null) {
+                    $candidato->cpf = $validate->cpf; //Olhar
+                } else {
+                    $candidato->cpf = $candidatoDoseAnterior->numero_cartao_sus;
+                }
+                $candidato->numero_cartao_sus = $candidatoDoseAnterior->numero_cartao_sus;
+                $candidato->sexo = $candidatoDoseAnterior->sexo;
+                $candidato->nome_da_mae = $candidatoDoseAnterior->nome_da_mae;
+                $candidato->telefone = $request->telefone;
+                $candidato->whatsapp = $request->whatsapp;
+                $candidato->email = $request->email;
+                $candidato->cep = preg_replace('/[^0-9]/', '', $request->cep);
+                // $candidato->cidade                  = $request->cidade;
+                $candidato->cidade = "Garanhuns";
+                $candidato->bairro = $request->bairro;
+                $candidato->logradouro = $request->rua;
+                $candidato->numero_residencia = $request->input("número_residencial");
+                $candidato->complemento_endereco = $request->complemento_endereco;
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
+                $candidato->dose = $dose->nome;
+                $candidato->dose_id = $dose->id;
+                $etapa = Etapa::find($candidatoDoseAnterior->etapa_id);
+
+                if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
+                    if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                        return redirect()->back()->withErrors([
+                            "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                        ])->withInput();
+                    }
+                } else if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+                    if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                        return redirect()->back()->withErrors([
+                            "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                        ])->withInput();
+                    }
+
+                    if ($request->input("publico_opcao_" . $request->input('público')) == null) {
+                        return redirect()->back()->withErrors([
+                            "publico_opcao_" . $request->input('público') => "Esse campo é obrigatório para público marcado."
+                        ])->withInput();
+                    }
+                    $candidato->etapa_resultado = $request->input("publico_opcao_" . $request->input('público'));
+                }
+
+                if ($etapa->outras_opcoes_obrigatorio != null && $etapa->outras_opcoes_obrigatorio) {
+                    if (!($request->input("opcao_etapa_" . $etapa->id) != null && count($request->input("opcao_etapa_" . $etapa->id)) > 0)) {
+                        return redirect()->back()->withErrors([
+                            "outras_infor_obg_" . $request->input('público') => "Você deve marcar pelo menos uma informação para esse público."
+                        ])->withInput();
+                    }
+                }
+
+                //TODO: mover pro service provider
+                //Olhar
+                if ($request->cpf != null) {
+                    if (!$this->validar_cpf($candidato->cpf)) {
+                        return redirect()->back()->withErrors([
+                            "cpf" => "Número de CPF inválido"
+                        ])->withInput();
+                    }
+                }
+                $candidato->etapa_id = $candidatoDoseAnterior->etapa_id;
+            } elseif($request->cadastro == "0") {
+                $candidato = new Candidato;
+                $candidato->nome_completo = $request->nome_completo;
+                $candidato->data_de_nascimento = $validate->data_de_nascimento;
+                # CPF ou Numero Cartao SUS
+                if ($request->cpf != null) {
+                    $candidato->cpf = $validate->cpf; //Olhar
+                } else {
+                    $candidato->cpf = $request->input("número_cartão_sus");;
+                }
+                $candidato->numero_cartao_sus = $request->input("número_cartão_sus");
+                $candidato->sexo = $request->sexo;
+                $candidato->nome_da_mae = $request->input("nome_da_mãe");
+                $candidato->telefone = $request->telefone;
+                $candidato->whatsapp = $request->whatsapp;
+                $candidato->email = $request->email;
+                $candidato->cep = preg_replace('/[^0-9]/', '', $request->cep);
+                // $candidato->cidade                  = $request->cidade;
+                $candidato->cidade = "Garanhuns";
+                $candidato->bairro = $request->bairro;
+                $candidato->logradouro = $request->rua;
+                $candidato->numero_residencia = $request->input("número_residencial");
+                $candidato->complemento_endereco = $request->complemento_endereco;
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[1];
+                $candidato->dose = $dose->nome;
+                $candidato->dose_id = $dose->id;
+            }
+
+
+            // Se não foi passado CEP, o preg_replace retorna string vazia, mas no bd é uint nulavel, então anula
+            if ($candidato->cep == "") {
+                $candidato->cep = NULL;
+            }
+
+            // Relacionar o candidato com o público escolhido e realiza
+            // a validação de acordo com o público escolhido
+            $idade = $this->idade($candidato->data_de_nascimento);
+            $candidato->idade = $idade;
+            // dd($idade);
+
+            //Verificações relacionadas a etapa
+            $etapa = Etapa::find($request->input('público'));
+            if ($etapa == null) {
+                return redirect()->back()->withErrors([
+                    "message" => "Por favor selecione um público, caso não apareça, ele não está diponibilizado para esta dose."
+                ])->withInput();
+            }
+
+            if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
+                if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                    return redirect()->back()->withErrors([
+                        "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                    ])->withInput();
+                }
+            } else if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+                if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                    return redirect()->back()->withErrors([
+                        "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                    ])->withInput();
+                }
+
+                if ($request->input("publico_opcao_" . $request->input('público')) == null) {
+                    return redirect()->back()->withErrors([
+                        "publico_opcao_" . $request->input('público') => "Esse campo é obrigatório para público marcado."
+                    ])->withInput();
+                }
+                $candidato->etapa_resultado = $request->input("publico_opcao_" . $request->input('público'));
+            }
+
+            if ($etapa->outras_opcoes_obrigatorio != null && $etapa->outras_opcoes_obrigatorio) {
+                if (!($request->input("opcao_etapa_" . $etapa->id) != null && count($request->input("opcao_etapa_" . $etapa->id)) > 0)) {
+                    return redirect()->back()->withErrors([
+                        "outras_infor_obg_" . $request->input('público') => "Você deve marcar pelo menos uma informação para esse público."
+                    ])->withInput();
+                }
+            }
+
+            $candidato->etapa_id = $etapa->id;
+
+            //TODO: mover pro service provider
+            //Olhar
+            if ($request->cpf != null) {
+                if (!$this->validar_cpf($candidato->cpf)) {
+                    return redirect()->back()->withErrors([
+                        "cpf" => "Número de CPF inválido"
+                    ])->withInput();
+                }
+            }
+            // FIM
+
+
+            if ($request->cadastro == 0) {
+                $etapa = Etapa::find($request->input('público'));
+
+                if ($etapa->tipo == Etapa::TIPO_ENUM[0]) {
+                    if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                        return redirect()->back()->withErrors([
+                            "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                        ])->withInput();
+                    }
+                } else if ($etapa->tipo == Etapa::TIPO_ENUM[2]) {
+                    if (!($etapa->inicio_intervalo <= $idade && $etapa->fim_intervalo >= $idade)) {
+                        return redirect()->back()->withErrors([
+                            "data_de_nascimento" => "Idade fora da faixa etária de vacinação."
+                        ])->withInput();
+                    }
+
+                    if ($request->input("publico_opcao_" . $request->input('público')) == null) {
+                        return redirect()->back()->withErrors([
+                            "publico_opcao_" . $request->input('público') => "Esse campo é obrigatório para público marcado."
+                        ])->withInput();
+                    }
+                    $candidato->etapa_resultado = $request->input("publico_opcao_" . $request->input('público'));
+                }
+
+                if ($etapa->outras_opcoes_obrigatorio != null && $etapa->outras_opcoes_obrigatorio) {
+                    if (!($request->input("opcao_etapa_" . $etapa->id) != null && count($request->input("opcao_etapa_" . $etapa->id)) > 0)) {
+                        return redirect()->back()->withErrors([
+                            "outras_infor_obg_" . $request->input('público') => "Você deve marcar pelo menos uma informação para esse público."
+                        ])->withInput();
+                    }
+                }
+
+                $candidato->etapa_id = $etapa->id;
+
+                //TODO: mover pro service provider
+                //Olhar
+                if ($request->cpf != null) {
+                    if (!$this->validar_cpf($candidato->cpf)) {
+                        return redirect()->back()->withErrors([
+                            "cpf" => "Número de CPF inválido"
+                        ])->withInput();
+                    }
+                }
+
+            }
+
+            $etapa = Etapa::find($candidato->etapa_id);
+            // dd($etapa->numero_dias);
+            if ($etapa->isDias) {
+                $datetime2 = new DateTime(now());
+                if ($request->cadastro == "1") {
+                    $datetime1 = new DateTime($candidatoDoseAnterior->saida);
+                } else {
+                    $datetime1 = new DateTime($validate->data_dois);
+                }
+                $interval = $datetime1->diff($datetime2);
+                // dd($interval->days < $etapa->numero_dias);
+                // dd($interval->days);
+                if ($interval->days < $etapa->numero_dias) {
+                    return redirect()->back()->with([
+                        "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
+                    ]);
+                }
+            } else {
+                $datetime2 = new DateTime($etapa->intervalo_reforco);
+                if ($request->cadastro == "1") {
+                    $datetime1 = new DateTime($candidatoDoseAnterior->saida);
+                } else {
+                    $datetime1 = new DateTime($validate->data_dois);
+                }
+                $interval = $datetime1->diff($datetime2);
+                // dd($interval->invert);
+                if ($interval->invert == 1) {
+                    return redirect()->back()->with([
+                        "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
+                    ]);
+                }
+            }
+
+            if (!$this->validar_telefone($request->telefone)) {
+                return redirect()->back()->withErrors([
+                    "telefone" => "Número de telefone inválido"
+                ])->withInput();
+            }
+
+            if ($request->has('fila')) {
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
+                $candidato->save();
+                if ($request->cadastro == 0 && $request->dose_tres == 1) {
+                    $candidato->dataDose()->create((array)$validate);
+                }
+                if ($request->cadastro == 0 && $request->dose_quatro == 1) {
+                    $candidato->dataDose()->create((array)$validate);
+                }
+                Notification::send($candidato, new CandidatoFila($candidato));
+                DB::commit();
+                if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+                    if ($request->input("opcao_etapa_" . $etapa->id) != null && count($request->input("opcao_etapa_" . $etapa->id)) > 0) {
+                        foreach ($request->input("opcao_etapa_" . $etapa->id) as $outra_info_id) {
+                            $candidato->outrasInfo()->attach($outra_info_id);
+                        }
+                    }
+                }
+                $agendamentos = [];
+                array_push($agendamentos, $candidato);
+                return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+                    'agendamentos' => $agendamentos,
+                    'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
+            }
+
+
+            $dia_vacinacao = $request->dia_vacinacao;
+            $horario_vacinacao = $request->horario_vacinacao;
+            $id_posto = $request->posto_vacinacao;
+            $datetime_chegada = Carbon::createFromFormat("d/m/Y H:i", $dia_vacinacao . " " . $horario_vacinacao);
+            $datetime = $datetime_chegada;
+            $datetime_saida = $datetime_chegada->copy()->addMinutes(10);
+
+            $candidatos_no_mesmo_horario_no_mesmo_lugar = Candidato::where("chegada", "=", $datetime)->where("posto_vacinacao_id", $id_posto)->get();
+
+            if ($candidatos_no_mesmo_horario_no_mesmo_lugar->count() > 0) {
+                return redirect()->back()->withErrors([
+                    "posto_vacinacao" => "Alguém conseguiu preencher o formulário mais rápido que você, escolha outro horario por favor."
+                ])->withInput();
+            }
+
+            $etapa = Etapa::where('id', $request->input('público'))->first();
+
+            if (!$etapa->lotes->count()) {
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
+                $candidato->save();
+                Notification::send($candidato, new CandidatoFila($candidato));
+                DB::commit();
+                $agendamentos = [];
+                array_push($agendamentos, $candidato);
+                return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+                    'agendamentos' => $agendamentos,
+                    'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
+            }
+            //Retorna um array de IDs do lotes associados a etapa escolhida
+            $array_lotes_disponiveis = $etapa->lotes->pluck('id');
+
+
+            // Pega a lista de todos os lotes da etapa escolhida para o posto escolhido
+            $lotes_disponiveis = DB::table("lote_posto_vacinacao")->where("posto_vacinacao_id", $id_posto)
+                ->whereIn('lote_id', $array_lotes_disponiveis)->get();
+
+            $id_lote = 0;
+
+            // Pra cada lote que esteje no posto
+            foreach ($lotes_disponiveis as $lote) {
+
+                // Se a quantidade de candidatos à tomar a vicina daquele lote, naquele posto, que não foram reprovados
+                // for menor que a quantidade de vacinas daquele lote que foram pra aquele posto, então o candidato vai tomar
+                // daquele lote
+
+                $lote_original = Lote::find($lote->lote_id);
+                $qtdCandidato = Candidato::where("lote_id", $lote->id)->where("posto_vacinacao_id", $id_posto)->where("aprovacao", Candidato::APROVACAO_ENUM[1])
+                    ->count();
+                if (!$lote_original->dose_unica) {
+                    //Se o lote disponivel for de vacina com dose dupla vai parar aqui
+                    //e verifica se tem duas vacinas disponiveis
+                    if (($qtdCandidato + 1) < $lote->qtdVacina) {
+                        $id_lote = $lote->id;
+                        $chave_estrangeiro_lote = $lote->lote_id;
+                        $qtd = $lote->qtdVacina - $qtdCandidato;
+
+                        if (!$lote_original->dose_unica && !($qtd >= 2)) {
+                            $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
+                            $candidato->save();
+                            Notification::send($candidato, new CandidatoFila($candidato));
+                            DB::commit();
+                            $agendamentos = [];
+                            array_push($agendamentos, $candidato);
+                            return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+                                'agendamentos' => $agendamentos,
+                                'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
+                            // return redirect()->back()->withErrors([
+                            //     "posto_vacinacao" => "Não há mais doses disponíveis. Favor realize o seu cadastro na fila de espera pela página principal."
+                            // ])->withInput();
+                        }
+                        break;
+                    }
+
+                } else {
+                    //Se o lote disponivel for de vacina com dose unica vai parar aqui
+                    //e verifica se tem pelo menos uma ou mais vacinas disponiveis
+                    if ($qtdCandidato < $lote->qtdVacina) {
+                        $id_lote = $lote->id;
+                        $chave_estrangeiro_lote = $lote->lote_id;
+                        $candidato->dose = "Dose única";
+                        break;
+                    }
+                }
+
+            }
+
+            if ($id_lote == 0) { // Se é 0 é porque não tem vacinas...
+                $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
+                $candidato->save();
+                Notification::send($candidato, new CandidatoFila($candidato));
+                DB::commit();
+                $agendamentos = [];
+                array_push($agendamentos, $candidato);
+                return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+                    'agendamentos' => $agendamentos,
+                    'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
+            }
+
+            $candidato->chegada = $datetime_chegada;
+            $candidato->saida = $datetime_saida;
+            $candidato->lote_id = $id_lote;
+            $candidato->posto_vacinacao_id = $id_posto;
+
+            $posto = PostoVacinacao::find($id_posto);
+
+            $posto->dias->where('dia', $datetime_chegada->copy()->startOfDay())->first()->horarios->where('horario', $datetime_chegada)->first()->delete();
+            $posto->refresh();
+            // dd($posto->dias->where('dia', $datetime_chegada->copy()->startOfDay())->first()->horarios->where('horario', $datetime_chegada)->first());
+
+
+            $candidato->save();
+            if (!$request->dose_tres && !$request->dose_quatro) {
+                $candidatoSegundaDose = null;
+
+                $lote = Lote::find($chave_estrangeiro_lote);
+
+                if (!$lote->dose_unica) {
+                    $datetime_chegada_segunda_dose = $candidato->chegada->add(new DateInterval('P' . $lote->inicio_periodo . 'D'));
+                    if ($datetime_chegada_segunda_dose->format('l') == "Sunday" || $datetime_chegada_segunda_dose->format('l') == "Saturday") {
+                        $datetime_chegada_segunda_dose->add(new DateInterval('P2D'));
+                    }
+                    $candidatoSegundaDose = $candidato->replicate()->fill([
+                        'chegada' => $datetime_chegada_segunda_dose,
+                        'saida' => $datetime_chegada_segunda_dose->copy()->addMinutes(10),
+                        'dose' => Candidato::DOSE_ENUM[1],
+                    ]);
+
+                    $candidatoSegundaDose->save();
+
+                    if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+                        if ($request->input("opcao_etapa_" . $etapa->id) != null && count($request->input("opcao_etapa_" . $etapa->id)) > 0) {
+                            foreach ($request->input("opcao_etapa_" . $etapa->id) as $outra_info_id) {
+                                $candidatoSegundaDose->outrasInfo()->attach($outra_info_id);
+                            }
+                        }
+                    }
+                }
+
+                if ($candidato->email != null) {
+                    Notification::send($candidato, new CandidatoAprovado($candidato, $candidatoSegundaDose, $lote));
+                }
+            }
+
+
+            if ($etapa->outrasInfo != null && count($etapa->outrasInfo) > 0) {
+                if ($request->input("opcao_etapa_" . $etapa->id) != null && count($request->input("opcao_etapa_" . $etapa->id)) > 0) {
+                    foreach ($request->input("opcao_etapa_" . $etapa->id) as $outra_info_id) {
+                        $candidato->outrasInfo()->attach($outra_info_id);
+                    }
+                }
+            }
+
+
+            DB::commit();
+
+        } catch (\Throwable $e) {
+            DB::rollback();
+
+            if (env('APP_DEBUG')) {
+                return redirect()->back()->withErrors([
+                    "message" => $e->getMessage(),
+                ])->withInput();
+            }
+            return redirect()->back()->withErrors([
+                "message" => "Houve algum erro, entre em contato com a administração do site.",
+            ])->withInput();
+        }
+
+        // if(!Candidato::where('cpf', $candidato->cpf)->count()){
+        //     return redirect()->back()->withErrors([
+        //         "message" => "Houve algum erro, entre em contato com a administração do site.",
+        //     ])->withInput();
+        // }
+
+        $agendamentos = Candidato::where('cpf', $candidato->cpf)->orderBy('dose')->get();
+
+
+        return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
+            'agendamentos' => $agendamentos,
+            'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
+
+
     }
 
 
