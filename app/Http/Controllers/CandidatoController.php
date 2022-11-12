@@ -226,7 +226,7 @@ class CandidatoController extends Controller
                     return redirect()->back()->withErrors([
                         "dose" => "Não existe cadastro aprovado ou vacinado no sistema para esse cpf."
                     ]);
-                } elseif ((date_diff($data_saida, $data_agora)->m < 4)) {
+                } elseif ((date_diff($data_saida, $data_agora)->days < 120)) {
                     return redirect()->back()->withErrors([
                         "dose" => "Você precisa aguardar 4 meses desde a ".$candidatoDoseAnterior->dose." para solicitar a ".$dose->nome. "."
                     ]);
