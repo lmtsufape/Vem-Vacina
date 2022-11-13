@@ -32,6 +32,7 @@
                             <label for="dose_anterior">Dose Anterior</label>
                             <select class="form-control" id="dose_anterior" name="dose_anterior">
                                 <option value="0" @if($dose->dose_anterior_id == 0) selected @endif>{{\App\Models\Candidato::DOSE_ENUM[4]}}</option>
+                                <option value="-1" @if($dose->dose_anterior_id == -1) selected @endif>Nenhuma</option>
                                 @foreach($doses as $dose_temp)
                                     @if($dose_temp->id != $dose->id)
                                         <option value="{{$dose_temp->id}}" @if($dose_temp->id == $dose->dose_anterior_id) selected @endif>{{$dose_temp->nome}}</option>
@@ -39,6 +40,13 @@
                                 @endforeach
 
                             </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="intervalo">Intervalo após aplicação da dose (dias)</label>
+                            <input id="intervalo" type="text" class="form-control @error('intervalo') is-invalid @enderror" name="intervalo" value="{{ $dose->intervalo }}">
+                            @error('intervalo')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <hr>

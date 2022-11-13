@@ -37,6 +37,7 @@ class DoseController extends Controller
             'nome' => $request->nome,
             'dose_anterior_id' => $request->dose_anterior
         ]);
+        $dose->intervalo = $request->intervalo;
         $dose->save();
         $dose->etapas()->sync($request->etapa_id);
 
@@ -66,6 +67,7 @@ class DoseController extends Controller
         $dose = Dose::find($id);
         $dose->nome = $request->nome;
         $dose->dose_anterior_id = $request->dose_anterior;
+        $dose->intervalo = $request->intervalo;
         $dose->update();
         $dose->etapas()->sync($request->etapa_id);
 

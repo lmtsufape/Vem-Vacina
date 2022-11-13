@@ -74,6 +74,8 @@
                             <td> {{ $dose->nome }}
                             @if($dose->dose_anterior_id == 0)
                                 <td>{{\App\Models\Candidato::DOSE_ENUM[4]}}</td>
+                            @elseif($dose->dose_anterior_id == -1)
+                                <td>Nenhuma</td>
                             @else
                                 <td> {{\App\Models\Dose::find($dose->dose_anterior_id)->nome }}</td>
                             @endif
