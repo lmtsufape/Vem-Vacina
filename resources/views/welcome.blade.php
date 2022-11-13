@@ -24,7 +24,7 @@
                             <div class="col-md-12" style="margin-bottom: 32px;">
                                 <div class="row ">
 
-                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina text-center">SOLICITAR MINHA DOSE DE REFORÇO</div>
+                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina text-center">SOLICITAR MINHA DOSE DA VACINA</div>
 
 
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
@@ -46,7 +46,8 @@
                                     $doses = \App\Models\Dose::all();
                                 @endphp
                                 <select class="form-control" id="tipoDoseReforço">
-                                    <option value="" disabled selected hidden>Selecione a Dose de reforço</option>
+                                    <option value="" disabled selected hidden>Selecione a Dose da Vacina</option>
+                                    <option value="{{route('solicitacao.candidato')}}">Primeira e Segunda Dose</option>
                                     <option value="{{route('reforco.index')}}">Terceira Dose</option>
                                     <option value="{{route('reforco2.index')}}">Quarta Dose</option>
                                     @foreach($doses as $dose)
@@ -56,29 +57,18 @@
                             </div>
                             <div class="col-sm-6 text-center">
                                 @auth
-                                    <a href="" class="btn btn-info style_card_apresentacao_botao" style="color:white; margin: auto" id="doseReforço">SOLICITAR MINHA DOSE DE REFORÇO</a>
+                                    <a href="" class="btn btn-info style_card_apresentacao_botao" style="color:white; margin: auto" id="doseReforço">SOLICITAR MINHA VACINA</a>
                                 @else
                                     <a href="" class="btn btn-info style_card_apresentacao_botao" style="color:white; margin: auto" id="doseReforço">
-                                        @if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else SOLICITAR MINHA DOSE DE REFORÇO @endif</a>
+                                        @if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else SOLICITAR MINHA VACINA @endif</a>
                                 @endauth
                             </div>
 
-                            <div class="col-md-6" style="margin-bottom: 32px;">
+                            <div class="col-md-12" style="margin-bottom: 32px;">
                                 <div class="row">
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina">CONSULTAR AGENDAMENTO</div>
                                     <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify; padding-bottom: 19px;">Clique para saber se o seu agendamento já foi aprovado ou encontra-se na fila de espera.</div>
-                                    <a type="button" class="btn btn-primary style_card_apresentacao_botao" style="color: white;margin-top:1.8rem;"data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR</a>
-                                </div>
-                            </div>
-                            <div class="col-md-6" style="margin-bottom: 32px;">
-                                <div class="row">
-                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina">SOLICITAR A VACINAÇÃO</div>
-                                    <div class="col-md-12 style_card_apresentacao_solicitar_vacina_subtitulo" style="text-align: justify;">Clique para solicitar e agendar sua vacinação de 1ª e 2ª dose, ou realizar cadastro na fila de espera (é necessário aguardar aprovação da solicitação pela Secretaria de Saúde).</div>
-                                    @auth
-                                        <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white;">QUERO SOLICITAR MINHA VACINA </a>
-                                    @else
-                                        <a href="{{route('solicitacao.candidato')}}" class="btn btn-success style_card_apresentacao_botao" style="color:white; @if($config->botao_solicitar_agendamento) pointer-events: none; background-color: rgb(107, 224, 107); border-color: rgb(107, 224, 107); @endif" >@if($config->botao_solicitar_agendamento)VAGAS ESGOTADAS! AGUARDE NOVA REMESSA @else QUERO SOLICITAR MINHA VACINA @endif</a>
-                                    @endauth
+                                    <a type="button" class="btn btn-primary style_card_apresentacao_botao" style="color: white;margin-top:1.8rem;"data-toggle="modal" data-target="#modalChecarAgendamento">CONSULTAR AGENDAMENTO DA VACINA</a>
                                 </div>
                             </div>
                         </div>
