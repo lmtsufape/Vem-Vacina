@@ -184,6 +184,7 @@ class CandidatoController extends Controller
         $validate = $request->session()->get('validate');
         $validate = (object)$validate;
         $dose = Dose::find($request->dose);
+        $doseAnterior = Dose::find($dose->dose_anterior_id);
 
         //Verifica se o usuário já tem cadastro no sistema novamente
         if ($request->cadastro == "1") {
@@ -215,7 +216,7 @@ class CandidatoController extends Controller
                 if($candidatoDoseAnterior == null){
                     $candidatoDoseAnterior = $candidatoQuartaDose;
                 }
-                if ($candidatoDoseAnterior == null && $candidatoQuartaDose == null) {
+                if ($candidatoDoseAnterior == null && $candidatoQuartaDose == null && $dose->dose_anterior_id != -1) {
                     return redirect()->back()->withErrors([
                         "dose" => "Não existe cadastro aprovado no sistema para esse cpf."
                     ]);
@@ -225,6 +226,10 @@ class CandidatoController extends Controller
                 if ($candidatoDoseAnterior == null || ($candidatoDoseAnterior->aprovacao != Candidato::APROVACAO_ENUM[1] && $candidatoDoseAnterior->aprovacao != Candidato::APROVACAO_ENUM[3])) {
                     return redirect()->back()->withErrors([
                         "dose" => "Não existe cadastro aprovado ou vacinado no sistema para esse cpf."
+                    ]);
+                } elseif ($doseAnterior->intervalo != null && (date_diff($data_saida, $data_agora)->days < $doseAnterior->intervalo) ){
+                    return redirect()->back()->withErrors([
+                        "dose" => "Você precisa aguardar ". $doseAnterior->intervalo." dias desde a ".$doseAnterior->nome." para solicitar a ".$dose->nome. "."
                     ]);
                 } elseif ((date_diff($data_saida, $data_agora)->days < 120)) {
                     return redirect()->back()->withErrors([
@@ -239,7 +244,7 @@ class CandidatoController extends Controller
                 $candidatoQuartaDose = Candidato::where('numero_cartao_sus', $validate->numero_cartao_sus)
                     ->where('data_de_nascimaneto', $validate->data_de_nascimento)
                     ->where('dose', Candidato::DOSE_ENUM[4])->first();
-                if ($candidatoDoseAnterior == null || $candidatoQuartaDose == null) {
+                if (($candidatoDoseAnterior == null || $candidatoQuartaDose == null) && $dose->dose_anterior_id != -1) {
                     return redirect()->back()->withErrors([
                         "dose" => "Não existe cadastro aprovado no sistema para esse número do cartão do SUS."
                     ]);
@@ -498,34 +503,36 @@ class CandidatoController extends Controller
 
             $etapa = Etapa::find($candidato->etapa_id);
             // dd($etapa->numero_dias);
-            if ($etapa->isDias) {
-                $datetime2 = new DateTime(now());
-                if ($request->cadastro == "1") {
-                    $datetime1 = new DateTime($candidatoDoseAnterior->saida);
+            if($dose->dose_anterior_id != -1){
+                if ($etapa->isDias) {
+                    $datetime2 = new DateTime(now());
+                    if ($request->cadastro == "1") {
+                        $datetime1 = new DateTime($candidatoDoseAnterior->saida);
+                    } else {
+                        $datetime1 = new DateTime($validate->data_dois);
+                    }
+                    $interval = $datetime1->diff($datetime2);
+                    // dd($interval->days < $etapa->numero_dias);
+                    // dd($interval->days);
+                    if ($interval->days < $etapa->numero_dias) {
+                        return redirect()->back()->with([
+                            "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
+                        ]);
+                    }
                 } else {
-                    $datetime1 = new DateTime($validate->data_dois);
-                }
-                $interval = $datetime1->diff($datetime2);
-                // dd($interval->days < $etapa->numero_dias);
-                // dd($interval->days);
-                if ($interval->days < $etapa->numero_dias) {
-                    return redirect()->back()->with([
-                        "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
-                    ]);
-                }
-            } else {
-                $datetime2 = new DateTime($etapa->intervalo_reforco);
-                if ($request->cadastro == "1") {
-                    $datetime1 = new DateTime($candidatoDoseAnterior->saida);
-                } else {
-                    $datetime1 = new DateTime($validate->data_dois);
-                }
-                $interval = $datetime1->diff($datetime2);
-                // dd($interval->invert);
-                if ($interval->invert == 1) {
-                    return redirect()->back()->with([
-                        "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
-                    ]);
+                    $datetime2 = new DateTime($etapa->intervalo_reforco);
+                    if ($request->cadastro == "1") {
+                        $datetime1 = new DateTime($candidatoDoseAnterior->saida);
+                    } else {
+                        $datetime1 = new DateTime($validate->data_dois);
+                    }
+                    $interval = $datetime1->diff($datetime2);
+                    // dd($interval->invert);
+                    if ($interval->invert == 1) {
+                        return redirect()->back()->with([
+                            "tempo" => "O intervalo para a dose de reforço ainda não completou o tempo necessário."
+                        ]);
+                    }
                 }
             }
 
