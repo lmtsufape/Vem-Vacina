@@ -231,7 +231,7 @@ class CandidatoController extends Controller
                     return redirect()->back()->withErrors([
                         "dose" => "Você precisa aguardar ". $doseAnterior->intervalo." dias desde a ".$doseAnterior->nome." para solicitar a ".$dose->nome. "."
                     ]);
-                } elseif ((date_diff($data_saida, $data_agora)->days < 120)) {
+                } elseif ((date_diff($data_saida, $data_agora)->days < 120) && $doseAnterior->intervalo == null) {
                     return redirect()->back()->withErrors([
                         "dose" => "Você precisa aguardar 4 meses desde a ".$candidatoDoseAnterior->dose." para solicitar a ".$dose->nome. "."
                     ]);
