@@ -15,7 +15,7 @@ class CreateDosesTable extends Migration
     {
         Schema::create('doses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('dose_anterior_id')->nullable(true);
+            $table->unsignedBigInteger('dose_anterior_id')->nullable();
             $table->string('nome')->unique();
             $table->timestamps();
             $table->softDeletes();

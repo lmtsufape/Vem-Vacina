@@ -21,21 +21,21 @@
 
                                         <div class="col col-sm col-md-12 col-lg-3 col-xl-3">
                                             @if ($candidato->cpf != $candidato->numero_cartao_sus )
-                                                <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
+                                                <span  class="d-inline-block text-truncate" tabindex="0">
                                                     <strong>    {{ " " }}   </strong> {{ $candidato->cpf }}
                                                 </span>
                                             @else
-                                                <span  class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
+                                                <span  class="d-inline-block text-truncate" tabindex="0" >
                                                     <strong>    {{ " " }}   </strong> CPF não informado
                                                 </span>
                                             @endif
                                         </div>
-                                        <div class="col-8 col-sm-8 col-md-12 col-lg-2 col-xl-2">
-                                            <span class="d-inline-block text-truncate" class="d-inline-block" tabindex="0" >
+                                        <div class="col-8 col-sm-8 col-md-12 col-lg-3 col-xl-3">
+                                            <span class="d-inline-block text-truncate"  tabindex="0" >
                                                 <strong> {{ "" }}</strong> {{$candidato->dose}}
                                             </span>
                                         </div>
-                                        <div class="col-8 col-sm-8 col-md-12 col-lg-6 col-xl-6">
+                                        <div class="col-8 col-sm-8 col-md-12 col-lg-5 col-xl-5">
                                             <span class="d-inline-block text-truncate text-capitalize font-weight-bolder" class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{$candidato->nome_completo}}" style="width: 23rem;">
                                                 <strong>   {{ "Nome: "}} </strong>  {{$candidato->nome_completo}}
                                                 </span>

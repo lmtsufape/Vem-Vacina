@@ -20,9 +20,9 @@
                         </select>
 
                         @error('tipo')
-                            <div id="tipo" class="invalid-feedback">
-                                <strong>{{$message}}</strong>
-                            </div>
+                        <div id="tipo" class="invalid-feedback">
+                            <strong>{{$message}}</strong>
+                        </div>
                         @enderror
                     </div>
                     <div class="col-md-4">
@@ -30,9 +30,9 @@
                         <input type="text" id="texto_do_agendamento" name="texto_do_agendamento" class="form-control" value="{{old('texto_do_agendamento')}}">
 
                         @error('texto_do_agendamento')
-                            <div id="texto_do_agendamento" class="invalid-feedback">
-                                <strong>{{$message}}</strong>
-                            </div>
+                        <div id="texto_do_agendamento" class="invalid-feedback">
+                            <strong>{{$message}}</strong>
+                        </div>
                         @enderror
                         <input id="exibir_no_form" type="checkbox" name="exibir_no_form" @if(old('exibir_no_form')) checked @endif>
                         <label for="exibir_no_form">Exibir público no agendamento</label>
@@ -42,12 +42,12 @@
                         <input id="texto_da_home" type="text" class="form-control @error('texto_da_home') is-invalid @enderror" name="texto_da_home" value="{{old('texto_da_home')}}">
 
                         @error('texto_da_home')
-                            <div id="validationServer05Feedback" class="invalid-feedback">
-                                <strong>{{$message}}</strong>
-                            </div>
+                        <div id="validationServer05Feedback" class="invalid-feedback">
+                            <strong>{{$message}}</strong>
+                        </div>
                         @enderror
                         <input id="exibir_na_home" type="checkbox" name="exibir_na_home" @if(old('exibir_na_home')) checked @endif>
-                        <label for="exibir_na_home" >Exibir público na home</label>
+                        <label for="exibir_na_home">Exibir público na home</label>
                     </div>
                 </div>
                 <br>
@@ -55,34 +55,36 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inicio_faixa_etaria">Inicio da faixa etaria</label>
-                            <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etária') is-invalid @enderror" type="number" name="inicio_faixa_etária" placeholder="80" value="{{old('inicio_faixa_etária')}}" min="0" max="1000">
-                        
+                            <input id="inicio_faixa_etaria" class="form-control @error('inicio_faixa_etária') is-invalid @enderror" type="number" name="inicio_faixa_etária" placeholder="80"
+                                   value="{{old('inicio_faixa_etária')}}" min="0" max="1000">
+
                             @error('inicio_faixa_etária')
-                                <div id="validationServer05Feedback" class="invalid-feedback">
-                                    <strong>{{$message}}</strong>
-                                </div>
+                            <div id="validationServer05Feedback" class="invalid-feedback">
+                                <strong>{{$message}}</strong>
+                            </div>
                             @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="fim_faixa_etaria">Fim da faixa etaria</label>
-                            <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etária') is-invalid @enderror" type="number" name="fim_faixa_etária" placeholder="85" value="{{old('fim_faixa_etária')}}" min="0" max="1000">
-                            
+                            <input id="fim_faixa_etaria" class="form-control @error('fim_faixa_etária') is-invalid @enderror" type="number" name="fim_faixa_etária" placeholder="85"
+                                   value="{{old('fim_faixa_etária')}}" min="0" max="1000">
+
                             @error('fim_faixa_etária')
-                                <div id="validationServer05Feedback" class="invalid-feedback">
-                                    <strong>{{$message}}</strong>
-                                </div>
+                            <div id="validationServer05Feedback" class="invalid-feedback">
+                                <strong>{{$message}}</strong>
+                            </div>
                             @enderror
                         </div>
                     </div>
                     <br>
                 </div>
-                <div id="divOpcoes" style="@if(old('tipo') == $tipos[2]) display: block; @else display: none; @endif 
-                                           border: 1px solid rgb(196, 196, 196);
-                                           padding: 15px;
-                                           border-radius: 10px;">
+                <div id="divOpcoes" style="@if(old('tipo') == $tipos[2]) display: block; @else display: none; @endif
+                    border: 1px solid rgb(196, 196, 196);
+                    padding: 15px;
+                    border-radius: 10px;">
                     <label>Opções do campo selecionável</label>
                     <div id="divTodasOpcoes" class="row">
-                        @if (old('opcoes') != null) 
+                        @if (old('opcoes') != null)
                             @foreach (old('opcoes') as $i => $textoOpcao)
                                 <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
                                             padding: 15px;
@@ -93,11 +95,12 @@
                                             <label>Opção</label>
                                             <div class="row">
                                                 <div class="col-md-8">
-                                                    <input type="text" name="opcoes[]" class="form-control @error('opcoes.'.$i) is-invalid @enderror" placeholder="Digite a opção selecionável" value="{{$textoOpcao}}">
+                                                    <input type="text" name="opcoes[]" class="form-control @error('opcoes.'.$i) is-invalid @enderror" placeholder="Digite a opção selecionável"
+                                                           value="{{$textoOpcao}}">
                                                     @error('opcoes.'.$i)
-                                                        <div id="validationServer05Feedback" class="invalid-feedback" style="text-align: justify;">
-                                                            <strong>{{$message}}</strong>
-                                                        </div>
+                                                    <div id="validationServer05Feedback" class="invalid-feedback" style="text-align: justify;">
+                                                        <strong>{{$message}}</strong>
+                                                    </div>
                                                     @enderror
                                                 </div>
                                                 <div class="col-md-3">
@@ -121,22 +124,24 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="pri_dose">Total de pessoas vacinadas na 1ª dose</label>
-                        <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="{{old('primeria_dose')}}" min="0" max="1000000000000">
+                        <input id="pri_dose" class="form-control @error('primeria_dose') is-invalid @enderror" type="number" name="primeria_dose" placeholder="0" value="{{old('primeria_dose')}}"
+                               min="0" max="1000000000000">
 
                         @error('primeria_dose')
-                            <div id="validationServer05Feedback" class="invalid-feedback">
-                                <strong>{{$message}}</strong>
-                            </div>
+                        <div id="validationServer05Feedback" class="invalid-feedback">
+                            <strong>{{$message}}</strong>
+                        </div>
                         @enderror
                     </div>
                     <div class="col-md-6">
                         <label for="seg_dose">Total de pessoas vacinadas na 2ª dose</label>
-                        <input id="seg_dose" class="form-control @error('segunda_unica') is-invalid @enderror" type="number" name="segunda_unica" placeholder="0" value="{{old('segunda_unica')}}" min="0" max="1000000000000">
+                        <input id="seg_dose" class="form-control @error('segunda_unica') is-invalid @enderror" type="number" name="segunda_unica" placeholder="0" value="{{old('segunda_unica')}}"
+                               min="0" max="1000000000000">
 
                         @error('segunda_unica')
-                            <div id="validationServer05Feedback" class="invalid-feedback">
-                                <strong>{{$message}}</strong>
-                            </div>
+                        <div id="validationServer05Feedback" class="invalid-feedback">
+                            <strong>{{$message}}</strong>
+                        </div>
                         @enderror
                     </div>
                 </div>
@@ -156,17 +161,24 @@
                 <br>
                 <div class="row">
                     @error('pontos')
-                        <div class="col-md-12">
-                            <div id="validationServer05Feedback" class="invalid-feedback">
-                                <strong>{{$message}}</strong>
-                            </div>
+                    <div class="col-md-12">
+                        <div id="validationServer05Feedback" class="invalid-feedback">
+                            <strong>{{$message}}</strong>
                         </div>
+                    </div>
                     @enderror
+                    <div class="col-md-12">
+                        <input type="checkbox" name="pontos[]" id="domicilio" value="{{$domicilio->id}}" @if(old('pontos') != null && in_array($domicilio->id, old('pontos'))) checked @endif>
+                        <label for="">Domicílio</label>
+                    </div>
+                    <hr style="width: 98%; margin-left: auto; margin-right: auto">
                     @foreach ($pontos as $ponto)
-                        <div class="col-md-4">
-                            <input type="checkbox" name="pontos[]" value="{{$ponto->id}}" @if(old('pontos') != null && in_array($ponto->id, old('pontos'))) checked @endif>
-                            <label for="">{{$ponto->nome}}</label>
-                        </div>
+                        @if($ponto->nome != 'Domicílio')
+                            <div class="col-md-4">
+                                <input type="checkbox" class="pontos" name="pontos[]" value="{{$ponto->id}}" @if(old('pontos') != null && in_array($ponto->id, old('pontos'))) checked @endif>
+                                <label for="">{{$ponto->nome}}</label>
+                            </div>
+                        @endif
                     @endforeach
                 </div>
                 <br>
@@ -191,19 +203,20 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="">Texto das outras informações</label>
-                            <textarea name="texto_das_outras_informações" class="form-control" id="texto_das_outras_informações" cols="30" rows="5" placeholder="Insira aqui o texto informativo">{{old('texto_das_outras_informações')}}</textarea>
+                            <textarea name="texto_das_outras_informações" class="form-control" id="texto_das_outras_informações" cols="30" rows="5"
+                                      placeholder="Insira aqui o texto informativo">{{old('texto_das_outras_informações')}}</textarea>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div  style="border: 1px solid rgb(196, 196, 196);
+                            <div style="border: 1px solid rgb(196, 196, 196);
                                  padding: 15px;
                                  margin-top: 15px;
                                  margin-bottom: 15px;
                                  border-radius: 10px;">
                                 <label>Opções de outras informações</label>
                                 <div id="divTodasOutrasInfo" class="row">
-                                    @if (old('outrasInfo') != null) 
+                                    @if (old('outrasInfo') != null)
                                         @foreach (old('outrasInfo') as $i => $textoOutraInfo)
                                             <div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
                                                         padding: 15px;
@@ -214,15 +227,16 @@
                                                         <label>Opção</label>
                                                         <div class="row">
                                                             <div class="col-md-8">
-                                                                <input type="text" name="outrasInfo[]" class="form-control @error('outrasInfo.'.$i) is-invalid @enderror" placeholder="Digite o texto da outra informação" value="{{$textoOutraInfo}}">
+                                                                <input type="text" name="outrasInfo[]" class="form-control @error('outrasInfo.'.$i) is-invalid @enderror"
+                                                                       placeholder="Digite o texto da outra informação" value="{{$textoOutraInfo}}">
                                                                 @error('outrasInfo.'.$i)
-                                                                    <div id="validationServer05Feedback" class="invalid-feedback" style="text-align: justify;">
-                                                                        <strong>{{$message}}</strong>
-                                                                    </div>
+                                                                <div id="validationServer05Feedback" class="invalid-feedback" style="text-align: justify;">
+                                                                    <strong>{{$message}}</strong>
+                                                                </div>
                                                                 @enderror
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <a class="btn btn-danger" onclick="excluirOpcao(this)"  style="cursor: pointer; color: white;">Excluir</a>
+                                                                <a class="btn btn-danger" onclick="excluirOpcao(this)" style="cursor: pointer; color: white;">Excluir</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -231,14 +245,14 @@
                                         @endforeach
                                     @endif
                                     @error('outrasInfo')
-                                        <div class="col-md-11 alert alert-danger" style="border: 1px solid rgb(196, 196, 196);
+                                    <div class="col-md-11 alert alert-danger" style="border: 1px solid rgb(196, 196, 196);
                                                             border-radius: 10px;
                                                             margin: 15px;">
-                                                {{$message}}
-                                        </div>
+                                        {{$message}}
+                                    </div>
                                     @enderror
                                 </div>
-                                
+
                                 <br>
                                 <div class="row" style="text-align: right">
                                     <div class="col-md-12">
@@ -260,7 +274,31 @@
             </div>
         </form>
     </div>
+
     <script>
+        $(function () {
+            var domicilio = $('#domicilio').prop('checked');
+            if (domicilio == true) {
+                $('.pontos').each(function () {
+                    $(this).prop('checked', false);
+                    $(this).prop('disabled', true);
+                });
+            }
+
+            $('#domicilio').change(function () {
+                domicilio = $('#domicilio').prop('checked');
+                $('.pontos').each(function () {
+                    if (domicilio == true) {
+                        $(this).prop('checked', false);
+                        $(this).prop('disabled', true);
+                    } else {
+                        $(this).prop('disabled', false);
+                    }
+                });
+
+            });
+        });
+
         function adicionarOpcao() {
             html = `<div class="col-md-5" style="border: 1px solid rgb(196, 196, 196);
                                     padding: 15px;
@@ -319,7 +357,7 @@
         }
 
         function exibirOutrasInfo(input) {
-            if(input.checked) {
+            if (input.checked) {
                 document.getElementById('divOutrasInfo').style.display = "block";
                 adicionarOutraInfo();
             } else {
@@ -349,7 +387,7 @@
                         </div>`
             $('#divTodasOutrasInfo').append(html);
         }
-        
+
         function excluirOutrasInfo() {
             var todasOutrasInfos = document.getElementById('divTodasOutrasInfo');
             while (todasOutrasInfos.firstChild) {

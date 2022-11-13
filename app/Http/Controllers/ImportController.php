@@ -42,7 +42,7 @@ class ImportController extends Controller
                 $existe = Candidato::where('cpf', $line[4])->first();
                 if ($i != 0 && $existe == null) {
                     $candidato = new Candidato;
-                    
+
                     $candidato->nome_completo = $line[2];
                     $candidato->data_de_nascimento = new Carbon($line[3]);
                     $candidato->cpf     = $line[4];
@@ -55,7 +55,7 @@ class ImportController extends Controller
                     $candidato->logradouro = $line[11];
                     $candidato->numero_residencia = $line[12];
                     $candidato->bairro = $line[13];
-                    $candidato->cep    = $line[14]; 
+                    $candidato->cep    = $line[14];
                     $candidato->aprovacao = Candidato::APROVACAO_ENUM[0];
                     $candidato->dose = Candidato::DOSE_ENUM[0];
                     $candidato->cidade = "Garanhuns";
@@ -63,7 +63,7 @@ class ImportController extends Controller
                     $candidato->idade = $idade;
 
                     $etapa = Etapa::where([['tipo', Etapa::TIPO_ENUM[0]], ['inicio_intervalo', '<=', $idade], ['fim_intervalo', '>=', $idade]])->first();
-                    
+
                     if ($etapa == null) {
                         return redirect()->back()->withErrors([
                             "agendamentos" => $line[2] . " com CPF " . $line[4] . " não se encaixa em nenhum público cadastrado."
@@ -114,7 +114,7 @@ class ImportController extends Controller
             $line_of_text->push(fgetcsv($file_handle, 0, ','));
         }
         fclose($file_handle);
-        
+
         foreach ($line_of_text as $i => $line) {
             if ($i != 0) {
                 $candidato = null;
@@ -144,7 +144,7 @@ class ImportController extends Controller
                         }
 
                     }
-                } 
+                }
             }
         }
 
