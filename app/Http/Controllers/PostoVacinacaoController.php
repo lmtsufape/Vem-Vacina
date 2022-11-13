@@ -32,14 +32,22 @@ class PostoVacinacaoController extends Controller
             $domicilio->nome = 'Domicílio';
             $domicilio->endereco = 'Endereço do candidato';
 
-            $domicilio->padrao_no_formulario = false;
-            $domicilio->funciona_domingo = false;
-            $domicilio->funciona_segunda = false;
-            $domicilio->funciona_terca = false;
-            $domicilio->funciona_quarta = false;
-            $domicilio->funciona_quinta = false;
-            $domicilio->funciona_sexta = false;
-            $domicilio->funciona_sabado = false;
+            $domicilio->padrao_no_formulario = true;
+            $domicilio->funciona_domingo = true;
+            $domicilio->funciona_segunda = true;
+            $domicilio->funciona_terca = true;
+            $domicilio->funciona_quarta = true;
+            $domicilio->funciona_quinta = true;
+            $domicilio->funciona_sexta = true;
+            $domicilio->funciona_sabado = true;
+
+            $domicilio->inicio_atendimento_manha = 9;
+            $domicilio->intervalo_atendimento_manha = 30;
+            $domicilio->fim_atendimento_manha = 12;
+
+            $domicilio->inicio_atendimento_tarde = 14;
+            $domicilio->intervalo_atendimento_tarde = 30;
+            $domicilio->fim_atendimento_tarde = 16;
 
             $domicilio->save();
             return redirect()->back()->with('success', 'Domicílio cadastrado com sucesso!');
