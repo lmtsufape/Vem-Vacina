@@ -29,13 +29,18 @@ class DoseController extends Controller
 
     public function registrar(Request $request)
     {
+        //dd($request->exibir_home);
         Gate::authorize('criar-dose');
         $validatedData = $request->validate([
             'nome' => ['required', 'string']
         ]);
+        if(!isset($request->exibir_home))
+            $request->exibir_home = false;
+
         $dose = Dose::create([
             'nome' => $request->nome,
-            'dose_anterior_id' => $request->dose_anterior
+            'dose_anterior_id' => $request->dose_anterior,
+            'exibir_home' => $request->exibir_home
         ]);
         $dose->intervalo = $request->intervalo;
         $dose->save();
@@ -67,6 +72,11 @@ class DoseController extends Controller
         $dose = Dose::find($id);
         $dose->nome = $request->nome;
         $dose->dose_anterior_id = $request->dose_anterior;
+
+        if(!isset($request->exibir_home))
+            $request->exibir_home = false;
+
+        $dose->exibir_home = $request->exibir_home;
         $dose->intervalo = $request->intervalo;
         $dose->update();
         $dose->etapas()->sync($request->etapa_id);
