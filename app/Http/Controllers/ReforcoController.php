@@ -9,6 +9,7 @@ use App\Models\Candidato;
 use App\Models\Configuracao;
 use Illuminate\Http\Request;
 use App\Models\PostoVacinacao;
+use Illuminate\Validation\Rule;
 use function PHPUnit\Framework\isEmpty;
 
 class ReforcoController extends Controller
@@ -25,13 +26,15 @@ class ReforcoController extends Controller
 
     public function novaDoseCpf($id)
     {
-        return view('candidato_dose.consultar_cadastro', compact('id'));
+        $dose = Dose::find($id);
+        return view('candidato_dose.consultar_cadastro', compact('id', 'dose'));
     }
 
     public function verificarDose(Request $request)
     {
         $validate = $request->validate([
-            'cpf' => 'required',
+            'cpf' => [Rule::requiredIf(!isset($request->número_cartão_sus))],
+            'número_cartão_sus' => [Rule::requiredIf(!isset($request->cpf))],
             'data_de_nascimento' => 'required|date',
         ]);
 
@@ -269,7 +272,6 @@ class ReforcoController extends Controller
 
     public function solicitarReforco($candidato)
     {
-
         $postos_com_vacina = PostoVacinacao::where('padrao_no_formulario', true)->get();
         $etapasAtuais = Etapa::where('atual', true)->where('dose_tres', true)->orderBy('texto')->get();
         $config = Configuracao::first();
