@@ -65,6 +65,16 @@
                                 <input type="text" class="form-control" aria-label="Text input with checkbox" value="Exibir na home?">
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="input-group" style="margin-top: 32px">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="desabilitar_cpf" aria-label="Checkbox for following text input" @if(old('desabilitar_cpf')) checked @endif>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Text input with checkbox" value="Desabilitar exigência do CPF?">
+                            </div>
+                        </div>
                     </div>
                     <hr>
                     <div class="row ">

@@ -14,7 +14,8 @@ class Dose extends Model
     protected $fillable = [
         'nome',
         'dose_anterior_id',
-        'exibir_home'
+        'exibir_home',
+        'desabilitar_cpf'
     ];
 
     public function etapas()

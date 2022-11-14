@@ -209,7 +209,7 @@ class CandidatoController extends Controller
             if ($request->cpf != null) {
                 $candidatoDoseAnterior = Candidato::where('cpf', $validate->cpf)
                     ->where('data_de_nascimento', $validate->data_de_nascimento)
-                    ->where('dose_id', $dose->dose_anterior_id)->first();
+                    ->where('dose_id', $dose->dose_anterior_id)->orderBy('created_at')->first();
                 $candidatoQuartaDose = Candidato::where('cpf', $validate->cpf)
                     ->where('data_de_nascimento', $validate->data_de_nascimento)
                     ->where('dose', Candidato::DOSE_ENUM[4])->first();

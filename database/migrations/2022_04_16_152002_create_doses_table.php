@@ -18,6 +18,7 @@ class CreateDosesTable extends Migration
             $table->unsignedBigInteger('dose_anterior_id')->nullable();
             $table->string('nome')->unique();
             $table->boolean('exibir_home');
+            $table->boolean('desabilitar_cpf');
             $table->timestamps();
             $table->softDeletes();
         });

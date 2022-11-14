@@ -37,10 +37,14 @@ class DoseController extends Controller
         if(!isset($request->exibir_home))
             $request->exibir_home = false;
 
+        if(!isset($request->desabilitar_cpf))
+            $request->desabilitar_cpf = false;
+
         $dose = Dose::create([
             'nome' => $request->nome,
             'dose_anterior_id' => $request->dose_anterior,
-            'exibir_home' => $request->exibir_home
+            'exibir_home' => $request->exibir_home,
+            'desabilitar_cpf' => $request->desabilitar_cpf
         ]);
         $dose->intervalo = $request->intervalo;
         $dose->save();
@@ -76,7 +80,11 @@ class DoseController extends Controller
         if(!isset($request->exibir_home))
             $request->exibir_home = false;
 
+        if(!isset($request->desabilitar_cpf))
+            $request->desabilitar_cpf = false;
+
         $dose->exibir_home = $request->exibir_home;
+        $dose->desabilitar_cpf = $request->desabilitar_cpf;
         $dose->intervalo = $request->intervalo;
         $dose->update();
         $dose->etapas()->sync($request->etapa_id);
