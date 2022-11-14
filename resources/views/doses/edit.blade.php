@@ -48,6 +48,16 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="col-md-6">
+                            <div class="input-group" style="margin-top: 32px">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="exibir_home" aria-label="Checkbox for following text input" @if($dose->exibir_home) checked @endif>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Text input with checkbox" value="Exibir na home?">
+                            </div>
+                        </div>
                     </div>
                     <hr>
                     <div class="row ">

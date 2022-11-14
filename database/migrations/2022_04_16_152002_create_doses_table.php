@@ -17,6 +17,7 @@ class CreateDosesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('dose_anterior_id')->nullable();
             $table->string('nome')->unique();
+            $table->boolean('exibir_home');
             $table->timestamps();
             $table->softDeletes();
         });

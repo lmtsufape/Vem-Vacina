@@ -50,10 +50,20 @@
                         </div>
                         <div class="col-md-6">
                             <label for="intervalo">Intervalo após aplicação da dose (dias)</label>
-                            <input id="intervalo" type="text" class="form-control @error('intervalo') is-invalid @enderror" name="intervalo" value="{{ old('intervalo') }}">
+                            <input id="intervalo" type="number" class="form-control @error('intervalo') is-invalid @enderror" name="intervalo" value="{{ old('intervalo') }}">
                             @error('intervalo')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group" style="margin-top: 32px">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" name="exibir_home" aria-label="Checkbox for following text input" @if(old('exibir_home')) checked @endif>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Text input with checkbox" value="Exibir na home?">
+                            </div>
                         </div>
                     </div>
                     <hr>
