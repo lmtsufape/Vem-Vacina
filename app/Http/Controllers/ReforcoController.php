@@ -32,10 +32,13 @@ class ReforcoController extends Controller
 
     public function verificarDose(Request $request)
     {
+        if(isset($request->número_cartão_sus)){
+            $request['cpf'] = $request->número_cartão_sus;
+        }
+
         $validate = $request->validate([
-            'cpf' => [Rule::requiredIf(!isset($request->número_cartão_sus))],
-            'número_cartão_sus' => [Rule::requiredIf(!isset($request->cpf))],
-            'data_de_nascimento' => 'required|date',
+            'cpf' => 'required',
+            'data_de_nascimento' => 'required|date'
         ]);
 
         $request->session()->put('validate', $validate);
@@ -58,10 +61,8 @@ class ReforcoController extends Controller
         // verificação de cadastro
         //$candidato = Candidato::where('cpf', $validate['cpf'])->where('aprovacao', '!=', Candidato::APROVACAO_ENUM[2])->orderByDesc('created_at')->first();
 
-        if($dose->dose_anterior_id == -1 && $candidato != null){
-            return redirect()->route('solicitacao.reforcoDose',['dose'=>$dose, 'candidato' => $candidato, 'cpf' => $request->cpf, 'data_de_nascimento' => $request->data_de_nascimento]);
-        }elseif ($dose->dose_anterior_id == -1 && $candidato == null){
-            return redirect()->route('solicitacao.reforcoDose',['dose'=>$dose, 'candidato' => $candidato, 'cpf' => $request->cpf, 'data_de_nascimento' => $request->data_de_nascimento]);
+        if($dose->dose_anterior_id == -1){
+            return redirect()->route('solicitacao.reforcoDose',['dose'=>$dose, 'candidato' => $candidato, 'cpf' => $request->cpf, 'numero_cartao_sus' => $request->número_cartão_sus,'data_de_nascimento' => $request->data_de_nascimento]);
         }
         // Verificação para existencia do candidato
         if ($candidato != null) {
@@ -112,6 +113,22 @@ class ReforcoController extends Controller
         }
 
         $request->session()->put('validate', $validate);
+        if($request->numero_cartao_sus != null){
+            return view("candidato_dose.solicatacao_confirm")->with([
+                "sexos" => Candidato::SEXO_ENUM,
+                "postos" => $postos_com_vacina,
+                "dose" => $dose->id,
+                "publicos" => $etapasAtuais,
+                "tipos" => Etapa::TIPO_ENUM,
+                "bairros" => $bairrosOrdenados,
+                "config" => $config,
+                "validate" => $validate,
+                "cpf" => null,
+                "numero_cartao_sus" => $request->numero_cartao_sus,
+                "data_de_nascimento" => $request->data_de_nascimento,
+            ]);
+        }
+
         return view("candidato_dose.solicatacao_confirm")->with([
             "sexos" => Candidato::SEXO_ENUM,
             "postos" => $postos_com_vacina,
