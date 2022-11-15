@@ -24,39 +24,6 @@ class PostoVacinacaoController extends Controller
         horarios as protected traitHorarios;
     }
 
-    public function domicilio()
-    {
-        $domicilio = PostoVacinacao::where('nome', 'Domicílio')->first();
-        if($domicilio == null) {
-            $domicilio = new PostoVacinacao();
-            $domicilio->nome = 'Domicílio';
-            $domicilio->endereco = 'Endereço do candidato';
-
-            $domicilio->padrao_no_formulario = true;
-            $domicilio->funciona_domingo = true;
-            $domicilio->funciona_segunda = true;
-            $domicilio->funciona_terca = true;
-            $domicilio->funciona_quarta = true;
-            $domicilio->funciona_quinta = true;
-            $domicilio->funciona_sexta = true;
-            $domicilio->funciona_sabado = true;
-
-            $domicilio->inicio_atendimento_manha = 9;
-            $domicilio->intervalo_atendimento_manha = 30;
-            $domicilio->fim_atendimento_manha = 12;
-
-            $domicilio->inicio_atendimento_tarde = 14;
-            $domicilio->intervalo_atendimento_tarde = 30;
-            $domicilio->fim_atendimento_tarde = 16;
-
-            $domicilio->save();
-            return redirect()->back()->with('success', 'Domicílio cadastrado com sucesso!');
-        } else
-        {
-            return redirect()->back()->with('fail', 'Domicílio já cadastrado no sistema');
-        }
-    }
-
     public function horarios($posto_id) {
 
         $horarios_agrupados_por_dia = $this->traitHorarios($posto_id);
