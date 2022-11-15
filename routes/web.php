@@ -204,8 +204,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/posto/gerador/{id?}', [PostoVacinacaoController::class, 'geradorHorarios'])->name('posto.geradorHorarios');
     Route::post('/posto/arquivar/{id}/{status}', [PostoVacinacaoController::class, 'arquivar'])->name('postos.arquivar');
 
-    Route::get('/domicilio', [PostoVacinacaoController::class, 'domicilio']);
-
     Route::get('/posto/dias-disponiveis', [PostoVacinacaoController::class, 'diasPorPosto'])->name('dias.posto.ajax');
     Route::post('/agentamento/{id}/reagendar', [CandidatoController::class, 'reagendar'])->name('agendamento.posto.update');
 
