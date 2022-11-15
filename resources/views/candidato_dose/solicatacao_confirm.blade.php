@@ -243,7 +243,7 @@
                                             @enderror
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="inputCPF" class="style_titulo_input">CPF<span
+                                            <label for="inputCPF" class="style_titulo_input"><span
                                                     class="style_titulo_campo">*</span><span
                                                     class="style_subtitulo_input"> (obrigatório)</span> </label>
                                             <input type="text"
@@ -937,9 +937,9 @@
                                             @enderror
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="inputCPF" class="style_titulo_input">CPF<span
+                                            <label for="inputCPF" class="style_titulo_input">CPF @if(isset($numero_cartao_sus)) <span
                                                     class="style_titulo_campo">*</span><span
-                                                    class="style_subtitulo_input"> (obrigatório)</span> </label>
+                                                    class="style_subtitulo_input"> (obrigatório)</span> @endif </label>
                                             <input type="text"
                                                    class="form-control style_input cpf @error('cpf') is-invalid @enderror"
                                                    id="inputCPF" name="cpf" placeholder="Ex.: 000.000.000-00"
@@ -960,7 +960,7 @@
                                             <input type="text"
                                                    class="form-control style_input sus @error('número_cartão_sus') is-invalid @enderror"
                                                    id="inputCartaoSUS" placeholder="000 0000 0000 0000"
-                                                   name="número_cartão_sus" value="{{old('número_cartão_sus')}}">
+                                                   name="número_cartão_sus" @if(isset($numero_cartao_sus)) value="{{$numero_cartao_sus}}" readonly @else value="{{old('número_cartão_sus')}} @endif">
 
                                             @error('número_cartão_sus')
                                             <div id="validationServer05Feedback" class="invalid-feedback">
