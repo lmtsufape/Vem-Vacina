@@ -102,7 +102,7 @@
                                             <h3 class="panel-title">
                                                 <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#anexos7" aria-expanded="true"
                                                    aria-controls="anexos7">
-                                                    NOTA TÉCNICA SIDI ORIENTAÇÕES VACINACAO CONTRA COVID EM CRIANÇAS DE 6 MESES A 2 ANOS DE IDADE
+                                                    NOTA TÉCNICA SIDI - ORIENTAÇÕES VACINAÇÃO CONTRA COVID EM CRIANÇAS DE 6 MESES A 2 ANOS DE IDADE
                                                 </a>
                                             </h3>
                                         </div>
