@@ -27,7 +27,8 @@
                                     <div class="col-md-12">
                                         <hr class="style_linha_campo">
                                     </div>
-                                    <div class="col-md-12" style="font-size: 15px; margin-bottom: 15px; text-align: justify;">
+                                    <div class="col-md-12"
+                                         style="font-size: 15px; margin-bottom: 15px; text-align: justify;">
                                         <p>
                                             Sr(a) {{$agendamentos[0]->nome_completo}},
                                         </p>
@@ -35,10 +36,13 @@
                                         @if($agendamentos[0]->aprovacao == $aprovacao_enum[0] && $agendamentos[0]->chegada == null )
                                             <p>
                                                 @if (env('ATIVAR_FILA', false) == true)
-                                                    Informamos que a sua solicitação foi recebida com sucesso e será <strong>PROCESSADA</strong>. Aguarde a confirmação da Secretaria de Saúde,indicando
+                                                    Informamos que a sua solicitação foi recebida com sucesso e será
+                                                    <strong>PROCESSADA</strong>. Aguarde a confirmação da Secretaria de
+                                                    Saúde,indicando
                                                     agendamento com data, local e horário para vacinação.
                                                 @else
-                                                    Informamos que a sua solicitação de agendamento para vacinação foi recebida com sucesso e se encontra na
+                                                    Informamos que a sua solicitação de agendamento para vacinação foi
+                                                    recebida com sucesso e se encontra na
                                                     <strong>FILA DE ESPERA</strong>.
                                                 @endif
 
@@ -47,11 +51,14 @@
 
                                         @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
                                             <p>
-                                                Informamos que a sua solicitação de agendamento para vacinação foi <strong>APROVADA</strong> pela Secretaria Municipal de Saúde de Garanhuns - PE.
+                                                Informamos que a sua solicitação de agendamento para vacinação foi
+                                                <strong>APROVADA</strong> pela Secretaria Municipal de Saúde de
+                                                Garanhuns - PE.
                                             </p>
                                             @if($agendamentos[0]->posto->nome != 'Domicílio')
                                                 <p>
-                                                    A seguir, encontram-se o dia, horário e local de aplicação da primeira e segunda dose para que registre ou imprima:
+                                                    A seguir, encontram-se o dia, horário e local de aplicação da
+                                                    primeira e segunda dose para que registre ou imprima:
                                                 </p>
                                             @endif
                                         @endif
@@ -77,104 +84,56 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             Local:
-                                            {{$agendamentos[0]->posto->nome}}
+                                            {{$agendamento->posto->nome}}
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="justify-content-center destaque-pri-dose">
+                                    <div class="row">
+                                        @if($agendamento->dose == "1ª Dose")
+                                            <div class="col-md-12">1ª Dose</div>
+                                        @elseif($agendamento->dose == "2ª Dose")
+                                            <div class="col-md-12">2ª Dose</div>
+                                        @elseif($agendamento->dose == "3ª Dose")
+                                            <div class="col-md-12">DOSE DE REFORÇO</div>
+                                        @elseif($agendamento->dose == "4ª Dose")
+                                            <div class="col-md-12">SEGUNDA DOSE DE REFORÇO</div>
+                                        @elseif($agendamento->dose_id != null)
+                                            <div class="col-md-12">{{$agendamento->getDose->nome}}</div>
+                                        @else
+                                            <div class="col-md-12">DOSE ÚNICA</div>
+                                        @endif
+                                        {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
+                                        <div class="col-md-12">
+                                            <hr class="style_linha_dose">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Local<br>
+                                            {{$agendamento->posto->nome}}
+                                        </div>
+                                        <div class="col-md-3">
+                                            Data<br>
+                                            {{date('d/m/Y',strtotime($agendamento->chegada))}}
+                                        </div>
+                                        <div class="col-md-3">
+                                            Hora<br>
+                                            {{date('H:i',strtotime($agendamento->chegada))}}
                                         </div>
                                     </div>
                                 </div>
                             @endif
                         @endforeach
-
-                        @if(count($agendamentos) > 0 && $agendamentos[0]->chegada != null && ($agendamento->posto->nome) && $agendamentos[0]->posto->nome != 'Domicílio'))
-
-                            <div class="justify-content-center destaque-pri-dose">
-                                <div class="row">
-                                    @if(count($agendamentos) == 1)
-                                        @if($agendamentos[0]->dose == "3ª Dose")
-                                            <div class="col-md-12">DOSE DE REFORÇO</div>
-                                        @else
-                                            <div class="col-md-12">DOSE ÚNICA</div>
-                                        @endif
-                                    @else
-                                        <div class="col-md-12">1ª Dose</div>
-                                    @endif
-
-                                    {{-- <div class="col-md-6">Status: {{$agendamentos[0]->aprovacao}}</div> --}}
-                                    <div class="col-md-12">
-                                        <hr class="style_linha_dose">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        Local<br>
-                                        {{$agendamentos[0]->posto->nome}}
-                                    </div>
-                                    <div class="col-md-3">
-                                        Data<br>
-                                        {{date('d/m/Y',strtotime($agendamentos[0]->chegada))}}
-                                    </div>
-                                    <div class="col-md-3">
-                                        Hora<br>
-                                        {{date('H:i',strtotime($agendamentos[0]->chegada))}}
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if(count($agendamentos) > 1 && $agendamentos[1]->chegada != null && ($agendamento->posto->nome) && $agendamentos[1]->posto->nome != 'Domicílio'))
-                            <div class="justify-content-center destaque-pri-dose">
-                                <div class="row">
-                                    <div class="col-md-12">2ª Dose</div>
-                                    {{-- <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div> --}}
-                                    <div class="col-md-12">
-                                        <hr class="style_linha_dose">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        Local<br>
-                                        {{$agendamentos[1]->posto->nome}}
-                                    </div>
-                                    <div class="col-md-3">
-                                        Data<br>
-                                        {{date('d/m/Y',strtotime($agendamentos[1]->chegada))}}
-                                    </div>
-                                    <div class="col-md-3">
-                                        Hora<br>
-                                        {{date('H:i',strtotime($agendamentos[1]->chegada))}}
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if(count($agendamentos) > 2 && $agendamentos[2]->chegada != null)
-                            <div class="justify-content-center destaque-pri-dose">
-                                <div class="row">
-                                    <div class="col-md-12">3ª Dose</div>
-                                    {{-- <div class="col-md-6">Status: {{$agendamentos[1]->aprovacao}}</div> --}}
-                                    <div class="col-md-12">
-                                        <hr class="style_linha_dose">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        Local<br>
-                                        {{$agendamentos[2]->posto->nome}}
-                                    </div>
-                                    <div class="col-md-3">
-                                        Data<br>
-                                        {{date('d/m/Y',strtotime($agendamentos[2]->chegada))}}
-                                    </div>
-                                    <div class="col-md-3">
-                                        Hora<br>
-                                        {{date('H:i',strtotime($agendamentos[2]->chegada))}}
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
                         @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
                             <br>
                             <div class="row" style="text-align: justify;">
-                                <div class="col-md-12">A verificação da confirmação, ou não, de seu agendamento poderá ser realizada de três formas: a) por meio do próprio site, no campo
+                                <div class="col-md-12">A verificação da confirmação, ou não, de seu agendamento poderá
+                                    ser realizada de três formas: a) por meio do próprio site, no campo
                                     "Consultar
-                                    agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por comunicação feita no Whatsapp, caso tenha cadastrado.
+                                    agendamento"; b) por comunicação feito por e-mail, caso tenha cadastrado; c) por
+                                    comunicação feita no Whatsapp, caso tenha cadastrado.
                                 </div>
                             </div>
                         @endif
@@ -185,30 +144,37 @@
                         </div>
                         @if($agendamentos[0]->aprovacao == $aprovacao_enum[0])
                             <div class="row" style="text-align: justify;">
-                                <div class="col-md-12">Além disso, fica atento a seu e-mail, whatsapp ou telefone, para a confirmação do agendamento por parte da Secretaria de Saúde. Ou caso
+                                <div class="col-md-12">Além disso, fica atento a seu e-mail, whatsapp ou telefone, para
+                                    a confirmação do agendamento por parte da Secretaria de Saúde. Ou caso
                                     prefira,
                                     acesse novamente a página principal do sistema, e clique em "Consultar agendamento"
                                 </div>
                             </div>
                             <br>
                             <div class="row" style="text-align: center;">
-                                <div class="col-md-12">Nós não iremos, em momento algum, solicitar dados de cartão de crédito, senhas bancárias ou quaisquer confirmações por SMS. Cuidado com
+                                <div class="col-md-12">Nós não iremos, em momento algum, solicitar dados de cartão de
+                                    crédito, senhas bancárias ou quaisquer confirmações por SMS. Cuidado com
                                     golpes!
                                 </div>
                             </div>
                         @elseif($agendamentos[0]->aprovacao == $aprovacao_enum[1])
                             <div class="row" style="text-align: justify;">
-                                <div class="col-md-12">Lembramos que para que seja realização a aplicação da vacina, deve-se apresentar documento de identificação com foto (RG/CPF), cartão do SUS
+                                <div class="col-md-12">Lembramos que para que seja realização a aplicação da vacina,
+                                    deve-se apresentar documento de identificação com foto (RG/CPF), cartão do SUS
                                     e
                                     comprovante de residência no nome da pessoa que vai ser vacinada.<br><br>
-                                    Em caso de crianças com comorbidade, a Secretaria de Saúde solicita a apresentação de documento oficial com foto e CPF dos pais ou responsáveis; cartão do SUS
-                                    (CNS), cartão de vacina da criança, laudo médico indicando a comorbidade, além da presença do pai ou responsável legal no ato da vacinação.
+                                    Em caso de crianças com comorbidade, a Secretaria de Saúde solicita a apresentação
+                                    de documento oficial com foto e CPF dos pais ou responsáveis; cartão do SUS
+                                    (CNS), cartão de vacina da criança, laudo médico indicando a comorbidade, além da
+                                    presença do pai ou responsável legal no ato da vacinação.
                                 </div>
                             </div>
                         @endif
                         <br>
                         <div class="row" style="text-align: justify;">
-                            <div class="col-md-12">Agradecemos a sua atenção e ficamos à disposição para outros esclarecimentos que sejam necessários!</div>
+                            <div class="col-md-12">Agradecemos a sua atenção e ficamos à disposição para outros
+                                esclarecimentos que sejam necessários!
+                            </div>
                         </div>
                         <br>
                         <div class="row" style="text-align: justify;">
@@ -216,15 +182,18 @@
                         </div>
                         <hr class="style-linha-divisora-red">
                         <div class="row">
-                            <div class="col-md-12 style_titulo_campo"><span style="font-size: 28px;">Outras informações</span></div>
+                            <div class="col-md-12 style_titulo_campo"><span
+                                    style="font-size: 28px;">Outras informações</span></div>
                         </div>
                         <br>
                         <div class="row" style="text-align: justify;">
                             <div class="col-md-12">
                                 <p>
-                                    Para outras informações ou dúvidas não sanadas nos canais acima, tais como: dificuldades ou problemas técnicos para uso no sistema, esclarecimento de dúvidas
+                                    Para outras informações ou dúvidas não sanadas nos canais acima, tais como:
+                                    dificuldades ou problemas técnicos para uso no sistema, esclarecimento de dúvidas
                                     quanto
-                                    a faixa etária, favor entrar em contato pelo e-mail, telefone ou whatsapp disponibilizados:
+                                    a faixa etária, favor entrar em contato pelo e-mail, telefone ou whatsapp
+                                    disponibilizados:
                                 </p>
                             </div>
                         </div>
@@ -262,41 +231,66 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm">
-                    <div class="row justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
-                        <div class="col-12" style="margin-bottom: 45px; color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="{{asset('img/logo_rede_sociais.png')}}"
-                                                                                                                                                     alt="LMTS" width="20px"> Redes Sociais
+                    <div class="row justify-content-center"
+                         style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
+                        <div class="col-12"
+                             style="margin-bottom: 45px; color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;">
+                            <img src="{{asset('img/logo_rede_sociais.png')}}"
+                                 alt="LMTS" width="20px"> Redes Sociais
                         </div>
-                        <a href="https://www.facebook.com/PrefeituradeGaranhuns/" target="_blank"><img src="{{asset('img/facebook.png')}}" alt="LMTS" width="55px"> </a>
-                        <a href="https://twitter.com/garanhunspref" target="_blank"><img src="{{asset('img/twitter.png')}}" alt="LMTS" width="55px"> </a>
-                        <a href="https://www.instagram.com/prefgaranhuns/" target="_blank"><img src="{{asset('img/instagram.png')}}" alt="LMTS" width="55px"> </a>
-                        <a href="https://www.youtube.com/channel/UCHNqCIPyK42cjWUgO85C7Yg" target="_blank"><img src="{{asset('img/youtube.png')}}" alt="LMTS" width="43px" height="43x"
-                                                                                                                style="margin-top: 4.5px;margin-left: 4px;"></a>
+                        <a href="https://www.facebook.com/PrefeituradeGaranhuns/" target="_blank"><img
+                                src="{{asset('img/facebook.png')}}" alt="LMTS" width="55px"> </a>
+                        <a href="https://twitter.com/garanhunspref" target="_blank"><img
+                                src="{{asset('img/twitter.png')}}" alt="LMTS" width="55px"> </a>
+                        <a href="https://www.instagram.com/prefgaranhuns/" target="_blank"><img
+                                src="{{asset('img/instagram.png')}}" alt="LMTS" width="55px"> </a>
+                        <a href="https://www.youtube.com/channel/UCHNqCIPyK42cjWUgO85C7Yg" target="_blank"><img
+                                src="{{asset('img/youtube.png')}}" alt="LMTS" width="43px" height="43x"
+                                style="margin-top: 4.5px;margin-left: 4px;"></a>
                     </div>
                 </div>
                 <div class="col-sm">
-                    <div class="form-group justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
-                        <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img src="{{asset('img/logo_fale_conosco.png')}}" alt="LMTS" width="15px"> Fale Conosco
+                    <div class="form-group justify-content-center"
+                         style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
+                        <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"><img
+                                src="{{asset('img/logo_fale_conosco.png')}}" alt="LMTS" width="15px"> Fale Conosco
                         </div>
-                        <div style="color:#fff; font-size: 30px; font-weight: 600; font-family: Arial, Helvetica, sans-serif; margin-top:20px">(87) 3762-1252</div>
-                        <div style="color:#fff; font-size: 18px; font-weight: 100; font-family: Arial, Helvetica, sans-serif; margin-top:6px">agendamentovacinacovidgus@gmail.com</div>
+                        <div
+                            style="color:#fff; font-size: 30px; font-weight: 600; font-family: Arial, Helvetica, sans-serif; margin-top:20px">
+                            (87) 3762-1252
+                        </div>
+                        <div
+                            style="color:#fff; font-size: 18px; font-weight: 100; font-family: Arial, Helvetica, sans-serif; margin-top:6px">
+                            agendamentovacinacovidgus@gmail.com
+                        </div>
 
                     </div>
                 </div>
                 <div class="col-sm">
-                    <div class="form-group justify-content-center" style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
-                        <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;">Desenvolvido por:</div>
+                    <div class="form-group justify-content-center"
+                         style="text-align:center; margin-bottom:1rem;margin-top: 1.5rem;">
+                        <div style="color:#fff;font-weight: 600;font-family: Arial, Helvetica, sans-serif;">Desenvolvido
+                            por:
+                        </div>
                         <div class="btn-group">
-                            <div style="margin-top: 21px;margin-right: 15px;"><a href="http://ufape.edu.br/" target="_blank"><img src="{{asset('img/logo_ufape.png')}}" alt="LMTS" width="165px"> </a>
+                            <div style="margin-top: 21px;margin-right: 15px;"><a href="http://ufape.edu.br/"
+                                                                                 target="_blank"><img
+                                        src="{{asset('img/logo_ufape.png')}}" alt="LMTS" width="165px"> </a>
                             </div>
-                            <div style="margin-top: 35px;"><a href="http://lmts.uag.ufrpe.br/" target="_blank"><img src="{{asset('img/logo_lmts.png')}}" alt="LMTS" width="140px"> </a></div>
+                            <div style="margin-top: 35px;"><a href="http://lmts.uag.ufrpe.br/" target="_blank"><img
+                                        src="{{asset('img/logo_lmts.png')}}" alt="LMTS" width="140px"> </a></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-12" style="text-align: center; margin-bottom: 2rem;margin-top: 1rem;">
-                    <a href="https://garanhuns.pe.gov.br/mapa-do-site/" target="_blank" style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">MAPA DO SITE</a>
-                    <a href="https://garanhuns.pe.gov.br/teclas-de-acessibilidade/" target="_blank" style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">TECLAS DE
+                    <a href="https://garanhuns.pe.gov.br/mapa-do-site/" target="_blank"
+                       style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">MAPA DO SITE</a>
+                    <a href="https://garanhuns.pe.gov.br/teclas-de-acessibilidade/" target="_blank"
+                       style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">TECLAS DE
                         ACESSIBILIDADE</a>
-                    <a href="https://garanhuns.pe.gov.br/telefones-uteis/" target="_blank" style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">TELEFONES ÚTEIS</a>
+                    <a href="https://garanhuns.pe.gov.br/telefones-uteis/" target="_blank"
+                       style="margin-left: 15px;margin-right: 15px; color: #fff;text-decoration:none; ">TELEFONES
+                        ÚTEIS</a>
 
                 </div>
             </div>
@@ -306,7 +300,8 @@
     <!--x rodapé x-->
     </body>
     <!-- Modal checar agendamento -->
-    <div class="modal fade" id="modalChecarAgendamento" tabindex="-1" aria-labelledby="modalChecarAgendamentoLabel" aria-hidden="true">
+    <div class="modal fade" id="modalChecarAgendamento" tabindex="-1" aria-labelledby="modalChecarAgendamentoLabel"
+         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -324,8 +319,11 @@
                             <input type="hidden" name="consulta" value="1">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="inputCPF" class="style_titulo_input">CPF <span class="style_subtitulo_input">*(obrigatório)</span> </label>
-                                    <input type="text" class="form-control style_input cpf @error('cpf') is-invalid @enderror" id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf"
+                                    <label for="inputCPF" class="style_titulo_input">CPF <span
+                                            class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                    <input type="text"
+                                           class="form-control style_input cpf @error('cpf') is-invalid @enderror"
+                                           id="inputCPF" placeholder="Ex.: 000.000.000-00" name="cpf"
                                            value="{{old('cpf')}}">
 
                                     @error('cpf')
@@ -347,9 +345,13 @@
                                         <strong>{{$message}}</strong>
                                     </div>
                                     @enderror --}}
-                                    <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span class="style_subtitulo_input">*(obrigatório)</span> </label>
-                                    <input type="date" class="form-control style_input @error('data_de_nascimento') is-invalid @enderror" id="inputData" placeholder="dd/mm/aaaa"
-                                           pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento" value="{{old('data_de_nascimento')}}">
+                                    <label for="inputData" class="style_titulo_input">DATA DE NASCIMENTO <span
+                                            class="style_subtitulo_input">*(obrigatório)</span> </label>
+                                    <input type="date"
+                                           class="form-control style_input @error('data_de_nascimento') is-invalid @enderror"
+                                           id="inputData" placeholder="dd/mm/aaaa"
+                                           pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" name="data_de_nascimento"
+                                           value="{{old('data_de_nascimento')}}">
 
                                     @error('data_de_nascimento')
                                     <div id="validationServer05Feedback" class="invalid-feedback">
@@ -364,7 +366,9 @@
 
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-success" style="width: 100%;" form="consultar_agendamento">Consultar</button>
+                                    <button type="submit" class="btn btn-success" style="width: 100%;"
+                                            form="consultar_agendamento">Consultar
+                                    </button>
                                 </div>
                             </div>
                         </div>

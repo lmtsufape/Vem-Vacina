@@ -125,6 +125,28 @@ class PostoVacinacaoSeeder extends Seeder
             "funciona_sabado" => true,
         ]);
 
+        DB::table('posto_vacinacaos')->insert([
+            'nome' => 'Domicílio',
+            'endereco' => 'Endereço do candidato',
+            'padrao_no_formulario' => false,
+
+            "inicio_atendimento_manha" => 9,
+            "intervalo_atendimento_manha" => 30,
+            "fim_atendimento_manha" => 12,
+
+            "inicio_atendimento_tarde" => 14,
+            "intervalo_atendimento_tarde" => 30,
+            "fim_atendimento_tarde" => 16,
+
+            "funciona_domingo" => false,
+            "funciona_segunda" => true,
+            "funciona_terca" => true,
+            "funciona_quarta" => true,
+            "funciona_quinta" => true,
+            "funciona_sexta" => true,
+            "funciona_sabado" => false,
+
+        ]);
 
     }
 }
