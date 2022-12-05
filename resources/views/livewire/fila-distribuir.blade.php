@@ -59,7 +59,7 @@
                             <option value="3ª Dose">3ª Dose</option>
                             <option value="4ª Dose">4ª Dose</option>
                             @foreach($doses as $key)
-                                <option value="{{$key->nome}}">{{$key->nome}}</option>
+                                <option value="{{$key->id}}">{{$key->nome}}</option>
                             @endforeach
                         </select>
                         @error('dose')<div class="alert alert-danger">{{ $message }}</div> @enderror

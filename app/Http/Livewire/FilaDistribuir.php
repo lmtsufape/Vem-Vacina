@@ -112,14 +112,24 @@ class FilaDistribuir extends Component
             }
         }
 
-
-        if ($this->cpf != null) {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->whereIn('dose', $dose)->where('cpf', $this->cpf)->get();
-        } else {
-            $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])
-                ->where('etapa_id', $this->etapa_id)
-                ->whereIn('dose', $dose)->oldest()
-                ->take($this->qtdFila)->get();
+        if(is_numeric($dose[0])){
+            if ($this->cpf != null) {
+                $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->whereIn('dose_id', $dose)->where('cpf', $this->cpf)->get();
+            } else {
+                $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])
+                    ->where('etapa_id', $this->etapa_id)
+                    ->whereIn('dose_id', $dose)->oldest()
+                    ->take($this->qtdFila)->get();
+            }
+        }else{
+            if ($this->cpf != null) {
+                $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])->where('etapa_id', $this->etapa_id)->whereIn('dose', $dose)->where('cpf', $this->cpf)->get();
+            } else {
+                $candidatos = Candidato::where('aprovacao', Candidato::APROVACAO_ENUM[0])
+                    ->where('etapa_id', $this->etapa_id)
+                    ->whereIn('dose', $dose)->oldest()
+                    ->take($this->qtdFila)->get();
+            }
         }
 
         $horarios_agrupados_por_dia = $this->traitHorarios($posto->id);
