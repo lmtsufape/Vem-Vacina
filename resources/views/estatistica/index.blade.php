@@ -80,7 +80,7 @@
                             @foreach($doses as $dose)
                                 <td>
                                     <a href="{{route('fila.index')}}?publico_check=on&publico={{$publico->id}}">
-                                        {{count($publico->candidatos()->where('aprovacao', $aprovacao[0])->where('dose', $dose->nome)->get())}}
+                                        {{count($publico->candidatos()->where('aprovacao', $aprovacao[0])->where('dose_id', $dose->id)->get())}}
                                     </a>
                                 </td>
                             @endforeach
