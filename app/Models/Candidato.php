@@ -170,6 +170,11 @@ class Candidato extends Model
         return $this->belongsTo(LotePostoVacinacao::class, 'lote_id');
     }
 
+    public function getDose()
+    {
+        return $this->belongsTo(Dose::class, 'dose_id');
+    }
+
 
     public function data_de_nascimento_dmY()
     {
