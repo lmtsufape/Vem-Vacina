@@ -78,7 +78,11 @@ class CandidatoController extends Controller
         }
 
         if ($request->dose_check && $request->dose != null) {
-            $query->where('dose', $request->dose);
+            if(is_numeric($request->dose)){
+                $query->where('dose_id', $request->dose);
+            }else{
+                $query->where('dose', $request->dose);
+            }
         }
 
         if ($request->aprovado) {

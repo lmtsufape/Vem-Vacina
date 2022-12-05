@@ -58,7 +58,11 @@ class FilaController extends Controller
         }
 
         if ($request->dose_check && $request->dose != null) {
-            $query->where('dose',$request->dose);
+            if(is_numeric($request->dose)){
+                $query->where('dose_id', $request->dose);
+            }else{
+                $query->where('dose', $request->dose);
+            }
         }
         if ($request->campo_check && $request->campo != null) {
             $query->orderBy($request->campo);
