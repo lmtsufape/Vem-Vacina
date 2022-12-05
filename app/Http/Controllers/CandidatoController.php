@@ -174,6 +174,7 @@ class CandidatoController extends Controller
 
     public function solicitacao_nova_dose(Request $request)
     {
+
         if (env('ATIVAR_FILA', false) == true) {
             $request->merge(['fila' => "true"]);
         }
@@ -187,7 +188,7 @@ class CandidatoController extends Controller
         $doseAnterior = Dose::find($dose->dose_anterior_id);
 
         //Verifica se o usuário já tem cadastro no sistema novamente
-        if ($request->cadastro == "1") {
+        if ($request->cadastro == "1" && $dose->dose_anterior_id != -1) {
             #CPF ou Numero do cartão SUS
             if ($request->cpf != null) {
                 $repetido = Candidato::where('cpf', $validate->cpf)
@@ -213,7 +214,7 @@ class CandidatoController extends Controller
                 $candidatoQuartaDose = Candidato::where('cpf', $validate->cpf)
                     ->where('data_de_nascimento', $validate->data_de_nascimento)
                     ->where('dose', Candidato::DOSE_ENUM[4])->first();
-                if($candidatoDoseAnterior == null){
+                if ($candidatoDoseAnterior == null) {
                     $candidatoDoseAnterior = $candidatoQuartaDose;
                 }
                 if ($candidatoDoseAnterior == null && $candidatoQuartaDose == null && $dose->dose_anterior_id != -1) {
@@ -223,17 +224,18 @@ class CandidatoController extends Controller
                 }
                 $data_saida = date_create_from_format('Y-m-d H:i:s', $candidatoDoseAnterior->saida);
                 $data_agora = date_create_from_format('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+
                 if ($candidatoDoseAnterior == null || ($candidatoDoseAnterior->aprovacao != Candidato::APROVACAO_ENUM[1] && $candidatoDoseAnterior->aprovacao != Candidato::APROVACAO_ENUM[3])) {
                     return redirect()->back()->withErrors([
                         "dose" => "Não existe cadastro aprovado ou vacinado no sistema para esse cpf."
                     ]);
-                } elseif ($doseAnterior->intervalo != null && (date_diff($data_saida, $data_agora)->days < $doseAnterior->intervalo) ){
+                } elseif ($doseAnterior->intervalo != null && (date_diff($data_saida, $data_agora)->days < $doseAnterior->intervalo)) {
                     return redirect()->back()->withErrors([
-                        "dose" => "Você precisa aguardar ". $doseAnterior->intervalo." dias desde a ".$doseAnterior->nome." para solicitar a ".$dose->nome. "."
+                        "dose" => "Você precisa aguardar " . $doseAnterior->intervalo . " dias desde a " . $doseAnterior->nome . " para solicitar a " . $dose->nome . "."
                     ]);
                 } elseif ((date_diff($data_saida, $data_agora)->days < 120) && $doseAnterior->intervalo == null) {
                     return redirect()->back()->withErrors([
-                        "dose" => "Você precisa aguardar 4 meses desde a ".$candidatoDoseAnterior->dose." para solicitar a ".$dose->nome. "."
+                        "dose" => "Você precisa aguardar 4 meses desde a " . $candidatoDoseAnterior->dose . " para solicitar a " . $dose->nome . "."
                     ]);
                 }
             } else {
@@ -299,6 +301,12 @@ class CandidatoController extends Controller
             if ($request->cadastro == "1") {
                 $idade = $this->idade($validate->data_de_nascimento);
                 $candidato = new Candidato;
+                if ($candidatoDoseAnterior == null && $request->cpf != null) {
+                    $candidatoDoseAnterior = Candidato::where('cpf', $request->cpf)->first();
+                } elseif($candidatoDoseAnterior == null && $request->cpf == null)
+                {
+                    $candidatoDoseAnterior = Candidato::where('numero_cartao_sus', $request->input("número_cartão_sus"))->first();
+                }
                 $candidato->nome_completo = $candidatoDoseAnterior->nome_completo;
                 $candidato->data_de_nascimento = $validate->data_de_nascimento;
                 #CPF ou Numero do cartao SUS
@@ -364,7 +372,7 @@ class CandidatoController extends Controller
                     }
                 }
                 $candidato->etapa_id = $candidatoDoseAnterior->etapa_id;
-            } elseif($request->cadastro == "0") {
+            } elseif ($request->cadastro == "0") {
                 $candidato = new Candidato;
                 $candidato->nome_completo = $request->nome_completo;
                 $candidato->data_de_nascimento = $validate->data_de_nascimento;
@@ -503,7 +511,7 @@ class CandidatoController extends Controller
 
             $etapa = Etapa::find($candidato->etapa_id);
             // dd($etapa->numero_dias);
-            if($dose->dose_anterior_id != -1){
+            if ($dose->dose_anterior_id != -1) {
                 if ($etapa->isDias) {
                     $datetime2 = new DateTime(now());
                     if ($request->cadastro == "1") {
@@ -748,8 +756,6 @@ class CandidatoController extends Controller
         return view('comprovante')->with(['status' => 'Solicitação realizada com sucesso!',
             'agendamentos' => $agendamentos,
             'aprovacao_enum' => Candidato::APROVACAO_ENUM,]);
-
-
     }
 
 
