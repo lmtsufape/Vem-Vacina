@@ -203,10 +203,25 @@ class FilaDistribuir extends Component
                 //     continue;
                 // }
 
-                if (Candidato::where('cpf', $candidato->cpf)->where('dose', $this->dose)->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1], Candidato::APROVACAO_ENUM[3]])
-                        ->count() > 0) {
-                    \Log::info("0");
-                    break 2;
+                if($this->dose == "3ª Dose" || $this->dose == "4ª Dose"){
+                    if (Candidato::where('cpf', $candidato->cpf)->where('dose', $this->dose)->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1], Candidato::APROVACAO_ENUM[3]])
+                            ->first() != null) {
+                        \Log::info("dose 3 ou 4");
+                        break 2;
+                    }
+                } elseif(is_numeric($this->dose)){
+                    if (Candidato::where('cpf', $candidato->cpf)->where('dose_id', $this->dose)->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1], Candidato::APROVACAO_ENUM[3]])
+                            ->first() != null) {
+                        \Log::info("dose nova");
+                        break 2;
+                    }
+
+                }else{
+                    if (Candidato::where('cpf', $candidato->cpf)->whereIn('dose', ["1ª Dose", '2ª Dose', "Dose única"])->whereIn('aprovacao', [Candidato::APROVACAO_ENUM[1], Candidato::APROVACAO_ENUM[3]])
+                            ->first() != null ) {
+                        \Log::info("dose antiga");
+                        break 2;
+                    }
                 }
 
                 //Verificar se o if de cima atende todos os outros
