@@ -88,7 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @else
+                            @elseif(isset($agendamento->posto->nome))
                                 <div class="justify-content-center destaque-pri-dose">
                                     <div class="row">
                                         @if($agendamento->dose == "1ª Dose")
